@@ -49,7 +49,9 @@ export LD_LIBRARY_PATH="$(dirname "$BIN")/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PAT
 set -a; . "$HERE/gfx906.env"; set +a
 # The custom-allreduce settings need the GGML_TP_AR_MAX_NE size gate (fusion tree 25e1d46+). On a binary without it the
 # fork's default gate would cost 8% at 8-16 slots, so drop them there (2026-09-08 gate sweep).
-if ! strings "$(dirname "$BIN")/lib/libggml-hip.so.0" 2>/dev/null | grep -q GGML_TP_AR_MAX_NE; then
+# (grep -c, not grep -q: under pipefail a grep -q that exits early kills strings with SIGPIPE and the test fails on every
+# build, silently switching the custom allreduce off -- found 2026-09-09 evening; every bench script sets the variables directly.)
+if [ "$(strings "$(dirname "$BIN")/lib/libggml-hip.so.0" 2>/dev/null | grep -c GGML_TP_AR_MAX_NE)" = 0 ]; then
   unset GGML_ENABLE_CUSTOM_AR GGML_TP_AR_MAX_NE
   echo "launch.sh: $BIN has no GGML_TP_AR_MAX_NE knob; custom allreduce left off" >&2
 fi
