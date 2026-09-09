@@ -1,0 +1,255 @@
+From 64ba9abccff4d3000aba62572b89baf26e21ae0c Mon Sep 17 00:00:00 2001
+From: Joshua <joshua@exabit.io>
+Date: Tue, 8 Sep 2026 13:26:38 +0000
+Subject: [PATCH 11/16] gfx906: repository notes, build recipe and runtime
+ environment for the gfx906 branch
+
+---
+ GFX906.md               | 173 ++++++++++++++++++++++++++++++++++++++++
+ scripts/gfx906/build.sh |  12 +++
+ scripts/gfx906/env.sh   |  34 ++++++++
+ 3 files changed, 219 insertions(+)
+ create mode 100644 GFX906.md
+ create mode 100755 scripts/gfx906/build.sh
+ create mode 100644 scripts/gfx906/env.sh
+
+diff --git a/GFX906.md b/GFX906.md
+new file mode 100644
+index 000000000..f3cfa8751
+--- /dev/null
++++ b/GFX906.md
+@@ -0,0 +1,173 @@
++# llama.cpp for gfx906 (Radeon Pro Vega II / MI50 class, wave64, no MFMA)
++
++This repository is a gfx906-only llama.cpp: upstream master plus everything known to make the four-die Vega 20 boxes fast,
++maintained for a fleet of 2019 Mac Pro nodes with four gfx906 dies each (Ubuntu 24.04, ROCm 7.14 TheRock ML-gfx906 apt).
++Other GPUs are not a goal; the code keeps upstream's architecture guards but nothing here is tested elsewhere.
++
++Branch `gfx906` is the product. Branch `master` mirrors upstream and is only the merge source.
++
++## Lineage of `gfx906`
++
++| Layer | What | Commits |
++|---|---|---|
++| upstream `ggml-org/llama.cpp` master | 5d806aa25 (2026-09-08) | base |
++| [mxxm-t/mx-llama.cpp](https://github.com/mxxm-t/mx-llama.cpp) fork state (tag b10912, upstream base 0f3a71be1 (2026-09-02)) | gfx906 MMQ tile table (+33% prefill), custom peer-write XGMI allreduce and whole-token HIP graph, concurrent lane dispatch, multi-stage tensor parallelism, MTP optimisations, q8 repack, PLE-table sharding for Qwen3.8-Flash-Next — see `FEATURES.md` | 152 (merged with upstream master 2026-09-08; 104 upstream commits newer than the fork's base) |
++| Exabit gfx906 series | the measured patch series below | 10 |
++
++### The Exabit series (each measured on the four-die box; switches noted)
++
++```
++ad4f38604  gated_delta_net: fold the q/k L2 norms with the (ported to b10912)
++9931a712b  mmvq: whole-block (vdr 8) load at one column by default (ported to b10912)
++4a8c5d36a  ggml-cuda: GDN producer fold as a bitmask (ported to b10912)
++6e3477f1a  ggml-cuda: restrict the add+norm and GDN producer fusions (ported to b10912)
++39e3ad8bb  tp-allreduce: GGML_TP_AR_MAX_NE explicit size gate for (ported to b10912)
++180c64356  mmvq: gfx906 batch-1 knobs (rows/warps per block at one column, whole-block load at one column) (ported to b10912; kernel constexpr block hand-merged with the fork's small_k/halve_iters)
++b349bc5a1  ggml-cuda: fold the gated-delta-net producers into the (ported to b10912)
++e3a2ccd4a  ggml-cuda: compute the residual ADD inside the fused (ported to b10912)
++d19d2568e  ggml-cuda: fused RMS_NORM+MUL[+ADD] also emits the Q8_1 (ported to b10912)
++31f9483f2  gfx906: MMVQ 16-column width (MMID stays 8) + gfx906 launch knobs and Q8_0 fast path (2026-09-07 production patches, ported to b10912)
++5d806aa25  server : apply checkpoint min-step eviction only when the checkpoint list is full (#28302)
++88ada91c1  metal : fix idle threads in mul_mv_iq3_xxs for ne00 < 1024 (#28086)
++415e909d8  spec: single device drafter should create meta backend wrapper (#28390)
++03fa73cb2  ci : disable npm gha cache (#28600)
++1744c6bde  ci : add PYTEST_WORKERS=1 to fix server-self-hosted job (#28603)
++ca86fb222  llama : add missing headers (#28566)
++64e9bceb2  vulkan : fuse UNARY(GELU|SIGMOID|SILU|SOFTPLUS) + MUL (#27220)
++f014bfef8  Fix Vulkan-Hpp handle usage on 32-bit targets. (#22892)
++895c045fd  chat : split specialized parsers into common/parsers (#27764)
++7d701b592  opencl: properly handle non-contiguous inputs to conv2d (#28503)
++5a6caa05f  ggml : update ggml_prec specification (#26675)
++9dcf84e5a  model : support Kimi-K3 recurrent-state rollback (#28466)
++050dde50c  hexagon: add RELU and LEAKY_RELU ops (#28585)
++67672dc5b  ci : bump ty to 0.0.78 (#28548)
++f114f91f9  tests : initialize the L2_NORM batch array (#28553)
++e71b80510  Revert "CUDA: size routed MoE MMQ N-tiles from typical expert width on RDNA3 (#24546)" (#28551)
++ccc3646c6  nix : update deprecated expressions (#28145)
++c0b1871bc  webgpu: format the GET_ROWS case block (#28542)
++160bd031b  server: fix LRU hang on multiple requests same model (#28539)
++dbeb37548  sycl: add a batched L2_NORM kernel (#28222)
++7a333e724  vulkan: add DeepSeek-V4 hyper-connection fused ops (DSV4_HC_COMB/PRE/POST) (#26578)
++0c963452e  CUDA: size routed MoE MMQ N-tiles from typical expert width on RDNA3 (#24546)
++473599738  ggml: add gfx90c HIP support (#26454)
++d23c47f2a  convert : refactor Hy4-preview conversion - move HC tensor mapping to the global map (#28451)
++73ab7599b  CUDA: branchless Q4_K/Q5_K unpack to speed up mmvq, L2 prefetch on DGX Spark (#26705)
++0cae43063  vulkan: support type-aligned GET_ROWS (#28253)
++1173700b9  examples : print ggml_version and ggml_commit in test-cmake [no ci] (#28538)
++5202104b5  caps : recheck typed content if template checks for string (#28511)
++9a7570587  convert : write explicit recurrent_layers for Qwen3-Next / Qwen3.5 (#28208)
++b74f590ea  ggml-cuda: fix divergent barrier in f16 flash attention (#27870)
++992cb503c  ggml: allow backend inputs to not create another split (#28387)
++9ac8c408a  vulkan: rms_norm fusion opportunities (#28024)
++2092353c8  ci : add container image checking and tagging (wip) (#28394)
++8fe90e1fb  vulkan: add TQ1_0 support (mm, mat-vec, mat-vec-id, dequant, get_rows) (#27765)
++465e49b9c  convert : add `--fuse-qkv` flag to fuse Q/K/V into QKV during HF-to-GGUF conversion (#22780)
++5fdfa6282  models : fix GDN normalization from `max` to `rsqrt` (#28068)
++3ad1ba733  [Model] Support for Spark2_5ForCausalLM  implementation (#27868)
++d03efa5d5  opencl: properly choose weights pack for q4_K, q5_K mul_mat (#28402)
++73a43d1f6  cuda: fixes races in mmid and mmf (#28475)
++9e0e22059  grammar : fix max repetition threshold (#28469)
++0afb805b1  ui: Improve Chat Messages rendering performance (#28460)
++7620399f5  common: add --log-jsonl (#28437)
++c457e3bf7  ui : embed assets directly with CMake (#28445)
++971595d66  metal : add remaining fa-vec tunings for M2 Max (#28458)
++74a7c897f  Github: limit blank issues to maintainers (#28435)
++6a1a922d2  metal : fix memory leak in early return (#28399)
++4d9176092  sycl : fix test-backend-ops CI break && restore Kronecker product FWHT support (#28016) (#28254)
++cd8cdf397  sycl: attribute device allocations by site (GGML_SYCL_MEMTRACE) (#27631)
++427291b5b  metal : add remaining fa-vec tunings for M3 (#28396)
++85d5703a3  ui : fix MCP image attachments not displayed in tool block (#25789) (#28089)
++1548a240e  opencl: extend the elementwise and data‐movement op coverage (#27633)
++4acf4a4cb  opencl: add Adreno xmem SDPA path (#26331)
++8b4b3558f  ci : move more jobs to ccache-buckets (#28375)
++1863ac033  ui: export conversations from database instead of cached store (#27432)
++49c0dc82b  model : add Tencent Hy 4 (hy_v4) preview architecture support (#28127)
++5266f24da  llama.cpp : bump version to 0.4.0 (#28386)
++64a155d24  sync : ggml (#28379)
++163a40796  model, mtmd: fix gemma4 vision handling (#28335)
++8f83678fd  metal : add remaining fa-vec tunings for M3 Max (#28373)
++86b351fd6  ggml : replace compile definitions with version.h.in (#28364)
++d509cb1e8  Don't use npx inside a package.json script (#28270)
++4cbe8b070  ggml : don't crash when backend search path can't be read (#28271)
++24f5bf8a4  ggml : remove GGML_CUDA_PEER_MAX_BATCH_SIZE (#28177)
++a529af96e  docs : update maintainer PRs link and regenerate AUTHORS (#28365)
++38521ec33  vendor: update BoringSSL to 0.20260903.0 (#28354)
++0ef4d560e  ci : disable failing openvino tests (#28347)
++c390d0abb  common : make build info output stream configurable (#28322)
++832fd6f17  ggml-cpu(s390x) : fix q5_1 uninitialized v_acc (#28332)
++9a4843cf2  src : add n_expert_used_max function (#28323)
++6703d7894  sycl: fuse rms_norm+mul+add and add+add residual chains (#27610)
++f9f09f02c  SYCL: Refactor GGML_SYCL_ENABLE_MKL_FA to global var (#26863)
++d230ddd76  llama: fix whole source code rebuilt on each new commit (#28278)
++c5a5535e6  common/json-schema : fix GBNF grammar generation for empty object schemas (#28279)
++95ef7fc16  opencl: quant lm_head / decode GEMV and medium-batch GEMM optimizations (speculative decoding/MTP) (#26477)
++8c1a25166  tune MMVQ to MMQ crossover for SM87 (#28285)
++d30500b83  snapdragon: ci updates to use new run script (#28293)
++e107984bc  ops: add Hexagon to ops.md and update main README.md (#28263)
++42f0225fe  server : use pytest-xdist for server tests (#28298)
++de8656bd9  mtmd: propagate const to preproc class (#28310)
++7bb0fc18f  metal : add sparse FA (#28098)
++0df017d6d  metal : fix glu dispatch with ne00 = 1 (#28306)
++f45576aa8  mtmd : add `const` in various places (#28307)
++0ba6499c3  CUDA: Allow concurrent streams per split for multi-GPU (#28198)
++c7bda030e  vulkan: fix FA dequant path engagement (#28190)
++0df974d77  sycl : enhance the api to support peer-to-peer copy (#27550)
++d646c9d15  convert : skip bias_vl tensor in DeepSeek-V4 DSpark conversion (#28294)
++5ec4eab69  misc : prevent RAM peaking at model loading stage (#27483)
++4aa6ffba2  sycl: reduce redundant work in Q4_K multi-column MMVQ (#27062)
++c61b98b87  model: add NVIDIA Nemotron-3-Puzzle-75B-A9B (NemotronHPuzzle) support (#25444)
++67a17c17c  mtmd: fix idefics3 preproc (#28273)
++159b74142  finetune: fix no KV cache (#27199)
++9cffdcc80  server : accept data: URLs for input_video and input_audio (#27735)
++f027c4f1b  ggml-hexagon: add F16 support for unary ops (#28228)
++733905474  mtmd: add mtmd_tokenize_from_parts() (#28250)
++9cc33944f  metal : add fa-vec tunings for M3 (#28236)
++8c0b9cd04  metal : fix memory query under low-memory conditions (#27701)
++03dbcc53e  ci : check for missing autoreleasepools (#27884)
++cff184438  Update ROCm to 10.0.0 release (#27803)
++9400c8946  model: correctly support input vision for deepseek4 (#28154)
++d5fec32a8  ci : enable hf-jobs on server-cuda (#28258)
++3d3d7c818  ggml-cuda : remove unused vars (#28235)
++e750b887a  common, server : enable preserve_reasoning kwarg by default, log its effective state (#28174)
++7798007a2  mtmd: support DeepSeek-V4-Flash-Vision-Exp (#28133)
++8e93a9773  CUDA + ggml: add sparse-fa for DSV4/GLM (#27970)
++```
++
++| Change | Effect (Qwen3.8-27B Q8_0, four dies) | Switch |
++|---|---|---|
++| MMVQ 16-column width + gfx906 launch knobs + Q8_0 fast path | decode +9 / +62 / +34% at 8 / 12 / 16 slots on the split, +31% at 8 slots on one die | compile-time knobs in `mmvq.cu` |
++| Fused RMS_NORM+MUL emits the Q8_1 copy into the q8_1 cache | exact; 0% (kept for the launch count) | `GGML_CUDA_NORM_Q8=0` |
++| Residual ADD inside the fused norm kernel | exact; +1.6% single stream | `GGML_CUDA_ADD_NORM=0` |
++| Delta-net producers (q/k norm, beta sigmoid) folded into the GDN kernel | +1.8% single stream, bit-exact reduction order; decode batches only | `GGML_CUDA_GDN_PREFUSE=0` (bitmask 1/2/4) |
++| `GGML_TP_AR_MAX_NE` explicit size gate for the custom allreduce | with `=20481` (4 rows): single stream +14.5%, 2 slots +19%, 8+ unchanged | env |
++| One-column whole-block (vdr 8) MMVQ load | +2.8% single stream on the split, +7.1% on one die | compile-time |
++
++Combined on the 2026-09-07 fork base: single stream 48 → 58 tok/s, one die 20.4 → 21.7, 8–32 slots unchanged, prefill unchanged,
++perplexity identical (`llama.cpp-benchmarking/reports/2026-09-08-next-steps-measurements.md`). The same series on this branch is
++validated by `qwen38-27b-gfx906-master-validate.md` in the benchmarking folder.
++
++## Build and run
++
++```sh
++scripts/gfx906/build.sh /opt/llama.cpp-gfx906        # cmake flags every measurement used
++set -a; . scripts/gfx906/env.sh; set +a                # RCCL topology, custom allreduce with the 4-row gate
++LD_LIBRARY_PATH=/opt/llama.cpp-gfx906/lib /opt/llama.cpp-gfx906/bin/llama-server -m model.gguf \
++  --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -b 2048 -ub 2048 -np 16 -c 524288
++```
++
++The binaries carry no rpath: always set `LD_LIBRARY_PATH` to the install's `lib/`. Profiles, the optimiser and the power rules
++are in the companion tuning guide (`llama.cpp-benchmarking/`, `settings/launch.sh`).
++
++## Keeping up with upstream
++
++```sh
++git fetch upstream && git checkout master && git merge --ff-only upstream/master && git push origin master
++git checkout gfx906 && git merge master            # resolve; the fork's files are ggml-backend-meta.cpp, ggml-cuda/*, src/models/*
++scripts/gfx906/build.sh /opt/llama.cpp-gfx906-candidate
++# validate before promoting: test-backend-ops (MUL_MAT, MUL_MAT_ID, RMS_NORM, GATED_DELTA_NET), perplexity 16K (5.5969 on
++# Qwen3.8-27B Q8_0), greedy + KL at 64-token batches against the current production, llama-bench pp2048/tg128 on tp4 and one die,
++# batched-bench 1..17,24,32 slots  ->  llama.cpp-benchmarking/tools/gfx906-master-validate.sh
++```
++
++Also fetch the mx-llama.cpp fork (`git fetch mxxm --tags`) and merge its newer tags when they carry gfx906 work; its features
++are documented in `FEATURES.md`, and its author rebases onto upstream every few days.
+diff --git a/scripts/gfx906/build.sh b/scripts/gfx906/build.sh
+new file mode 100755
+index 000000000..3808728b8
+--- /dev/null
++++ b/scripts/gfx906/build.sh
+@@ -0,0 +1,12 @@
++#!/usr/bin/env bash
++# Build recipe for the gfx906 branch (Ubuntu 24.04, ROCm 7.14 TheRock ML-gfx906 apt). Same flags as every measured binary.
++#   scripts/gfx906/build.sh [prefix]     (default /opt/llama.cpp-gfx906)
++set -euo pipefail
++PREFIX=${1:-/opt/llama.cpp-gfx906}
++cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DGGML_HIP=ON -DGPU_TARGETS=gfx906 -DAMDGPU_TARGETS=gfx906 \
++  -DGGML_HIP_GRAPHS=ON -DGGML_HIP_RCCL=ON -DGGML_HIP_NO_VMM=ON -DGGML_HIP_MMQ_MFMA=ON -DGGML_CCACHE=ON -DGGML_NATIVE=ON \
++  -DBUILD_SHARED_LIBS=ON -DCMAKE_C_FLAGS=-march=native -DCMAKE_CXX_FLAGS=-march=native \
++  '-DCMAKE_HIP_FLAGS=-mllvm -amdgpu-sched-strategy=max-ilp' -DCMAKE_INSTALL_PREFIX="$PREFIX" -DLLAMA_CURL=OFF
++cmake --build build -j"$(nproc)"
++cmake --install build --prefix "$PREFIX"
++echo "installed $PREFIX; run binaries with LD_LIBRARY_PATH=$PREFIX/lib (no rpath) and the variables in scripts/gfx906/env.sh"
+diff --git a/scripts/gfx906/env.sh b/scripts/gfx906/env.sh
+new file mode 100644
+index 000000000..ab8fe82be
+--- /dev/null
++++ b/scripts/gfx906/env.sh
+@@ -0,0 +1,34 @@
++# Environment for llama.cpp on the four-die gfx906 box (macpro2019-01).
++# Source this before llama-server / llama-bench:   set -a; . settings/gfx906.env; set +a
++# Every line here is backed by a measurement in reports/ (see README.md, "Builds and settings").
++
++# RCCL: give it the physical XGMI ring (firmware mislabels the bridge pairs) and 16 channels.
++#   +1.8% prefill, +3.7% single-stream decode; server +3% at 1 client, +2% at 8, nothing at 4; nothing at batch 8 decode.
++#   The only environment variable that moves anything (run-through s.1: nineteen others within 0.8% of a 0.3%-spread baseline, or losers).
++NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml
++NCCL_MIN_NCHANNELS=16
++
++# HIP graphs stay ON (default). Turning them off costs 7% of single-stream decode.
++# GGML_CUDA_DISABLE_GRAPHS=1     <- never
++
++# The tensor-split allreduce stays on RCCL (default). llama.cpp's internal allreduce and the
++# generic reduce are 23% slower in decode and 20% slower in prefill, with or without GGML_CUDA_P2P.
++# GGML_CUDA_ALLREDUCE=internal   <- never
++# GGML_CUDA_P2P=1                <- no effect (-0.3%)
++
++# Measured and NOT adopted (run-through s.1, four interleaved baselines at 47.6 tok/s, 0.3% spread):
++# NCCL_PROTO=LL                  bench-only batch-8 trade (+5% decode: 164.9 vs 157.0, -4.3% prefill); in the server -0.4% aggregate, +3% TTFT
++# NCCL_PROTO=Simple / LL128      -15% single-stream decode
++# NCCL_MIN_NCHANNELS=8|32, NCCL_ALGO=Ring, HIP_FORCE_DEV_KERNARG=1, GPU_MAX_HW_QUEUES=1|8, HSA_ENABLE_SDMA=0   within noise
++# host C6 off / C1E+C6 off       within noise
++
++# Host side, always: the CPU package RAPL-capped at 150 W while GPU jobs run (the 1228 W DC envelope; see README s.1).
++
++# ADOPTED 2026-09-08 (fork knobs + gate sweeps, reports/2026-09-08-next-steps-measurements.md) for builds that carry the
++# GGML_TP_AR_MAX_NE knob (fusion tree 25e1d46 and later; NOT the 2026-09-07 production binary, where the fork's default gate
++# costs 8% at 8-16 slots): the fork's peer-write custom allreduce + whole-token graph, gated to messages of at most 4 decode
++# rows (n_embd 5120). Single stream 49.4 -> 56.6 tok/s (+14.5%), 2 slots +19%, 4 slots +1-3%, 8+ unchanged, perplexity identical.
++# Never GGML_TP_AR_NO_GATE=1 (prefill -36%). HSA_FORCE_FINE_GRAIN_PCIE alone is free.
++GGML_ENABLE_CUSTOM_AR=1
++HSA_FORCE_FINE_GRAIN_PCIE=1
++GGML_TP_AR_MAX_NE=20481
+-- 
+2.43.0
+

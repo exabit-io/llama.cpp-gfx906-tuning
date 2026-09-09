@@ -1,0 +1,226 @@
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index 561ab7a..414f2ef 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -1879,8 +1879,8 @@ static void ggml_cuda_mul_mat_id(ggml_backend_cuda_context & ctx, ggml_tensor *
+ 
+     // [TAG_MUL_MAT_ID_CUDA_GRAPHS]
+     if (src1->type == GGML_TYPE_F32 && dst->type == GGML_TYPE_F32) {
+-        static_assert(MMVQ_MAX_BATCH_SIZE == MMVF_MAX_BATCH_SIZE);
+-        if (ne2 <= MMVQ_MAX_BATCH_SIZE) {
++        static_assert(MMVQ_MMID_MAX_BATCH_SIZE == MMVF_MAX_BATCH_SIZE);
++        if (ne2 <= MMVQ_MMID_MAX_BATCH_SIZE) {
+             if (ggml_is_quantized(src0->type)) {
+                 const int mmvq_mmid_max = get_mmvq_mmid_max_batch(src0->type, cc);
+                 if (ne2 <= mmvq_mmid_max) {
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index 0589e65..f36c9aa 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -108,7 +108,7 @@ static __host__ mmvq_parameter_table_id get_device_table_id(int cc) {
+ }
+ 
+ // Per-architecture maximum batch size for which MMVQ should be used for MUL_MAT_ID.
+-// Returns a value <= MMVQ_MAX_BATCH_SIZE. Default is MMVQ_MAX_BATCH_SIZE.
++// Returns a value <= MMVQ_MMID_MAX_BATCH_SIZE. Default is MMVQ_MMID_MAX_BATCH_SIZE.
+ // Check https://github.com/ggml-org/llama.cpp/pull/20905#issuecomment-4145835627 for details
+ 
+ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_pascal_older(ggml_type type) {
+@@ -134,7 +134,7 @@ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_pascal_older(gg
+         case GGML_TYPE_Q5_K:    return 5;
+         case GGML_TYPE_Q6_K:    return 4;
+         case GGML_TYPE_Q8_0:    return 4;
+-        default:                return MMVQ_MAX_BATCH_SIZE;
++        default:                return MMVQ_MMID_MAX_BATCH_SIZE;
+     }
+ }
+ 
+@@ -147,7 +147,7 @@ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_turing_plus(ggm
+         case GGML_TYPE_NVFP4:   return 8;
+         case GGML_TYPE_Q2_K:    return 7;
+         case GGML_TYPE_Q3_K:    return 5;
+-        default:                return MMVQ_MAX_BATCH_SIZE;
++        default:                return MMVQ_MMID_MAX_BATCH_SIZE;
+     }
+ }
+ 
+@@ -170,7 +170,7 @@ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_gcn(ggml_type t
+         case GGML_TYPE_Q5_K:    return 4;
+         case GGML_TYPE_Q6_K:    return 4;
+         case GGML_TYPE_Q8_0:    return 4;
+-        default:                return MMVQ_MAX_BATCH_SIZE;
++        default:                return MMVQ_MMID_MAX_BATCH_SIZE;
+     }
+ }
+ 
+@@ -181,7 +181,7 @@ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_cdna(ggml_type
+         case GGML_TYPE_IQ2_XXS: return 5;
+         case GGML_TYPE_IQ3_S:   return 4;
+         case GGML_TYPE_IQ3_XXS: return 5;
+-        default:                return MMVQ_MAX_BATCH_SIZE;
++        default:                return MMVQ_MMID_MAX_BATCH_SIZE;
+     }
+ }
+ 
+@@ -197,7 +197,7 @@ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_rdna1_rdna2(ggm
+         case GGML_TYPE_Q4_K:    return 5;
+         case GGML_TYPE_Q5_K:    return 6;
+         case GGML_TYPE_Q6_K:    return 5;
+-        default:                return MMVQ_MAX_BATCH_SIZE;
++        default:                return MMVQ_MMID_MAX_BATCH_SIZE;
+     }
+ }
+ 
+@@ -215,7 +215,7 @@ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_rdna3(ggml_type
+         case GGML_TYPE_Q4_K:    return 4;
+         case GGML_TYPE_Q5_K:    return 4;
+         case GGML_TYPE_Q6_K:    return 4;
+-        default:                return MMVQ_MAX_BATCH_SIZE;
++        default:                return MMVQ_MMID_MAX_BATCH_SIZE;
+     }
+ }
+ 
+@@ -241,7 +241,7 @@ static constexpr __host__ __device__ int get_mmvq_mmid_max_batch_rdna4(ggml_type
+         case GGML_TYPE_Q5_K:    return 5;
+         case GGML_TYPE_Q6_K:    return 5;
+         case GGML_TYPE_Q8_0:    return 7;
+-        default:                return MMVQ_MAX_BATCH_SIZE;
++        default:                return MMVQ_MMID_MAX_BATCH_SIZE;
+     }
+ }
+ 
+@@ -250,7 +250,7 @@ int get_mmvq_mmid_max_batch(ggml_type type, int cc) {
+     // NVIDIA: Volta, Ada Lovelace, and Blackwell always use MMVQ for MUL_MAT_ID.
+     if (GGML_CUDA_CC_IS_NVIDIA(cc)) {
+         if (cc == GGML_CUDA_CC_VOLTA || cc >= GGML_CUDA_CC_ADA_LOVELACE) {
+-            return MMVQ_MAX_BATCH_SIZE;
++            return MMVQ_MMID_MAX_BATCH_SIZE;
+         }
+         if (cc >= GGML_CUDA_CC_TURING) {
+             return get_mmvq_mmid_max_batch_turing_plus(type);
+@@ -276,7 +276,7 @@ int get_mmvq_mmid_max_batch(ggml_type type, int cc) {
+             return get_mmvq_mmid_max_batch_gcn(type);
+         }
+     }
+-    return MMVQ_MAX_BATCH_SIZE;
++    return MMVQ_MMID_MAX_BATCH_SIZE;
+ }
+ 
+ bool ggml_cuda_should_use_mmvq(enum ggml_type type, int cc, int64_t ne11) {
+@@ -343,7 +343,7 @@ static constexpr __device__ int get_mmvq_mmid_max_batch_for_device() {
+ #elif defined(GCN)
+     return get_mmvq_mmid_max_batch_gcn(type);
+ #elif defined(__CUDA_ARCH__) && (__CUDA_ARCH__ == GGML_CUDA_CC_VOLTA || __CUDA_ARCH__ >= GGML_CUDA_CC_ADA_LOVELACE)
+-    return MMVQ_MAX_BATCH_SIZE;
++    return MMVQ_MMID_MAX_BATCH_SIZE;
+ #elif defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= GGML_CUDA_CC_TURING
+     return get_mmvq_mmid_max_batch_turing_plus(type);
+ #else
+@@ -469,6 +469,14 @@ static constexpr __host__ __device__ int calc_rows_per_block(int ncols_dst, int
+             case 6:
+             case 7:
+             case 8:
++            case 9:
++            case 10:
++            case 11:
++            case 12:
++            case 13:
++            case 14:
++            case 15:
++            case 16:
+                 return 2;
+             default:
+                 return 1;
+@@ -992,6 +1000,70 @@ static void mul_mat_vec_q_switch_ncols_dst(
+                  sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
+                  dims.first, dims.second, 0, ids_stride, stream);
+         } break;
++        case 9: {
++            constexpr int c_ncols_dst = 9;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
++        case 10: {
++            constexpr int c_ncols_dst = 10;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
++        case 11: {
++            constexpr int c_ncols_dst = 11;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
++        case 12: {
++            constexpr int c_ncols_dst = 12;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
++        case 13: {
++            constexpr int c_ncols_dst = 13;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
++        case 14: {
++            constexpr int c_ncols_dst = 14;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
++        case 15: {
++            constexpr int c_ncols_dst = 15;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
++        case 16: {
++            constexpr int c_ncols_dst = 16;
++            std::pair<dim3, dim3> dims = calc_launch_params<type>(c_ncols_dst, nrows_x, nchannels_dst, nsamples_dst, warp_size, table_id);
++            mul_mat_vec_q_switch_fusion<type, c_ncols_dst>(vx, vy, ids, fusion, dst, ncols_x, nchannels_y_fd, stride_row_x, stride_col_y, stride_col_dst,
++                 channel_ratio_fd, stride_channel_x, stride_channel_y, stride_channel_dst,
++                 sample_ratio_fd, stride_sample_x, stride_sample_y, stride_sample_dst,
++                 dims.first, dims.second, 0, ids_stride, stream);
++        } break;
+         default:
+             GGML_ABORT("fatal error");
+             break;
+@@ -1170,7 +1242,7 @@ void ggml_cuda_mul_mat_vec_q(
+     GGML_ASSERT(        nb0        == ts_dst);
+     GGML_ASSERT(!ids || ids->nb[0] == ggml_type_size(ids->type));
+ 
+-    GGML_ASSERT(!ids || ne12 <= MMVQ_MAX_BATCH_SIZE);
++    GGML_ASSERT(!ids || ne12 <= MMVQ_MMID_MAX_BATCH_SIZE);
+ 
+     const float   * src1_d =       (const float   *) src1->data;
+     const int32_t *  ids_d = ids ? (const int32_t *)  ids->data : nullptr;
+diff --git a/ggml/src/ggml-cuda/mmvq.cuh b/ggml/src/ggml-cuda/mmvq.cuh
+index 5605bf7..ee73b93 100644
+--- a/ggml/src/ggml-cuda/mmvq.cuh
++++ b/ggml/src/ggml-cuda/mmvq.cuh
+@@ -1,6 +1,7 @@
+ #include "common.cuh"
+ 
+-#define MMVQ_MAX_BATCH_SIZE 8 // Max. batch size for which to use MMVQ kernels.
++#define MMVQ_MAX_BATCH_SIZE 16 // Max. batch size for which to use MMVQ kernels (dense MUL_MAT; raised from 8 for gfx906 evaluation).
++#define MMVQ_MMID_MAX_BATCH_SIZE 8 // Max. batch size for the MUL_MAT_ID (MoE) MMVQ path; unchanged.
+ 
+ bool ggml_cuda_should_use_mmvq(enum ggml_type type, int cc, int64_t ne11);
+ 

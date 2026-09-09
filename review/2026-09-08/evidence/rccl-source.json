@@ -1,0 +1,13 @@
+{
+  "repository": "ROCm/rccl",
+  "ref": "develop",
+  "sha": "99501794e180352bef5ea4e717afcf9dfd16f940",
+  "commit_date": "2026-09-02T19:05:50Z",
+  "files": [
+    {
+      "path": "README.md",
+      "source": "https://raw.githubusercontent.com/ROCm/rccl/99501794e180352bef5ea4e717afcf9dfd16f940/README.md",
+      "snapshot": "review/2026-09-08/evidence/rccl-README.md"
+    }
+  ]
+}

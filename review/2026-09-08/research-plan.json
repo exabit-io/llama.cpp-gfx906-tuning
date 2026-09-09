@@ -1,0 +1,29 @@
+{
+  "scope": "Engineering review for Claude of four-die gfx906 llama.cpp project, ISA and dependency-stack proposals",
+  "date": "2026-09-08",
+  "assumptions": [
+    "Local reports are supplied experimental records, not independently rerun GPU measurements",
+    "Deliver a styled HTML report consistent with existing project, with necessary review patches",
+    "Do not modify original reports or remotely change GPU configuration"
+  ],
+  "source_classes": [
+    "Local project code/data/reports and supplied ISA/LLVM text",
+    "Pinned upstream and fork source code",
+    "Official AMD HIP, ROCm, LLVM documentation"
+  ],
+  "steps": [
+    {
+      "step": "Discovery and parallel evidence lanes",
+      "status": "complete"
+    },
+    {
+      "step": "Resolve code, ISA and measurement contradictions; verify high-impact claims",
+      "status": "complete"
+    },
+    {
+      "step": "Synthesis, patch checks and report artifact verification",
+      "status": "complete"
+    }
+  ],
+  "planning_tool": "update_plan unavailable in active tool catalog; plan maintained here"
+}

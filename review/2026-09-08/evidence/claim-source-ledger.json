@@ -1,0 +1,522 @@
+[
+  {
+    "title": "Claude\u2019s run-through, sections 10\u201311",
+    "url": "../../reports/2026-09-07-todo-runthrough.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "The useful next step",
+      "Bugs and evidence errors in the project",
+      "Acceptance sequence and handoff"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "production data",
+    "url": "../../data/benchmarks.json",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "The useful next step",
+      "Bugs and evidence errors in the project"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "stock dot helper, lines 753\u2013775",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/360e1349f0009c5ad99d21e3c4546b707addc68a/ggml/src/ggml-cuda/common.cuh#L753",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-05T17:58:34+02:00",
+    "native_tool_citation": "turn17view0"
+  },
+  {
+    "title": "stock attention QK",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/360e1349f0009c5ad99d21e3c4546b707addc68a/ggml/src/ggml-cuda/fattn-tile.cuh",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-05T17:58:34+02:00"
+  },
+  {
+    "title": "stock recurrence",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/360e1349f0009c5ad99d21e3c4546b707addc68a/ggml/src/ggml-cuda/gated_delta_net.cu",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap",
+      "6. Tune remaining recurrent and reduction work only after tracing"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-05T17:58:34+02:00"
+  },
+  {
+    "title": "stock fusion dispatcher",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/360e1349f0009c5ad99d21e3c4546b707addc68a/ggml/src/ggml-cuda/ggml-cuda.cu#L3168",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-05T17:58:34+02:00"
+  },
+  {
+    "title": "fork feature inventory",
+    "url": "https://github.com/mxxm-t/mx-llama.cpp/blob/751b6114cdc6103efaedb94bace11e4ab8dc29be/FEATURES.md",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-04T16:25:51+03:00"
+  },
+  {
+    "title": "Q8 dot implementation",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/360e1349f0009c5ad99d21e3c4546b707addc68a/ggml/src/ggml-cuda/vecdotq.cuh#L843",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-05T17:58:34+02:00"
+  },
+  {
+    "title": "Fork recipe",
+    "url": "https://github.com/mixa3607/ML-gfx906/blob/9c4683555c9bc4e0bc7c7d14136cb4522c8508e0/llama.cpp/preset.b10254-rocm-7.14-mxxm.sh",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap",
+      "Dependency-stack priorities"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-31T04:08:53+05:00"
+  },
+  {
+    "title": "stock recipe",
+    "url": "https://github.com/mixa3607/ML-gfx906/blob/9c4683555c9bc4e0bc7c7d14136cb4522c8508e0/llama.cpp/preset.b10288-rocm-7.14-ggml.sh",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Corrections that change the roadmap"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-31T04:08:53+05:00"
+  },
+  {
+    "title": "Optimizer",
+    "url": "../../optimize/optimize.py",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Bugs and evidence errors in the project"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "patch 0001",
+    "url": "patches/0001-fix-q4v-lookup-and-command.patch",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Bugs and evidence errors in the project"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "patch 0002",
+    "url": "patches/0002-scope-modifiers-to-placement.patch",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Bugs and evidence errors in the project"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "saved results",
+    "url": "../../optimize/results.md",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Bugs and evidence errors in the project"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "context report",
+    "url": "../../reports/qwen38-27b-ctx-gfx906.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Bugs and evidence errors in the project"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "fleet recommendation",
+    "url": "../../README.md",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Bugs and evidence errors in the project"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "AMD Vega 7nm ISA, 27 January 2020, \u00a7\u00a72, 6.7, 12.10",
+    "url": "https://docs.amd.com/api/khub/documents/QCer_iui4EP~tr~Xlf4VGA/content",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "What Vega 7nm actually offers"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "2020-01-27"
+  },
+  {
+    "title": "supplied extraction",
+    "url": "../../reference/amd-vega-7nm-isa-gfx906.txt",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "What Vega 7nm actually offers"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "LLVM resource calculation",
+    "url": "https://github.com/llvm/llvm-project/blob/5700f6fefdc532bb6fa6e30f780a5a553253722e/llvm/lib/Target/AMDGPU/Utils/AMDGPUBaseInfo.cpp#L1405",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "What Vega 7nm actually offers"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "LLVM Project",
+    "date": "2026-09-08T07:33:22Z"
+  },
+  {
+    "title": "AMD cross-lane explanation, 2016",
+    "url": "https://gpuopen.com/learn/amd-gcn-assembly-cross-lane-operations/",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "What Vega 7nm actually offers"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "2016-08-10",
+    "native_tool_citation": "turn17view2"
+  },
+  {
+    "title": "LLVM lowering",
+    "url": "https://github.com/llvm/llvm-project/blob/5700f6fefdc532bb6fa6e30f780a5a553253722e/llvm/lib/Target/AMDGPU/SIISelLowering.cpp#L18336",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "What Vega 7nm actually offers"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "LLVM Project",
+    "date": "2026-09-08T07:33:22Z",
+    "native_tool_citation": "turn17view1; direct raw source read by ISA audit worker"
+  },
+  {
+    "title": "local utilization interpretation",
+    "url": "../../ISA-NOTES.md",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "What Vega 7nm actually offers"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "Missing-source inventory",
+    "url": "../../patches/README.md",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "1. Recover and rebase the measured MMVQ changes"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "Current shared-width assertion",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/ggml/src/ggml-cuda/ggml-cuda.cu#L1920",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "1. Recover and rebase the measured MMVQ changes"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "MMVQ tables and dispatch",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/ggml/src/ggml-cuda/mmvq.cu",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "1. Recover and rebase the measured MMVQ changes"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "Fork table",
+    "url": "https://github.com/mxxm-t/mx-llama.cpp/blob/751b6114cdc6103efaedb94bace11e4ab8dc29be/ggml/src/ggml-cuda/mmq-config-gfx906.cuh#L14",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "1. Recover and rebase the measured MMVQ changes"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-04T16:25:51+03:00"
+  },
+  {
+    "title": "eligibility gate",
+    "url": "https://github.com/mxxm-t/mx-llama.cpp/blob/751b6114cdc6103efaedb94bace11e4ab8dc29be/ggml/src/ggml-cuda/mmq.cuh#L1477",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "1. Recover and rebase the measured MMVQ changes"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-04T16:25:51+03:00"
+  },
+  {
+    "title": "K-quant patch",
+    "url": "https://github.com/mixa3607/ML-gfx906/blob/9c4683555c9bc4e0bc7c7d14136cb4522c8508e0/llama.cpp/build-context/patch/mxxm-gfx906-kcase.patch",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "1. Recover and rebase the measured MMVQ changes"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-31T04:08:53+05:00"
+  },
+  {
+    "title": "Upstream meta dispatch",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/ggml/src/ggml-backend-meta.cpp#L2434",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "2. Instrument graph and collective eligibility before replacing communication"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "fork collective initialization",
+    "url": "https://github.com/mxxm-t/mx-llama.cpp/blob/751b6114cdc6103efaedb94bace11e4ab8dc29be/ggml/src/ggml-cuda/ggml-cuda.cu#L1476",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "2. Instrument graph and collective eligibility before replacing communication"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-04T16:25:51+03:00"
+  },
+  {
+    "title": "fork capture eligibility",
+    "url": "https://github.com/mxxm-t/mx-llama.cpp/blob/751b6114cdc6103efaedb94bace11e4ab8dc29be/ggml/src/ggml-backend-meta.cpp#L3142",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "2. Instrument graph and collective eligibility before replacing communication"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-04T16:25:51+03:00"
+  },
+  {
+    "title": "AMD graph-safe library matrix",
+    "url": "https://rocmdocs.amd.com/en/develop/reference/graph-safe-support.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "2. Instrument graph and collective eligibility before replacing communication"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable",
+    "native_tool_citation": "turn8view1"
+  },
+  {
+    "title": "HIP coherence",
+    "url": "https://rocm.docs.amd.com/projects/HIP/en/docs-7.1.1/how-to/hip_runtime_api/memory_management/coherence_control.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "2. Instrument graph and collective eligibility before replacing communication"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable",
+    "native_tool_citation": "turn3search0"
+  },
+  {
+    "title": "AMD atomic scopes",
+    "url": "https://rocm.docs.amd.com/en/latest/reference/gpu-atomics-operation.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "2. Instrument graph and collective eligibility before replacing communication"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable",
+    "native_tool_citation": "turn11view0; turn13view2"
+  },
+  {
+    "title": "Original timing decomposition",
+    "url": "../../reports/qwen38-27b-q8_0-gfx906.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "2. Instrument graph and collective eligibility before replacing communication"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "Supplied Claude project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable"
+  },
+  {
+    "title": "Existing FA tile path",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/ggml/src/ggml-cuda/fattn-tile.cuh",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "3. Tune the attention path already using packed arithmetic"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "FA vector path",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/ggml/src/ggml-cuda/fattn-vec.cuh",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "3. Tune the attention path already using packed arithmetic"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "Current occupancy-based selector",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/ggml/src/ggml-cuda/fattn-common.cuh#L1125",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "3. Tune the attention path already using packed arithmetic"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "Q8_1 quantizer",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/ggml/src/ggml-cuda/quantize.cu#L84",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "4. Skip activation sums only with a valid consumer/cache contract"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "Q8 dot consumer",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/360e1349f0009c5ad99d21e3c4546b707addc68a/ggml/src/ggml-cuda/vecdotq.cuh#L246",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "4. Skip activation sums only with a valid consumer/cache contract"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-05T17:58:34+02:00"
+  },
+  {
+    "title": "Fork quantization and reuse implementation",
+    "url": "https://github.com/mxxm-t/mx-llama.cpp/blob/751b6114cdc6103efaedb94bace11e4ab8dc29be/ggml/src/ggml-cuda/ggml-cuda.cu",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "4. Skip activation sums only with a valid consumer/cache contract"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-08-04T16:25:51+03:00"
+  },
+  {
+    "title": "Current speculative implementation",
+    "url": "https://github.com/ggml-org/llama.cpp/blob/895c045fd104ced72132160245edcd6a86e50ba0/common/speculative.cpp#L2798",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "5. Make adaptive drafting stop the MTP loop"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "llama.cpp / fork maintainers",
+    "date": "2026-09-08T09:29:37+03:00"
+  },
+  {
+    "title": "LLVM target and code-object documentation",
+    "url": "https://llvm.org/docs/AMDGPUUsage.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Dependency-stack priorities"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "LLVM Project",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable",
+    "native_tool_citation": "turn18view0"
+  },
+  {
+    "title": "Pinned TheRock target policy, 8 September 2026",
+    "url": "https://github.com/ROCm/TheRock/blob/6f2cb230d4e1caf780e69f71b1eaa4ead00394cd/cmake/therock_amdgpu_targets.cmake#L70",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Dependency-stack priorities"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "2026-09-08T04:16:00Z"
+  },
+  {
+    "title": "AMD Linux requirements",
+    "url": "https://rocm.docs.amd.com/projects/install-on-linux/en/develop/reference/system-requirements.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Dependency-stack priorities"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable",
+    "native_tool_citation": "turn8search1"
+  },
+  {
+    "title": "AMD rocprofv3 guide",
+    "url": "https://rocm.docs.amd.com/projects/rocprofiler-sdk/en/latest/how-to/using-rocprofv3.html",
+    "accessed": "2026-09-08",
+    "supported_sections": [
+      "Dependency-stack priorities"
+    ],
+    "access_notes": "Pinned source checked in read-only local clones or raw official URLs; local measurements supplied, not GPU-rerun.",
+    "publisher": "AMD / ROCm",
+    "date": "Pinned commit dates in source-pins.json/report; live documentation publication date unavailable",
+    "native_tool_citation": "turn5view1; turn11view1; turn11view2; turn11view3"
+  }
+]

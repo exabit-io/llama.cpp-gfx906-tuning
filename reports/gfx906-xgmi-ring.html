@@ -1,0 +1,417 @@
+<title>gfx906 Four-Way XGMI Ring</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #EEF1F4; --surface: #F8FAFB; --surface-2: #E3E8ED;
+  --ink: #17212C; --ink-2: #485664; --muted: #76828E; --rule: #D2D9E0; --rule-2: #BFC8D1;
+  --accent: #B04F1C; --accent-ink: #8E3E13; --accent-soft: rgba(176,79,28,0.10);
+  --series: #2a78d6; --series-dim: #a9b4be; --grid: #E0E5EA; --axis: #BFC8D1;
+  --code-bg: #E4E9EE; --focus: #2a78d6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0E141A; --surface: #151D25; --surface-2: #1C2630;
+    --ink: #E7ECF1; --ink-2: #B2BCC6; --muted: #7E8A96; --rule: #29343F; --rule-2: #35414E;
+    --accent: #E28B55; --accent-ink: #F0A97C; --accent-soft: rgba(226,139,85,0.14);
+    --series: #3987e5; --series-dim: #4c5966; --grid: #253039; --axis: #35414E;
+    --code-bg: #19232D; --focus: #3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E141A; --surface: #151D25; --surface-2: #1C2630;
+  --ink: #E7ECF1; --ink-2: #B2BCC6; --muted: #7E8A96; --rule: #29343F; --rule-2: #35414E;
+  --accent: #E28B55; --accent-ink: #F0A97C; --accent-soft: rgba(226,139,85,0.14);
+  --series: #3987e5; --series-dim: #4c5966; --grid: #253039; --axis: #35414E;
+  --code-bg: #19232D; --focus: #3987e5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif; font-size: 17.5px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.page { max-width: 74rem; margin: 0 auto; padding: 2.75rem 1.5rem 4rem; display: grid; gap: 3.25rem; }
+h1, h2, h3 { font-family: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif; text-wrap: balance; margin: 0; line-height: 1.1; letter-spacing: -0.012em; }
+h1 { font-size: clamp(2.1rem, 4.5vw, 3.1rem); font-weight: 800; max-width: 22ch; }
+h2 { font-size: 1.5rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; }
+.prose { max-width: 66ch; display: grid; gap: 0.9rem; }
+.prose li { margin: 0.2rem 0; }
+.eyebrow { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-ink); font-weight: 500; }
+.mono, code, pre, td.num, th.num, .num { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+code { font-size: 0.86em; background: var(--code-bg); padding: 0.08em 0.35em; border-radius: 3px; }
+pre { margin: 0; background: var(--code-bg); border-radius: 6px; padding: 0.95rem 1.1rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.5; color: var(--ink); }
+pre code { background: none; padding: 0; font-size: inherit; }
+/* masthead */
+.mast { display: grid; gap: 1.25rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+.mast .lede { font-size: 1.2rem; color: var(--ink-2); max-width: 60ch; }
+.mast .claim { border-left: 3px solid var(--accent); padding: 0.35rem 0 0.35rem 1rem; max-width: 60ch; font-size: 1.05rem; }
+.mast .claim b { font-weight: 600; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.6rem 1.75rem; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; color: var(--ink-2); line-height: 1.45; }
+.facts dt { color: var(--muted); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.facts dd { margin: 0.1rem 0 0; }
+.facts div { display: grid; }
+/* key figures */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.tile { background: var(--surface); padding: 1.1rem 1.2rem 1.15rem; display: grid; gap: 0.3rem; align-content: start; }
+.tile .v { font-family: "Schibsted Grotesk", sans-serif; font-weight: 800; font-size: 2.35rem; line-height: 1; letter-spacing: -0.02em; }
+.tile .v small { font-size: 0.95rem; font-weight: 600; color: var(--ink-2); margin-left: 0.25rem; letter-spacing: 0; }
+.tile .l { font-size: 0.92rem; color: var(--ink-2); }
+/* sections */
+section { display: grid; gap: 1.25rem; }
+.sec-head { display: grid; gap: 0.35rem; }
+figure { margin: 0; display: grid; gap: 0.6rem; }
+figcaption { font-size: 0.9rem; color: var(--ink-2); max-width: 70ch; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { padding: 0.5rem 0.8rem; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-2); font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; background: var(--surface-2); }
+tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.hi { font-weight: 600; }
+td.note { color: var(--ink-2); }
+.matrix td.num.direct { background: var(--accent-soft); }
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.88rem; color: var(--ink-2); align-items: center; }
+.legend span { display: inline-flex; align-items: center; gap: 0.45rem; }
+.sw { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.5rem; align-items: start; }
+.quote { border-left: 3px solid var(--rule-2); padding: 0.2rem 0 0.2rem 1rem; color: var(--ink-2); display: grid; gap: 0.35rem; }
+.quote cite { font-style: normal; font-size: 0.85rem; }
+svg { max-width: 100%; height: auto; display: block; }
+.chart { background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1rem 0.6rem; position: relative; }
+.chart text { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; fill: var(--ink-2); }
+.chart text.val { fill: var(--ink); font-weight: 500; }
+.chart text.tick { fill: var(--muted); font-size: 11px; }
+.chart text.ref { fill: var(--muted); font-size: 11px; }
+.chart .bar { cursor: default; }
+.chart .bar rect.hit { fill: transparent; }
+.chart .bar:hover rect.mark, .chart .bar:focus rect.mark { filter: brightness(0.92); }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 0.8rem; line-height: 1.4; padding: 0.45rem 0.6rem; border-radius: 4px; max-width: 18rem; opacity: 0; transition: opacity 120ms; }
+.tip[data-show="1"] { opacity: 1; }
+.diag { background: var(--surface); border: 1px solid var(--rule); padding: 0.75rem; }
+.diag text { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; fill: var(--ink-2); }
+.diag text.n1 { fill: var(--ink); font-weight: 500; font-size: 12px; }
+.diag text.mod { fill: var(--muted); font-size: 10px; letter-spacing: 0.08em; }
+.diag .node { fill: var(--surface-2); stroke: var(--rule-2); }
+.diag .modbox { fill: none; stroke: var(--rule); stroke-dasharray: 3 3; }
+.diag .link { stroke: currentColor; stroke-width: 2.5; fill: none; }
+.diag .bridge { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+.diag .twohop { stroke: var(--muted); stroke-width: 1.25; stroke-dasharray: 4 4; fill: none; }
+.files { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; color: var(--ink-2); display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 0.35rem 1.5rem; }
+footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 0.6rem; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+@media (max-width: 40rem) { body { font-size: 16.5px; } .tile .v { font-size: 2rem; } }
+</style>
+
+<main class="page">
+
+<header class="mast">
+  <div class="eyebrow">Measurement report · Mac Pro (2019) · 2026-09-04</div>
+  <h1>Four Vega 20 dies, one XGMI ring</h1>
+  <p class="lede">Two Radeon Pro Vega II Duo modules bridged with Apple's Infinity Fabric Link connector, measured under Linux and ROCm: four gfx906 dies in a single hive, four full-duplex links, all of them loaded at once.</p>
+  <p class="claim"><b>The claim under test:</b> "gfx906 was never capable of a 4-way XGMI ring topology." Everything below is a measurement from a machine that runs one.</p>
+  <dl class="facts">
+    <div><dt>Machine</dt><dd>macpro2019-01, Mac Pro (2019), Xeon W-3245</dd></div>
+    <div><dt>GPUs</dt><dd>2 × Radeon Pro Vega II Duo = 4 × Vega 20 (gfx906), 32 GB HBM2 each, 1 hive</dd></div>
+    <div><dt>Software</dt><dd>Ubuntu 24.04, Linux 7.0.0-30, ROCm 7.14 (HIP 7.14.60850), RCCL 2.30.4</dd></div>
+    <div><dt>Conditions</dt><dd>fresh boot, sclk 1730 MHz under load (perf level high), fclk 1166 MHz; GB/s = 10⁹ bytes/s</dd></div>
+    <div><dt>Repeatability</dt><dd>an earlier run with sclk clamped at 1000 MHz gave the same bandwidths within 1%</dd></div>
+  </dl>
+</header>
+
+<section aria-label="Key figures">
+  <div class="tiles">
+    <div class="tile"><div class="v">256<small>GB/s</small></div><div class="l">All four links, both directions, at once. Eight copy-engine flows of 1 GiB, 32 GB/s each.</div></div>
+    <div class="tile"><div class="v">65<small>GB/s</small></div><div class="l">One link, both directions: 32.6 + 32.5. Full duplex on every one of the four links.</div></div>
+    <div class="tile"><div class="v">44.7<small>GB/s</small></div><div class="l">Bus bandwidth of a verified 1 GiB ring all-reduce across the four dies (29.8 GB/s algorithm bandwidth).</div></div>
+    <div class="tile"><div class="v">507<small>ns</small></div><div class="l">One-hop read latency over the fabric. Local HBM 322 ns; two hops 618 ns.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">1 · What the vendors say</div><h2>Four GPUs in a hive ring is the documented configuration</h2></div>
+  <div class="two">
+    <div class="quote">
+      <p>"With two Infinity Fabric links per GPU, they can deliver up to 200 GB/s of peer-to-peer bandwidth" and "you can configure up to four GPUs in a hive ring configuration, made of two hives in eight GPU servers."</p>
+      <cite>AMD's Radeon Instinct MI50/MI60 announcement (Vega 20, gfx906), as reported by <a href="https://pcper.com/2018/11/meet-the-amd-radeon-instinct-mi60-and-mi50-accelerators/">PC Perspective, November 2018</a></cite>
+    </div>
+    <div class="quote">
+      <p>"Onboard Infinity Fabric Link connection connects the two Vega II GPUs at up to 84GB/s" (Vega II Duo). "Infinity Fabric Link connection enables two Vega II GPUs to connect at up to 84GB/s" (Vega II).</p>
+      <cite><a href="https://support.apple.com/en-us/118461">Apple, Mac Pro (2019) technical specifications</a>. 84 GB/s is bidirectional: 42 GB/s each way per link.</cite>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">2 · What the driver reports</div><h2>One hive of four, with a ring-shaped hop matrix</h2></div>
+  <div class="prose"><p>amdgpu publishes the hive membership and the PSP's hop counts in sysfs; KFD turns them into link weights (15 = one XGMI hop, 30 = two) and <code>rocm-smi --showtopo</code> shows XGMI for every pair. Every die reports two one-hop peers and one two-hop peer. With two XGMI links per Vega 20 die, the only four-node shape that gives that matrix is a ring. The hive's VRAM sits in one flat address space, base 0x80_0000_0000 + node × 32 GiB.</p></div>
+<pre><code>hive 0x9190d9ffba43a3e3: 4 members: 0000:0b:00.0 (node 0), 0000:0e:00.0 (node 3), 0000:1b:00.0 (node 2), 0000:1e:00.0 (node 1)
+
+hops (PSP via xgmi_num_hops)   0b  0e  1b  1e        rocm-smi --showtopo      GPU0  GPU1  GPU2  GPU3
+  0000:0b:00.0  node 0          0   1   2   1        weight  GPU0 (0b)         0     15    30    15
+  0000:0e:00.0  node 3          1   0   1   2                GPU1 (0e)         15    0     15    30
+  0000:1b:00.0  node 2          2   1   0   1                GPU2 (1b)         30    15    0     15
+  0000:1e:00.0  node 1          1   2   1   0                GPU3 (1e)         15    30    15    0
+                                                     link type: XGMI for every pair</code></pre>
+  <div class="prose"><p>Section 3 shows the firmware labels the wrong cross-module pairs as the one-hop ones. The <em>shape</em> it reports, a ring, is right.</p></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">3 · The ring, measured</div><h2>Four direct links at 507 ns, two 2-hop pairs at 618 ns</h2></div>
+  <div class="prose"><p>A single thread chases a pointer chain through another die's memory (4160-byte stride, 20 000 dependent loads), so each number is the round trip of one read. Rows are the die doing the reading, columns own the memory. HIP device 0 is 0b:00.0, 1 is 0e:00.0, 2 is 1b:00.0, 3 is 1e:00.0; 0b and 0e share one MPX module (Slot-1), 1b and 1e the other (Slot-3).</p></div>
+  <div class="two">
+    <figure>
+      <div class="tablewrap"><table class="matrix">
+        <thead><tr><th>reader ↓ · owner →</th><th class="num">d0 · 0b</th><th class="num">d1 · 0e</th><th class="num">d2 · 1b</th><th class="num">d3 · 1e</th></tr></thead>
+        <tbody>
+          <tr><td>d0 · 0b:00.0</td><td class="num note">322</td><td class="num direct">504</td><td class="num direct">510</td><td class="num">619</td></tr>
+          <tr><td>d1 · 0e:00.0</td><td class="num direct">506</td><td class="num note">323</td><td class="num">619</td><td class="num direct">510</td></tr>
+          <tr><td>d2 · 1b:00.0</td><td class="num direct">511</td><td class="num">618</td><td class="num note">322</td><td class="num direct">503</td></tr>
+          <tr><td>d3 · 1e:00.0</td><td class="num">617</td><td class="num direct">509</td><td class="num direct">504</td><td class="num note">322</td></tr>
+        </tbody></table></div>
+      <figcaption>Read latency in ns per dependent load. Shaded cells are the four direct links (503–511 ns); the diagonal is local HBM (322–323 ns); the two unshaded remote cells per row are the 2-hop pairs (617–619 ns, +111 ns for the extra hop). Each die has exactly two direct peers, and the pairs close into one cycle: 0b–0e–1e–1b–0b.</figcaption>
+    </figure>
+    <figure>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Under SDMA load, d0 reading d1 (on-module link)</th><th class="num">ns</th></tr></thead>
+        <tbody>
+          <tr><td>idle</td><td class="num">506</td></tr>
+          <tr><td>link busy in the direction the data travels (1 GiB copy d1 → d0)</td><td class="num">512</td></tr>
+          <tr><td>link busy in the direction the requests travel (d0 → d1)</td><td class="num">549</td></tr>
+          <tr><td>both directions loaded</td><td class="num">563</td></tr>
+        </tbody></table></div>
+      <figcaption>The bridge link (d1 reading d3) behaves the same: 512 / 518 / 551 / 566 ns. Latency barely moves while a link carries 33 GB/s, which matters for section 7.</figcaption>
+    </figure>
+  </div>
+
+  <div class="prose"><p>The latency matrix, the contention test in section 5 and the saturation test in section 4 all agree on which pairs are wired together, and they disagree with the firmware. The PSP's XGMI trusted application (queried by amdgpu with <code>GET_TOPOLOGY_INFO</code>) says the bridge joins 0b to 1e and 0e to 1b. It joins 0b to 1b and 0e to 1e: the straight pairing, die A to die A, die B to die B.</p></div>
+
+  <div class="two">
+    <figure>
+      <div class="diag">
+      <svg viewBox="0 0 340 250" role="img" aria-label="The ring as the firmware reports it: on-module links 0b to 0e and 1b to 1e, bridge links crossing 0b to 1e and 0e to 1b, with 0b to 1b and 0e to 1e as two-hop pairs.">
+        <defs></defs>
+        <rect class="modbox" x="26" y="34" width="118" height="200" rx="6"/>
+        <rect class="modbox" x="196" y="34" width="118" height="200" rx="6"/>
+        <text class="mod" x="85" y="48" text-anchor="middle">MPX MODULE · SLOT-1</text>
+        <text class="mod" x="255" y="48" text-anchor="middle">MPX MODULE · SLOT-3</text>
+        <!-- claimed 2-hop pairs (dashed) -->
+        <line class="twohop" x1="130" y1="82" x2="210" y2="82"/>
+        <line class="twohop" x1="130" y1="188" x2="210" y2="188"/>
+        <!-- on-module links -->
+        <line class="link" x1="85" y1="104" x2="85" y2="166"/>
+        <line class="link" x1="255" y1="104" x2="255" y2="166"/>
+        <!-- claimed bridge links, crossed -->
+        <line class="bridge" x1="130" y1="96" x2="210" y2="174"/>
+        <line class="bridge" x1="130" y1="174" x2="210" y2="96"/>
+        <!-- nodes -->
+        <rect class="node" x="40" y="60" width="90" height="44" rx="5"/>
+        <text class="n1" x="85" y="78" text-anchor="middle">0b:00.0</text><text x="85" y="94" text-anchor="middle">node 0 · d0</text>
+        <rect class="node" x="40" y="166" width="90" height="44" rx="5"/>
+        <text class="n1" x="85" y="184" text-anchor="middle">0e:00.0</text><text x="85" y="200" text-anchor="middle">node 3 · d1</text>
+        <rect class="node" x="210" y="60" width="90" height="44" rx="5"/>
+        <text class="n1" x="255" y="78" text-anchor="middle">1b:00.0</text><text x="255" y="94" text-anchor="middle">node 2 · d2</text>
+        <rect class="node" x="210" y="166" width="90" height="44" rx="5"/>
+        <text class="n1" x="255" y="184" text-anchor="middle">1e:00.0</text><text x="255" y="200" text-anchor="middle">node 1 · d3</text>
+        <!-- labels -->
+        <text x="170" y="74" text-anchor="middle">2 hops</text>
+        <text x="170" y="204" text-anchor="middle">2 hops</text>
+        <text x="170" y="139" text-anchor="middle" style="font-weight:500">bridge</text>
+        <text x="60" y="139" text-anchor="end" transform="rotate(-90 60 139)" style="font-size:10px">on-module</text>
+        <text x="280" y="139" text-anchor="end" transform="rotate(-90 280 139)" style="font-size:10px">on-module</text>
+      </svg>
+      </div>
+      <figcaption><b>As the firmware reports it.</b> Bridge links 0b–1e and 0e–1b (crossed); 0b–1b and 0e–1e two hops apart. This is what sysfs, KFD, rocm-smi, amd-smi and RCCL all believe.</figcaption>
+    </figure>
+    <figure>
+      <div class="diag">
+      <svg viewBox="0 0 340 250" role="img" aria-label="The ring as measured: on-module links 0b to 0e and 1b to 1e, bridge links straight across 0b to 1b and 0e to 1e at 507 nanoseconds, with 0b to 1e and 0e to 1b as two-hop pairs at 618 nanoseconds.">
+        <rect class="modbox" x="26" y="34" width="118" height="200" rx="6"/>
+        <rect class="modbox" x="196" y="34" width="118" height="200" rx="6"/>
+        <text class="mod" x="85" y="48" text-anchor="middle">MPX MODULE · SLOT-1</text>
+        <text class="mod" x="255" y="48" text-anchor="middle">MPX MODULE · SLOT-3</text>
+        <!-- measured 2-hop pairs (dashed diagonals) -->
+        <line class="twohop" x1="130" y1="96" x2="210" y2="174"/>
+        <line class="twohop" x1="130" y1="174" x2="210" y2="96"/>
+        <!-- on-module links -->
+        <line class="link" x1="85" y1="104" x2="85" y2="166"/>
+        <line class="link" x1="255" y1="104" x2="255" y2="166"/>
+        <!-- measured bridge links, straight -->
+        <line class="bridge" x1="130" y1="82" x2="210" y2="82"/>
+        <line class="bridge" x1="130" y1="188" x2="210" y2="188"/>
+        <!-- nodes -->
+        <rect class="node" x="40" y="60" width="90" height="44" rx="5"/>
+        <text class="n1" x="85" y="78" text-anchor="middle">0b:00.0</text><text x="85" y="94" text-anchor="middle">node 0 · d0</text>
+        <rect class="node" x="40" y="166" width="90" height="44" rx="5"/>
+        <text class="n1" x="85" y="184" text-anchor="middle">0e:00.0</text><text x="85" y="200" text-anchor="middle">node 3 · d1</text>
+        <rect class="node" x="210" y="60" width="90" height="44" rx="5"/>
+        <text class="n1" x="255" y="78" text-anchor="middle">1b:00.0</text><text x="255" y="94" text-anchor="middle">node 2 · d2</text>
+        <rect class="node" x="210" y="166" width="90" height="44" rx="5"/>
+        <text class="n1" x="255" y="184" text-anchor="middle">1e:00.0</text><text x="255" y="200" text-anchor="middle">node 1 · d3</text>
+        <!-- labels -->
+        <text x="170" y="74" text-anchor="middle" style="font-weight:500">bridge · 507 ns</text>
+        <text x="170" y="204" text-anchor="middle" style="font-weight:500">bridge · 507 ns</text>
+        <text x="170" y="139" text-anchor="middle">618 ns · 2 hops</text>
+        <text x="60" y="139" text-anchor="end" transform="rotate(-90 60 139)" style="font-size:10px">on-module · 505 ns</text>
+        <text x="280" y="139" text-anchor="end" transform="rotate(-90 280 139)" style="font-size:10px">on-module · 505 ns</text>
+      </svg>
+      </div>
+      <figcaption><b>As measured.</b> Bridge links 0b–1b and 0e–1e (straight); 0b–1e and 0e–1b are the 2-hop pairs. Ring order 0b–0e–1e–1b–0b (HIP 0-1-3-2). The benchmark derives this from latency and prints the mismatch; <code>--ring driver</code> forces the firmware's ring for comparison.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">4 · Saturation</div><h2>Four links, eight directions, 256 GB/s at the same time</h2></div>
+  <div class="prose"><p>Copy-engine (SDMA) flows of 1 GiB, each pinned to one of the die's two SDMA engines with <code>hsa_amd_memory_async_copy_on_engine</code>, all released together and timed on the host clock until the last one finishes; best of five. A PCIe 3.0 x16 port carries about 13 GB/s each way, and both dies of a Duo share one, so nothing below could be PCIe traffic.</p></div>
+  <figure>
+    <div class="chart" id="chart">
+      <svg viewBox="0 0 760 292" role="img" aria-label="Horizontal bar chart of aggregate bandwidth: one flow 33.5 GB/s; one link both directions 65.1; four links one direction 135.5; four links both directions 256.4 on the measured ring; four links both directions on the firmware's ring order 129.4. A PCIe 3.0 x16 reference sits at 13 GB/s.">
+        <!-- grid: x0=250, 1.75 px per GB/s, 0..280 -->
+        <g class="grid" stroke="var(--grid)" stroke-width="1">
+          <line x1="250" y1="22" x2="250" y2="246"/><line x1="337.5" y1="22" x2="337.5" y2="246"/><line x1="425" y1="22" x2="425" y2="246"/><line x1="512.5" y1="22" x2="512.5" y2="246"/><line x1="600" y1="22" x2="600" y2="246"/><line x1="687.5" y1="22" x2="687.5" y2="246"/>
+        </g>
+        <line x1="250" y1="246" x2="740" y2="246" stroke="var(--axis)" stroke-width="1"/>
+        <text class="tick" x="250" y="264" text-anchor="middle">0</text><text class="tick" x="337.5" y="264" text-anchor="middle">50</text><text class="tick" x="425" y="264" text-anchor="middle">100</text><text class="tick" x="512.5" y="264" text-anchor="middle">150</text><text class="tick" x="600" y="264" text-anchor="middle">200</text><text class="tick" x="687.5" y="264" text-anchor="middle">250</text>
+        <text class="tick" x="740" y="284" text-anchor="end">aggregate GB/s</text>
+        <!-- PCIe reference at 13 GB/s -> x = 272.75 -->
+        <line x1="272.75" y1="14" x2="272.75" y2="246" stroke="var(--muted)" stroke-width="1"/>
+        <text class="ref" x="278" y="16">PCIe 3.0 x16, one direction ≈ 13</text>
+        <!-- bars: band 44px from y=30; bar 22px -->
+        <g class="bar" tabindex="0" data-tip="One 1 GiB copy between any two dies, including the 2-hop pairs (those run at 29.6). Same 33 GB/s from shader reads, shader writes and the copy engine.">
+          <rect class="hit" x="0" y="30" width="760" height="44"/>
+          <text x="238" y="57" text-anchor="end">1 flow, any pair</text>
+          <path class="mark" fill="var(--series)" d="M250 41 H304.6 a4 4 0 0 1 4 4 V59 a4 4 0 0 1 -4 4 H250 Z"/>
+          <text class="val" x="316" y="57">33.5</text>
+        </g>
+        <g class="bar" tabindex="0" data-tip="Both directions of one link at once: 32.6 + 32.5 GB/s (on-module) and 32.1 + 32.1 (bridge). Ratio to a single flow 1.90×: full duplex.">
+          <rect class="hit" x="0" y="74" width="760" height="44"/>
+          <text x="238" y="101" text-anchor="end">1 link, both directions</text>
+          <path class="mark" fill="var(--series)" d="M250 85 H359.9 a4 4 0 0 1 4 4 V103 a4 4 0 0 1 -4 4 H250 Z"/>
+          <text class="val" x="371" y="101">65.1</text>
+        </g>
+        <g class="bar" tabindex="0" data-tip="One flow on each of the four links in the same direction round the ring: 34.2, 33.9, 34.3, 33.9 GB/s at once. 3.98× a single flow.">
+          <rect class="hit" x="0" y="118" width="760" height="44"/>
+          <text x="238" y="145" text-anchor="end">4 links, one direction</text>
+          <path class="mark" fill="var(--series)" d="M250 129 H483.1 a4 4 0 0 1 4 4 V147 a4 4 0 0 1 -4 4 H250 Z"/>
+          <text class="val" x="495" y="145">135.5</text>
+        </g>
+        <g class="bar" tabindex="0" data-tip="Eight flows, both directions of all four links: 32.0–32.5 GB/s each, all finishing within 0.5 ms of each other. 7.52× a single flow.">
+          <rect class="hit" x="0" y="162" width="760" height="44"/>
+          <text x="238" y="189" text-anchor="end">4 links, both directions</text>
+          <path class="mark" fill="var(--series)" d="M250 173 H694.7 a4 4 0 0 1 4 4 V191 a4 4 0 0 1 -4 4 H250 Z"/>
+          <text class="val" x="707" y="189">256.4</text>
+        </g>
+        <g class="bar" tabindex="0" data-tip="The same eight flows on the ring the firmware reports (0b–0e–1b–1e). Two of its four “edges” are really 2-hop paths that share links with the others, so half the flows run at 16 GB/s.">
+          <rect class="hit" x="0" y="206" width="760" height="44"/>
+          <text x="238" y="233" text-anchor="end">same, firmware's ring order</text>
+          <path class="mark" fill="var(--series-dim)" d="M250 217 H472.5 a4 4 0 0 1 4 4 V235 a4 4 0 0 1 -4 4 H250 Z"/>
+          <text class="val" x="484" y="233">129.4</text>
+        </g>
+      </svg>
+      <div class="tip" id="tip" role="status" aria-live="polite"></div>
+    </div>
+    <div class="legend"><span><i class="sw" style="background:var(--series)"></i>ring as measured, 0b–0e–1e–1b</span><span><i class="sw" style="background:var(--series-dim)"></i>ring as the firmware reports it, 0b–0e–1b–1e</span></div>
+    <figcaption>Aggregate bandwidth of concurrent 1 GiB copy-engine flows, best of five. Hover or focus a bar for the per-flow figures.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>pattern</th><th class="num">flows</th><th class="num">aggregate GB/s</th><th class="num">× single flow</th><th>per flow</th></tr></thead>
+    <tbody>
+      <tr><td>one flow, any ordered pair (12 pairs)</td><td class="num">1</td><td class="num">33–34</td><td class="num">1.00</td><td class="note">29.6 on the 2-hop pairs; shader read, shader write and copy engine all agree within 1 GB/s</td></tr>
+      <tr><td>one link, both directions</td><td class="num">2</td><td class="num">64.2–65.1</td><td class="num">1.90</td><td class="note">32.6 + 32.5 on-module, 32.1 + 32.1 bridge; a 2-hop pair both ways 59.0</td></tr>
+      <tr><td>four links, one direction (ring)</td><td class="num">4</td><td class="num hi">135.5</td><td class="num">3.98</td><td class="note">34.2 · 33.9 · 34.3 · 33.9</td></tr>
+      <tr><td>four links, both directions</td><td class="num">8</td><td class="num hi">256.4</td><td class="num">7.52</td><td class="note">32.4 · 32.4 · 32.1 · 32.1 · 32.5 · 32.5 · 32.0 · 32.1</td></tr>
+      <tr><td>four links, both directions, firmware's ring order</td><td class="num">8</td><td class="num">129.4</td><td class="num">4.05</td><td class="note">18.7 / 16.2 alternating: the 2-hop “edges” share links with the real ones</td></tr>
+    </tbody></table></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">5 · Two hops share the ring</div><h2>The 2-hop pairs ride on the same four links</h2></div>
+  <div class="prose"><p>If the 2-hop pairs had links of their own, their traffic would add to the ring's. It doesn't. The four 2-hop flows alone reach 116.4 GB/s; a one-way ring alone reaches 135.5; both together reach 132.3, not 251.9. The per-flow numbers say exactly where each 2-hop flow went.</p></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>flow (1 GiB, copy engine, all eight at once)</th><th>path</th><th class="num">GB/s</th><th>what happened</th></tr></thead>
+    <tbody>
+      <tr><td>0b → 0e, 0e → 1e, 1e → 1b, 1b → 0b</td><td>the ring, one direction</td><td class="num">19.0 · 19.3 · 19.1 · 19.4</td><td class="note">each halved from 34</td></tr>
+      <tr><td>0b → 1e</td><td>routed 0b → 0e → 1e</td><td class="num">16.5</td><td class="note">shares the 0b→0e and 0e→1e links with the ring flows</td></tr>
+      <tr><td>1e → 0b</td><td>routed 1e → 1b → 0b</td><td class="num">16.5</td><td class="note">shares 1e→1b and 1b→0b</td></tr>
+      <tr><td>0e → 1b</td><td>routed 0e → 0b → 1b</td><td class="num">31.9</td><td class="note">the counter-direction links were idle: full speed</td></tr>
+      <tr><td>1b → 0e</td><td>routed 1b → 1e → 0e</td><td class="num">31.9</td><td class="note">same</td></tr>
+    </tbody></table></div>
+  <div class="prose"><p>Two links per die, four dies, one ring, and a fabric that forwards 2-hop traffic through the neighbour at line rate.</p></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">6 · All-reduce</div><h2>A tensor-parallel all-reduce across the four dies</h2></div>
+  <div class="prose"><p>fp32 sum of 1 GiB per device, ring reduce-scatter followed by ring all-gather. Every run below was checked element by element and came back exact. <em>busbw</em> is the nccl-tests convention, algbw × 2(N−1)/N; on a ring it is the per-link, per-direction rate the collective actually sustained.</p></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>implementation</th><th class="num">algbw GB/s</th><th class="num">busbw GB/s</th><th>rings used</th></tr></thead>
+    <tbody>
+      <tr><td>RCCL 2.30.4 <code>all_reduce_perf</code>, default topology</td><td class="num">16.5</td><td class="num">24.8</td><td class="note">0-1-2-3 and 0-3-2-1 from the firmware's hop table: two 2-hop edges in each ring</td></tr>
+      <tr><td>RCCL, corrected topology file (<code>NCCL_TOPO_FILE</code>)</td><td class="num">22.3</td><td class="num">33.5</td><td class="note">0-1-3-2 and 0-2-3-1, the physical ring both ways</td></tr>
+      <tr><td>ifl_allreduce F: copy-engine ring all-reduce, two rings</td><td class="num hi">29.8</td><td class="num hi">44.7</td><td class="note">1 GiB in 36.0 ms; 179 GB/s of link traffic during the collective</td></tr>
+      <tr><td>ifl_allreduce F, one ring (one direction only)</td><td class="num">17.2</td><td class="num">25.8</td><td class="note"></td></tr>
+      <tr><td>ifl_allreduce F, two rings, on the firmware's ring order</td><td class="num">16.0</td><td class="num">23.9</td><td class="note">same code, wrong ring: the two 2-hop edges halve it</td></tr>
+      <tr><td>ifl_allreduce E: shader-pull ring all-reduce, two rings</td><td class="num">11.3</td><td class="num">16.9</td><td class="note">see section 7</td></tr>
+    </tbody></table></div>
+  <div class="prose"><p>44.7 GB/s busbw over two rings means each link carried about 22 GB/s each way for the whole collective, two-thirds of what a lone flow gets. Telling RCCL the real topology is a 35% gain on its own.</p></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">7 · A caveat about shader traffic</div><h2>Copy engines saturate the fabric; kernels don't, in some patterns</h2></div>
+  <div class="prose">
+    <p>RCCL moves data with kernels reading and writing peer memory. On this fabric that path has failure modes the copy engines don't have: both directions of a 2-hop pair at once fall to 0.62× a single flow (shader writes) where the copy engine gets 1.99×; a one-directional ring of four shader-write flows totals 34.7 GB/s where the copy engine gets 135; the full both-ways ring reaches 150–205 GB/s from kernels against 256 from the engines, and does best with only 8–32 workgroups per flow.</p>
+    <p>Link latency barely moves under load (506 → 563 ns), so the links aren't the limit; it is how the shader memory path and the fabric interact under cyclic load on Vega 20. The fabric itself delivers 44.7 GB/s busbw to a ring all-reduce and 256 GB/s to raw traffic.</p>
+    <p>It is not a clock effect either. The whole suite was first run with the core clock clamped at 1000 MHz; unclamping it to 1730 MHz took 100–120 ns off every latency and moved no bandwidth by more than 1%, the shader shortfalls included (one-way ring of shader writes 33.8 → 34.7 GB/s, 2-hop pair both ways 0.61× → 0.62×, RCCL 23.8 → 24.8 busbw).</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">8 · Reproduce</div><h2>Everything here comes from four commands</h2></div>
+<pre><code>/root/xgmi_map.sh                                     # driver's view: hive, hops, VRAM windows, KFD, rocm-smi
+/root/build_ifl_allreduce.sh &amp;&amp; /root/ifl_allreduce -b 1 -r 5      # latency, saturation, 2-hop, all-reduce
+/root/ifl_allreduce -b 1 -r 5 --ring driver           # the same tests on the ring the firmware claims
+cd /root/rccl-tests/build &amp;&amp; ./all_reduce_perf -b 1M -e 1G -f 2 -g 4 -n 20 -w 5 -c 1
+NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml ./all_reduce_perf -b 1M -e 1G -f 2 -g 4 -n 20 -w 5 -c 1</code></pre>
+  <div class="files">
+    <span>ifl_allreduce.hip · source (HIP + ROCr)</span><span>xgmi-rerun-postreboot-20260904-0419/ifl_allreduce.txt · full run, measured ring</span>
+    <span>xgmi-rerun-postreboot-20260904-0419/ifl_allreduce_ringdriver.txt · full run, firmware's ring</span><span>xgmi-rerun-postreboot-20260904-0419/xgmi_map.txt · driver topology dump</span>
+    <span>xgmi-rerun-postreboot-20260904-0419/rccl_allreduce.txt · RCCL, default topology</span><span>xgmi-rerun-postreboot-20260904-0419/rccl_allreduce_fixedtopo.txt · RCCL, corrected topology</span>
+    <span>*_linux_test.txt · the same suite at the 1000 MHz clamp; compare_xgmi_runs.py prints both side by side</span><span>rccl_topo.xml / rccl_topo_fixed.xml · RCCL topology as dumped / corrected</span>
+    <span>xgmi_4way_evidence.md · this report as plain text</span>
+  </div>
+  <div class="prose"><p>One thing to know before reproducing: in the first two GPU processes after this boot, the probe saw one direction of every link at 2.4 GB/s (0b→0e, 1b→0b, 1e→0e, 1e→1b, and the 2-hop paths that use them) while the opposite directions ran at 31, for copy-engine and shader reads alike. It cleared within two minutes, before the all-reduce benchmark ran, and has not recurred. amdgpu on this kernel has XGMI power-state switching stubbed out, so the link state after boot is whatever the firmware leaves; run the probe twice after a boot before measuring.</p></div>
+</section>
+
+<footer>
+  <p>Sources: <a href="https://pcper.com/2018/11/meet-the-amd-radeon-instinct-mi60-and-mi50-accelerators/">PC Perspective on AMD's MI60/MI50 launch</a> · <a href="https://support.apple.com/en-us/118461">Apple Mac Pro (2019) technical specifications</a> · <a href="https://github.com/ROCm/rccl-tests">rccl-tests</a>.</p>
+  <p>Measured 2026-09-04 on macpro2019-01, on a fresh boot with sclk at 1730 MHz under load. Bandwidths in 10⁹ bytes per second; latencies from GPU event timestamps; all-reduce results verified element by element.</p>
+</footer>
+
+</main>
+
+<script>
+(function () {
+  var chart = document.getElementById('chart'), tip = document.getElementById('tip');
+  if (!chart || !tip) return;
+  var bars = chart.querySelectorAll('.bar');
+  function show(bar, evt) {
+    tip.textContent = bar.getAttribute('data-tip');
+    tip.setAttribute('data-show', '1');
+    var r = chart.getBoundingClientRect(), b = bar.querySelector('.mark').getBoundingClientRect();
+    var x = (evt && evt.clientX ? evt.clientX : b.right) - r.left + 12;
+    var y = b.top - r.top - 8;
+    if (x + tip.offsetWidth > r.width - 8) x = r.width - tip.offsetWidth - 8;
+    tip.style.left = x + 'px'; tip.style.top = Math.max(4, y - tip.offsetHeight) + 'px';
+  }
+  function hide() { tip.removeAttribute('data-show'); }
+  bars.forEach(function (bar) {
+    bar.addEventListener('mouseenter', function (e) { show(bar, e); });
+    bar.addEventListener('mousemove', function (e) { show(bar, e); });
+    bar.addEventListener('mouseleave', hide);
+    bar.addEventListener('focus', function () { show(bar, null); });
+    bar.addEventListener('blur', hide);
+  });
+})();
+</script>

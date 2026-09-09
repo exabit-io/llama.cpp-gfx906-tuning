@@ -1,0 +1,5706 @@
+{
+ "_meta": {
+  "machine": "macpro2019-01, Mac Pro (2019), 2 x Radeon Pro Vega II Duo = 4 x Vega 20 (gfx906), 32 GB HBM2 each, one XGMI hive",
+  "software": "Ubuntu 24.04, Linux 7.0.0-30, ROCm 7.14 (TheRock, gfx906), llama.cpp b10288 (360e134), RCCL 2.30.4",
+  "model": "Qwen3.8-27B Unsloth GGUF Q8_0, 27.04 GiB, 64 blocks (16 full attention, 48 linear attention), trained context 262144",
+  "sources": [
+   "reports/qwen38-27b-q8_0-gfx906.html (2026-09-04)",
+   "reports/qwen38-27b-ctx-gfx906.html (2026-09-06, revised with sections 5 and 10 completed)",
+   "reports/gfx906-xgmi-ring.html (2026-09-04)",
+   "reports/2026-09-07-todo-runthrough.html (2026-09-07, updated 2026-09-08 04:59 UTC): BENCHMARKS-TODO run-through, kernel patches, production build, power study"
+  ],
+  "units": "tokens/s as llama.cpp reports them; ms per decode step; GiB as llama.cpp reported at load",
+  "conditions": "perf level high (sclk 1730 MHz), fans max, 200 W per-die cap, HIP graphs on, flash attention on, -b 2048 -ub 2048 unless stated",
+  "spec_flag_note": "the MTP flag on this build is --spec-type draft-mtp --spec-draft-n-max N (report 2 s.12)",
+  "builds": {
+   "stock": "upstream llama.cpp b10288 (360e134), GPU_TARGETS=gfx906 — the reference every other number is measured on",
+   "mmvq16": "stock + MMVQ_MAX_BATCH_SIZE 8->16 (one constant + template instantiations); tensor-split servers only, loses on a single die",
+   "fastpath": "stock + mmvq16 + MMVQ Q8_0 fast path with hybrid rows 4 (<=8 columns) / rows 2 (>8), warps 1 on the gfx906 table (iteration 5)",
+   "prod": "ML-gfx906 fork (b10254, gfx906 MMQ tile table + 14-line K-quant patch) + the fastpath kernel = 'mxxm+fh', the production build; perplexity identical to stock (5.5969)",
+   "b10837": "upstream b10837, stock recipe: pooled-cache server prompt path fixed, private prompt path +8% vs b10288"
+  }
+ },
+ "xgmi_fabric": {
+  "link_one_direction_GBps": 33.5,
+  "link_both_directions_GBps": 65.1,
+  "ring_all_links_both_directions_GBps": 256.4,
+  "ring_firmware_order_GBps": 129.4,
+  "one_hop_read_latency_ns": 507,
+  "two_hop_read_latency_ns": 618,
+  "local_hbm_read_latency_ns": 322,
+  "allreduce_busbw_GBps": {
+   "rccl_default_topo": 24.8,
+   "rccl_fixed_topo": 33.5,
+   "copy_engine_two_rings": 44.7
+  },
+  "physical_ring_hip_order": "0-1-3-2",
+  "firmware_ring_hip_order": "0-1-2-3",
+  "note": "PSP firmware mislabels the bridge pairs; NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml gives RCCL the physical ring"
+ },
+ "scaling_llama_bench": {
+  "_desc": "llama-bench -sm tensor -fa 1 -p 2048 -n 256 -b 2048 -ub 2048, Q8_0; depth = -d",
+  "columns": [
+   "dies",
+   "pp2048",
+   "tg256",
+   "pp2048_d16k",
+   "tg256_d16k",
+   "pp2048_d32k",
+   "tg256_d32k"
+  ],
+  "rows": [
+   [
+    1,
+    234.7,
+    20.25,
+    200.5,
+    18.83,
+    174.7,
+    17.69
+   ],
+   [
+    2,
+    439.5,
+    31.23,
+    377.5,
+    29.71,
+    331.8,
+    28.51
+   ],
+   [
+    4,
+    829.7,
+    45.69,
+    714.3,
+    43.99,
+    627.3,
+    42.88
+   ]
+  ]
+ },
+ "quant_comparison_llama_bench": {
+  "_desc": "27B at several quantisations, llama-bench pp2048 / tg256; tg from ms-per-token in the cost-model table (report 2 s.9) and the Q4_K_M table (report 1 s.2)",
+  "columns": [
+   "quant",
+   "GiB_on_disk",
+   "one_die_ms_per_tok",
+   "four_dies_ms_per_tok",
+   "four_dies_pp2048",
+   "one_die_tg256",
+   "four_dies_tg256"
+  ],
+  "rows": [
+   [
+    "Q8_0",
+    27.05,
+    49.4,
+    21.9,
+    834,
+    20.25,
+    45.7
+   ],
+   [
+    "Q4_0",
+    14.95,
+    36.9,
+    19.7,
+    1112,
+    27.1,
+    50.8
+   ],
+   [
+    "Q6_K",
+    20.47,
+    47.6,
+    22.0,
+    650,
+    21.0,
+    45.5
+   ],
+   [
+    "Q4_K_M",
+    15.33,
+    40.5,
+    21.1,
+    735,
+    24.71,
+    47.33
+   ]
+  ]
+ },
+ "batched_bench_tp4_2k": {
+  "_desc": "llama-batched-bench, 4 dies tensor split, 512-token prompts (and 2048-token), 128 generated, batch 1..32; f16 KV",
+  "columns": [
+   "batch",
+   "prompt_tps",
+   "gen_tps_512",
+   "per_seq_512",
+   "ms_per_step",
+   "gen_tps_2048",
+   "per_seq_2048"
+  ],
+  "rows": [
+   [
+    1,
+    672,
+    44.2,
+    44.2,
+    23,
+    43.9,
+    43.9
+   ],
+   [
+    2,
+    786,
+    70.6,
+    35.3,
+    28,
+    71.2,
+    35.6
+   ],
+   [
+    3,
+    809,
+    100.6,
+    33.5,
+    30,
+    97.2,
+    32.4
+   ],
+   [
+    4,
+    831,
+    121.1,
+    30.3,
+    33,
+    117.4,
+    29.3
+   ],
+   [
+    5,
+    802,
+    138.1,
+    27.6,
+    36,
+    138.4,
+    27.7
+   ],
+   [
+    6,
+    821,
+    146.6,
+    24.4,
+    41,
+    144.5,
+    24.1
+   ],
+   [
+    7,
+    826,
+    156.3,
+    22.3,
+    45,
+    154.2,
+    22.0
+   ],
+   [
+    8,
+    837,
+    162.1,
+    20.3,
+    49,
+    159.0,
+    19.9
+   ],
+   [
+    9,
+    819,
+    96.6,
+    10.7,
+    93,
+    96.1,
+    10.7
+   ],
+   [
+    10,
+    818,
+    106.7,
+    10.7,
+    94,
+    104.8,
+    10.5
+   ],
+   [
+    11,
+    830,
+    115.4,
+    10.5,
+    95,
+    114.0,
+    10.4
+   ],
+   [
+    12,
+    837,
+    123.9,
+    10.3,
+    97,
+    121.8,
+    10.1
+   ],
+   [
+    13,
+    825,
+    130.8,
+    10.1,
+    99,
+    129.9,
+    10.0
+   ],
+   [
+    14,
+    831,
+    138.2,
+    9.9,
+    101,
+    136.7,
+    9.8
+   ],
+   [
+    15,
+    833,
+    145.6,
+    9.7,
+    103,
+    144.7,
+    9.6
+   ],
+   [
+    16,
+    838,
+    152.7,
+    9.5,
+    105,
+    150.9,
+    9.4
+   ],
+   [
+    17,
+    828,
+    125.9,
+    7.4,
+    135,
+    125.5,
+    7.4
+   ],
+   [
+    18,
+    833,
+    131.7,
+    7.3,
+    137,
+    130.3,
+    7.2
+   ],
+   [
+    19,
+    834,
+    136.5,
+    7.2,
+    139,
+    136.1,
+    7.2
+   ],
+   [
+    20,
+    838,
+    142.5,
+    7.1,
+    140,
+    140.8,
+    7.0
+   ],
+   [
+    21,
+    830,
+    147.4,
+    7.0,
+    142,
+    146.9,
+    7.0
+   ],
+   [
+    22,
+    834,
+    152.5,
+    6.9,
+    144,
+    151.1,
+    6.9
+   ],
+   [
+    23,
+    835,
+    157.8,
+    6.9,
+    146,
+    156.2,
+    6.8
+   ],
+   [
+    24,
+    839,
+    163.1,
+    6.8,
+    147,
+    161.7,
+    6.7
+   ],
+   [
+    25,
+    832,
+    151.6,
+    6.1,
+    165,
+    149.4,
+    6.0
+   ],
+   [
+    26,
+    835,
+    156.5,
+    6.0,
+    166,
+    154.5,
+    5.9
+   ],
+   [
+    27,
+    836,
+    160.8,
+    6.0,
+    168,
+    157.4,
+    5.8
+   ],
+   [
+    28,
+    838,
+    164.6,
+    5.9,
+    170,
+    162.6,
+    5.8
+   ],
+   [
+    29,
+    833,
+    169.3,
+    5.8,
+    171,
+    165.2,
+    5.7
+   ],
+   [
+    30,
+    835,
+    173.7,
+    5.8,
+    173,
+    170.9,
+    5.7
+   ],
+   [
+    31,
+    836,
+    176.9,
+    5.7,
+    175,
+    171.5,
+    5.5
+   ],
+   [
+    32,
+    838,
+    181.5,
+    5.7,
+    176,
+    179.2,
+    5.6
+   ]
+  ],
+  "kernel_note": "batch <= 8 uses MMVQ (MMVQ_MAX_BATCH_SIZE=8); 9..16 -> 16-wide MMQ tile; 17..24 -> 24-wide; 25..32 -> 32-wide"
+ },
+ "context_ladder_tp4": {
+  "_desc": "llama-batched-bench, 4 dies tensor split, -npl 4 or 8, 128 generated; prefill = average over the prompt; decode = aggregate over all sequences",
+  "depths": [
+   2048,
+   8192,
+   32768,
+   65536,
+   131072,
+   261888
+  ],
+  "prefill_tps": {
+   "n8_f16": [
+    837.73,
+    811.43,
+    727.07,
+    637.81,
+    510.28,
+    null
+   ],
+   "n4_f16": [
+    832.24,
+    809.45,
+    726.94,
+    637.81,
+    510.08,
+    363.14
+   ],
+   "n8_q8_0": [
+    838.08,
+    810.37,
+    724.52,
+    633.49,
+    503.04,
+    null
+   ],
+   "n4_q8_0": [
+    831.88,
+    808.34,
+    724.22,
+    633.55,
+    503.0,
+    359.93
+   ]
+  },
+  "decode_tps": {
+   "n8_f16": [
+    158.85,
+    152.15,
+    129.97,
+    109.49,
+    83.11,
+    null
+   ],
+   "n4_f16": [
+    118.72,
+    115.27,
+    103.45,
+    89.87,
+    70.4,
+    50.01
+   ],
+   "n8_q8_0": [
+    153.26,
+    143.26,
+    110.82,
+    84.99,
+    57.78,
+    null
+   ],
+   "n4_q8_0": [
+    113.75,
+    108.11,
+    89.7,
+    72.32,
+    50.98,
+    32.19
+   ]
+  },
+  "single_stream": {
+   "depths": [
+    2048,
+    32768,
+    131072,
+    261888
+   ],
+   "prefill_tps": [
+    823,
+    728,
+    510,
+    365
+   ],
+   "decode_tps": [
+    44.1,
+    40.7,
+    35.8,
+    30.6
+   ]
+  },
+  "corrected_topology_n8_f16": {
+   "depths": [
+    2048,
+    8192,
+    32768,
+    65536,
+    131072
+   ],
+   "prefill_tps": [
+    848,
+    822,
+    736,
+    645,
+    515
+   ],
+   "decode_tps": [
+    154.8,
+    153.2,
+    131.0,
+    110.2,
+    83.7
+   ]
+  },
+  "fitted_models": {
+   "prefill_ms_per_token": "1.18 + 0.0121 * depth_in_K",
+   "decode_step_ms_f16": "base(n) + 0.045 * n * depth_in_K   (base(1)=21.9, base(4)=33, base(8)=50)",
+   "decode_step_ms_q8_0": "base(n) + 0.086 * n * depth_in_K",
+   "cache_read_bandwidth": "1475 GB/s across four dies (369 GB/s per die, 44% of the 840 GB/s plain-read figure)",
+   "flash_attention_prefill_rate": "33 TFLOP/s over four dies (8.3 per die, ~60% of the 13.8 TFLOP/s FMA peak)"
+  },
+  "run_to_run_note": "the 8K n=8 decode cell varies 133-152 (5-7%) between processes; prefill does not vary",
+  "ceiling_n8": {
+   "_desc": "eight slots at the memory ceiling (report 2 s.10): prefill = average over the prompt, decode aggregate",
+   "columns": [
+    "kv",
+    "ctx",
+    "prefill_tps",
+    "prefill_wall_min",
+    "decode_tps",
+    "per_seq"
+   ],
+   "rows": [
+    [
+     "f16",
+     163840,
+     463,
+     47,
+     73.9,
+     9.2
+    ],
+    [
+     "q8_0",
+     196608,
+     425,
+     62,
+     43.4,
+     5.4
+    ]
+   ]
+  }
+ },
+ "memory_per_die_tp4": {
+  "_desc": "llama.cpp reported allocations, tensor split over 4 dies, ub 2048 unless noted; GiB",
+  "weights_GiB": 6.3,
+  "token_embedding_host_GiB": 1.3,
+  "kv_KiB_per_token_per_die": {
+   "f16": 16,
+   "q8_0": 8.5
+  },
+  "recurrent_state_GiB_per_slot": 0.0366,
+  "compute_buffer_f16_GiB_by_ubatch": {
+   "512": 0.5,
+   "1024": 1.2,
+   "2048": 2.3,
+   "4096": 4.6
+  },
+  "compute_buffer_f16_note": "512 and 2048 measured (0.5, 2.3-2.4); 1024 and 4096 interpolated/extrapolated from 'twice the buffer' in report 2 s.7",
+  "compute_buffer_q8_0_GiB": "0.5 + 4.4 * (cache cells / 1e6)   (4.9 @ 1.0M cells, 7.1 @ 1.5M, 9.3-9.5 @ 2.0M)",
+  "fits_table": [
+   {
+    "slots": 8,
+    "ctx": 65536,
+    "kv": "f16",
+    "kv_GiB": 8.0,
+    "state": 0.29,
+    "compute": 2.3,
+    "total": 16.9,
+    "fits": true
+   },
+   {
+    "slots": 8,
+    "ctx": 131072,
+    "kv": "f16",
+    "kv_GiB": 16.0,
+    "state": 0.29,
+    "compute": 2.4,
+    "total": 25.0,
+    "fits": true
+   },
+   {
+    "slots": 8,
+    "ctx": 163840,
+    "kv": "f16",
+    "kv_GiB": 20.0,
+    "state": 0.29,
+    "compute": 2.4,
+    "total": 29.0,
+    "fits": true
+   },
+   {
+    "slots": 4,
+    "ctx": 262144,
+    "kv": "f16",
+    "kv_GiB": 16.0,
+    "state": 0.15,
+    "compute": 2.0,
+    "total": 24.5,
+    "fits": true
+   },
+   {
+    "slots": 8,
+    "ctx": 196608,
+    "kv": "q8_0",
+    "kv_GiB": 12.8,
+    "state": 0.29,
+    "compute": 7.1,
+    "total": 26.4,
+    "fits": true
+   },
+   {
+    "slots": 8,
+    "ctx": 196608,
+    "kv": "f16 (ub 512)",
+    "kv_GiB": 24.0,
+    "state": 0.29,
+    "compute": 0.5,
+    "total": 31.1,
+    "fits": true
+   },
+   {
+    "slots": 8,
+    "ctx": 262144,
+    "kv": "q8_0",
+    "kv_GiB": 17.0,
+    "state": 0.29,
+    "compute": 9.3,
+    "total": 32.9,
+    "fits": false
+   },
+   {
+    "slots": 8,
+    "ctx": 262144,
+    "kv": "f16",
+    "kv_GiB": 32.0,
+    "state": 0.29,
+    "compute": 2.4,
+    "total": 41.0,
+    "fits": false
+   }
+  ]
+ },
+ "memory_per_die_dp4": {
+  "_desc": "one instance per die, no split (report 2 s.6)",
+  "weights_GiB": 25.4,
+  "kv_KiB_per_token": {
+   "f16": 64,
+   "q8_0": 34
+  },
+  "recurrent_state_GiB_per_slot": 0.15,
+  "compute_buffer_GiB": 2.0,
+  "usable_GiB": 31.0,
+  "note": "about 48K tokens of f16 cache per die in total"
+ },
+ "server_short_prompt_tp4": {
+  "_desc": "llama-server -np 32 -c 131072, 1300-token prompts, 256 generated, concurrency sweep (report 1 s.4); agg gen t/s, TTFT s, per-request t/s",
+  "columns": [
+   "conc",
+   "tp4_agg",
+   "layer4_agg",
+   "tp2_agg",
+   "tp4_ttft",
+   "layer4_ttft",
+   "tp2_ttft",
+   "tp4_per_req",
+   "layer4_per_req",
+   "tp2_per_req"
+  ],
+  "rows": [
+   [
+    1,
+    32.7,
+    13.6,
+    21.7,
+    1.83,
+    5.87,
+    3.28,
+    44.5,
+    20.1,
+    30.7
+   ],
+   [
+    2,
+    45.6,
+    20.8,
+    31.2,
+    3.64,
+    10.19,
+    6.6,
+    34.4,
+    18.0,
+    26.6
+   ],
+   [
+    4,
+    59.5,
+    27.2,
+    38.3,
+    5.84,
+    15.71,
+    10.02,
+    26.3,
+    12.6,
+    18.4
+   ],
+   [
+    8,
+    67.5,
+    24.8,
+    40.6,
+    6.65,
+    21.21,
+    13.31,
+    13.4,
+    5.2,
+    8.6
+   ],
+   [
+    16,
+    51.6,
+    27.2,
+    36.6,
+    7.84,
+    19.89,
+    13.35,
+    4.3,
+    2.4,
+    3.1
+   ],
+   [
+    32,
+    67.6,
+    28.1,
+    42.8,
+    7.99,
+    20.0,
+    13.76,
+    2.9,
+    1.2,
+    1.9
+   ]
+  ],
+  "corrected_topology_16ch": {
+   "columns": [
+    "conc",
+    "agg_default",
+    "agg_fixed",
+    "per_req_default",
+    "per_req_fixed",
+    "ttft_default",
+    "ttft_fixed"
+   ],
+   "rows": [
+    [
+     1,
+     32.5,
+     33.6,
+     44.7,
+     46.1,
+     1.83,
+     1.81
+    ],
+    [
+     4,
+     59.8,
+     59.1,
+     26.4,
+     25.4,
+     5.77,
+     5.36
+    ],
+    [
+     8,
+     64.9,
+     66.3,
+     12.7,
+     13.0,
+     6.54,
+     6.41
+    ]
+   ]
+  }
+ },
+ "server_long_prompt_tp4": {
+  "_desc": "one wave of NP simultaneous long prompts, f16 KV, --cache-ram 0 (report 2 s.5)",
+  "columns": [
+   "slots",
+   "prompt_tokens",
+   "wall_s",
+   "ttft_mean_s",
+   "ttft_last_s",
+   "wave_prefill_tps",
+   "gen_per_req_tps",
+   "tps_over_wave"
+  ],
+  "rows": [
+   [
+    8,
+    4096,
+    59,
+    16,
+    41,
+    796,
+    10.7,
+    590
+   ],
+   [
+    8,
+    32768,
+    390,
+    90,
+    335,
+    782,
+    3.8,
+    677
+   ],
+   [
+    8,
+    130816,
+    2112,
+    471,
+    1840,
+    569,
+    3.1,
+    497
+   ],
+   [
+    4,
+    130816,
+    1055,
+    400,
+    785,
+    667,
+    6.1,
+    497
+   ],
+   [
+    4,
+    261888,
+    2923,
+    1103,
+    2183,
+    480,
+    6.2,
+    359
+   ]
+  ]
+ },
+ "kv_unified_pool": {
+  "_desc": "--kv-unified 256K pool vs per-slot caches, batched bench (report 2 s.5)",
+  "columns": [
+   "n",
+   "ctx",
+   "prefill_private",
+   "prefill_pool",
+   "decode_private",
+   "decode_pool"
+  ],
+  "rows": [
+   [
+    8,
+    2048,
+    838,
+    781,
+    158.8,
+    147.9
+   ],
+   [
+    8,
+    8192,
+    811,
+    641,
+    152.2,
+    133.3
+   ],
+   [
+    8,
+    32768,
+    727,
+    371,
+    130.0,
+    86.1
+   ],
+   [
+    4,
+    32768,
+    727,
+    513,
+    103.5,
+    87.7
+   ],
+   [
+    4,
+    65536,
+    638,
+    369,
+    89.9,
+    73.2
+   ]
+  ],
+  "server_waves": {
+   "_desc": "llama-server --kv-unified -np 8 -c 262144 vs private caches (report 2 s.5)",
+   "columns": [
+    "server",
+    "wave",
+    "wall_s",
+    "agg_gen_tps",
+    "per_req_gen_tps",
+    "per_req_prefill_tps",
+    "ttft_mean_s",
+    "ttft_max_s",
+    "req_wall_mean_s",
+    "req_wall_max_s"
+   ],
+   "rows": [
+    [
+     "unified 8x256K",
+     "8 x 32512",
+     744.3,
+     2.8,
+     2.2,
+     318,
+     165.8,
+     609.9,
+     740.9,
+     744.3
+    ],
+    [
+     "unified 8x256K",
+     "1 x 261888",
+     1401.9,
+     0.2,
+     30.4,
+     188,
+     1393.1,
+     1393.1,
+     1401.9,
+     1401.9
+    ],
+    [
+     "unified 8x256K",
+     "8 x 4096",
+     66.2,
+     30.9,
+     9.5,
+     285,
+     15.2,
+     20.0,
+     65.4,
+     66.2
+    ]
+   ],
+   "private_comparison": "8 x 32768 on private caches: 390 s wall (server_long_prompt_tp4); 8 x 4096: 59 s"
+  },
+  "one_256k_request_alone": {
+   "columns": [
+    "setup",
+    "ttft_s",
+    "prefill_tps",
+    "gen_tps",
+    "wall_s"
+   ],
+   "rows": [
+    [
+     "shared 256K pool, 8 slots (server)",
+     1393.1,
+     188,
+     30.4,
+     1402
+    ],
+    [
+     "private caches, 4 slots x 256K (server)",
+     716.2,
+     366,
+     30.6,
+     725.0
+    ],
+    [
+     "batched bench, one sequence, private cache",
+     717,
+     365,
+     30.6,
+     721
+    ],
+    [
+     "batched bench, one sequence, shared pool",
+     717,
+     365,
+     30.7,
+     721
+    ],
+    [
+     "batched bench, one sequence, shared pool sized for eight",
+     717,
+     366,
+     30.6,
+     721
+    ]
+   ],
+   "finding": "the 2x prefill penalty is in how the server feeds a prompt through a pooled cache in this build, not in the cache layout or kernels; generation is 30.6 everywhere"
+  },
+  "b10837": {
+   "_desc": "run-through s.4: upstream b10837 built with the same recipe; one 256K request alone",
+   "columns": [
+    "setup",
+    "prefill_tps",
+    "ttft_s",
+    "decode_tps"
+   ],
+   "rows": [
+    [
+     "per-slot server 4 x 256K",
+     395,
+     663,
+     30.8
+    ],
+    [
+     "pooled server 8 x 256K",
+     394,
+     664,
+     30.8
+    ],
+    [
+     "batched bench, private, one sequence",
+     395,
+     663,
+     30.9
+    ]
+   ],
+   "finding": "pooled-cache prompt path fixed upstream (b10288: 188 vs 366); private prompt path also +8% (366 -> 395, 53 s sooner to first token at 256K). 8 x 32K pooled decode not re-measured on b10837"
+  }
+ },
+ "four_instances_dp4": {
+  "_desc": "four independent single-die instances running at once (report 2 s.6 and s.10); totals over the four dies",
+  "columns": [
+   "prompt",
+   "kv",
+   "streams_per_die",
+   "prefill_total",
+   "decode_total",
+   "per_stream"
+  ],
+  "rows": [
+   [
+    2048,
+    "f16",
+    1,
+    832,
+    77.2,
+    19.3
+   ],
+   [
+    2048,
+    "f16",
+    8,
+    929,
+    206,
+    6.4
+   ],
+   [
+    2048,
+    "q8_0",
+    8,
+    930,
+    200.5,
+    6.3
+   ],
+   [
+    8192,
+    "q8_0",
+    8,
+    902,
+    182.9,
+    5.7
+   ]
+  ],
+  "note": "prefill 832 in the 4-stream row is the tensor-split comparison figure; the four instances read prompts at 929 whatever the batch"
+ },
+ "platform_knobs_tp4": {
+  "_desc": "llama-bench pp2048/tg256 and batched-bench batch 8 (report 2 s.7)",
+  "columns": [
+   "variant",
+   "env",
+   "pp2048",
+   "tg256",
+   "b8_prefill",
+   "b8_decode"
+  ],
+  "rows": [
+   [
+    "default (RCCL)",
+    "",
+    834,
+    45.6,
+    835,
+    154.6
+   ],
+   [
+    "RCCL fixed topology",
+    "NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml",
+    849,
+    46.1,
+    850,
+    155.1
+   ],
+   [
+    "fixed topology, 16 channels",
+    "NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16",
+    848,
+    47.3,
+    849,
+    155.4
+   ],
+   [
+    "internal allreduce",
+    "GGML_CUDA_ALLREDUCE=internal",
+    671,
+    34.93,
+    673,
+    141.6
+   ],
+   [
+    "internal + peer access",
+    "GGML_CUDA_ALLREDUCE=internal GGML_CUDA_P2P=1",
+    667,
+    34.67,
+    672,
+    139.9
+   ],
+   [
+    "generic reduce",
+    "GGML_CUDA_ALLREDUCE=none",
+    671,
+    35.02,
+    672,
+    141.9
+   ],
+   [
+    "RCCL + peer access",
+    "GGML_CUDA_P2P=1",
+    835,
+    45.48,
+    836,
+    154.5
+   ],
+   [
+    "HIP graphs off",
+    "GGML_CUDA_DISABLE_GRAPHS=1",
+    835,
+    42.31,
+    836,
+    150.2
+   ],
+   [
+    "row split (-sm row)",
+    "",
+    null,
+    null,
+    null,
+    null
+   ]
+  ]
+ },
+ "ubatch_sweep_tp4_n8_f16": {
+  "columns": [
+   "prompt",
+   "ubatch",
+   "prefill_tps",
+   "decode_tps"
+  ],
+  "rows": [
+   [
+    8192,
+    512,
+    689,
+    132.9
+   ],
+   [
+    8192,
+    1024,
+    774,
+    134.1
+   ],
+   [
+    8192,
+    2048,
+    810,
+    131.7
+   ],
+   [
+    8192,
+    4096,
+    817,
+    129.7
+   ],
+   [
+    32768,
+    1024,
+    696,
+    126.1
+   ],
+   [
+    32768,
+    2048,
+    727,
+    130.0
+   ],
+   [
+    32768,
+    4096,
+    731,
+    118.0
+   ]
+  ]
+ },
+ "kv_cache_perplexity": {
+  "_desc": "llama-perplexity wikitext-2, 6 x 16K chunks",
+  "rows": [
+   [
+    "f16",
+    "tensor",
+    5.617,
+    "baseline"
+   ],
+   [
+    "q8_0/q8_0",
+    "tensor",
+    5.615,
+    "runs on the dies"
+   ],
+   [
+    "f16",
+    "layer",
+    5.622,
+    "control"
+   ],
+   [
+    "q8_0/q4_0",
+    "layer",
+    5.577,
+    "attention fell back to CPU (55 min vs 5.5)"
+   ],
+   [
+    "q8_0/iq4_nl",
+    "layer",
+    null,
+    "CPU fallback, stopped"
+   ],
+   [
+    "q8_0/q4_0 or iq4_nl",
+    "tensor",
+    null,
+    "aborts: GGML_ASSERT(ret.axis != GGML_BACKEND_SPLIT_AXIS_UNKNOWN)"
+   ]
+  ]
+ },
+ "speculative_mtp_tp4": {
+  "_desc": "--spec-type draft-mtp (the GGUF's own next-token head), single stream greedy 400 tokens (report 2 s.8)",
+  "draft_length_single_stream": {
+   "columns": [
+    "draft_n",
+    "free_prose_tps",
+    "code_edit_tps",
+    "acc_free",
+    "acc_edit"
+   ],
+   "baseline": {
+    "free_prose_tps": 44.27,
+    "code_edit_tps": 44.24
+   },
+   "rows": [
+    [
+     1,
+     56.56,
+     59.01,
+     0.869,
+     0.951
+    ],
+    [
+     2,
+     64.76,
+     72.98,
+     0.752,
+     0.908
+    ],
+    [
+     3,
+     65.83,
+     83.34,
+     0.64,
+     0.884
+    ],
+    [
+     4,
+     65.22,
+     89.11,
+     0.548,
+     0.843
+    ],
+    [
+     6,
+     57.14,
+     92.87,
+     0.411,
+     0.795
+    ],
+    [
+     8,
+     32.08,
+     58.14,
+     0.325,
+     0.703
+    ]
+   ]
+  },
+  "sampling": {
+   "rows": [
+    [
+     "temp1.0 top-k20 top-p0.95",
+     "free",
+     44.94,
+     64.7
+    ],
+    [
+     "temp1.0 top-k20 top-p0.95",
+     "edit",
+     44.85,
+     86.02
+    ],
+    [
+     "temp0.7 top-p0.95",
+     "free",
+     40.46,
+     65.66
+    ],
+    [
+     "temp0.7 top-p0.95",
+     "edit",
+     40.51,
+     77.85
+    ]
+   ],
+   "columns": [
+    "sampler",
+    "prompt",
+    "none_tps",
+    "mtp_tps"
+   ]
+  },
+  "depth": {
+   "columns": [
+    "depth",
+    "none_tps",
+    "mtp_tps",
+    "acceptance"
+   ],
+   "rows": [
+    [
+     32768,
+     40.45,
+     61.4,
+     0.661
+    ],
+    [
+     131072,
+     35.24,
+     60.2,
+     0.892
+    ]
+   ]
+  },
+  "concurrency_np8": {
+   "_desc": "eight realistic prompts, 300 tokens, greedy; agg gen t/s and per-request t/s",
+   "columns": [
+    "variant",
+    "conc",
+    "agg_tps",
+    "per_req_tps",
+    "ttft_s",
+    "acceptance"
+   ],
+   "rows": [
+    [
+     "none",
+     1,
+     41.2,
+     45.0,
+     0.62,
+     null
+    ],
+    [
+     "none",
+     2,
+     47.4,
+     29.6,
+     1.12,
+     null
+    ],
+    [
+     "none",
+     4,
+     57.3,
+     19.3,
+     2.28,
+     null
+    ],
+    [
+     "none",
+     8,
+     109.2,
+     17.7,
+     4.29,
+     null
+    ],
+    [
+     "mtp-n1",
+     1,
+     51.2,
+     58.1,
+     0.68,
+     0.88
+    ],
+    [
+     "mtp-n1",
+     2,
+     60.3,
+     37.5,
+     1.06,
+     0.88
+    ],
+    [
+     "mtp-n1",
+     4,
+     67.3,
+     21.4,
+     2.09,
+     0.88
+    ],
+    [
+     "mtp-n1",
+     8,
+     86.8,
+     14.4,
+     4.59,
+     0.87
+    ],
+    [
+     "mtp-n2",
+     1,
+     58.9,
+     68.4,
+     0.68,
+     0.79
+    ],
+    [
+     "mtp-n2",
+     2,
+     64.8,
+     41.1,
+     1.14,
+     0.8
+    ],
+    [
+     "mtp-n2",
+     4,
+     57.4,
+     17.5,
+     2.16,
+     0.79
+    ],
+    [
+     "mtp-n2",
+     8,
+     82.1,
+     14.1,
+     4.63,
+     0.78
+    ],
+    [
+     "mtp-n3",
+     1,
+     62.4,
+     73.9,
+     0.68,
+     0.71
+    ],
+    [
+     "mtp-n3",
+     2,
+     66.0,
+     42.3,
+     1.1,
+     0.72
+    ],
+    [
+     "mtp-n3",
+     4,
+     60.9,
+     19.4,
+     2.15,
+     0.69
+    ],
+    [
+     "mtp-n3",
+     8,
+     80.2,
+     14.3,
+     4.34,
+     0.68
+    ],
+    [
+     "none (np16)",
+     16,
+     107.5,
+     8.5,
+     7.2,
+     null
+    ],
+    [
+     "mtp-n1 (np16)",
+     16,
+     102.9,
+     8.6,
+     7.66,
+     0.87
+    ],
+    [
+     "mtp-n3 (np16)",
+     16,
+     93.5,
+     8.6,
+     7.77,
+     0.69
+    ]
+   ]
+  },
+  "other_drafts": "separate 0.8B / 2B draft models lose (fixed ~5 ms per-layer overhead per token on a lone die); n-gram lookup finds nothing to draft",
+  "depth_server_burst": {
+   "_desc": "run-through s.5, server bursts (per-request gen tok/s; overstates 4-slot gains at 128K because drafted runs need fewer decode steps interleaved with the other slots' prefill)",
+   "columns": [
+    "depth",
+    "slots",
+    "draft",
+    "per_req_tps",
+    "sum_tps",
+    "acceptance"
+   ],
+   "rows": [
+    [
+     32768,
+     4,
+     0,
+     8.9,
+     35.7,
+     null
+    ],
+    [
+     32768,
+     4,
+     1,
+     9.7,
+     38.8,
+     0.88
+    ],
+    [
+     32768,
+     4,
+     2,
+     8.6,
+     34.2,
+     0.79
+    ],
+    [
+     32768,
+     2,
+     0,
+     17.2,
+     34.4,
+     null
+    ],
+    [
+     32768,
+     2,
+     2,
+     25.1,
+     50.2,
+     0.79
+    ],
+    [
+     32768,
+     2,
+     3,
+     25.0,
+     49.9,
+     0.69
+    ],
+    [
+     131072,
+     4,
+     0,
+     5.9,
+     23.4,
+     null
+    ],
+    [
+     131072,
+     4,
+     1,
+     9.3,
+     37.2,
+     0.97
+    ],
+    [
+     131072,
+     4,
+     2,
+     11.3,
+     45.4,
+     0.9
+    ],
+    [
+     131072,
+     2,
+     0,
+     12.7,
+     25.3,
+     null
+    ],
+    [
+     131072,
+     2,
+     2,
+     22.4,
+     44.9,
+     0.93
+    ],
+    [
+     131072,
+     2,
+     3,
+     26.0,
+     51.9,
+     0.88
+    ]
+   ]
+  },
+  "depth_steady_state_factors": {
+   "_desc": "run-through s.5, decode-only rerun from the server's own timings: decode factor vs no draft",
+   "rows": {
+    "n4_d1": {
+     "32K": 1.11,
+     "128K": 1.2
+    },
+    "n4_d2": {
+     "32K": 0.88,
+     "128K": 1.06
+    },
+    "n2_d2": {
+     "32K": 1.37,
+     "128K": 1.51
+    },
+    "n2_d3": {
+     "32K": 1.41,
+     "128K": 1.61
+    }
+   },
+   "acceptance_d1": "0.88 at 32K rising to 0.98 at 128K",
+   "recommendation": "four slots: draft 1; two slots: draft 3 (fastest per-stream long-context setting)"
+  }
+ },
+ "cost_model_four_dies": {
+  "_desc": "decode ms/token = 2.6 + 0.094 * blocks + 0.493 * GiB_of_weights (Q8_0, four dies); one die: 1.13 ms/GiB + 0.355 ms/layer",
+  "fixed_ms": 2.6,
+  "per_layer_ms": 0.094,
+  "per_GiB_ms": 0.493,
+  "one_die_per_GiB_ms": 1.13,
+  "one_die_per_layer_ms": 0.355,
+  "moe_note": "Qwen3.5-35B-A3B Q8_0: 13.0 ms on four dies (77 t/s), 12.2 ms on two (82 t/s): sparse models prefer fewer dies"
+ },
+ "power_thermal": {
+  "per_die_cap_W": 200,
+  "cap_headroom": "none (board maximum, no headroom in sysfs)",
+  "sclk_MHz": 1730,
+  "fclk_MHz": 1166,
+  "mclk": "one level under load",
+  "prefill": "at the 200 W cap, compute-limited",
+  "decode_mean_W": "90-185 depending on batch and depth",
+  "max_junction_C": 89,
+  "clamp_failure_mode": "RESOLVED (run-through): the SMC clamps all dies to 1000 MHz when DC total exceeds the 1228 W envelope (four dies at 200 W + host > ~150 W); latched until a cold power cycle; not thermal, not DPM",
+  "max_junction_note": "87 C in the 7.5 h main run; 89 C at the 8 x 192K q8_0 cell in the evening's follow-ups (another 8 h), no throttling"
+ },
+ "server_mixed_wave_tp4": {
+  "_desc": "one 130,816-token prompt beside seven 4,096-token prompts, 256 generated each (report 2 s.5)",
+  "columns": [
+   "server",
+   "batch",
+   "wall_s",
+   "long_ttft_s",
+   "long_gen_tps",
+   "long_wall_s",
+   "short_ttft_mean_s",
+   "short_ttft_max_s",
+   "short_gen_tps",
+   "short_wall_mean_s",
+   "short_wall_max_s"
+  ],
+  "rows": [
+   [
+    "unified 8x256K pool",
+    2048,
+    384,
+    308,
+    3.6,
+    382,
+    108.6,
+    331.8,
+    7.5,
+    383,
+    384
+   ],
+   [
+    "private caches 8x128K",
+    2048,
+    322,
+    264,
+    12.9,
+    322,
+    17.4,
+    43.5,
+    0.9,
+    320,
+    320
+   ],
+   [
+    "private caches 8x128K",
+    1024,
+    337,
+    282,
+    16.8,
+    null,
+    15.4,
+    45.7,
+    0.8,
+    332,
+    333
+   ],
+   [
+    "private caches 8x128K",
+    512,
+    365,
+    311,
+    35.8,
+    null,
+    15.3,
+    50.2,
+    0.9,
+    319,
+    356
+   ]
+  ],
+  "finding": "a long prefill is a head-of-line block for every slot; -b 1024/512 does not relieve it (short slots still 0.8-0.9 tok/s until the long prompt is read) and slows the long prompt (282, 311 s TTFT vs 264). Remedy: a second instance for short traffic, or an admission policy keeping very long prompts off busy slots"
+ },
+ "env_knobs_single_stream_tp4": {
+  "_desc": "run-through s.1: nineteen environment rows, tp4, llama-bench pp2048/tg256 and batched-bench batch 8; four interleaved baselines, 0.3% spread",
+  "columns": [
+   "variant",
+   "pp2048",
+   "tg256",
+   "b8_prefill",
+   "b8_decode"
+  ],
+  "rows": [
+   [
+    "baseline (mean of four)",
+    848,
+    47.6,
+    849,
+    157.0
+   ],
+   [
+    "NCCL_PROTO=LL",
+    811,
+    47.4,
+    812,
+    164.9
+   ],
+   [
+    "NCCL_PROTO=Simple / LL128",
+    848,
+    40.5,
+    849,
+    158.8
+   ],
+   [
+    "channels 8/16/32, NCCL_ALGO=Ring",
+    "847-850",
+    "47.4-47.6",
+    "848-850",
+    "152.6-158.6"
+   ],
+   [
+    "HIP_FORCE_DEV_KERNARG, GPU_MAX_HW_QUEUES 1/8, HSA_ENABLE_SDMA=0",
+    "844-849",
+    "47.4-47.5",
+    "845-849",
+    "155.7-158.6"
+   ],
+   [
+    "host C6 off / C1E+C6 off",
+    "848/847",
+    "47.2/47.4",
+    "847/846",
+    "155.9/155.1"
+   ]
+  ],
+  "finding": "the 13 ms per token that is not weight streaming is not reachable from the environment; default RCCL protocol is already LL-class; NCCL_PROTO=LL is a bench-only batch-8 trade (+5% decode in the table, 164.9 vs 157.0; the report's prose says +3.7%; -4.3% prefill) that is -0.4% aggregate and +3% TTFT in the real server at 8 clients"
+ },
+ "two_pairs_server": {
+  "_desc": "run-through s.2: two tp2 servers (one per MPX module, 8 slots each) vs one tp4 server, 1300-token prompts / 256 generated, stock build",
+  "columns": [
+   "layout",
+   "clients",
+   "agg_gen_tps",
+   "per_req_tps",
+   "ttft_s",
+   "req_wall_s"
+  ],
+  "rows": [
+   [
+    "2 x tp2, 8 slots each",
+    8,
+    75.2,
+    15.6,
+    7.9,
+    26.7
+   ],
+   [
+    "2 x tp2, 8 slots each",
+    16,
+    79.4,
+    8.0,
+    10.6,
+    50.8
+   ],
+   [
+    "tp4, 8 slots",
+    8,
+    66.1,
+    12.8,
+    6.4,
+    30.9
+   ],
+   [
+    "tp4, 8 slots",
+    16,
+    66.6,
+    11.7,
+    5.9,
+    55.4
+   ],
+   [
+    "tp4, 16 slots",
+    16,
+    63.2,
+    5.5,
+    7.4,
+    64.6
+   ]
+  ],
+  "pairs_interference": "a pair alone 93.9 tok/s, beside the other pair 93.7 (batched bench)",
+  "tp2_prefill_tps": 440,
+  "tp3": {
+   "tg256": 36.4,
+   "pp2048": 596,
+   "note": "three-die split loads and runs; vs 47.3 / 846 on four"
+  }
+ },
+ "mixed_traffic_layouts": {
+  "_desc": "run-through s.3: one 128K prompt beside seven 4K prompts, 256 generated; stock build",
+  "columns": [
+   "layout",
+   "long_ttft_s",
+   "long_gen_tps",
+   "short_gen_tps",
+   "short_wall_s"
+  ],
+  "rows": [
+   [
+    "control: one tp4 server",
+    262,
+    13.0,
+    0.9,
+    318
+   ],
+   [
+    "A: long on one tp2 pair, short on the other",
+    476,
+    23.1,
+    8.1,
+    90
+   ],
+   [
+    "B: long on tp3, short on one die",
+    401,
+    25.5,
+    5.9,
+    155
+   ]
+  ],
+  "finding": "route by prompt length at the proxy; A when short traffic dominates, B when the long prompt's first token matters more; a 128K prompt costs 4-8 minutes of first-token wait whatever the layout"
+ },
+ "quant_quality": {
+  "_desc": "run-through s.6: perplexity, mean KL divergence vs Q8_0 and top-token agreement; speed on four dies vs Q8_0",
+  "columns": [
+   "quant",
+   "GiB",
+   "perplexity",
+   "ppl_ratio",
+   "mean_kl_nats",
+   "top_token_unchanged",
+   "decode_factor",
+   "prefill_factor"
+  ],
+  "rows": [
+   [
+    "Q8_0",
+    27.05,
+    5.597,
+    1.0,
+    0.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   [
+    "Q4_0",
+    14.95,
+    6.167,
+    1.105,
+    0.091,
+    0.916,
+    1.11,
+    1.33
+   ],
+   [
+    "Q4_K_M",
+    15.33,
+    5.501,
+    0.985,
+    0.036,
+    0.953,
+    1.04,
+    0.88
+   ],
+   [
+    "Q6_K",
+    20.47,
+    5.626,
+    1.008,
+    0.019,
+    0.976,
+    1.0,
+    0.78
+   ],
+   [
+    "Q4_1",
+    16.33,
+    5.463,
+    0.979,
+    0.056,
+    0.937,
+    1.13,
+    1.33
+   ]
+  ],
+  "finding": "Q4_0 changes the top token at one position in twelve: a quality trade. Q4_K_M is the 4-bit file if 4-bit is wanted. Q6_K buys capacity (single-die 8 slots: 4K -> 17K per slot). Q4_1 has Q4_0's speed with 40% less divergence, still 1.6x Q4_K_M's"
+ },
+ "rocblas_build": {
+  "_desc": "run-through s.7: GGML_CUDA_FORCE_CUBLAS build, single-die pp2048",
+  "stock": 235,
+  "rocblas": [
+   241,
+   245
+  ],
+  "finding": "tie inside the run-to-run band; decode identical; build retired"
+ },
+ "fa_all_quants_build": {
+  "_desc": "run-through s.8: GGML_CUDA_FA_ALL_QUANTS build, 8 sequences tp4, 128 generated",
+  "columns": [
+   "kv",
+   "prefill_2k",
+   "decode_2k",
+   "prefill_32k",
+   "decode_32k",
+   "fits_8x256K"
+  ],
+  "rows": [
+   [
+    "f16",
+    847.2,
+    159.7,
+    737.1,
+    131.2,
+    false
+   ],
+   [
+    "q8_0/q8_0",
+    845.5,
+    153.2,
+    733.2,
+    111.2,
+    false
+   ],
+   [
+    "q8_0/q4_0",
+    846.1,
+    152.8,
+    733.4,
+    107.4,
+    true
+   ]
+  ],
+  "q8_0_q4_0_at_8x256K": {
+   "prefill_tps": 848.6,
+   "decode_tps": 142.8,
+   "prompt": 512
+  },
+  "perplexity": {
+   "f16": 5.615,
+   "q8_0/q8_0": 5.611,
+   "q8_0/q4_0": 5.619,
+   "pm": 0.062
+  },
+  "finding": "4-bit values run on this build at a 3% cost vs q8_0 at depth (-18% vs f16) and are the first configuration holding eight full 256K contexts; a capacity mode, free in quality. q8_0/q8_0 still fails 8 x 256K on its 9.5 GiB compute buffer"
+ },
+ "mmvq16_patch": {
+  "_desc": "run-through s.9: MMVQ_MAX_BATCH_SIZE 8 -> 16, 2048-token prompts, decode aggregate; 1186/1186 mul_mat tests pass",
+  "columns": [
+   "batch",
+   "tp4_stock",
+   "tp4_patched",
+   "one_die_stock",
+   "one_die_patched"
+  ],
+  "rows": [
+   [
+    8,
+    159.5,
+    158.2,
+    52.8,
+    52.7
+   ],
+   [
+    9,
+    96.5,
+    162.6,
+    null,
+    null
+   ],
+   [
+    12,
+    122.5,
+    174.6,
+    54.7,
+    51.7
+   ],
+   [
+    16,
+    152.5,
+    170.7,
+    63.0,
+    46.6
+   ]
+  ],
+  "finding": "stair removed on the split (12 slots the new peak); on one die the 16-column kernel needs 113 VGPRs, two waves/SIMD, and loses to the tile kernel"
+ },
+ "mmvq_diagnosis": {
+  "_desc": "run-through s.10: static instruction counts and hardware counters, one die, per vector-kernel dispatch",
+  "columns": [
+   "metric",
+   "batch1",
+   "batch8",
+   "ratio"
+  ],
+  "rows": [
+   [
+    "registers per thread",
+    20,
+    64,
+    null
+   ],
+   [
+    "VALU instructions per wave",
+    157,
+    637,
+    4.1
+   ],
+   [
+    "memory-read instructions per wave",
+    29,
+    96,
+    3.3
+   ],
+   [
+    "waves per dispatch",
+    14100,
+    11900,
+    0.84
+   ],
+   [
+    "GPU cycles per dispatch",
+    184000,
+    413000,
+    2.25
+   ],
+   [
+    "VALU busy",
+    0.2,
+    0.3,
+    1.5
+   ],
+   [
+    "LDS-wait cycles per VALU-active cycle",
+    0.002,
+    0.005,
+    null
+   ]
+  ],
+  "finding": "not issue-bound: SIMDs 30% busy, the rest is load latency (96 loads per wave behind a 15-deep wait chain at 4 waves/SIMD). The rewrite then showed the binding resource is load instructions per dot product, not occupancy: halving registers doubles waves and loses 20-35%"
+ },
+ "mmvq_rewrite_builds": {
+  "_desc": "run-through s.10c: ten builds, decode aggregate tok/s; tp4 at 2048-token prompts, one die at 512; all pass 1186/1186 tests",
+  "columns": [
+   "build",
+   "tp4_b8",
+   "tp4_b12",
+   "tp4_b16",
+   "die_b4",
+   "die_b8"
+  ],
+  "rows": [
+   [
+    "stock b10288",
+    160.9,
+    122.3,
+    152.3,
+    48.3,
+    52.7
+   ],
+   [
+    "mmvq16 patch (rows 2, warps 1)",
+    160.6,
+    176.6,
+    171.3,
+    48.2,
+    52.7
+   ],
+   [
+    "rows 1 (any warps)",
+    "111-124",
+    "100-119",
+    "98-114",
+    "37-39",
+    "34-37"
+   ],
+   [
+    "rows 2, warps 2",
+    139.0,
+    161.8,
+    153.7,
+    48.2,
+    43.5
+   ],
+   [
+    "fast path, rows 2, warps 1",
+    172.1,
+    196.9,
+    207.3,
+    49.2,
+    59.7
+   ],
+   [
+    "rows 4, warps 1",
+    170.1,
+    166.3,
+    176.1,
+    51.1,
+    70.5
+   ],
+   [
+    "fast path, rows 4, warps 1",
+    172.6,
+    170.0,
+    172.1,
+    54.3,
+    71.6
+   ],
+   [
+    "fast path, hybrid rows 4/2 (serving build)",
+    174.1,
+    197.7,
+    207.2,
+    55.0,
+    72.2
+   ]
+  ],
+  "losers": "whole-32-weight-block load per thread (-16 to -32% at b8, +5% only at b1: dependent chain 4x longer); LDS-staged shared activations (-16 to -52%: a barrier); aligned-dword weight load (-9 to -17%); rows 8 (register pressure)",
+  "rule": "fewer instructions per dot product wins; anything adding a barrier or lengthening a dependent chain loses; registers beyond ~64/thread lose"
+ },
+ "fork_tile_table": {
+  "_desc": "run-through s.11: ML-gfx906 fork (b10254) with its gfx906 MMQ tile table + 14-line K-quant patch vs stock b10288, same session",
+  "columns": [
+   "quant",
+   "build",
+   "die_pp2048",
+   "die_tg256",
+   "tp4_pp2048",
+   "tp4_tg256"
+  ],
+  "rows": [
+   [
+    "Q8_0",
+    "stock",
+    233.6,
+    20.6,
+    848,
+    47.3
+   ],
+   [
+    "Q8_0",
+    "fork",
+    315.0,
+    20.8,
+    1130,
+    49.1
+   ],
+   [
+    "Q6_K",
+    "stock",
+    175.0,
+    21.0,
+    658,
+    47.5
+   ],
+   [
+    "Q6_K",
+    "fork",
+    228.7,
+    21.0,
+    827,
+    49.4
+   ],
+   [
+    "Q4_K_M",
+    "stock",
+    201.3,
+    24.9,
+    746,
+    49.7
+   ],
+   [
+    "Q4_K_M",
+    "fork",
+    216.7,
+    25.0,
+    796,
+    51.8
+   ]
+  ],
+  "finding": "the gain is the fork's Q8_0 tile table, not the K-quant patch: upstream's integer matrix kernel uses a generic tile table on gfx906"
+ },
+ "production_build": {
+  "_desc": "run-through s.11: fork + fastpath kernel ('mxxm+fh'), Q8_0, perplexity 5.5969 = stock to four digits",
+  "bench": {
+   "columns": [
+    "build",
+    "die_pp2048",
+    "tp4_pp2048",
+    "tp4_dec_b8",
+    "tp4_dec_b12",
+    "tp4_dec_b16",
+    "die_dec_b4",
+    "die_dec_b8",
+    "tp4_req_tps_8slots",
+    "tp4_req_tps_16slots"
+   ],
+   "rows": [
+    [
+     "stock b10288",
+     229.8,
+     848,
+     159.8,
+     122.5,
+     152.7,
+     48.3,
+     52.7,
+     677,
+     669
+    ],
+    [
+     "prod (fork + kernel)",
+     313.6,
+     1130,
+     173.6,
+     198.6,
+     204.1,
+     53.3,
+     69.1,
+     861,
+     900
+    ]
+   ],
+   "note": "decode at 2048-token prompts on the split, 512 on one die; 'req_tps' is batched-bench end-to-end tok/s for 2048 in / 128 out; batched-bench's first batch pays a one-time cost on any build"
+  },
+  "server_16_slots": {
+   "_desc": "llama-server tp4 -np 16, 1300-token prompts / 256 generated, aggregate over the wave's wall clock, prompt time included",
+   "columns": [
+    "clients",
+    "prod_agg",
+    "stock_agg",
+    "prod_per_req",
+    "stock_per_req",
+    "prod_ttft",
+    "stock_ttft",
+    "two_pairs_agg",
+    "two_pairs_ttft"
+   ],
+   "rows": [
+    [
+     4,
+     65.1,
+     57.9,
+     28.2,
+     27.0,
+     4.96,
+     6.2,
+     null,
+     null
+    ],
+    [
+     8,
+     75.5,
+     65.1,
+     14.5,
+     13.0,
+     5.25,
+     6.66,
+     75.2,
+     7.91
+    ],
+    [
+     12,
+     83.1,
+     58.8,
+     10.1,
+     6.7,
+     5.65,
+     7.29,
+     null,
+     null
+    ],
+    [
+     16,
+     82.1,
+     63.6,
+     7.3,
+     5.5,
+     5.63,
+     7.38,
+     79.4,
+     10.56
+    ]
+   ],
+   "finding": "+16% at 8 clients, +41% at 12, +29% at 16 over stock; one four-die server at 16 slots matches the two pairs at 8 clients and beats them at 16 with half their TTFT; the pairs remain the answer to head-of-line blocking"
+  }
+ },
+ "power_envelope": {
+  "_desc": "run-through: the '1000 MHz clamp' is the Mac Pro's SMC clamping all dies hive-wide when DC total passes 1228 W; cleared only by a cold power cycle",
+  "columns": [
+   "phase",
+   "load",
+   "dc_total_W",
+   "ac_W",
+   "cpu_zone_W",
+   "result"
+  ],
+  "rows": [
+   [
+    0,
+    "idle",
+    302,
+    358,
+    37,
+    "1730 MHz"
+   ],
+   [
+    1,
+    "rocBLAS single-die prefill",
+    548,
+    675,
+    84,
+    "no clamp"
+   ],
+   [
+    2,
+    "four dies at 200 W cap, host idle",
+    1062,
+    1353,
+    88,
+    "no clamp"
+   ],
+   [
+    3,
+    "same + full CPU load",
+    1264,
+    1428,
+    303,
+    "clamped in 20 s, latched"
+   ]
+  ],
+  "dc_envelope_W": 1228,
+  "rules": "host CPU RAPL-capped at 150 W by every benchmark script; no host work beside GPU jobs; watchdog stops the chain near the envelope; cold cycle after any clamp",
+  "unexplained": "the 06:47 clamp, 3.5 h into a chain with no power log"
+ },
+ "power_cap_study": {
+  "_desc": "run-through: production build, tp4 -np 16, 16 clients, 1300/256; energy integrated over a 32-request wave at the two MPX bays (SMC) and the dies (hwmon); geometric mean per cap; down/up agree within 0.3%",
+  "columns": [
+   "cap_W",
+   "samples",
+   "agg_gen_tps",
+   "vs_200",
+   "gen_tok_per_kJ_bays",
+   "vs_200_kJ",
+   "ttft_s",
+   "bays_W",
+   "dies_W",
+   "die_C"
+  ],
+  "rows": [
+   [
+    200,
+    2,
+    87.1,
+    0.0,
+    105.0,
+    0.0,
+    5.24,
+    843,
+    701,
+    73
+   ],
+   [
+    185,
+    2,
+    86.6,
+    -0.006,
+    108.0,
+    0.028,
+    5.32,
+    811,
+    669,
+    71
+   ],
+   [
+    170,
+    2,
+    84.7,
+    -0.027,
+    113.0,
+    0.075,
+    5.46,
+    759,
+    640,
+    69
+   ],
+   [
+    155,
+    2,
+    82.5,
+    -0.053,
+    117.9,
+    0.122,
+    5.61,
+    705,
+    571,
+    65
+   ],
+   [
+    140,
+    2,
+    79.4,
+    -0.089,
+    124.1,
+    0.182,
+    5.83,
+    644,
+    531,
+    61
+   ],
+   [
+    125,
+    2,
+    75.3,
+    -0.135,
+    130.9,
+    0.246,
+    6.13,
+    579,
+    473,
+    57
+   ],
+   [
+    110,
+    2,
+    70.0,
+    -0.196,
+    137.0,
+    0.304,
+    6.58,
+    515,
+    408,
+    53
+   ],
+   [
+    95,
+    10,
+    63.3,
+    -0.274,
+    141.3,
+    0.345,
+    7.3,
+    451,
+    363,
+    49
+   ],
+   [
+    90,
+    8,
+    61.5,
+    -0.294,
+    143.7,
+    0.368,
+    7.6,
+    431,
+    348,
+    48
+   ],
+   [
+    85,
+    8,
+    60.6,
+    -0.304,
+    146.0,
+    0.39,
+    7.8,
+    419,
+    338,
+    47
+   ],
+   [
+    80,
+    10,
+    60.3,
+    -0.308,
+    147.2,
+    0.401,
+    7.87,
+    414,
+    336,
+    47
+   ],
+   [
+    75,
+    8,
+    60.2,
+    -0.309,
+    147.2,
+    0.401,
+    7.91,
+    412,
+    335,
+    47
+   ],
+   [
+    70,
+    8,
+    60.2,
+    -0.309,
+    147.4,
+    0.404,
+    7.92,
+    411,
+    333,
+    47
+   ],
+   [
+    65,
+    8,
+    60.1,
+    -0.31,
+    147.3,
+    0.402,
+    7.93,
+    411,
+    333,
+    47
+   ]
+  ],
+  "floor": "below ~85 W the cap is accepted and ignored: dies sit at sclk level 0 (999-1000 MHz), ~83 W each under this load, 34 W idle; caps 65/40/20/10 W all give the same 60 tok/s point; mclk (1000 MHz), socclk (971) and fclk (1166) are fixed on this firmware",
+  "recommendation": [
+   [
+    "max throughput",
+    200,
+    87.1,
+    105
+   ],
+   [
+    "within 2%",
+    185,
+    86.6,
+    108
+   ],
+   [
+    "within 5%",
+    170,
+    84.7,
+    113
+   ],
+   [
+    "within 10%",
+    140,
+    79.4,
+    124
+   ],
+   [
+    "max per-watt",
+    85,
+    60.6,
+    146
+   ]
+  ],
+  "eight_vs_sixteen_clients": {
+   "columns": [
+    "cap_W",
+    "clients",
+    "agg_gen_tps",
+    "gen_tok_per_kJ",
+    "ttft_s",
+    "bays_W"
+   ],
+   "rows": [
+    [
+     200,
+     8,
+     55.5,
+     83.5,
+     4.77,
+     672
+    ],
+    [
+     200,
+     16,
+     88.5,
+     105.0,
+     5.24,
+     848
+    ],
+    [
+     70,
+     8,
+     40.8,
+     110.0,
+     7.18,
+     372
+    ],
+    [
+     70,
+     16,
+     60.1,
+     147.1,
+     7.92,
+     411
+    ]
+   ],
+   "finding": "filling slots moves energy per token more than the cap does; lower the cap after the server is full, not instead"
+  },
+  "hbm_bandwidth_under_cap": {
+   "read_GBps": "880-892 at every cap",
+   "copy_GBps": "713-718 at every cap",
+   "finding": "bandwidth does not move with the cap; the L2 at the GFX clock passes 1024 B/clk and still clears HBM peak at 999 MHz; a streaming load draws ~115 W/die at any cap <= 110 W, and the cap binds at ~140 W (1445 MHz) for streaming vs ~90 W for decode"
+  },
+  "marginal_dc_W_per_tps": {
+   "85-90": 14.5,
+   "90-95": 11.3,
+   "95-110": 9.4,
+   "110-125": 12.0,
+   "125-140": 15.8,
+   "140-155": 19.8,
+   "155-170": 23.7,
+   "170-185": 27.8,
+   "185-200": 58.1
+  },
+  "fleet": {
+   "idle_dc_W": 244,
+   "floor_node_16_clients": {
+    "tps": 60.6,
+    "dc_W": 575,
+    "W_per_tps_increment": 5.5,
+    "kWh_per_Mtok": 1.5
+   },
+   "hyperconverged_rule": "all three nodes at the floor first (182 tok/s for 993 W above idle), then caps in lockstep to 125 W (226 tok/s), never higher; HA plan = two nodes inside the envelope, 165 tok/s at 155 W",
+   "production_cap_W": 125,
+   "production_envelope_note": "125 W is the highest cap inside 1228 W with the host at its RAPL ceiling and every planned addition (4x NVMe on PLX, 2x ConnectX-4 Lx, 2x SATA) at maximum: 30 W margin pinned; above 140 W depends on the host never running all-core while dies are pinned",
+   "governor": "not built: read DC total each second, lower the four caps when it passes ~1150 W (the SMC clamps ~20 s after the envelope is crossed)"
+  },
+  "morning_sweep_stock_8slots": {
+   "columns": [
+    "cap_W",
+    "die_pp2048",
+    "tp4_tg256",
+    "server_8_clients_agg",
+    "dies_W",
+    "bays_W"
+   ],
+   "rows": [
+    [
+     200,
+     232.9,
+     47.4,
+     65.7,
+     614,
+     761
+    ],
+    [
+     185,
+     225.9,
+     47.1,
+     65.5,
+     655,
+     778
+    ],
+    [
+     175,
+     222.3,
+     47.2,
+     64.5,
+     551,
+     736
+    ],
+    [
+     160,
+     215.1,
+     46.5,
+     63.0,
+     532,
+     704
+    ],
+    [
+     150,
+     209.6,
+     45.8,
+     61.6,
+     531,
+     687
+    ],
+    [
+     200,
+     226.7,
+     47.1,
+     65.7,
+     684,
+     747
+    ]
+   ],
+   "note": "stock build; single-stream decode never reaches the cap, only prefill pays for a lower cap"
+  }
+ },
+ "m1_kernel_trace": {
+  "_desc": "M1 (2026-09-08, reports/2026-09-08-m1-kernel-trace.md): rocprofv3 kernel trace of llama-bench tg64 single stream, production build; medians over 55 steady-state tokens, per die; tools/m1-trace.sh + tools/m1-analyze.py. Unprofiled token from the -r 3 reference; busy = union of kernel intervals; small = every kernel that is neither mul_mat_vec_q nor RCCL",
+  "columns": [
+   "config",
+   "token_ms_unprofiled",
+   "tps_unprofiled",
+   "kernels_per_token_per_die",
+   "graph_launches_per_die",
+   "rccl_allreduces",
+   "host_syncs",
+   "busy_ms",
+   "idle_ms",
+   "mmvq_ms",
+   "mmvq_GBps",
+   "mmvq_frac_of_hbm",
+   "rccl_ms",
+   "rccl_us_each",
+   "small_kernels",
+   "small_ms",
+   "quantize_ms",
+   "norm_ms",
+   "resid_add_ms",
+   "linear_attn_chain_ms",
+   "fa_ms"
+  ],
+  "rows": [
+   [
+    "tp4 (per die)",
+    21.5,
+    46.5,
+    1866,
+    129,
+    128,
+    16,
+    20.4,
+    1.1,
+    11.2,
+    605,
+    0.68,
+    3.44,
+    27,
+    1305,
+    5.8,
+    1.0,
+    1.5,
+    0.7,
+    1.7,
+    0.4
+   ],
+   [
+    "one die",
+    50.9,
+    19.64,
+    1658,
+    null,
+    0,
+    null,
+    51.0,
+    0.4,
+    44.7,
+    611,
+    0.69,
+    0.0,
+    null,
+    1225,
+    6.4,
+    1.0,
+    1.6,
+    0.4,
+    2.4,
+    0.4
+   ]
+  ]
+ },
+ "m2_slots_prod": {
+  "_desc": "M2 (2026-09-08, bench/m2-slots-prod.sh): production build (mxxm+fh) tp4 llama-batched-bench, -ntg 128, f16 KV, -b 2048 -ub 2048 -fa on; 2K at -c 69632, 8K/32K at -c 1052672. DC total peaked at 1199 W (SMC PZ0G) during the 32-slot 32K prefill at the 200 W caps with the host at 150 W RAPL",
+  "columns": [
+   "prompt",
+   "slots",
+   "prefill_tps",
+   "decode_tps",
+   "per_seq_tps",
+   "e2e_tps"
+  ],
+  "rows": [
+   [
+    2048,
+    8,
+    1139.56,
+    175.07,
+    21.9,
+    860.64
+   ],
+   [
+    2048,
+    12,
+    1143.36,
+    197.31,
+    16.4,
+    891.83
+   ],
+   [
+    2048,
+    16,
+    1142.81,
+    203.72,
+    12.7,
+    899.03
+   ],
+   [
+    2048,
+    24,
+    1142.89,
+    192.64,
+    8.0,
+    885.85
+   ],
+   [
+    2048,
+    32,
+    1143.2,
+    212.68,
+    6.6,
+    909.21
+   ],
+   [
+    8192,
+    12,
+    1100.53,
+    185.89,
+    15.5,
+    1023.09
+   ],
+   [
+    8192,
+    16,
+    1100.94,
+    192.79,
+    12.0,
+    1026.55
+   ],
+   [
+    8192,
+    24,
+    1100.34,
+    183.18,
+    7.6,
+    1021.65
+   ],
+   [
+    8192,
+    32,
+    1100.32,
+    202.76,
+    6.3,
+    1030.16
+   ],
+   [
+    32768,
+    12,
+    959.19,
+    148.71,
+    12.4,
+    939.27
+   ],
+   [
+    32768,
+    16,
+    959.1,
+    159.63,
+    10.0,
+    940.77
+   ],
+   [
+    32768,
+    24,
+    959.24,
+    152.48,
+    6.4,
+    939.89
+   ],
+   [
+    32768,
+    32,
+    959.07,
+    167.99,
+    5.2,
+    941.81
+   ]
+  ],
+  "vs_stock_2k": {
+   "24": 1.191,
+   "32": 1.187,
+   "note": "stock 2K decode at 24/32 slots = 161.7/179.2 (batched_bench_tp4_2k gen_tps_2048); the fork's MMQ tile table lifts the 24/32-slot decode by 19%, its prefill by 33%"
+  }
+ },
+ "kv_unified_b10837": {
+  "_desc": "M4",
+  "batched_8x32k_m4": {
+   "columns": [
+    "mode",
+    "prefill_tps",
+    "decode_tps"
+   ],
+   "rows": [
+    [
+     "private",
+     742.45,
+     128.91
+    ],
+    [
+     "unified",
+     400.78,
+     85.47
+    ]
+   ]
+  }
+ },
+ "fork_knobs_sweep": {
+  "_desc": "queue-13 (2026-09-08, bench/forkknobs-sweep.sh): the ML-gfx906 fork's own custom peer-write XGMI allreduce (tp-allreduce.cu, GGML_ENABLE_CUSTOM_AR=1; on gfx906 the broadcast kernel needs HSA_FORCE_FINE_GRAIN_PCIE=1) and whole-token HIP graph (GGML_META_TOKEN_GRAPH, records only on the custom AR), production build tp4; llama-bench pp2048/tg128 -r 2, batched-bench 8/16 slots at 2K",
+  "columns": [
+   "variant",
+   "env",
+   "pp2048",
+   "tg128",
+   "slots8_2k",
+   "slots16_2k"
+  ],
+  "rows": [
+   [
+    "baseline",
+    "",
+    1127.95,
+    47.69,
+    174.49,
+    203.76
+   ],
+   [
+    "custom-ar-oneshot",
+    "GGML_ENABLE_CUSTOM_AR=1",
+    1128.74,
+    47.74,
+    174.25,
+    204.14
+   ],
+   [
+    "peerwrite",
+    "GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1",
+    1129.1,
+    54.33,
+    160.16,
+    187.84
+   ],
+   [
+    "peerwrite-no-tg",
+    "+ GGML_META_TOKEN_GRAPH=0",
+    1129.43,
+    52.43,
+    155.06,
+    182.06
+   ],
+   [
+    "peerwrite-nogate",
+    "+ GGML_TP_AR_NO_GATE=1",
+    719.99,
+    54.19,
+    158.47,
+    185.03
+   ],
+   [
+    "fgp-only",
+    "HSA_FORCE_FINE_GRAIN_PCIE=1",
+    1128.96,
+    47.79,
+    174.82,
+    204.3
+   ],
+   [
+    "serial-dispatch",
+    "GGML_META_PARALLEL_DISPATCH=0",
+    1127.32,
+    46.9,
+    173.86,
+    203.12
+   ],
+   [
+    "baseline-repeat",
+    "",
+    1129.16,
+    47.66,
+    174.55,
+    204.07
+   ]
+  ],
+  "perplexity_peerwrite": "5.5969 +/- 0.062 (= RCCL)",
+  "trace_peerwrite": "4 hipGraphLaunch per token (one per die) instead of 516; k_broadcast_reduce<4> 128 per token per die, 46 us average including the spin-wait",
+  "note": "single stream +13.9% (custom AR +9.9%, the whole-token graph +3.6% on top); 8/16 slots -8% because the default gate (ne < 262144) also routes their 8-16-row messages through the peer-write kernel; NO_GATE costs a third of prefill; fine-grained memory alone is free; serial dispatch -1.7%"
+ },
+ "ar_gate_sweep": {
+  "_desc": "queue-17 (2026-09-08, bench/ar-gate-sweep.sh): size gate for the fork's peer-write custom allreduce (GGML_TP_AR_MAX_NE, fusion-tree commit 25e1d46) on the fusion build tp4; batched-bench -npl 1,2,4,8,16 at 2K (decode tok/s); llama-bench tg128 -r 3 for base and the 1-row gate. n_embd 5120 = one decode row per allreduce message",
+  "columns": [
+   "variant",
+   "max_ne",
+   "slots1",
+   "slots2",
+   "slots4",
+   "slots8",
+   "slots16",
+   "tg128_llama_bench"
+  ],
+  "rows": [
+   [
+    "base (RCCL)",
+    null,
+    48.89,
+    77.05,
+    121.98,
+    175.0,
+    203.86,
+    49.39
+   ],
+   [
+    "peer-write, fork default gate",
+    262144,
+    55.82,
+    92.18,
+    124.85,
+    160.11,
+    187.39,
+    null
+   ],
+   [
+    "peer-write, 1 row",
+    5121,
+    52.12,
+    76.35,
+    121.14,
+    175.33,
+    203.93,
+    56.55
+   ],
+   [
+    "peer-write, 2 rows",
+    10241,
+    44.85,
+    92.88,
+    122.12,
+    175.72,
+    203.92,
+    null
+   ],
+   [
+    "peer-write, 4 rows",
+    20481,
+    54.26,
+    91.7,
+    123.64,
+    174.91,
+    204.11,
+    null
+   ],
+   [
+    "peer-write, 8 rows",
+    40961,
+    54.59,
+    92.98,
+    125.5,
+    166.56,
+    203.81,
+    null
+   ],
+   [
+    "base again",
+    null,
+    48.82,
+    76.97,
+    122.46,
+    174.83,
+    203.72,
+    null
+   ]
+  ],
+  "note": "the batched bench's 1-slot cell is unreliable with the custom AR (44.9-55.8 across gates that treat one row identically: the whole-token graph warms up during the first batch); llama-bench tg128 is the single-stream figure. Crossover at 4 rows: +19-20% at 2 rows, +1-3% at 4, -5% at 8 when 8-row messages go through the custom path. ADOPTED: GGML_TP_AR_MAX_NE=20481 (4 rows) with GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 on builds that carry the knob"
+ },
+ "fusion_nq_test": {
+  "_desc": "queue-14/15 (2026-09-08, bench/nq-test.sh + nq-check2.sh): kernel-fusion build (/opt/llama.cpp-mxxm-fh-nq = production source + patches/0001..0003) vs the production build; llama-bench -r 3, tp4 and one die; each fusion switched off by its env knob",
+  "columns": [
+   "variant",
+   "env",
+   "tp4_pp2048",
+   "tp4_tg128",
+   "die0_pp2048",
+   "die0_tg128",
+   "greedy_identical",
+   "ppl_16k"
+  ],
+  "rows": [
+   [
+    "production",
+    "",
+    1127.56,
+    48.17,
+    321.71,
+    20.32,
+    true,
+    5.5969
+   ],
+   [
+    "fusions, all on",
+    "",
+    1051.97,
+    49.51,
+    310.93,
+    20.45,
+    false,
+    5.6083
+   ],
+   [
+    "all off",
+    "GGML_CUDA_NORM_Q8=0 GGML_CUDA_ADD_NORM=0 GGML_CUDA_GDN_PREFUSE=0",
+    1127.68,
+    47.97,
+    327.85,
+    20.62,
+    true,
+    5.5969
+   ],
+   [
+    "q8 off",
+    "GGML_CUDA_NORM_Q8=0",
+    1053.96,
+    49.81,
+    310.9,
+    20.61,
+    null,
+    null
+   ],
+   [
+    "add+norm off",
+    "GGML_CUDA_ADD_NORM=0",
+    1048.54,
+    48.7,
+    310.53,
+    20.62,
+    null,
+    null
+   ],
+   [
+    "GDN fold off",
+    "GGML_CUDA_GDN_PREFUSE=0",
+    1135.21,
+    48.61,
+    328.5,
+    20.34,
+    true,
+    null
+   ],
+   [
+    "q8 only",
+    "GGML_CUDA_ADD_NORM=0 GGML_CUDA_GDN_PREFUSE=0",
+    null,
+    null,
+    null,
+    null,
+    true,
+    5.5969
+   ],
+   [
+    "add+norm only",
+    "GGML_CUDA_NORM_Q8=0 GGML_CUDA_GDN_PREFUSE=0",
+    null,
+    null,
+    null,
+    null,
+    true,
+    5.5969
+   ],
+   [
+    "GDN fold only",
+    "GGML_CUDA_NORM_Q8=0 GGML_CUDA_ADD_NORM=0",
+    null,
+    null,
+    null,
+    null,
+    false,
+    5.6083
+   ],
+   [
+    "production again",
+    "",
+    1129.55,
+    48.05,
+    322.24,
+    20.3,
+    null,
+    null
+   ],
+   [
+    "fusions again",
+    "",
+    1053.42,
+    49.44,
+    310.95,
+    20.45,
+    null,
+    null
+   ]
+  ],
+  "trace": "tp4 single stream: 1466 kernels per token per die (production 1866), busy 19.3 ms (20.4); the q8-emitting norm takes 10.5 us against 6.4 + 3.9 for norm + quantize, i.e. the fused kernel costs what the two kernels cost",
+  "batched_2k": {
+   "fusions": [
+    175.42,
+    204.37
+   ],
+   "production": [
+    174.92,
+    204.46
+   ],
+   "all_off": [
+    174.61,
+    204.0
+   ],
+   "note": "8 / 16 slots decode tok/s: unchanged; prefill on the fusion build 1048/1068 vs 1137/1146 (GDN fold at prefill), 1106/1144 with all off"
+  },
+  "note": "q8 fusion and add+norm are bit-exact (greedy identical, 5.5969); the GDN fold changes numerics (5.6083, greedy diverges at char 556) and costs 7% of prefill on tp4 (fixed by restricting it to <= 64 tokens, commit 463bab8; sub-fold under test). Gains: add+norm +1.6% single stream, GDN fold +1.8%, q8 fusion 0 (-0.6%): the small kernels are latency-bound, so fusing dependent phases keeps their latency",
+  "gdn_subfold": {
+   "_desc": "queue-16 gdn-subfold-check.sh (restricted build, folds only at <= 64 rows): greedy vs production and PPL 16K (2048-token batches, so the folds are not exercised by the perplexity run)",
+   "rows": [
+    [
+     "q/k L2 fold only",
+     556,
+     5.5969
+    ],
+    [
+     "beta sigmoid fold only",
+     -1,
+     5.5969
+    ],
+    [
+     "all",
+     556,
+     5.5969
+    ],
+    [
+     "off",
+     -1,
+     5.5969
+    ]
+   ],
+   "note": "the earlier 5.6083 came from the fold running at prefill (2048-token GDN steps), now excluded; the sigmoid fold is bit-exact; the L2 fold's late greedy divergence is the summation order (32-thread standalone kernel vs 64-lane warp) and was made bit-exact in commit 797124c, checked by the final-config run (greedy + KL at 64-token batches)"
+  }
+ },
+ "mtp_prod_build": {
+  "_desc": "M3 (2026-09-08, bench/m3-mtp-prod-real.sh): MTP on the production build (mxxm+fh), tp4 llama-server, greedy, 300 generated, N concurrent distinct wikitext prompts, two waves; wave 2 = decode only (sum of per-request gen tok/s while all N decode). Stock reference: run-through / report 2 s.8",
+  "columns": [
+   "prompt",
+   "slots",
+   "draft",
+   "wave2_sum_per_req_tps",
+   "vs_none",
+   "acceptance"
+  ],
+  "rows": [
+   [
+    2048,
+    4,
+    0,
+    116.8,
+    0.0,
+    null
+   ],
+   [
+    2048,
+    4,
+    1,
+    132.8,
+    0.137,
+    0.84
+   ],
+   [
+    2048,
+    4,
+    2,
+    134.0,
+    0.147,
+    0.72
+   ],
+   [
+    2048,
+    4,
+    3,
+    133.0,
+    0.139,
+    0.64
+   ],
+   [
+    2048,
+    8,
+    0,
+    161.1,
+    0.0,
+    null
+   ],
+   [
+    2048,
+    8,
+    1,
+    157.6,
+    -0.022,
+    0.86
+   ],
+   [
+    32768,
+    4,
+    0,
+    100.6,
+    0.0,
+    null
+   ],
+   [
+    32768,
+    4,
+    1,
+    116.4,
+    0.157,
+    0.88
+   ],
+   [
+    32768,
+    4,
+    2,
+    121.6,
+    0.209,
+    0.78
+   ],
+   [
+    32768,
+    4,
+    3,
+    123.6,
+    0.229,
+    0.73
+   ],
+   [
+    32768,
+    8,
+    0,
+    133.0,
+    0.0,
+    null
+   ],
+   [
+    32768,
+    8,
+    1,
+    140.0,
+    0.053,
+    0.89
+   ]
+  ],
+  "stock_reference_32k_4slots": {
+   "none": 96.9,
+   "draft1": 107.6,
+   "draft2": 84.8
+  },
+  "note": "the verify-batch rule relaxes from <= 8 to <= 16 rows on the production build: 4 slots x draft 3 (16 rows) is +23% at 32K where draft 2 lost 12% on stock; 8 slots x draft 1 (16 rows) is neutral at 2K and +5% at 32K. Schedule: slots x (draft + 1) <= 16"
+ },
+ "tp2x2_prod_server": {
+  "_desc": "TODO item 8 (2026-09-08, bench/tp2x2-prod-real.sh): two tp2 servers (rocm0+1 / rocm2+3) on the production build, dual-server-bench, 1300-token prompts / 256 generated, aggregate over the wave's wall clock (prompt time included)",
+  "columns": [
+   "slots_per_server",
+   "clients_total",
+   "agg_gen_tps",
+   "total_tps",
+   "req_per_min",
+   "per_req_gen_tps",
+   "ttft_s",
+   "per_server_agg"
+  ],
+  "rows": [
+   [
+    8,
+    8,
+    90.7,
+    551,
+    21.3,
+    18.2,
+    6.78,
+    45.3
+   ],
+   [
+    8,
+    16,
+    100.3,
+    610,
+    23.5,
+    10.0,
+    8.79,
+    50.2
+   ],
+   [
+    16,
+    16,
+    101.7,
+    618,
+    23.8,
+    9.7,
+    7.92,
+    50.8
+   ],
+   [
+    16,
+    32,
+    97.0,
+    589,
+    22.7,
+    4.3,
+    9.35,
+    48.5
+   ]
+  ],
+  "references": {
+   "stock_pairs_8slots": [
+    75.2,
+    79.4
+   ],
+   "prod_tp4_np16_server": {
+    "8": 75.5,
+    "16": 82.1,
+    "ttft_16": 5.6
+   }
+  },
+  "note": "server level: the pairs at 8 slots each beat the production tp4 server at 16 slots by +20% at 8 clients and +22% at 16 (100.3 vs 82.1), at 3 s more first-token latency; 16 slots per pair add nothing (101.7 at 16 clients, 97.0 at 32). Batched-bench decode-only still favours tp4 (204 at 16 slots, 213 at 32); the server-level difference is the prefill/decode interleaving of one server against two"
+ },
+ "mmvq_batch1_variants": {
+  "_desc": "queue-16 (2026-09-08, bench/b1-sweep.sh, builds bench/b1-variants-build.sh): S6 batch-1 MMVQ knobs on the fusion tree (GGML_MMVQ_GCN_ROWS1 / NWARPS1 / Q8_VDR8_1COL, commit e6938f2); llama-bench -p 0 -n 128 -r 3, tp4 and one die",
+  "columns": [
+   "build",
+   "rows1",
+   "nwarps1",
+   "vdr8_1col",
+   "tp4_tg128",
+   "die0_tg128"
+  ],
+  "rows": [
+   [
+    "nq-base",
+    1,
+    2,
+    0,
+    49.3,
+    20.32
+   ],
+   [
+    "r2",
+    2,
+    2,
+    0,
+    49.34,
+    21.22
+   ],
+   [
+    "r4",
+    4,
+    2,
+    0,
+    48.46,
+    21.38
+   ],
+   [
+    "v8",
+    1,
+    2,
+    1,
+    50.73,
+    21.77
+   ],
+   [
+    "r2v8",
+    2,
+    2,
+    1,
+    50.27,
+    21.6
+   ],
+   [
+    "w4",
+    1,
+    4,
+    0,
+    46.85,
+    20.39
+   ],
+   [
+    "production (no fusions)",
+    1,
+    2,
+    0,
+    47.93,
+    20.23
+   ],
+   [
+    "nq-base again",
+    1,
+    2,
+    0,
+    49.4,
+    20.45
+   ]
+  ],
+  "note": "the whole-block (vdr 8) load at one column wins on both: +2.8% on the split, +7.1% on one die; rows 2/4 per block help only one die (+4-5%) and cost the split 0-2%; four warps lose 5% on the split. Adopted: GGML_MMVQ_GCN_Q8_VDR8_1COL=1 (commit d49570b). One column stays at 68% -> ~73% of HBM on the split"
+ },
+ "graph_opt_split": {
+  "_desc": "queue-16 graphopt-check.sh (2026-09-08): the fork's multi-stream graph optimisation (GGML_CUDA_GRAPH_OPT=1 single device; =2 also on tensor-split lanes, fusion-tree commit a1462e0), llama-bench -r 3",
+  "columns": [
+   "variant",
+   "env",
+   "tp4_pp2048",
+   "tp4_tg128",
+   "die0_pp2048",
+   "die0_tg128"
+  ],
+  "rows": [
+   [
+    "off",
+    "",
+    1130.29,
+    49.46,
+    327.96,
+    20.48
+   ],
+   [
+    "opt1",
+    "GGML_CUDA_GRAPH_OPT=1",
+    1131.81,
+    49.53,
+    328.31,
+    20.41
+   ],
+   [
+    "opt2",
+    "GGML_CUDA_GRAPH_OPT=2",
+    1130.51,
+    49.43,
+    328.12,
+    20.48
+   ],
+   [
+    "custom AR (adopted)",
+    "GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481",
+    1130.58,
+    56.49,
+    328.0,
+    20.35
+   ],
+   [
+    "custom AR + opt2",
+    "+ GGML_CUDA_GRAPH_OPT=2",
+    1130.29,
+    56.44,
+    328.23,
+    20.49
+   ],
+   [
+    "off again",
+    "",
+    1129.58,
+    49.56,
+    328.21,
+    20.57
+   ]
+  ],
+  "perplexity_opt2": "5.5969",
+  "note": "no effect on either placement (within 0.3%); the custom AR reproduces at +14% (56.5 vs 49.5). The graph optimiser finds nothing to overlap in this model's decode graph"
+ },
+ "final_config": {
+  "_desc": "queue-18 (2026-09-08, bench/final-config.sh): the fusion build (/opt/llama.cpp-mxxm-fh-nq, fusion tree 797124c = production source + patches/0001-0009) with GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481 GGML_CUDA_GDN_PREFUSE=7 against the 2026-09-07 production build; llama-bench -r 3 interleaved, batched 1-32 at 2K, single-user MTP server, perplexity, greedy + KL at 64-token batches",
+  "summary": "Single stream 48.1 -> 57.9 tok/s (+20%; +5% from the kernels, +14.5% from the allreduce), one die 20.4 -> 21.7 (+6.5%), prefill unchanged on the split and +3% on one die; 2 slots +18.5%, 4 slots +2.5%, 8-32 slots within 1%; single user with MTP draft 3: 75.3 -> 78.5 at 2K (+4%), 67.9 -> 73.9 at 32K (+9%). Adopted as the production build (/opt/llama.cpp-prod).",
+  "numerics": "Perplexity 5.5969 (= production). KL divergence at 64-token batches over 8 x 2048 tokens: mean ln(PPL ratio) 0.000000, 90th percentile KLD 0.000015, maximum below 1e-4, same top token 100%. Greedy text diverges from the 2026-09-07 binary at character 556 of 200 tokens; on the new build itself the delta-net fold and the custom allreduce are greedy-identical to their off states (checked separately), so the divergence is the one-column whole-block load's summation order.",
+  "lb": {
+   "columns": [
+    "build",
+    "env",
+    "tp4 pp2048",
+    "tp4 tg128",
+    "one die pp2048",
+    "one die tg128"
+   ],
+   "rows": [
+    [
+     "production",
+     "",
+     1129.66,
+     48.32,
+     322.04,
+     20.66
+    ],
+    [
+     "final",
+     "custom AR + gate + folds",
+     1129.89,
+     58.08,
+     331.6,
+     21.76
+    ],
+    [
+     "final, allreduce off",
+     "folds only",
+     1129.24,
+     50.57,
+     331.57,
+     21.73
+    ],
+    [
+     "production again",
+     "",
+     1130.75,
+     47.91,
+     321.97,
+     20.17
+    ],
+    [
+     "final again",
+     "",
+     1129.71,
+     57.78,
+     331.54,
+     21.71
+    ]
+   ]
+  },
+  "batched": {
+   "columns": [
+    "build",
+    "1 slot",
+    "2",
+    "4",
+    "8",
+    "16",
+    "32"
+   ],
+   "rows": [
+    [
+     "production",
+     47.71,
+     76.61,
+     122.95,
+     174.74,
+     203.9,
+     212.66
+    ],
+    [
+     "final",
+     41.96,
+     90.77,
+     126.07,
+     174.93,
+     202.73,
+     214.58
+    ]
+   ],
+   "note": "the 1-slot cell is the unreliable first-batch cell with the custom AR (see the gate sweep); llama-bench is the single-stream figure"
+  },
+  "mtp": {
+   "columns": [
+    "build",
+    "prompt",
+    "decode tok/s (wave 2)",
+    "acceptance"
+   ],
+   "rows": [
+    [
+     "production",
+     2048,
+     75.3,
+     0.69
+    ],
+    [
+     "final",
+     2048,
+     78.5,
+     0.68
+    ],
+    [
+     "production",
+     32768,
+     67.9,
+     0.65
+    ],
+    [
+     "final",
+     32768,
+     73.9,
+     0.68
+    ]
+   ]
+  }
+ },
+ "fa_counters_head256": {
+  "_desc": "BENCHMARKS-TODO 9 / NEXT-STEPS S4 diagnostic (2026-09-08): rocprofv3 kernel trace + SQ_INSTS_VALU on the production build tp4; static instruction counts from the gfx906 code object. Primary source reports/2026-09-08-fa-counters.md. Only SQ_INSTS_VALU of the four requested counters exists for gfx906 on ROCm 7.14; corrected pass tools/fa-counters-2.sh queued (queue 23).",
+  "cmd": "tools/fa-counters.sh: rocprofv3 --pmc SQ_INSTS_VALU SQ_BUSY_CYCLES SQ_WAIT_INST_ANY TCP_TOTAL_CACHE_ACCESSES --kernel-trace --stats -- llama-batched-bench tp4 -npl 4 -npp 32768 -ntg 1 (prefill) / llama-bench tp4 -d 131072 -n 32 (decode)",
+  "clocks_mhz": {
+   "prefill_pass": 1675,
+   "decode_pass": 1690
+  },
+  "time_share": {
+   "columns": [
+    "phase",
+    "kernel",
+    "share_pct",
+    "dispatches",
+    "mean_us",
+    "max_us"
+   ],
+   "rows": [
+    [
+     "prefill 4x32K",
+     "mul_mat_q<Q8_0,128>",
+     58.0,
+     94208,
+     3380,
+     4994
+    ],
+    [
+     "prefill 4x32K",
+     "flash_attn_tile<256,256,16,2>",
+     16.6,
+     4160,
+     21928,
+     45129
+    ],
+    [
+     "prefill 4x32K",
+     "RCCL",
+     10.1,
+     33792,
+     1635,
+     null
+    ],
+    [
+     "prefill 4x32K",
+     "gated_delta_net<128>",
+     5.8,
+     12672,
+     2503,
+     null
+    ],
+    [
+     "decode d128K",
+     "mul_mat_q<Q8_0,128> (depth prefill)",
+     37.2,
+     327680,
+     1208,
+     null
+    ],
+    [
+     "decode d128K",
+     "flash_attn_tile<256,256,16,2> (depth prefill, ub 512)",
+     33.9,
+     16384,
+     22046,
+     56853
+    ],
+    [
+     "decode d128K",
+     "RCCL",
+     13.6,
+     147968,
+     975,
+     null
+    ],
+    [
+     "decode d128K",
+     "flash_attn_tile<256,256,1,2>",
+     0.1,
+     2112,
+     304,
+     351
+    ],
+    [
+     "decode d128K",
+     "flash_attn_combine_results<256>",
+     0.1,
+     18496,
+     33,
+     75
+    ]
+   ]
+  },
+  "prefill_kernel": {
+   "name": "flash_attn_tile<256,256,16,2>",
+   "grid_wg": [
+    128,
+    16,
+    3
+   ],
+   "wg_threads": 256,
+   "vgpr": 89,
+   "vgpr_alloc": 92,
+   "sgpr": 48,
+   "lds_bytes": 27136,
+   "waves_per_simd": 2,
+   "valu_instr_per_dispatch": 1074000000.0,
+   "valu_issue_rate_per_s": 48000000000.0,
+   "valu_issue_pct_of_peak": 45,
+   "static_instr": 2678,
+   "loop_instr": 1842,
+   "loop_v_dot2": 512,
+   "loop_v_pk": 528,
+   "loop_ds_read": 208,
+   "loop_s_waitcnt": 193,
+   "barriers": 9
+  },
+  "decode_kernel": {
+   "name": "flash_attn_tile<256,256,1,2>",
+   "grid_wg": [
+    1,
+    512,
+    3
+   ],
+   "vgpr": 80,
+   "sgpr": 53,
+   "lds_bytes": 20480,
+   "waves_per_simd": 3,
+   "valu_instr_per_dispatch": 5700000.0,
+   "valu_issue_pct_of_peak": 17,
+   "kv_mb_per_dispatch": 134,
+   "hbm_gbps_min": 441,
+   "kv_passes": 3,
+   "l2_side_traffic_mb": 403,
+   "static_instr": 1361,
+   "loop_instr": 840,
+   "loop_v_dot2": 128,
+   "loop_v_pk": 132,
+   "loop_ds_read": 129,
+   "loop_ds_write": 34,
+   "loop_s_waitcnt": 118,
+   "fa_ms_per_token_128k": 4.9,
+   "combine_ms_per_token_128k": 0.5,
+   "token_ms_128k": 27.9
+  },
+  "model_heads": {
+   "n_head": 24,
+   "n_head_kv": 4,
+   "head_dim": 256,
+   "per_die_kv_heads": 1,
+   "per_die_q_heads": 6,
+   "gqa_ratio": 6,
+   "ncols2_chosen": 2
+  },
+  "pass2_gfx906_counters": {
+   "_desc": "tools/fa-counters-2.sh (queue 23, 2026-09-08 17:34-18:00): the gfx906 counter set in three passes (GRBM_GUI_ACTIVE SQ_WAVES SQ_INSTS_VALU SQ_ACTIVE_INST_VALU / SQ_INSTS_VMEM_RD SQ_INSTS_LDS SQ_WAIT_INST_LDS SQ_LDS_BANK_CONFLICT / TCC_HIT TCC_MISS SQ_INSTS_SALU SQ_INSTS_SMEM), production build tp4, prefill 4 x 16K (ub 2048); the 'decode' pass (batched-bench 4 x 32K, 16 generated) is dominated by its own 32K prefill, so the one-column decode kernel did not reach the top 12 - the decode-at-depth counters need a -ntg 128 pass (follow-up). VALU busy = SQ_ACTIVE_INST_VALU*4/256 SIMDs/GRBM_GUI_ACTIVE; LDS wait = SQ_WAIT_INST_LDS/GRBM_GUI_ACTIVE (sum over the 4 SEs); per-dispatch counters are sums over the four dies divided by dispatches.",
+   "columns": [
+    "kernel",
+    "time_pct",
+    "us_per_dispatch",
+    "valu_busy_pct",
+    "valu_inst_per_dispatch",
+    "vmem_rd",
+    "lds_inst",
+    "lds_wait_over_gui_active",
+    "lds_bank_conflicts",
+    "l2_hit_pct",
+    "salu_over_valu"
+   ],
+   "prefill_16k": [
+    [
+     "mul_mat_q<Q8_0,128>",
+     62.4,
+     3380,
+     61,
+     224000000.0,
+     2310000.0,
+     42900000.0,
+     2.399,
+     6150000.0,
+     79,
+     0.01
+    ],
+    [
+     "RCCL",
+     12.0,
+     1812,
+     1,
+     1450000.0,
+     73600.0,
+     28500.0,
+     0,
+     0,
+     8,
+     0.26
+    ],
+    [
+     "flash_attn_tile<256,256,16,2>",
+     9.0,
+     10940,
+     46,
+     534000000.0,
+     3900000.0,
+     91900000.0,
+     7.491,
+     0,
+     94,
+     0.01
+    ],
+    [
+     "gated_delta_net<128>",
+     6.2,
+     2430,
+     58,
+     139000000.0,
+     20700000.0,
+     35600000.0,
+     10.656,
+     0,
+     96,
+     0.34
+    ],
+    [
+     "mul_mat_q<Q8_0,64,true>",
+     1.4,
+     284,
+     29,
+     9140000.0,
+     143000.0,
+     1930000.0,
+     1.723,
+     46100.0,
+     25,
+     0.03
+    ]
+   ],
+   "prefill_32k_pass": [
+    [
+     "mul_mat_q<Q8_0,128>",
+     57.9,
+     3381,
+     61,
+     224000000.0,
+     2310000.0,
+     42900000.0,
+     2.401,
+     6150000.0,
+     79,
+     0.01
+    ],
+    [
+     "flash_attn_tile<256,256,16,2>",
+     16.6,
+     21963,
+     47,
+     1070000000.0,
+     7830000.0,
+     185000000.0,
+     7.648,
+     0,
+     95,
+     0.01
+    ],
+    [
+     "RCCL",
+     9.6,
+     1578,
+     1,
+     1410000.0,
+     75300.0,
+     29500.0,
+     0,
+     0,
+     8,
+     0.27
+    ],
+    [
+     "gated_delta_net<128>",
+     5.8,
+     2043,
+     58,
+     117000000.0,
+     17400000.0,
+     29900000.0,
+     10.714,
+     0,
+     96,
+     0.34
+    ]
+   ],
+   "reading": "The prefill FA tile kernel: VALU busy 46-47% (the first pass's 45% estimate confirmed), 24 LDS instructions per global load (1.85e8 vs 7.8e6 per dispatch at 32K), LDS wait 7.5-7.6 SE-cycles per GUI cycle (about 1.9 waves per SE waiting on LDS at any time), no bank conflicts, L2 hit 94-95% (the K/V tiles come from L2). It is an LDS-instruction and LDS-latency bound loop at two waves per SIMD - the tile shape at three waves per SIMD is the right first move (S4). Side findings: the MMQ Q8_0 x 128 kernel runs 61% VALU with 6.15e6 LDS bank conflicts per dispatch and 79% L2 hit (S7 material); the GDN kernel 58% VALU with the heaviest LDS waiting (10.7)."
+  }
+ },
+ "paired_ci_prod_table": {
+  "_desc": "BENCHMARKS-TODO 14 (2026-09-08): paired, interleaved repeats of the production-table cells. Builds interleaved per round: stock /opt/llama.cpp, 2026-09-07 production /opt/llama.cpp-mxxm-fh, production /opt/llama.cpp-prod (+settings/gfx906.env). llama-bench -p 2048 -n 128 -r 5, three rounds (tp4 and rocm0); llama-batched-bench decode tok/s, two rounds (tp4 -npl 8,12,16 at 2K; rocm0 -npl 4,8 at 512). Values are per-round means; summary = (mean, sd) across rounds; tp4_tg_intra_sd = llama-bench's own sd over its 5 repeats (the split's single-stream spread is 1-2.7 tok/s within a run, 0.3-0.7 between rounds).",
+  "cmd": "tools/ci-paired.sh (source qwen38-27b-ci-paired.md)",
+  "llama_bench_rounds": {
+   "stock": {
+    "tp4_pp": [
+     843.5,
+     843.94,
+     844.62
+    ],
+    "tp4_tg": [
+     46.98,
+     46.15,
+     46.22
+    ],
+    "rocm0_pp": [
+     233.97,
+     233.88,
+     233.63
+    ],
+    "rocm0_tg": [
+     20.16,
+     20.11,
+     20.21
+    ],
+    "tp4_tg_intra_sd": [
+     1.7,
+     2.72,
+     2.46
+    ]
+   },
+   "prod0907": {
+    "tp4_pp": [
+     1125.33,
+     1129.7,
+     1129.05
+    ],
+    "tp4_tg": [
+     46.97,
+     48.06,
+     48.2
+    ],
+    "rocm0_pp": [
+     321.66,
+     321.87,
+     322.22
+    ],
+    "rocm0_tg": [
+     20.18,
+     20.45,
+     20.35
+    ],
+    "tp4_tg_intra_sd": [
+     1.65,
+     1.07,
+     1.07
+    ]
+   },
+   "prod": {
+    "tp4_pp": [
+     1125.02,
+     1129.57,
+     1127.96
+    ],
+    "tp4_tg": [
+     58.11,
+     57.51,
+     58.02
+    ],
+    "rocm0_pp": [
+     331.53,
+     331.26,
+     331.32
+    ],
+    "rocm0_tg": [
+     21.81,
+     21.7,
+     21.7
+    ],
+    "tp4_tg_intra_sd": [
+     1.45,
+     1.5,
+     1.45
+    ]
+   }
+  },
+  "batched_rounds": {
+   "stock": {
+    "tp4_8": [
+     135.29,
+     149.91
+    ],
+    "tp4_12": [
+     122.79,
+     122.59
+    ],
+    "tp4_16": [
+     152.67,
+     152.59
+    ],
+    "rocm0_4": [
+     46.19,
+     47.16
+    ],
+    "rocm0_8": [
+     52.71,
+     52.73
+    ]
+   },
+   "prod0907": {
+    "tp4_8": [
+     174.57,
+     174.38
+    ],
+    "tp4_12": [
+     197.31,
+     197.4
+    ],
+    "tp4_16": [
+     203.89,
+     203.93
+    ],
+    "rocm0_4": [
+     53.19,
+     53.23
+    ],
+    "rocm0_8": [
+     69.04,
+     69.15
+    ]
+   },
+   "prod": {
+    "tp4_8": [
+     174.42,
+     174.72
+    ],
+    "tp4_12": [
+     196.85,
+     197.29
+    ],
+    "tp4_16": [
+     202.81,
+     202.75
+    ],
+    "rocm0_4": [
+     53.35,
+     53.37
+    ],
+    "rocm0_8": [
+     70.23,
+     70.3
+    ]
+   }
+  },
+  "summary": {
+   "stock": {
+    "tp4_pp": [
+     844.02,
+     0.56
+    ],
+    "tp4_tg": [
+     46.45,
+     0.46
+    ],
+    "rocm0_pp": [
+     233.83,
+     0.18
+    ],
+    "rocm0_tg": [
+     20.16,
+     0.05
+    ],
+    "tp4_tg_intra_sd_mean": 2.29,
+    "tp4_8": [
+     142.6,
+     10.34
+    ],
+    "tp4_12": [
+     122.69,
+     0.14
+    ],
+    "tp4_16": [
+     152.63,
+     0.06
+    ],
+    "rocm0_4": [
+     46.67,
+     0.69
+    ],
+    "rocm0_8": [
+     52.72,
+     0.01
+    ]
+   },
+   "prod0907": {
+    "tp4_pp": [
+     1128.03,
+     2.36
+    ],
+    "tp4_tg": [
+     47.74,
+     0.67
+    ],
+    "rocm0_pp": [
+     321.92,
+     0.28
+    ],
+    "rocm0_tg": [
+     20.33,
+     0.14
+    ],
+    "tp4_tg_intra_sd_mean": 1.26,
+    "tp4_8": [
+     174.47,
+     0.13
+    ],
+    "tp4_12": [
+     197.36,
+     0.06
+    ],
+    "tp4_16": [
+     203.91,
+     0.03
+    ],
+    "rocm0_4": [
+     53.21,
+     0.03
+    ],
+    "rocm0_8": [
+     69.09,
+     0.08
+    ]
+   },
+   "prod": {
+    "tp4_pp": [
+     1127.52,
+     2.31
+    ],
+    "tp4_tg": [
+     57.88,
+     0.32
+    ],
+    "rocm0_pp": [
+     331.37,
+     0.14
+    ],
+    "rocm0_tg": [
+     21.74,
+     0.06
+    ],
+    "tp4_tg_intra_sd_mean": 1.47,
+    "tp4_8": [
+     174.57,
+     0.21
+    ],
+    "tp4_12": [
+     197.07,
+     0.31
+    ],
+    "tp4_16": [
+     202.78,
+     0.04
+    ],
+    "rocm0_4": [
+     53.36,
+     0.01
+    ],
+    "rocm0_8": [
+     70.27,
+     0.05
+    ]
+   }
+  },
+  "reading": "Production vs 2026-09-07: single stream 57.9 vs 47.7 (+21%, 10 tok/s against a between-round sd of 0.3-0.7), one die 21.74 vs 20.33 (+6.9%), one-die prefill 331.4 vs 321.9 (+3.0%, sd 0.2), one-die batch 8 70.3 vs 69.1 (+1.6%, sd 0.05); tp4 prefill and tp4 8/12/16-slot decode tie within 0.3%. Stock's tp4 batch-8 cell is unstable (135.3 / 149.9: the MMVQ 8-column boundary), every other cell repeats within 1%."
+ },
+ "server_final_prod": {
+  "_desc": "BENCHMARKS-TODO 10 and 11 (2026-09-08): the final production build (/opt/llama.cpp-prod + settings/gfx906.env) at the server level, 1300-token prompts / 256 generated, ignore_eos, tp4 llama-server -fa on -cb -b 2048 -ub 2048; team16 = -np 16 (16 x 32K), busy32 = -np 32 (32 x 32K), pairs8 = two tp2 servers -np 8 (dual-server-bench), prod0907-np32 = the 2026-09-07 binary at 32 slots (the TODO 10 comparison without the series). Reference rows: production 2026-09-07 at 16 slots 75.5 / 82.1 tok/s at 8 / 16 clients; pairs on production 90.7 / 100.3 (tp2x2_prod_server).",
+  "cmd": "tools/server-final.sh (source qwen38-27b-server-final.md)",
+  "columns": [
+   "profile",
+   "build",
+   "slots",
+   "clients",
+   "requests",
+   "wall_s",
+   "agg_gen_tps",
+   "total_tps",
+   "req_per_min",
+   "per_req_gen_tps",
+   "ttft_s",
+   "per_req_wall_s"
+  ],
+  "rows": [
+   [
+    "team16",
+    "prod",
+    16,
+    4,
+    8,
+    30.4,
+    67.4,
+    410,
+    15.8,
+    30.0,
+    4.98,
+    15.2
+   ],
+   [
+    "team16",
+    "prod",
+    16,
+    8,
+    16,
+    53.8,
+    76.1,
+    463,
+    17.8,
+    15.0,
+    5.4,
+    26.8
+   ],
+   [
+    "team16",
+    "prod",
+    16,
+    12,
+    24,
+    74.0,
+    83.0,
+    505,
+    19.5,
+    10.1,
+    5.66,
+    36.8
+   ],
+   [
+    "team16",
+    "prod",
+    16,
+    16,
+    32,
+    98.3,
+    83.4,
+    507,
+    19.5,
+    7.4,
+    5.77,
+    49.0
+   ],
+   [
+    "busy32",
+    "prod",
+    32,
+    16,
+    32,
+    96.4,
+    85.0,
+    517,
+    19.9,
+    7.6,
+    6.5,
+    48.0
+   ],
+   [
+    "busy32",
+    "prod",
+    32,
+    32,
+    64,
+    204.9,
+    80.0,
+    486,
+    18.7,
+    3.3,
+    6.37,
+    101.9
+   ],
+   [
+    "pairs8",
+    "prod",
+    8,
+    8,
+    16,
+    43.4,
+    94.4,
+    574,
+    22.1,
+    19.7,
+    6.86,
+    21.5
+   ],
+   [
+    "pairs8",
+    "prod",
+    8,
+    16,
+    32,
+    80.4,
+    101.9,
+    619,
+    23.9,
+    10.3,
+    8.89,
+    39.6
+   ],
+   [
+    "prod0907-np32",
+    "prod0907",
+    32,
+    16,
+    32,
+    98.3,
+    83.4,
+    507,
+    19.5,
+    7.5,
+    6.65,
+    48.9
+   ],
+   [
+    "prod0907-np32",
+    "prod0907",
+    32,
+    32,
+    64,
+    206.6,
+    79.3,
+    482,
+    18.6,
+    3.3,
+    6.41,
+    102.8
+   ]
+  ],
+  "reading": "TODO 10: at the server level 32 slots give 85.0 tok/s at 16 clients and 80.0 at 32 clients (3.3 per user) against 83.4 at 16 clients on 16 slots: slots beyond 16 add nothing to the four-die server's throughput and halve the per-user rate; the decode-only +4-5% of M2 does not survive prompt interleaving (same on the 2026-09-07 binary: 83.4 / 79.3). TODO 11: the final build is unchanged at 16 slots (76.1 / 83.4 vs 75.5 / 82.1 at 8 / 16 clients, +1-2%) and at 32 (85.0 / 80.0 vs 83.4 / 79.3), as the four-row allreduce gate predicts; the pairs gain +4% at 8 clients (94.4 vs 90.7; four clients per pair fall inside the gate) and +1.6% at 16 (101.9 vs 100.3). DC total peaked at 1162 W during the server runs (host 150 W)."
+ },
+ "governor_threshold_m7": {
+  "_desc": "NEXT-STEPS M7 / BENCHMARKS-TODO 7, the DC half (2026-09-08): the 16-client production server (tp4 -np 16, 1300/256 requests) beside an all-core host load (one `yes` per hardware thread, 56 threads) under stepped host RAPL caps; SMC DC total (PZ0G) sampled every 5 s; the job stops itself at 1180 W (200 W die caps throughout; no clamp). The tenant-latency half (Ceph/KVM beside a server at 125 W) needs a hyperconverged fleet node.",
+  "cmd": "tools/governor-threshold.sh (source qwen38-27b-governor.md)",
+  "serving_cost": {
+   "columns": [
+    "host",
+    "agg_gen_tps",
+    "total_tps",
+    "per_req_gen_tps",
+    "ttft_s",
+    "per_req_wall_s",
+    "dc_max_w"
+   ],
+   "rows": [
+    [
+     "idle, 150 W cap",
+     82.3,
+     500,
+     7.4,
+     6.5,
+     49.6,
+     1087
+    ],
+    [
+     "all-core load at 150 W cap",
+     72.1,
+     438,
+     6.3,
+     6.67,
+     56.5,
+     1147
+    ]
+   ]
+  },
+  "dc_vs_host_cap": {
+   "columns": [
+    "host_cap_w",
+    "dc_max_w",
+    "die_w_mean"
+   ],
+   "rows": [
+    [
+     150,
+     1133,
+     107
+    ],
+    [
+     175,
+     1172,
+     147
+    ],
+    [
+     200,
+     1206,
+     153
+    ]
+   ],
+   "stopped_at": "200 W (1206 W > the 1180 W guard); 215 W not run"
+  },
+  "reading": "An all-core host load at the 150 W cap costs the 16-client server 12% (82.3 -> 72.1 tok/s, TTFT +0.2 s): the server's own threads compete with the tenants. DC rises about 1.5 W per watt of host cap with the dies at 200 W caps: 1133 / 1172 / 1206 W at 150 / 175 / 200 W, so 175 W is the last host cap inside the envelope at 200 W die caps (56 W margin) and 200 W already crosses 1200 W. Governor trigger 1150 W with a 50 W host-cap cut (-70 W DC) leaves three 5-s samples before the SMC's ~20 s clamp; at the 125 W production die caps the dies contribute ~300 W less at peak, which is why the host can stay uncapped there."
+ },
+ "power_cap_phases": {
+  "_desc": "BENCHMARKS-TODO 13 (2026-09-08): the cap curve with the phases separated, production build tp4: decode-only = llama-batched-bench -npl 16 -npp 2048 -ntg 128 (aggregate decode tok/s), prefill-only = llama-bench pp2048 -r 3 (four dies); caps set live with settings/powercap.sh, 200 W repeated at the end. Die W and sclk are the sampler means over the busy samples (prefill has 1-2 samples per cap). Compare power_cap_study (16-client server aggregate, prompt time included): -13.5% at 125 W and -30% at 85 W against -17.3% / -32.4% decode-only and -17.5% / -35.1% prefill-only here.",
+  "cmd": "tools/cap-phases.sh (source qwen38-27b-cap-phases.md, qwen38-27b-cap-phases-clocks.txt)",
+  "columns": [
+   "cap_w",
+   "decode16_tps",
+   "decode_vs_200",
+   "prefill_pp2048_tps",
+   "prefill_vs_200",
+   "die_w_decode",
+   "sclk_decode",
+   "die_w_prefill",
+   "sclk_prefill"
+  ],
+  "rows": [
+   [
+    200,
+    203.42,
+    1.0,
+    1129.98,
+    1.0,
+    200,
+    1689,
+    183,
+    1672
+   ],
+   [
+    170,
+    194.09,
+    0.954,
+    1072.83,
+    0.949,
+    165,
+    1598,
+    164,
+    1603
+   ],
+   [
+    140,
+    179.54,
+    0.883,
+    990.93,
+    0.877,
+    136,
+    1459,
+    145,
+    1499
+   ],
+   [
+    125,
+    168.34,
+    0.828,
+    932.07,
+    0.825,
+    126,
+    1389,
+    125,
+    1389
+   ],
+   [
+    85,
+    137.68,
+    0.677,
+    732.92,
+    0.649,
+    88,
+    999,
+    87,
+    999
+   ],
+   [
+    200,
+    204.17,
+    1.004,
+    1130.14,
+    1.0,
+    198,
+    1699,
+    181,
+    1671
+   ]
+  ],
+  "reading": "Decode-only at 16 slots and prefill-only fall together (-4.6 / -5.1% at 170 W, -11.8 / -12.3% at 140, -17.3 / -17.5% at 125, -32.4 / -35.1% at 85), both faster than the 16-client server aggregate (-13.5% at 125, -30% at 85), whose prompt reads and queueing dilute the cap. The optimiser's decode factor for 8+ streams and its prefill factor now come from these curves (measured at the five caps); the sclk model below 150 W (-42% at the floor) over-penalised prefill (-35% measured). Both phases run the same die power at each cap; sclk 1689 -> 999 MHz."
+ },
+ "flash_next_trial": {
+  "_desc": "2026-09-08 first trial of Qwen3.8-Flash-Next (arch qwen4exp: 48 blocks, 512 experts / 10 used, n_embd 2560, 24 q heads / 2 kv heads at head 256, full-attention interval 4) on the gfx906 branch build (/opt/llama.cpp-gfx906-master, fork repack on), four dies -sm tensor, GPU_MAX_HW_QUEUES=8, gfx906.env; quant Unsloth UD-Q4_K_XL 103.7 GiB (per_layer_token_embd IQ4_NL 26.8 GiB, experts 71.7 GiB) + MTP head Q8_0 4.1 GB. LLAMA_PLE_SHARD=1 shards the n-gram table over the four dies (0 = host-resident). Memory 27.7-28.1 GiB per die with the shard.",
+  "cmd": "tools/flash-next-test.sh (source qwen38-flash-next.md)",
+  "llama_bench": {
+   "columns": [
+    "ple_shard",
+    "pp2048",
+    "tg128"
+   ],
+   "rows": [
+    [
+     1,
+     365.24,
+     20.64
+    ],
+    [
+     0,
+     357.87,
+     17.74
+    ]
+   ],
+   "tg_sd": [
+    8.0,
+    4.13
+   ]
+  },
+  "perplexity": {
+   "setting": "-c 2048 --chunks 4, wikitext-2 test",
+   "ppl": 1.9264,
+   "note": "implausibly low for wikitext-2: training-set memorisation, not a computation error (the greedy sample is coherent); compare across builds, not against the dense model"
+  },
+  "greedy": "coherent 120-token thinking-mode answer to the allreduce question",
+  "load_s": 150,
+  "reading": "It runs, fits and answers on four dies with the table sharded (365 tok/s prefill, 20.6 +/- 8.0 decode single stream; host-resident table 358 / 17.7 +/- 4.1). Decode carries the same single-stream instability the dense model shows on this build with the fork's repack on; no-repack and multi-stream figures are the next measurements, and the MTP head is untested."
+ },
+ "upstream_ppl_bisect": {
+  "_desc": "2026-09-08: why the branch's 16K perplexity (6 chunks, tp4) moved from the production 5.5969 to 5.617-5.622. Pristine upstream builds at first-parent commits between the fork base 0f3a71be1 (2026-09-02) and master 5d806aa25 (2026-09-08), same recipe (tools/bisect/bisect-build.sh, ccache), same perplexity command (tools/bisect/bisect-ppl.sh). Commit numbers are positions in the 104-commit first-parent list (tools/bisect/commits.txt).",
+  "columns": [
+   "commit",
+   "position",
+   "date",
+   "subject",
+   "ppl"
+  ],
+  "rows": [
+   [
+    "0f3a71be1",
+    0,
+    "2026-09-02",
+    "fork base (upstream 2026-09-02, pristine)",
+    5.6118
+   ],
+   [
+    "8e93a9773",
+    1,
+    "2026-09-02",
+    "CUDA + ggml: add sparse-fa for DSV4/GLM",
+    5.6118
+   ],
+   [
+    "0ba6499c3",
+    22,
+    "2026-09-03",
+    "CUDA: Allow concurrent streams per split for multi-GPU",
+    5.6118
+   ],
+   [
+    "64a155d24",
+    48,
+    "2026-09-04",
+    "sync : ggml",
+    5.6118
+   ],
+   [
+    "3ad1ba733",
+    68,
+    "2026-09-06",
+    "Spark2_5ForCausalLM support (parent of the GDN fix)",
+    5.6118
+   ],
+   [
+    "5fdfa6282",
+    69,
+    "2026-09-06",
+    "models : fix GDN normalization from max to rsqrt",
+    5.6216
+   ],
+   [
+    "992cb503c",
+    74,
+    "2026-09-07",
+    "ggml: allow backend inputs to not create another split",
+    5.6216
+   ],
+   [
+    "73ab7599b",
+    80,
+    "2026-09-07",
+    "CUDA: branchless Q4_K/Q5_K unpack, L2 prefetch",
+    5.6216
+   ],
+   [
+    "5a6caa05f",
+    94,
+    "2026-09-08",
+    "ggml : update ggml_prec specification",
+    5.6216
+   ],
+   [
+    "5d806aa25",
+    104,
+    "2026-09-08",
+    "master (pristine, /opt/llama.cpp-master)",
+    5.6216
+   ],
+   [
+    "b10912 fork tag",
+    null,
+    "2026-09-08",
+    "mx-llama.cpp fork pristine (/opt/llama.cpp-b10912): base 0f3a71be1 + the fork's kernels",
+    5.6143
+   ],
+   [
+    "360e1349f",
+    -472,
+    "2026-08-05",
+    "stock b10288 (/opt/llama.cpp), the guide's reference build",
+    5.5969
+   ]
+  ],
+  "reading": "Two steps, both upstream's, both pinned. Step 1 (+0.27%): e79e4bf66 (2026-08-12), 'ggml-hip : remove -funsafe-math-optimizations' - the HIP build lost -fassociative-math and became IEEE-conformant (upstream's reason: reassociated reductions flipped greedy argmax on RDNA3.5 under MTP); its parent reads 5.5969, it reads 5.6118. The production lineage (fork b10254, stock b10288, 2026-08-05) still builds with the flag. Step 2 (+0.17%): 5fdfa6282 (2026-09-06), the GDN q/k normalisation with eps inside the root (the flash-linear-attention reference form). Neither is a gfx906 kernel; the fork's kernels sit 0.004 under upstream at both steps. Reference perplexity from here on: 5.62 (IEEE build) or 5.60 if the flag is restored (r3, post27). But the branch rebuilt WITH the flag (r3; the flag verified in its compile line) reads 5.6212, the same as without: on today's code the flag no longer moves the numerics - the reassociation-sensitive path was the old l2_norm form of the GDN q/k norm, which upstream replaced on 09-06. Production's 5.5969 = old norm form + fast-math; nothing to restore. Reference perplexity: 5.62.",
+  "step1_rows": {
+   "columns": [
+    "commit",
+    "position_in_360e1349f..0f3a71be1",
+    "date",
+    "subject",
+    "ppl"
+   ],
+   "rows": [
+    [
+     "360e1349f",
+     0,
+     "2026-08-05",
+     "stock b10288",
+     5.5969
+    ],
+    [
+     "4c6766fd7",
+     59,
+     "2026-08-10",
+     "vendor: sync subprocess.h",
+     5.5969
+    ],
+    [
+     "decaf508b",
+     118,
+     "2026-08-13",
+     "server: metrics fixes",
+     5.6118
+    ],
+    [
+     "d83f72d46",
+     177,
+     "2026-08-17",
+     "ci",
+     5.6118
+    ],
+    [
+     "9ee9fc04c",
+     236,
+     "2026-08-19",
+     "opencl MoE scatter",
+     5.6118
+    ],
+    [
+     "9fee29e94",
+     295,
+     "2026-08-22",
+     "arg: remove -no-cnv",
+     5.6118
+    ],
+    [
+     "925e11799",
+     354,
+     "2026-08-26",
+     "llama: token ID tracking",
+     5.6118
+    ],
+    [
+     "cc231cb0d",
+     413,
+     "2026-08-30",
+     "dflash NVFP4 scales",
+     5.6118
+    ],
+    [
+     "0f3a71be1",
+     472,
+     "2026-09-02",
+     "fork base",
+     5.6118
+    ]
+   ],
+   "candidate": "e79e4bf66 (position 117, 2026-08-12): 'ggml-hip : remove -funsafe-math-optimizations' - the HIP build lost -fassociative-math (IEEE-conformant FP; upstream did it because reassociated reductions flipped greedy argmax on RDNA3.5 under MTP). The production lineage (fork b10254, stock b10288) still builds with the flag. Pinned by post26 (d86c7d62d vs e79e4bf66); r3 = the branch rebuilt with the flag (post27) tests whether the flag is also behind the branch's 3-4% server-level and 6-12% 8-slot deficits."
+  },
+  "step1_pin": {
+   "d86c7d62d (parent, 2026-08-12)": 5.5969,
+   "e79e4bf66 (remove -funsafe-math-optimizations)": 5.6118
+  },
+  "r3_branch_with_flag_ppl": 5.6212
+ },
+ "gfx906_branch_server_level": {
+  "_desc": "2026-09-08 post22d: the gfx906 branch (r2 build) at the server level, team profile (tp4 -np 16, 16 x 32K, -fa on -cb -b 2048 -ub 2048, gfx906.env), 1300-token prompts / 256 generated, with the fork's Q8_0 repack on (default) and off (--no-repack). Production (server_final_prod team16): 67.4 / 76.1 / 83.0 / 83.4 at 4 / 8 / 12 / 16 clients, TTFT 4.98 / 5.40 / 5.66 / 5.77 s.",
+  "cmd": "tools/post22d.sh (source qwen38-27b-post22d.md)",
+  "columns": [
+   "repack",
+   "clients",
+   "requests",
+   "wall_s",
+   "agg_gen_tps",
+   "total_tps",
+   "req_per_min",
+   "per_req_gen_tps",
+   "ttft_s",
+   "per_req_wall_s"
+  ],
+  "rows": [
+   [
+    "on",
+    4,
+    8,
+    33.0,
+    62.0,
+    377,
+    14.5,
+    29.3,
+    6.04,
+    16.5
+   ],
+   [
+    "on",
+    8,
+    16,
+    53.9,
+    76.0,
+    462,
+    17.8,
+    14.4,
+    5.15,
+    26.8
+   ],
+   [
+    "on",
+    12,
+    24,
+    84.6,
+    72.6,
+    441,
+    17.0,
+    8.1,
+    5.26,
+    42.1
+   ],
+   [
+    "on",
+    16,
+    32,
+    102.9,
+    79.6,
+    484,
+    18.7,
+    6.6,
+    5.19,
+    51.2
+   ],
+   [
+    "off",
+    4,
+    8,
+    30.9,
+    66.3,
+    403,
+    15.5,
+    29.5,
+    5.04,
+    15.4
+   ],
+   [
+    "off",
+    8,
+    16,
+    55.7,
+    73.5,
+    447,
+    17.2,
+    14.2,
+    5.55,
+    27.7
+   ],
+   [
+    "off",
+    12,
+    24,
+    76.9,
+    79.9,
+    486,
+    18.7,
+    9.8,
+    5.94,
+    38.3
+   ],
+   [
+    "off",
+    16,
+    32,
+    100.9,
+    81.2,
+    494,
+    19.0,
+    7.1,
+    5.88,
+    50.2
+   ]
+  ],
+  "reading": "Repack on: 62.0 / 76.0 / 72.6 / 79.6 (-8% / 0 / -12.5% / -4.6% vs production): the 12-client dip is the repacked path's 9-16-row GEMM and the 4-client loss its narrow-batch mat-vec against the series' fast path. Repack off: 66.3 / 73.5 / 79.9 / 81.2 (-1.6 / -3.4 / -3.7 / -2.6%): the after-load warm-up does not dominate a server (it is per process, not per request), but the branch without the repack sits 2-4% under production, consistent with the 8-slot batched cell reading 9% low (158 vs 175) - a small regression in the ported 8-column MMVQ path to find alongside S1b. Verdict: not promoted; production stays until S1b and the 8-column check land."
+ },
+ "branch_warmup_samples": {
+  "_desc": "2026-09-08 post22c/e/f: per-repeat tok/s of llama-bench tp4 tg128 -r 5 (after its own warm-up run), gfx906.env, 2K context: the after-load warm-up of the gfx906 branch / fork b10912 state and the steady state. Labels: r2 = the branch build; nr0/nr1 = repack on/off; fork-<sha> = pristine fork history builds (tools/bisect/fork-build.sh); position numbers refer to tools/bisect/fork-commits.txt.",
+  "cmd": "tools/bisect/tg-test.sh (source bisect/tg.md)",
+  "columns": [
+   "label",
+   "mean",
+   "sd",
+   "samples"
+  ],
+  "rows": [
+   [
+    "r2-repack-on",
+    48.3,
+    12.1,
+    [
+     41.5,
+     30.0,
+     56.6,
+     56.6,
+     56.6
+    ]
+   ],
+   [
+    "r2-repack-off",
+    55.3,
+    1.8,
+    [
+     52.8,
+     53.8,
+     56.7,
+     56.5,
+     56.5
+    ]
+   ],
+   [
+    "production",
+    56.8,
+    1.6,
+    [
+     53.9,
+     57.5,
+     57.7,
+     57.6,
+     57.5
+    ]
+   ],
+   [
+    "fork-b10912-pristine",
+    49.2,
+    8.3,
+    [
+     42.5,
+     38.2,
+     55.3,
+     55.2,
+     55.0
+    ]
+   ],
+   [
+    "upstream-master-pristine",
+    45.5,
+    2.3,
+    [
+     41.4,
+     46.6,
+     46.6,
+     46.6,
+     46.5
+    ]
+   ],
+   [
+    "production-0907",
+    54.3,
+    1.9,
+    [
+     50.9,
+     54.3,
+     55.0,
+     55.6,
+     55.5
+    ]
+   ],
+   [
+    "fork-115a32c1e",
+    41.6,
+    16.7,
+    [
+     30.4,
+     17.6,
+     53.5,
+     53.5,
+     53.1
+    ]
+   ],
+   [
+    "fork-16628b027",
+    40.1,
+    19.6,
+    [
+     23.1,
+     14.7,
+     54.1,
+     54.4,
+     54.4
+    ]
+   ],
+   [
+    "fork-803f00bb7",
+    53.6,
+    0.9,
+    [
+     52.2,
+     53.2,
+     54.3,
+     54.3,
+     54.1
+    ]
+   ],
+   [
+    "fork-8253e3fbf",
+    53.0,
+    1.7,
+    [
+     50.7,
+     51.8,
+     54.3,
+     54.3,
+     54.0
+    ]
+   ],
+   [
+    "fork-9435cfcc4",
+    47.0,
+    12.3,
+    [
+     27.8,
+     41.8,
+     55.4,
+     55.3,
+     55.0
+    ]
+   ],
+   [
+    "fork-a65e71eb2",
+    41.1,
+    19.3,
+    [
+     23.3,
+     16.9,
+     55.4,
+     55.4,
+     54.5
+    ]
+   ],
+   [
+    "fork-def64b335",
+    42.0,
+    19.2,
+    [
+     25.4,
+     17.0,
+     55.9,
+     55.9,
+     55.6
+    ]
+   ],
+   [
+    "fork-e21ccb704",
+    43.5,
+    14.5,
+    [
+     31.8,
+     24.0,
+     54.1,
+     54.0,
+     53.7
+    ]
+   ],
+   [
+    "fork-97e14020c",
+    51.7,
+    3.0,
+    [
+     49.5,
+     47.5,
+     54.1,
+     54.0,
+     53.7
+    ]
+   ],
+   [
+    "fork-b10912-nr1",
+    54.3,
+    1.4,
+    [
+     52.3,
+     53.1,
+     55.4,
+     55.3,
+     55.1
+    ]
+   ],
+   [
+    "r2-nr1-again",
+    57.4,
+    1.4,
+    [
+     55.4,
+     56.7,
+     58.5,
+     58.3,
+     58.2
+    ]
+   ],
+   [
+    "r2-nr0-again",
+    43.2,
+    19.1,
+    [
+     27.2,
+     17.9,
+     57.1,
+     56.9,
+     56.8
+    ]
+   ],
+   [
+    "production-again",
+    58.4,
+    1.4,
+    [
+     55.9,
+     59.1,
+     59.1,
+     59.0,
+     58.9
+    ]
+   ]
+  ],
+  "reading": "Steady state (samples 3-5): production 57.6-59.0, branch --no-repack 56.5-58.3, branch repack on 56.6-57.0, pristine fork 55.2, upstream pristine 46.6 - all inside 2% of production except upstream. The warm-up: with the repack on the first two 128-token repeats run at 18-42 tok/s every time (it enters the fork history at position 33, e21ccb704, the commit that turned the repack on by default); with --no-repack the first sample is 52-55 (production 54-56); upstream pristine 41 then 46.6. Per process, not per request (server level within 2-4% of production without the repack)."
+ },
+ "gfx906_branch_promotion_repeat": {
+  "_desc": "2026-09-08 post23: interleaved repeat (two rounds) of the gfx906 branch (r2, --no-repack, gfx906.env) against production: llama-batched-bench tp4 -npl 8,12,16 at 2K (decode tok/s) and the team16 server (tp4 -np 16, 1300/256 requests) at 8 and 16 clients (aggregate generation tok/s).",
+  "cmd": "tools/post23.sh (source qwen38-27b-post23-promo.md)",
+  "batched": {
+   "columns": [
+    "round",
+    "build",
+    "8",
+    "12",
+    "16"
+   ],
+   "rows": [
+    [
+     1,
+     "branch --no-repack",
+     163.57,
+     192.33,
+     201.31
+    ],
+    [
+     1,
+     "production",
+     174.95,
+     197.52,
+     202.85
+    ],
+    [
+     2,
+     "branch --no-repack",
+     153.94,
+     195.78,
+     192.53
+    ],
+    [
+     2,
+     "production",
+     174.81,
+     197.51,
+     202.93
+    ]
+   ]
+  },
+  "server": {
+   "columns": [
+    "round",
+    "build",
+    "8 clients",
+    "16 clients"
+   ],
+   "rows": [
+    [
+     1,
+     "branch --no-repack",
+     73.8,
+     79.5
+    ],
+    [
+     1,
+     "production",
+     77.3,
+     81.8
+    ],
+    [
+     2,
+     "branch --no-repack",
+     74.6,
+     79.7
+    ],
+    [
+     2,
+     "production",
+     77.9,
+     82.1
+    ]
+   ]
+  },
+  "reading": "Production repeats to 0.1% (batched) and 1% (server). The branch without the repack is 6.5-12% under at 8 slots, 1-3% at 12, 1-5% at 16, and 4.2-4.5% / 2.8-2.9% under at the server level (8 / 16 clients). Verdict unchanged: not promoted. The 8-column loss is the lead (post25: fork mat-vec fusion vs the gfx906 fast path)."
+ },
+ "tile_table_ablation": {
+  "_desc": "BENCHMARKS-TODO 12 (2026-09-08 19:31, second run; the first lacked two builds and used wrong model paths): the fork's three MMQ commits applied cumulatively on upstream b10288 (branch ablation-tile in /root/exabit-llama.cpp-ablation): a = tile-load threads-per-row 8 (39c917808), b = a + the gfx906 MMQ config table with its dispatch guards (f48d37902 + the brace fix), c = b + the partial-k unroll for the Q8_0 vec_dot (b29ea5262). Reference: stock b10288 and the whole fork b10254 (/opt/llama.cpp-mxxm). llama-bench -p 2048 -n 128 -r 3 on one die and tp4 at Q8_0, UD-Q6_K, UD-Q4_K_M; llama-batched-bench tp4 -npl 16,24,32 at 2K (Q8_0).",
+  "cmd": "tools/ablation-bench.sh (source qwen38-27b-ablation.md; reports/2026-09-08-tile-table-ablation.md)",
+  "columns": [
+   "build",
+   "quant",
+   "rocm0_pp2048",
+   "rocm0_tg128",
+   "tp4_pp2048",
+   "tp4_tg128"
+  ],
+  "rows": [
+   [
+    "stock",
+    "Q8_0",
+    230.31,
+    20.11,
+    844.57,
+    46.8
+   ],
+   [
+    "a-tileload",
+    "Q8_0",
+    230.96,
+    20.14,
+    850.24,
+    46.66
+   ],
+   [
+    "b-config",
+    "Q8_0",
+    315.39,
+    20.14,
+    1100.65,
+    46.78
+   ],
+   [
+    "c-kunroll",
+    "Q8_0",
+    317.48,
+    20.08,
+    1110.91,
+    46.86
+   ],
+   [
+    "fork-b10254",
+    "Q8_0",
+    322.39,
+    20.7,
+    1131.14,
+    48.42
+   ],
+   [
+    "stock",
+    "Q6_K",
+    176.74,
+    19.92,
+    660.02,
+    47.05
+   ],
+   [
+    "a-tileload",
+    "Q6_K",
+    176.69,
+    20.91,
+    661.78,
+    46.94
+   ],
+   [
+    "b-config",
+    "Q6_K",
+    179.0,
+    19.96,
+    670.88,
+    46.92
+   ],
+   [
+    "c-kunroll",
+    "Q6_K",
+    179.1,
+    19.96,
+    671.06,
+    47.02
+   ],
+   [
+    "fork-b10254",
+    "Q6_K",
+    222.88,
+    20.98,
+    829.05,
+    48.96
+   ],
+   [
+    "stock",
+    "Q4_K_M",
+    199.16,
+    24.77,
+    747.1,
+    49.18
+   ],
+   [
+    "a-tileload",
+    "Q4_K_M",
+    200.06,
+    24.84,
+    748.73,
+    49.01
+   ],
+   [
+    "b-config",
+    "Q4_K_M",
+    199.88,
+    24.83,
+    750.86,
+    49.05
+   ],
+   [
+    "c-kunroll",
+    "Q4_K_M",
+    199.92,
+    24.83,
+    756.21,
+    49.03
+   ],
+   [
+    "fork-b10254",
+    "Q4_K_M",
+    212.41,
+    24.98,
+    796.56,
+    51.15
+   ]
+  ],
+  "batched": {
+   "columns": [
+    "build",
+    "16",
+    "24",
+    "32"
+   ],
+   "rows": [
+    [
+     "stock",
+     141.2,
+     162.56,
+     180.8
+    ],
+    [
+     "c-kunroll",
+     163.84,
+     197.0,
+     217.38
+    ],
+    [
+     "fork-b10254",
+     167.16,
+     192.63,
+     213.23
+    ]
+   ]
+  },
+  "reading": "The gfx906 MMQ config table is the gain: on Q8_0 it alone takes four-die prefill 845 -> 1101 (+30%) and one die 230 -> 315 (+37%), 89% of the whole fork's +34% / +40%; the tile-load commit adds nothing (+0.7%), the k-unroll +1%, the rest of the fork's 81-file diff +2%. It also carries the wide-batch decode gain: 164 / 197 / 217 tok/s at 16 / 24 / 32 slots against stock's 141 / 163 / 181 (+16 / +21 / +20%), level with the whole fork. On the K-quants the table alone is worth 1-2% (Q6_K 660 -> 671, Q4_K_M 747 -> 751) and the fork's +26% / +7% there comes from its K-quant kernel changes. Single-stream decode is untouched by all three (the +3-4% of the whole fork is elsewhere). S1 upstreaming = the config table plus its dispatch guard, with the K-quant kernels as a separate item."
+ },
+ "gfx906_branch_unsafe_math_r3": {
+  "_desc": "2026-09-08 post27: the gfx906 branch rebuilt with -funsafe-math-optimizations (r3, /opt/llama.cpp-gfx906-master-r3; the flag upstream removed on 2026-08-12 and the production lineage still carries) against production: perplexity 16K, per-sample tp4 tg128 x5, batched 8/12/16 interleaved x2, team16 server at 8/16 clients, and the repack-on width sweep.",
+  "cmd": "tools/post27.sh (source qwen38-27b-post27.md, bisect/ppl.md, bisect/tg.md)",
+  "ppl": 5.6212,
+  "per_sample": {
+   "r3 --no-repack": [
+    55.4,
+    56.7,
+    59.2,
+    59.0,
+    58.9
+   ],
+   "r3 repack on": [
+    54.5,
+    54.8,
+    58.0,
+    57.9,
+    57.8
+   ]
+  },
+  "batched": {
+   "columns": [
+    "round",
+    "build",
+    "8",
+    "12",
+    "16"
+   ],
+   "rows": [
+    [
+     1,
+     "r3 --no-repack",
+     151.69,
+     189.44,
+     196.0
+    ],
+    [
+     1,
+     "production",
+     174.73,
+     197.27,
+     202.82
+    ],
+    [
+     2,
+     "r3 --no-repack",
+     154.0,
+     194.78,
+     195.88
+    ],
+    [
+     2,
+     "production",
+     174.6,
+     197.08,
+     202.85
+    ]
+   ]
+  },
+  "server": {
+   "r3 --no-repack": [
+    73.6,
+    79.5
+   ],
+   "production": [
+    77.2,
+    81.8
+   ]
+  },
+  "repack_on_widths": {
+   "1": 36.26,
+   "2": 56.46,
+   "4": 130.25,
+   "8": 162.91,
+   "12": 140.65,
+   "16": 169.41,
+   "24": 207.07,
+   "32": 259.33
+  },
+  "reading": "The flag changes nothing on today's code: perplexity 5.6212 (r2 5.6173, upstream 5.6216), single stream 59.0 steady (= production), batched 8 slots 152-154 vs 175 (the same loss as r2), server 73.6 / 79.5 vs 77.2 / 81.8 (the same 3-4.5%). The 8-column loss and the server-level gap are in the branch's code, not its compiler flags. r3 is retired; r2 stays the branch build."
+ },
+ "gfx906_branch_8col_check": {
+  "_desc": "2026-09-08 post25b: the branch's (r2) 8-slot decode loss with --no-repack, tp4 llama-batched-bench at 2K, -npl 8,12,16 (and 16,12,8 reversed): the fork's CUDA op fusion on/off (GGML_CUDA_DISABLE_FUSION=1), the custom allreduce off, and production for reference.",
+  "cmd": "tools/post25b.sh (source qwen38-27b-post25b.md)",
+  "columns": [
+   "build",
+   "variant",
+   "first cell",
+   "second",
+   "third",
+   "order"
+  ],
+  "rows": [
+   [
+    "branch r2 --no-repack",
+    "fusion on",
+    125.58,
+    184.77,
+    194.34,
+    "8,12,16"
+   ],
+   [
+    "branch r2 --no-repack",
+    "fusion off",
+    147.72,
+    187.13,
+    187.11,
+    "8,12,16"
+   ],
+   [
+    "branch r2 --no-repack",
+    "custom AR off",
+    153.3,
+    187.66,
+    193.87,
+    "8,12,16"
+   ],
+   [
+    "production",
+    "fusion on",
+    175.1,
+    197.39,
+    202.92,
+    "8,12,16"
+   ],
+   [
+    "production",
+    "fusion off",
+    169.21,
+    190.75,
+    196.15,
+    "8,12,16"
+   ],
+   [
+    "branch r2 --no-repack",
+    "fusion on, reversed",
+    187.33,
+    194.82,
+    142.65,
+    "16,12,8"
+   ],
+   [
+    "production",
+    "fusion on, reversed",
+    203.5,
+    197.49,
+    174.63,
+    "16,12,8"
+   ],
+   [
+    "branch r2 repack on",
+    "reversed",
+    144.86,
+    136.21,
+    150.37,
+    "16,12,8"
+   ]
+  ],
+  "reading": "Neither the fork's op fusion (production loses 3% with it off; the branch does not gain) nor the custom allreduce is the 8-column loss, and it is not the first-cell warm-up: in reverse order the 8-slot cell is the last one and still reads 142.7 (production 175), while the first cell (16 slots) drops to 187 from 196-201 - two separate effects. The dense dispatch admits MMVQ to 16 columns identically on both trees, the launch table at 8 columns is identical, and upstream's prefetch is compiled out, so the loss is in the merged kernel body (fork b10912 mmvq.cu + the ported series) at exactly 8 columns; 12 and 16 columns are within 1-3%. Left to the S1b rewrite of the narrow-batch path on the repacked layout, which replaces this path. Production is order-independent to 0.3% (203.5 / 197.5 / 174.6 reversed). With the repack on, reversed: 144.9 / 136.2 / 150.4 at 16 / 12 / 8 - the repacked GEMM's 9-16-row path, 10% below its own earlier readings."
+ },
+ "pair_link_sensitivity": {
+  "_desc": "2026-09-08 20:46-20:52 (user's question on the pairs-vs-tp4 fairness): how much the XGMI link matters to a tensor-split pair, production build + gfx906.env, on the ring as cabled (Apple A2326 bridge: two Vega II Duo modules, each die's two XGMI ports = one to the on-card partner, one across the bridge; one link = ~33 GB/s per direction measured, PCIe 3.0 x16 ~13). Pairs: on-card 0b+0e (rocm0/rocm1, one direct link), bridge 0b+1b (rocm0/rocm2, one direct link), diagonal 0b+1e (rocm0/rocm3, NO direct link: two hops or PCIe). llama-bench pp2048/tg128 -r 3; llama-batched-bench -npl 8 at 2K.",
+  "cmd": "tools/pair-link.sh (source qwen38-27b-pair-link.md)",
+  "columns": [
+   "pair",
+   "link",
+   "pp2048",
+   "tg128",
+   "batched_8_decode",
+   "batched_8_prefill"
+  ],
+  "rows": [
+   [
+    "on-card 0b+0e",
+    "one direct XGMI link",
+    607.4,
+    37.84,
+    113.27,
+    609.6
+   ],
+   [
+    "bridge 0b+1b",
+    "one direct XGMI link",
+    620.46,
+    38.26,
+    115.47,
+    614.85
+   ],
+   [
+    "diagonal 0b+1e",
+    "no direct link (two hops / PCIe)",
+    591.97,
+    38.29,
+    113.63,
+    582.76
+   ]
+  ],
+  "reading": "Taking the direct link away entirely costs a pair 2.5-4.6% of prefill (592 vs 607-620; 583 vs 610-615 at 8 slots) and nothing at decode (38.3 vs 37.8-38.3 single stream, 113.6 vs 113.3-115.5 at 8 slots): the pair's allreduce is latency-bound at decode and only mildly bandwidth-bound at prefill (about 21 MB per layer). A second link per pair (the two-isolated-pairs bridge configuration, Apple A2339, not installed because models above 64 GB need all four dies) could therefore add at most a few percent of prefill and first-token latency to the pairs and nothing to their decode - the pairs' 20% server-level lead over tp4 stands as an overlap effect (one server's prefill beside the other's decode), not a link effect. The bridge pair is 2% faster than the on-card pair on prefill."
+ }
+}

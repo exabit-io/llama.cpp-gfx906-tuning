@@ -1,0 +1,32 @@
+--- a/optimize/optimize.py
++++ b/optimize/optimize.py
+@@ -108,8 +108,9 @@
+     dk = depth / K
+     if p == "tp4":
+         i = _nearest_ladder_idx(depth)
+-        if n in (4, 8) and i is not None:
+-            v = lad["decode_tps"][f"n{n}_{kv}"][i]
++        ladder_values = lad["decode_tps"].get(f"n{n}_{kv}")
++        if n in (4, 8) and i is not None and ladder_values is not None:
++            v = ladder_values[i]
+             if v is not None:
+                 return v, "measured"
+         if n == 8:
+@@ -656,7 +657,7 @@
+     if res["kv"] == "q8_0":
+         cmd += " -ctk q8_0 -ctv q8_0"
+     elif res["kv"] == "q8_0/q4_0":
+-        cmd += " -ctk q8_0 -ctv q4_0   # needs a GGML_CUDA_FA_ALL_QUANTS=ON build"
++        cmd += " -ctk q8_0 -ctv q4_0"
+     if res["draft"]:
+         cmd += f" --spec-type draft-mtp --spec-draft-n-max {res['draft']}"
+     if p in ("dp4", "single"):
+@@ -671,6 +672,8 @@
+         lines.append(f"  (draft factor is the conservative free-prose figure; on code-edit prompts the same draft gave {res['draft_edit_upper']:.2f}x)")
+     if res["cap"] and res["cap"] < 200:
+         lines.append(f"  cap {res['cap']} W per die: set with settings/powercap.sh {res['cap']}; caps below ~85 W are accepted by the driver and not honoured")
++    if res["kv"] == "q8_0/q4_0":
++        lines.append("  # needs a GGML_CUDA_FA_ALL_QUANTS=ON build")
+     lines.append("  " + (" ".join(env) + " " if env else "") + cmd)
+     return "\n".join(lines)
+ 

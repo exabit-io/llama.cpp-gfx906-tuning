@@ -1,0 +1,41 @@
+From 463bab8cf86ef224efb17890230f129a19110ccd Mon Sep 17 00:00:00 2001
+From: Joshua <joshua@exabit.io>
+Date: Tue, 8 Sep 2026 09:43:59 +0000
+Subject: [PATCH 6/9] ggml-cuda: restrict the add+norm and GDN producer fusions
+ to decode-sized batches (<= 64 rows)
+
+---
+ ggml/src/ggml-cuda/ggml-cuda.cu | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index 5ed3bfe..5ce2503 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -3984,6 +3984,11 @@ static bool ggml_cuda_add_rms_norm_fusable(const ggml_cgraph * cgraph, const int
+         add->src[0]->type != GGML_TYPE_F32 || add->src[1]->type != GGML_TYPE_F32) {
+         return false;
+     }
++    // decode-sized batches only: the fusion saves a launch, which is nothing at prefill, and the fused kernel re-reads
++    // the sum it just wrote (L2-resident for a few rows, an extra HBM pass at 2048)
++    if (ggml_nrows(add) > 64) {
++        return false;
++    }
+     if (!ggml_is_contiguous(add) || !ggml_is_contiguous(add->src[0]) || !ggml_is_contiguous(add->src[1]) ||
+         !ggml_are_same_shape(add, add->src[0]) || !ggml_are_same_shape(add, add->src[1])) {
+         return false;
+@@ -4084,6 +4089,11 @@ static bool ggml_cuda_gdn_prefuse_producer(ggml_backend_cuda_context & ctx, cons
+     if (gdn == nullptr || (gdn->flags & GGML_TENSOR_FLAG_COMPUTE) == 0) {
+         return false;
+     }
++    // decode only (the fold saves launches; at prefill the standalone kernels run once per ubatch anyway, and the
++    // strided raw q/k views would be walked token by token inside the GDN kernel)
++    if (gdn->src[2]->ne[2] > 64) {   // v: [S_v, H_v, n_tokens, n_seqs]
++        return false;
++    }
+     ggml_backend_cuda_context::gdn_prefuse_info & info = ctx.gdn_prefuse[gdn];
+     const ggml_tensor * raw = node->src[0];
+     if (kind == L2) {
+-- 
+2.43.0
+

@@ -1,0 +1,805 @@
+<title>Qwen3.8-27B Q8_0 on gfx906</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #EEF1F4; --surface: #F8FAFB; --surface-2: #E3E8ED;
+  --ink: #17212C; --ink-2: #485664; --muted: #76828E; --rule: #D2D9E0; --rule-2: #BFC8D1;
+  --accent: #B04F1C; --accent-ink: #8E3E13; --accent-soft: rgba(176,79,28,0.10);
+  --series: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-dim: #a9b4be; --grid: #E0E5EA; --axis: #BFC8D1;
+  --code-bg: #E4E9EE; --focus: #2a78d6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0E141A; --surface: #151D25; --surface-2: #1C2630;
+    --ink: #E7ECF1; --ink-2: #B2BCC6; --muted: #7E8A96; --rule: #29343F; --rule-2: #35414E;
+    --accent: #E28B55; --accent-ink: #F0A97C; --accent-soft: rgba(226,139,85,0.14);
+    --series: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-dim: #4c5966; --grid: #253039; --axis: #35414E;
+    --code-bg: #19232D; --focus: #3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E141A; --surface: #151D25; --surface-2: #1C2630;
+  --ink: #E7ECF1; --ink-2: #B2BCC6; --muted: #7E8A96; --rule: #29343F; --rule-2: #35414E;
+  --accent: #E28B55; --accent-ink: #F0A97C; --accent-soft: rgba(226,139,85,0.14);
+  --series: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-dim: #4c5966; --grid: #253039; --axis: #35414E;
+  --code-bg: #19232D; --focus: #3987e5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif; font-size: 17.5px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.page { max-width: 74rem; margin: 0 auto; padding: 2.75rem 1.5rem 4rem; display: grid; gap: 3.25rem; }
+h1, h2, h3 { font-family: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif; text-wrap: balance; margin: 0; line-height: 1.1; letter-spacing: -0.012em; }
+h1 { font-size: clamp(2.1rem, 4.5vw, 3.1rem); font-weight: 800; max-width: 22ch; }
+h2 { font-size: 1.5rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; }
+.prose { max-width: 66ch; display: grid; gap: 0.9rem; }
+.prose ul { margin: 0; padding-left: 1.2rem; }
+.prose li { margin: 0.2rem 0; }
+.eyebrow { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-ink); font-weight: 500; }
+.mono, code, pre, td.num, th.num, td.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+code { font-size: 0.86em; background: var(--code-bg); padding: 0.08em 0.35em; border-radius: 3px; }
+pre { margin: 0; background: var(--code-bg); border-radius: 6px; padding: 0.95rem 1.1rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.5; color: var(--ink); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.mast { display: grid; gap: 1.25rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+.mast .lede { font-size: 1.2rem; color: var(--ink-2); max-width: 60ch; }
+.mast .claim { border-left: 3px solid var(--accent); padding: 0.35rem 0 0.35rem 1rem; max-width: 60ch; font-size: 1.05rem; }
+.mast .claim b { font-weight: 600; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.6rem 1.75rem; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; color: var(--ink-2); line-height: 1.45; }
+.facts dt { color: var(--muted); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.facts dd { margin: 0.1rem 0 0; }
+.facts div { display: grid; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.tile { background: var(--surface); padding: 1.1rem 1.2rem 1.15rem; display: grid; gap: 0.3rem; align-content: start; }
+.tile .v { font-family: "Schibsted Grotesk", sans-serif; font-weight: 800; font-size: 2.35rem; line-height: 1; letter-spacing: -0.02em; }
+.tile .v small { font-size: 0.95rem; font-weight: 600; color: var(--ink-2); margin-left: 0.25rem; letter-spacing: 0; }
+.tile .l { font-size: 0.92rem; color: var(--ink-2); }
+section { display: grid; gap: 1.25rem; }
+.sec-head { display: grid; gap: 0.35rem; }
+figure { margin: 0; display: grid; gap: 0.6rem; }
+figcaption { font-size: 0.9rem; color: var(--ink-2); max-width: 70ch; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { padding: 0.5rem 0.8rem; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-2); font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; background: var(--surface-2); }
+tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.hi { font-weight: 600; }
+td.note, .note { color: var(--ink-2); }
+td.mono { white-space: nowrap; font-size: 0.85rem; }
+.key { display: inline-block; width: 14px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 0.45rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; font-size: 0.88rem; color: var(--ink-2); align-items: center; }
+.legend span { display: inline-flex; align-items: center; gap: 0.45rem; }
+.sw { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
+.lk { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.5rem; align-items: start; }
+svg { max-width: 100%; height: auto; display: block; }
+.chart { background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1rem 0.6rem; position: relative; }
+.chart text { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; fill: var(--ink-2); }
+.chart text.val { fill: var(--ink); font-weight: 500; }
+.chart text.tick { fill: var(--muted); font-size: 11px; }
+.chart text.ratio { fill: var(--ink-2); font-size: 11px; }
+.chart .grid line { stroke: var(--grid); stroke-width: 1; }
+.chart .axis { stroke: var(--axis); stroke-width: 1; }
+.chart .line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .pt { stroke: var(--surface); stroke-width: 2; }
+.chart .xh { stroke: var(--rule-2); stroke-width: 1; }
+.chart .region { stroke: var(--rule-2); stroke-width: 1; }
+.chart text.region-l { fill: var(--accent-ink); font-size: 10.5px; letter-spacing: 0.04em; }
+.chart .bar { cursor: default; }
+.chart .bar rect.hit { fill: transparent; }
+.chart .bar:hover .mark, .chart .bar:focus .mark { filter: brightness(0.92); }
+.chart svg[data-kind="lines"] { cursor: crosshair; }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 0.8rem; line-height: 1.4; padding: 0.45rem 0.6rem; border-radius: 4px; max-width: 20rem; opacity: 0; transition: opacity 120ms; }
+.tip[data-show="1"] { opacity: 1; }
+.tip .row { display: flex; gap: 0.5rem; align-items: baseline; }
+.tip .row b { font-weight: 600; min-width: 3.2em; text-align: right; font-variant-numeric: tabular-nums; }
+.tip .row i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; }
+.tip .h { font-weight: 600; margin-bottom: 0.15rem; }
+.files { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.8rem; color: var(--ink-2); display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 0.35rem 1.5rem; }
+footer { border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.9rem; color: var(--ink-2); display: grid; gap: 0.6rem; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+@media (max-width: 40rem) { body { font-size: 16.5px; } .tile .v { font-size: 2rem; } }
+</style>
+
+<main class="page">
+
+<header class="mast">
+  <div class="eyebrow">Measurement report · Mac Pro (2019) · 2026-09-04</div>
+  <h1>Qwen3.8-27B at 8 bits on four Vega 20 dies</h1>
+  <p class="lede">A 27-billion-parameter hybrid-attention model, 27 GiB of Q8_0 weights, served by llama.cpp on the four gfx906 dies of a 2019 Mac Pro: how fast it reads a prompt, how fast it writes, how that scales from one die to four, and what happens under thirty-two concurrent requests.</p>
+  <p class="claim"><b>The short version:</b> four dies in tensor split give 45.7 tokens/s to one stream and 68 tokens/s to eight, reading 1300-token prompts in under two seconds; thirty-two clients get no more in total and a quarter each. Layer split is 2.4× slower; the dies are limited by their 200 W power cap in prefill and by memory bandwidth plus cross-die synchronisation in generation. Batching climbs a staircase with a step at every multiple of 8 sequences. Run it with eight slots. Every number was measured twice, a day apart, and agreed within 2%.</p>
+  <dl class="facts">
+    <div><dt>Model</dt><dd>Qwen3.8-27B, Unsloth GGUF Q8_0, 27.32 B params, 27.04 GiB, 866 tensors (506 Q8_0 + 360 F32)</dd></div>
+    <div><dt>Machine</dt><dd>macpro2019-01: Xeon W-3245, 377 GiB RAM, 2 × Radeon Pro Vega II Duo = 4 × Vega 20 (gfx906), 32 GB HBM2 each, one XGMI hive</dd></div>
+    <div><dt>Software</dt><dd>Ubuntu 24.04, Linux 7.0.0-30, ROCm 7.14 (TheRock, gfx906), llama.cpp b10288 (360e134), HIP graphs, flash attention on</dd></div>
+    <div><dt>Conditions</dt><dd>fresh boot, sclk 1730 MHz, perf level high, chassis fans at max (T2 fan daemon and SMC sensor module installed that morning); the same suite on 2026-09-03, default DPM, no fan daemon, agreed within 2%</dd></div>
+  </dl>
+</header>
+
+<section aria-label="Key figures">
+  <div class="tiles">
+    <div class="tile"><div class="v">45.7<small>tok/s</small></div><div class="l">Generation for a single stream on all four dies (tensor split), 256 tokens after a 2048-token prompt. One die alone: 20.3.</div></div>
+    <div class="tile"><div class="v">830<small>tok/s</small></div><div class="l">Prompt processing on four dies; 235 on one. A 1300-token prompt is read in 1.8 s.</div></div>
+    <div class="tile"><div class="v">68<small>tok/s</small></div><div class="l">Aggregate generation serving eight concurrent 1300-token requests: 13.4 tokens/s each, 15.8 requests per minute. Thirty-two clients: the same total, 2.9 each.</div></div>
+    <div class="tile"><div class="v">200<small>W</small></div><div class="l">Per-die power cap, reached in prompt processing. Clocks held at 1730 MHz; junction peaked at 82 °C with the fans at maximum.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">1 · The model, as llama.cpp sees it</div><h2>A hybrid of linear attention and full attention, quantised to 8 bits</h2></div>
+  <div class="prose"><p>The GGUF declares the architecture <code>qwen35</code>. Of its 65 blocks, 64 are used; the last is a next-token-prediction head llama.cpp ignores. Every fourth block is full attention (16 in all) with 24 query heads over 4 key/value heads, each 256 wide; the other 48 are linear-attention blocks with a 128-wide recurrent state and a 4-tap convolution. That mix is why the KV cache stays small: only the 16 attention blocks keep one, so 32 slots of 4096 tokens fit beside the weights on four dies.</p></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>field</th><th>value</th><th>field</th><th>value</th></tr></thead>
+    <tbody>
+      <tr><td>architecture</td><td class="mono">qwen35 (hybrid)</td><td>context length</td><td class="mono">262 144</td></tr>
+      <tr><td>blocks</td><td class="mono">65 (64 used + 1 next-token-prediction, unused)</td><td>embedding / feed-forward width</td><td class="mono">5 120 / 17 408</td></tr>
+      <tr><td>full-attention interval</td><td class="mono">every 4th block: 16 attention, 48 linear</td><td>attention heads</td><td class="mono">24 query, 4 key/value, 256 wide, RoPE 64 dims at base 10<sup>7</sup></td></tr>
+      <tr><td>linear-attention state</td><td class="mono">128 × 16 groups, conv kernel 4, inner size 6 144</td><td>tokenizer</td><td class="mono">gpt2-style, pre-tokenizer qwen35</td></tr>
+      <tr><td>weights</td><td class="mono">506 Q8_0 tensors + 360 F32 norms = 27.04 GiB</td><td>per die, tensor split of 4</td><td class="mono">6.76 GiB of weights + its share of the KV cache</td></tr>
+      <tr><td>quantised by</td><td class="mono">Unsloth, from Qwen/Qwen3.8-27B (Apache-2.0)</td><td>file</td><td class="mono">/root/models/Qwen3.8-27B-Q8_0.gguf</td></tr>
+    </tbody></table></div>
+  <div class="prose"><p>Two fits matter for what follows. One die holds the whole model with room for a single 32k-token context, so the llama-bench single-die rows are real single-die numbers. The 32-slot server's cache, recurrent state and compute buffers would not fit beside 27 GiB of weights on one 32 GB die, so the serving sweeps use two or four dies.</p></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">2 · Scaling across dies</div><h2>Prompts scale 3.5× on four dies; generation 2.3×</h2></div>
+  <div class="prose"><p><code>llama-bench</code> with a 2048-token prompt and 256 generated tokens, tensor split, flash attention, batch and micro-batch 2048, two repetitions. The grey column is what linear scaling from one die would give.</p></div>
+  <div class="two">
+    <figure>
+      <div class="chart"><svg viewBox="0 0 360 262" role="img" aria-label="Column chart of prompt processing throughput: 235 tokens per second on one die, 440 on two, 830 on four, against linear scaling of 469 and 939." data-kind="cols">
+<g class="grid">
+<line x1="52" y1="214.0" x2="346" y2="214.0"/>
+<line x1="52" y1="168.0" x2="346" y2="168.0"/>
+<line x1="52" y1="122.0" x2="346" y2="122.0"/>
+<line x1="52" y1="76.0" x2="346" y2="76.0"/>
+<line x1="52" y1="30.0" x2="346" y2="30.0"/>
+</g>
+<line class="axis" x1="52" y1="214" x2="346" y2="214"/>
+<text class="tick" x="44" y="218.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="172.0" text-anchor="end">250</text>
+<text class="tick" x="44" y="126.0" text-anchor="end">500</text>
+<text class="tick" x="44" y="80.0" text-anchor="end">750</text>
+<text class="tick" x="44" y="34.0" text-anchor="end">1000</text>
+<g class="bar" tabindex="0" data-tip="1 die: 234.7 tokens/s, 1.00× one die"><rect class="hit" x="72.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series)" d="M78.0 214.0 V174.8 a4 4 0 0 1 4 -4 H96.0 a4 4 0 0 1 4 4 V214.0 Z"/><text class="val" x="89.0" y="163.8" text-anchor="middle">235</text></g>
+<g class="bar" tabindex="0" data-tip="Linear scaling from one die would be 235 tokens/s"><rect class="hit" x="96.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series-dim)" d="M102.0 214.0 V174.8 a4 4 0 0 1 4 -4 H120.0 a4 4 0 0 1 4 4 V214.0 Z"/></g>
+<text class="tick" x="101.0" y="232" text-anchor="middle">1 die</text>
+<text class="ratio" x="101.0" y="250" text-anchor="middle">×1.00</text>
+<g class="bar" tabindex="0" data-tip="2 dies: 439.5 tokens/s, 1.87× one die"><rect class="hit" x="170.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series)" d="M176.0 214.0 V137.1 a4 4 0 0 1 4 -4 H194.0 a4 4 0 0 1 4 4 V214.0 Z"/><text class="val" x="187.0" y="126.1" text-anchor="middle">440</text></g>
+<g class="bar" tabindex="0" data-tip="Linear scaling from one die would be 469 tokens/s"><rect class="hit" x="194.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series-dim)" d="M200.0 214.0 V131.6 a4 4 0 0 1 4 -4 H218.0 a4 4 0 0 1 4 4 V214.0 Z"/></g>
+<text class="tick" x="199.0" y="232" text-anchor="middle">2 dies</text>
+<text class="ratio" x="199.0" y="250" text-anchor="middle">×1.87</text>
+<g class="bar" tabindex="0" data-tip="4 dies: 829.7 tokens/s, 3.54× one die"><rect class="hit" x="268.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series)" d="M274.0 214.0 V65.3 a4 4 0 0 1 4 -4 H292.0 a4 4 0 0 1 4 4 V214.0 Z"/><text class="val" x="285.0" y="54.3" text-anchor="middle">830</text></g>
+<g class="bar" tabindex="0" data-tip="Linear scaling from one die would be 939 tokens/s"><rect class="hit" x="292.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series-dim)" d="M298.0 214.0 V45.3 a4 4 0 0 1 4 -4 H316.0 a4 4 0 0 1 4 4 V214.0 Z"/></g>
+<text class="tick" x="297.0" y="232" text-anchor="middle">4 dies</text>
+<text class="ratio" x="297.0" y="250" text-anchor="middle">×3.54</text>
+<text class="tick" x="52" y="13">prompt processing, pp2048, tokens/s</text>
+</svg><div class="tip" role="status" aria-live="polite"></div></div>
+    </figure>
+    <figure>
+      <div class="chart"><svg viewBox="0 0 360 262" role="img" aria-label="Column chart of generation throughput: 20.3 tokens per second on one die, 31.2 on two, 45.7 on four, against linear scaling of 40.5 and 81." data-kind="cols">
+<g class="grid">
+<line x1="52" y1="214.0" x2="346" y2="214.0"/>
+<line x1="52" y1="168.0" x2="346" y2="168.0"/>
+<line x1="52" y1="122.0" x2="346" y2="122.0"/>
+<line x1="52" y1="76.0" x2="346" y2="76.0"/>
+<line x1="52" y1="30.0" x2="346" y2="30.0"/>
+</g>
+<line class="axis" x1="52" y1="214" x2="346" y2="214"/>
+<text class="tick" x="44" y="218.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="172.0" text-anchor="end">25</text>
+<text class="tick" x="44" y="126.0" text-anchor="end">50</text>
+<text class="tick" x="44" y="80.0" text-anchor="end">75</text>
+<text class="tick" x="44" y="34.0" text-anchor="end">100</text>
+<g class="bar" tabindex="0" data-tip="1 die: 20.2 tokens/s, 1.00× one die"><rect class="hit" x="72.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series)" d="M78.0 214.0 V180.7 a4 4 0 0 1 4 -4 H96.0 a4 4 0 0 1 4 4 V214.0 Z"/><text class="val" x="89.0" y="169.7" text-anchor="middle">20</text></g>
+<g class="bar" tabindex="0" data-tip="Linear scaling from one die would be 20 tokens/s"><rect class="hit" x="96.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series-dim)" d="M102.0 214.0 V180.7 a4 4 0 0 1 4 -4 H120.0 a4 4 0 0 1 4 4 V214.0 Z"/></g>
+<text class="tick" x="101.0" y="232" text-anchor="middle">1 die</text>
+<text class="ratio" x="101.0" y="250" text-anchor="middle">×1.00</text>
+<g class="bar" tabindex="0" data-tip="2 dies: 31.2 tokens/s, 1.54× one die"><rect class="hit" x="170.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series)" d="M176.0 214.0 V160.5 a4 4 0 0 1 4 -4 H194.0 a4 4 0 0 1 4 4 V214.0 Z"/><text class="val" x="187.0" y="149.5" text-anchor="middle">31</text></g>
+<g class="bar" tabindex="0" data-tip="Linear scaling from one die would be 40 tokens/s"><rect class="hit" x="194.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series-dim)" d="M200.0 214.0 V143.5 a4 4 0 0 1 4 -4 H218.0 a4 4 0 0 1 4 4 V214.0 Z"/></g>
+<text class="tick" x="199.0" y="232" text-anchor="middle">2 dies</text>
+<text class="ratio" x="199.0" y="250" text-anchor="middle">×1.54</text>
+<g class="bar" tabindex="0" data-tip="4 dies: 45.7 tokens/s, 2.26× one die"><rect class="hit" x="268.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series)" d="M274.0 214.0 V133.9 a4 4 0 0 1 4 -4 H292.0 a4 4 0 0 1 4 4 V214.0 Z"/><text class="val" x="285.0" y="122.9" text-anchor="middle">46</text></g>
+<g class="bar" tabindex="0" data-tip="Linear scaling from one die would be 81 tokens/s"><rect class="hit" x="292.0" y="30" width="34" height="214"/><path class="mark" fill="var(--series-dim)" d="M298.0 214.0 V69.0 a4 4 0 0 1 4 -4 H316.0 a4 4 0 0 1 4 4 V214.0 Z"/></g>
+<text class="tick" x="297.0" y="232" text-anchor="middle">4 dies</text>
+<text class="ratio" x="297.0" y="250" text-anchor="middle">×2.26</text>
+<text class="tick" x="52" y="13">generation, tg256, tokens/s</text>
+</svg><div class="tip" role="status" aria-live="polite"></div></div>
+    </figure>
+  </div>
+  <div class="legend"><span><i class="sw" style="background:var(--series)"></i>measured</span><span><i class="sw" style="background:var(--series-dim)"></i>linear scaling from one die</span></div>
+  <figcaption>Hover or focus a column for the figure. Prompt processing is compute-bound and splits almost cleanly; generation is bound by memory bandwidth and by the synchronisation every layer needs between dies.</figcaption>
+  <div class="tablewrap"><table><thead><tr><th>dies (tensor split)</th><th class="num">pp2048</th><th class="num">tg256</th><th class="num">pp2048 at 16k depth</th><th class="num">tg256 at 16k</th><th class="num">pp2048 at 32k depth</th><th class="num">tg256 at 32k</th><th class="num">pp / tg kept at 32k</th></tr></thead><tbody>
+<tr><td>1</td><td class="num">234.7</td><td class="num hi">20.25</td><td class="num">200.5</td><td class="num">18.83</td><td class="num">174.7</td><td class="num">17.69</td><td class="num note">74% / 87%</td></tr>
+<tr><td>2</td><td class="num">439.5</td><td class="num hi">31.23</td><td class="num">377.5</td><td class="num">29.71</td><td class="num">331.8</td><td class="num">28.51</td><td class="num note">75% / 91%</td></tr>
+<tr><td>4</td><td class="num">829.7</td><td class="num hi">45.69</td><td class="num">714.3</td><td class="num">43.99</td><td class="num">627.3</td><td class="num">42.88</td><td class="num note">76% / 94%</td></tr>
+</tbody></table></div>
+  <div class="prose">
+    <p>The generation numbers are a bandwidth story. One die streams its 29 GB of weights once per token: at 20.25 tokens/s that is 588 GB/s, 70% of the 840 GB/s a plain read of its HBM2 achieves. Four dies each stream a quarter of the weights, which would take 8.6 ms of the 21.9 ms a token costs; the other 13 ms is everything that does not divide by four: the reduction across dies after every layer, kernel launches, and the sequential parts of the graph.</p>
+    <p>Context depth costs prompt processing more than generation: at 32k tokens of context, four dies keep 76% of their prompt speed and 94% of their generation speed. With only 16 attention blocks, the attention over a long context is a small share of each token.</p>
+  </div>
+  <h3>The same model at Q4_K_M</h3>
+  <div class="prose"><p>Unsloth's Q4_K_M build (15.3 GiB) was measured with the same command on 2026-09-03. Generation gains from the smaller weights on one die and almost nothing on four, where synchronisation dominates; prompt processing is faster at Q8_0 on this hardware, whose 8-bit matrix kernels are the better fit for Vega 20.</p></div>
+  <div class="tablewrap"><table><thead><tr><th>dies</th><th class="num">Q8_0 pp2048</th><th class="num">Q4_K_M pp2048</th><th class="num">Q8_0 tg256</th><th class="num">Q4_K_M tg256</th><th class="num">Q8_0 tg256 at 32k</th><th class="num">Q4_K_M tg256 at 32k</th></tr></thead><tbody>
+<tr><td>1</td><td class="num">234.7</td><td class="num">201.7 <span class="note">(-14%)</span></td><td class="num">20.25</td><td class="num">24.71 <span class="note">(+22%)</span></td><td class="num">17.69</td><td class="num">20.95 <span class="note">(+18%)</span></td></tr>
+<tr><td>2</td><td class="num">439.5</td><td class="num">383.8 <span class="note">(-13%)</span></td><td class="num">31.23</td><td class="num">35.52 <span class="note">(+14%)</span></td><td class="num">28.51</td><td class="num">32.11 <span class="note">(+13%)</span></td></tr>
+<tr><td>4</td><td class="num">829.7</td><td class="num">732.9 <span class="note">(-12%)</span></td><td class="num">45.69</td><td class="num">47.33 <span class="note">(+4%)</span></td><td class="num">42.88</td><td class="num">44.32 <span class="note">(+3%)</span></td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">3 · Batching</div><h2>Thirty-two sequences generate 4.1× the tokens of one, up a staircase with steps at every eighth</h2></div>
+  <div class="prose"><p><code>llama-batched-bench</code> on four dies in tensor split, a 73 728-token KV budget, 512-token prompts (2048 in the table) and 128 generated tokens per sequence. The first pass used batch sizes 1, 2, 4, 8, 16 and 32 and showed batch 16 below batch 8; the 512-token charts below come from one run over every size from 1 to 32, and the 2048-token column of the table from two passes covering the same sizes. Prompt processing sits at 830 tokens/s from batch 4 up whatever the batch, so both charts show the generation phase.</p></div>
+  <figure>
+    <div class="chart"><svg viewBox="0 0 760 296" role="img" aria-label="Step chart of decode step time versus batch size for every size from 1 to 32: about 22 to 49 milliseconds for batches 1 to 8 on the mat-vec kernel, roughly 95 to 105 for 9 to 16, 137 to 147 for 17 to 24, 166 to 176 for 25 to 32; each region is one MMQ tile width." data-kind="cols">
+<g class="grid">
+<line x1="52" y1="250.0" x2="740" y2="250.0"/>
+<line x1="52" y1="195.0" x2="740" y2="195.0"/>
+<line x1="52" y1="140.0" x2="740" y2="140.0"/>
+<line x1="52" y1="85.0" x2="740" y2="85.0"/>
+<line x1="52" y1="30.0" x2="740" y2="30.0"/>
+</g>
+<line class="axis" x1="52" y1="250" x2="740" y2="250"/>
+<text class="tick" x="44" y="254.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="199.0" text-anchor="end">50</text>
+<text class="tick" x="44" y="144.0" text-anchor="end">100</text>
+<text class="tick" x="44" y="89.0" text-anchor="end">150</text>
+<text class="tick" x="44" y="34.0" text-anchor="end">200</text>
+<text class="region-l" x="138.0" y="22" text-anchor="middle">mat-vec kernel, up to 8 tokens</text>
+<line class="region" x1="224.0" x2="224.0" y1="26" y2="250"/>
+<text class="region-l" x="310.0" y="22" text-anchor="middle">MMQ, 16-wide tile</text>
+<line class="region" x1="396.0" x2="396.0" y1="26" y2="250"/>
+<text class="region-l" x="482.0" y="22" text-anchor="middle">MMQ, 24-wide tile</text>
+<line class="region" x1="568.0" x2="568.0" y1="26" y2="250"/>
+<text class="region-l" x="654.0" y="22" text-anchor="middle">MMQ, 32-wide tile</text>
+<path class="line" stroke="var(--series)" d="M62.8 225.1 L84.2 218.8 L105.8 217.2 L127.2 213.7 L148.8 210.2 L170.2 205.0 L191.8 200.7 L213.2 195.7 L234.8 147.5 L256.2 146.9 L277.8 145.1 L299.2 143.5 L320.8 140.6 L342.2 138.5 L363.8 136.7 L385.2 134.8 L406.8 101.5 L428.2 99.6 L449.8 96.8 L471.2 95.6 L492.8 93.3 L514.2 91.3 L535.8 89.7 L557.2 88.1 L578.8 68.6 L600.2 67.3 L621.8 65.3 L643.2 62.8 L664.8 61.6 L686.2 60.0 L707.8 57.2 L729.2 56.0"/>
+<g class="bar" tabindex="0" data-tip="Batch 1: 23 ms per decode step, 44.2 tokens/s in total"><rect class="hit" x="52.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="62.8" cy="225.1" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="62.8" y="216.1" text-anchor="middle">23</text>
+<text class="tick" x="62.8" y="268" text-anchor="middle">1</text>
+<g class="bar" tabindex="0" data-tip="Batch 2: 28 ms per decode step, 70.6 tokens/s in total"><rect class="hit" x="73.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="84.2" cy="218.8" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 3: 30 ms per decode step, 100.6 tokens/s in total"><rect class="hit" x="95.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="105.8" cy="217.2" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 4: 33 ms per decode step, 121.1 tokens/s in total"><rect class="hit" x="116.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="127.2" cy="213.7" r="4.5" fill="var(--series)"/></g>
+<text class="tick" x="127.2" y="268" text-anchor="middle">4</text>
+<g class="bar" tabindex="0" data-tip="Batch 5: 36 ms per decode step, 138.1 tokens/s in total"><rect class="hit" x="138.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="148.8" cy="210.2" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 6: 41 ms per decode step, 146.6 tokens/s in total"><rect class="hit" x="159.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="170.2" cy="205.0" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 7: 45 ms per decode step, 156.3 tokens/s in total"><rect class="hit" x="181.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="191.8" cy="200.7" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 8: 49 ms per decode step, 162.1 tokens/s in total"><rect class="hit" x="202.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="213.2" cy="195.7" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="213.2" y="186.7" text-anchor="middle">49</text>
+<text class="tick" x="213.2" y="268" text-anchor="middle">8</text>
+<g class="bar" tabindex="0" data-tip="Batch 9: 93 ms per decode step, 96.6 tokens/s in total"><rect class="hit" x="224.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="234.8" cy="147.5" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="234.8" y="163.5" text-anchor="middle">93</text>
+<g class="bar" tabindex="0" data-tip="Batch 10: 94 ms per decode step, 106.7 tokens/s in total"><rect class="hit" x="245.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="256.2" cy="146.9" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 11: 95 ms per decode step, 115.4 tokens/s in total"><rect class="hit" x="267.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="277.8" cy="145.1" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 12: 97 ms per decode step, 123.9 tokens/s in total"><rect class="hit" x="288.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="299.2" cy="143.5" r="4.5" fill="var(--series)"/></g>
+<text class="tick" x="299.2" y="268" text-anchor="middle">12</text>
+<g class="bar" tabindex="0" data-tip="Batch 13: 99 ms per decode step, 130.8 tokens/s in total"><rect class="hit" x="310.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="320.8" cy="140.6" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 14: 101 ms per decode step, 138.2 tokens/s in total"><rect class="hit" x="331.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="342.2" cy="138.5" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 15: 103 ms per decode step, 145.6 tokens/s in total"><rect class="hit" x="353.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="363.8" cy="136.7" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 16: 105 ms per decode step, 152.7 tokens/s in total"><rect class="hit" x="374.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="385.2" cy="134.8" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="385.2" y="125.8" text-anchor="middle">105</text>
+<text class="tick" x="385.2" y="268" text-anchor="middle">16</text>
+<g class="bar" tabindex="0" data-tip="Batch 17: 135 ms per decode step, 125.9 tokens/s in total"><rect class="hit" x="396.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="406.8" cy="101.5" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="406.8" y="117.5" text-anchor="middle">135</text>
+<g class="bar" tabindex="0" data-tip="Batch 18: 137 ms per decode step, 131.7 tokens/s in total"><rect class="hit" x="417.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="428.2" cy="99.6" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 19: 139 ms per decode step, 136.5 tokens/s in total"><rect class="hit" x="439.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="449.8" cy="96.8" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 20: 140 ms per decode step, 142.5 tokens/s in total"><rect class="hit" x="460.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="471.2" cy="95.6" r="4.5" fill="var(--series)"/></g>
+<text class="tick" x="471.2" y="268" text-anchor="middle">20</text>
+<g class="bar" tabindex="0" data-tip="Batch 21: 142 ms per decode step, 147.4 tokens/s in total"><rect class="hit" x="482.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="492.8" cy="93.3" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 22: 144 ms per decode step, 152.5 tokens/s in total"><rect class="hit" x="503.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="514.2" cy="91.3" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 23: 146 ms per decode step, 157.8 tokens/s in total"><rect class="hit" x="525.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="535.8" cy="89.7" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 24: 147 ms per decode step, 163.1 tokens/s in total"><rect class="hit" x="546.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="557.2" cy="88.1" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="557.2" y="79.1" text-anchor="middle">147</text>
+<text class="tick" x="557.2" y="268" text-anchor="middle">24</text>
+<g class="bar" tabindex="0" data-tip="Batch 25: 165 ms per decode step, 151.6 tokens/s in total"><rect class="hit" x="568.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="578.8" cy="68.6" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="578.8" y="84.6" text-anchor="middle">165</text>
+<g class="bar" tabindex="0" data-tip="Batch 26: 166 ms per decode step, 156.5 tokens/s in total"><rect class="hit" x="589.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="600.2" cy="67.3" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 27: 168 ms per decode step, 160.8 tokens/s in total"><rect class="hit" x="611.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="621.8" cy="65.3" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 28: 170 ms per decode step, 164.6 tokens/s in total"><rect class="hit" x="632.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="643.2" cy="62.8" r="4.5" fill="var(--series)"/></g>
+<text class="tick" x="643.2" y="268" text-anchor="middle">28</text>
+<g class="bar" tabindex="0" data-tip="Batch 29: 171 ms per decode step, 169.3 tokens/s in total"><rect class="hit" x="654.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="664.8" cy="61.6" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 30: 173 ms per decode step, 173.7 tokens/s in total"><rect class="hit" x="675.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="686.2" cy="60.0" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 31: 175 ms per decode step, 176.9 tokens/s in total"><rect class="hit" x="697.0" y="30" width="21.5" height="250"/><circle class="pt mark" cx="707.8" cy="57.2" r="4.5" fill="var(--series)"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 32: 176 ms per decode step, 181.5 tokens/s in total"><rect class="hit" x="718.5" y="30" width="21.5" height="250"/><circle class="pt mark" cx="729.2" cy="56.0" r="4.5" fill="var(--series)"/></g>
+<text class="val" x="729.2" y="47.0" text-anchor="middle">176</text>
+<text class="tick" x="729.2" y="268" text-anchor="middle">32</text>
+<text class="tick" x="396.0" y="286" text-anchor="middle">batch size (sequences decoding together)</text>
+<text class="tick" x="52" y="13">milliseconds per decode step (all sequences advance one token)</text>
+</svg><div class="tip" role="status" aria-live="polite"></div></div>
+    <figcaption>Time for one decode step (every sequence in the batch advances one token) by batch size. The step cost is nearly flat within each region and jumps between 8 and 9, 16 and 17, 24 and 25: batches of up to 8 tokens use llama.cpp's quantised matrix-vector kernel; larger batches use its MMQ matrix kernel, which picks the smallest tile width in multiples of 8 that covers the batch and computes the whole tile, so batch 9 pays for 16 and batch 17 for 24.</figcaption>
+  </figure>
+  <figure>
+    <div class="chart"><svg viewBox="0 0 760 296" role="img" aria-label="Column chart of aggregate generation throughput for every batch size from 1 to 32: it rises to about 162 tokens per second at batch 8, falls by a third at batch 9, rises to about 153 at 16, falls at 17, rises to about 163 at 24, falls at 25 and rises to about 181 at 32." data-kind="cols">
+<g class="grid">
+<line x1="52" y1="250.0" x2="740" y2="250.0"/>
+<line x1="52" y1="195.0" x2="740" y2="195.0"/>
+<line x1="52" y1="140.0" x2="740" y2="140.0"/>
+<line x1="52" y1="85.0" x2="740" y2="85.0"/>
+<line x1="52" y1="30.0" x2="740" y2="30.0"/>
+</g>
+<line class="axis" x1="52" y1="250" x2="740" y2="250"/>
+<text class="tick" x="44" y="254.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="199.0" text-anchor="end">50</text>
+<text class="tick" x="44" y="144.0" text-anchor="end">100</text>
+<text class="tick" x="44" y="89.0" text-anchor="end">150</text>
+<text class="tick" x="44" y="34.0" text-anchor="end">200</text>
+<g class="bar" tabindex="0" data-tip="Batch 1: 44.2 tokens/s in total, 44.2 per sequence, 23 ms per decode step"><rect class="hit" x="52.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M55.8 250.0 V205.4 a4 4 0 0 1 4 -4 H65.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="62.8" y="194.4" text-anchor="middle">44</text></g>
+<text class="tick" x="62.8" y="268" text-anchor="middle">1</text>
+<g class="bar" tabindex="0" data-tip="Batch 2: 70.6 tokens/s in total, 35.3 per sequence, 28 ms per decode step"><rect class="hit" x="73.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M77.2 250.0 V176.3 a4 4 0 0 1 4 -4 H87.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 3: 100.6 tokens/s in total, 33.5 per sequence, 30 ms per decode step"><rect class="hit" x="95.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M98.8 250.0 V143.4 a4 4 0 0 1 4 -4 H108.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 4: 121.1 tokens/s in total, 30.3 per sequence, 33 ms per decode step"><rect class="hit" x="116.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M120.2 250.0 V120.8 a4 4 0 0 1 4 -4 H130.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<text class="tick" x="127.2" y="268" text-anchor="middle">4</text>
+<g class="bar" tabindex="0" data-tip="Batch 5: 138.1 tokens/s in total, 27.6 per sequence, 36 ms per decode step"><rect class="hit" x="138.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M141.8 250.0 V102.1 a4 4 0 0 1 4 -4 H151.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 6: 146.6 tokens/s in total, 24.4 per sequence, 41 ms per decode step"><rect class="hit" x="159.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M163.2 250.0 V92.8 a4 4 0 0 1 4 -4 H173.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 7: 156.3 tokens/s in total, 22.3 per sequence, 45 ms per decode step"><rect class="hit" x="181.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M184.8 250.0 V82.1 a4 4 0 0 1 4 -4 H194.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 8: 162.1 tokens/s in total, 20.3 per sequence, 49 ms per decode step"><rect class="hit" x="202.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M206.2 250.0 V75.7 a4 4 0 0 1 4 -4 H216.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="213.2" y="64.7" text-anchor="middle">162</text></g>
+<text class="tick" x="213.2" y="268" text-anchor="middle">8</text>
+<g class="bar" tabindex="0" data-tip="Batch 9: 96.6 tokens/s in total, 10.7 per sequence, 93 ms per decode step"><rect class="hit" x="224.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M227.8 250.0 V147.8 a4 4 0 0 1 4 -4 H237.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="234.8" y="136.8" text-anchor="middle">97</text></g>
+<g class="bar" tabindex="0" data-tip="Batch 10: 106.7 tokens/s in total, 10.7 per sequence, 94 ms per decode step"><rect class="hit" x="245.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M249.2 250.0 V136.6 a4 4 0 0 1 4 -4 H259.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 11: 115.4 tokens/s in total, 10.5 per sequence, 95 ms per decode step"><rect class="hit" x="267.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M270.8 250.0 V127.1 a4 4 0 0 1 4 -4 H280.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 12: 123.9 tokens/s in total, 10.3 per sequence, 97 ms per decode step"><rect class="hit" x="288.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M292.2 250.0 V117.7 a4 4 0 0 1 4 -4 H302.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<text class="tick" x="299.2" y="268" text-anchor="middle">12</text>
+<g class="bar" tabindex="0" data-tip="Batch 13: 130.8 tokens/s in total, 10.1 per sequence, 99 ms per decode step"><rect class="hit" x="310.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M313.8 250.0 V110.2 a4 4 0 0 1 4 -4 H323.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 14: 138.2 tokens/s in total, 9.9 per sequence, 101 ms per decode step"><rect class="hit" x="331.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M335.2 250.0 V102.0 a4 4 0 0 1 4 -4 H345.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 15: 145.6 tokens/s in total, 9.7 per sequence, 103 ms per decode step"><rect class="hit" x="353.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M356.8 250.0 V93.8 a4 4 0 0 1 4 -4 H366.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 16: 152.7 tokens/s in total, 9.5 per sequence, 105 ms per decode step"><rect class="hit" x="374.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M378.2 250.0 V86.0 a4 4 0 0 1 4 -4 H388.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="385.2" y="75.0" text-anchor="middle">153</text></g>
+<text class="tick" x="385.2" y="268" text-anchor="middle">16</text>
+<g class="bar" tabindex="0" data-tip="Batch 17: 125.9 tokens/s in total, 7.4 per sequence, 135 ms per decode step"><rect class="hit" x="396.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M399.8 250.0 V115.5 a4 4 0 0 1 4 -4 H409.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="406.8" y="104.5" text-anchor="middle">126</text></g>
+<g class="bar" tabindex="0" data-tip="Batch 18: 131.7 tokens/s in total, 7.3 per sequence, 137 ms per decode step"><rect class="hit" x="417.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M421.2 250.0 V109.2 a4 4 0 0 1 4 -4 H431.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 19: 136.5 tokens/s in total, 7.2 per sequence, 139 ms per decode step"><rect class="hit" x="439.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M442.8 250.0 V103.9 a4 4 0 0 1 4 -4 H452.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 20: 142.5 tokens/s in total, 7.1 per sequence, 140 ms per decode step"><rect class="hit" x="460.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M464.2 250.0 V97.3 a4 4 0 0 1 4 -4 H474.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<text class="tick" x="471.2" y="268" text-anchor="middle">20</text>
+<g class="bar" tabindex="0" data-tip="Batch 21: 147.4 tokens/s in total, 7.0 per sequence, 142 ms per decode step"><rect class="hit" x="482.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M485.8 250.0 V91.9 a4 4 0 0 1 4 -4 H495.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 22: 152.5 tokens/s in total, 6.9 per sequence, 144 ms per decode step"><rect class="hit" x="503.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M507.2 250.0 V86.3 a4 4 0 0 1 4 -4 H517.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 23: 157.8 tokens/s in total, 6.9 per sequence, 146 ms per decode step"><rect class="hit" x="525.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M528.8 250.0 V80.4 a4 4 0 0 1 4 -4 H538.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 24: 163.1 tokens/s in total, 6.8 per sequence, 147 ms per decode step"><rect class="hit" x="546.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M550.2 250.0 V74.6 a4 4 0 0 1 4 -4 H560.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="557.2" y="63.6" text-anchor="middle">163</text></g>
+<text class="tick" x="557.2" y="268" text-anchor="middle">24</text>
+<g class="bar" tabindex="0" data-tip="Batch 25: 151.6 tokens/s in total, 6.1 per sequence, 165 ms per decode step"><rect class="hit" x="568.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M571.8 250.0 V87.3 a4 4 0 0 1 4 -4 H581.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="578.8" y="76.3" text-anchor="middle">152</text></g>
+<g class="bar" tabindex="0" data-tip="Batch 26: 156.5 tokens/s in total, 6.0 per sequence, 166 ms per decode step"><rect class="hit" x="589.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M593.2 250.0 V81.8 a4 4 0 0 1 4 -4 H603.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 27: 160.8 tokens/s in total, 6.0 per sequence, 168 ms per decode step"><rect class="hit" x="611.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M614.8 250.0 V77.1 a4 4 0 0 1 4 -4 H624.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 28: 164.6 tokens/s in total, 5.9 per sequence, 170 ms per decode step"><rect class="hit" x="632.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M636.2 250.0 V73.0 a4 4 0 0 1 4 -4 H646.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<text class="tick" x="643.2" y="268" text-anchor="middle">28</text>
+<g class="bar" tabindex="0" data-tip="Batch 29: 169.3 tokens/s in total, 5.8 per sequence, 171 ms per decode step"><rect class="hit" x="654.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M657.8 250.0 V67.8 a4 4 0 0 1 4 -4 H667.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 30: 173.7 tokens/s in total, 5.8 per sequence, 173 ms per decode step"><rect class="hit" x="675.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M679.2 250.0 V63.0 a4 4 0 0 1 4 -4 H689.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 31: 176.9 tokens/s in total, 5.7 per sequence, 175 ms per decode step"><rect class="hit" x="697.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M700.8 250.0 V59.4 a4 4 0 0 1 4 -4 H710.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="Batch 32: 181.5 tokens/s in total, 5.7 per sequence, 176 ms per decode step"><rect class="hit" x="718.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M722.2 250.0 V54.4 a4 4 0 0 1 4 -4 H732.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="729.2" y="43.4" text-anchor="middle">181</text></g>
+<text class="tick" x="729.2" y="268" text-anchor="middle">32</text>
+<text class="tick" x="396.0" y="286" text-anchor="middle">batch size (sequences decoding together)</text>
+<text class="tick" x="52" y="13">generated tokens per second, all sequences together (512-token prompts)</text>
+</svg><div class="tip" role="status" aria-live="polite"></div></div>
+    <figcaption>The same runs as aggregate throughput. Within a tile the fixed step cost is shared by more sequences, so throughput climbs; crossing into the next tile drops it by a third. Batch 16 delivers no more than batch 8, and batch 24 barely more; only the full 32-wide tile clearly beats eight. Hover or focus a column for any size; the table has them all.</figcaption>
+  </figure>
+  <div class="tablewrap"><table><thead><tr><th class="num">batch</th><th class="num">prompt phase t/s</th><th class="num">generation t/s, all sequences</th><th class="num">per sequence</th><th class="num">ms per decode step</th><th class="num">generation t/s with 2048-token prompts</th><th class="num">per sequence</th></tr></thead><tbody>
+<tr><td class="num">1</td><td class="num">672</td><td class="num hi">44.2</td><td class="num">44.2</td><td class="num">23</td><td class="num">43.9</td><td class="num">43.9</td></tr>
+<tr><td class="num">2</td><td class="num">786</td><td class="num hi">70.6</td><td class="num">35.3</td><td class="num">28</td><td class="num">71.2</td><td class="num">35.6</td></tr>
+<tr><td class="num">3</td><td class="num">809</td><td class="num hi">100.6</td><td class="num">33.5</td><td class="num">30</td><td class="num">97.2</td><td class="num">32.4</td></tr>
+<tr><td class="num">4</td><td class="num">831</td><td class="num hi">121.1</td><td class="num">30.3</td><td class="num">33</td><td class="num">117.4</td><td class="num">29.3</td></tr>
+<tr><td class="num">5</td><td class="num">802</td><td class="num hi">138.1</td><td class="num">27.6</td><td class="num">36</td><td class="num">138.4</td><td class="num">27.7</td></tr>
+<tr><td class="num">6</td><td class="num">821</td><td class="num hi">146.6</td><td class="num">24.4</td><td class="num">41</td><td class="num">144.5</td><td class="num">24.1</td></tr>
+<tr><td class="num">7</td><td class="num">826</td><td class="num hi">156.3</td><td class="num">22.3</td><td class="num">45</td><td class="num">154.2</td><td class="num">22.0</td></tr>
+<tr><td class="num">8</td><td class="num">837</td><td class="num hi">162.1</td><td class="num">20.3</td><td class="num">49</td><td class="num">159.0</td><td class="num">19.9</td></tr>
+<tr><td class="num">9</td><td class="num">819</td><td class="num hi">96.6</td><td class="num">10.7</td><td class="num">93</td><td class="num">96.1</td><td class="num">10.7</td></tr>
+<tr><td class="num">10</td><td class="num">818</td><td class="num hi">106.7</td><td class="num">10.7</td><td class="num">94</td><td class="num">104.8</td><td class="num">10.5</td></tr>
+<tr><td class="num">11</td><td class="num">830</td><td class="num hi">115.4</td><td class="num">10.5</td><td class="num">95</td><td class="num">114.0</td><td class="num">10.4</td></tr>
+<tr><td class="num">12</td><td class="num">837</td><td class="num hi">123.9</td><td class="num">10.3</td><td class="num">97</td><td class="num">121.8</td><td class="num">10.1</td></tr>
+<tr><td class="num">13</td><td class="num">825</td><td class="num hi">130.8</td><td class="num">10.1</td><td class="num">99</td><td class="num">129.9</td><td class="num">10.0</td></tr>
+<tr><td class="num">14</td><td class="num">831</td><td class="num hi">138.2</td><td class="num">9.9</td><td class="num">101</td><td class="num">136.7</td><td class="num">9.8</td></tr>
+<tr><td class="num">15</td><td class="num">833</td><td class="num hi">145.6</td><td class="num">9.7</td><td class="num">103</td><td class="num">144.7</td><td class="num">9.6</td></tr>
+<tr><td class="num">16</td><td class="num">838</td><td class="num hi">152.7</td><td class="num">9.5</td><td class="num">105</td><td class="num">150.9</td><td class="num">9.4</td></tr>
+<tr><td class="num">17</td><td class="num">828</td><td class="num hi">125.9</td><td class="num">7.4</td><td class="num">135</td><td class="num">125.5</td><td class="num">7.4</td></tr>
+<tr><td class="num">18</td><td class="num">833</td><td class="num hi">131.7</td><td class="num">7.3</td><td class="num">137</td><td class="num">130.3</td><td class="num">7.2</td></tr>
+<tr><td class="num">19</td><td class="num">834</td><td class="num hi">136.5</td><td class="num">7.2</td><td class="num">139</td><td class="num">136.1</td><td class="num">7.2</td></tr>
+<tr><td class="num">20</td><td class="num">838</td><td class="num hi">142.5</td><td class="num">7.1</td><td class="num">140</td><td class="num">140.8</td><td class="num">7.0</td></tr>
+<tr><td class="num">21</td><td class="num">830</td><td class="num hi">147.4</td><td class="num">7.0</td><td class="num">142</td><td class="num">146.9</td><td class="num">7.0</td></tr>
+<tr><td class="num">22</td><td class="num">834</td><td class="num hi">152.5</td><td class="num">6.9</td><td class="num">144</td><td class="num">151.1</td><td class="num">6.9</td></tr>
+<tr><td class="num">23</td><td class="num">835</td><td class="num hi">157.8</td><td class="num">6.9</td><td class="num">146</td><td class="num">156.2</td><td class="num">6.8</td></tr>
+<tr><td class="num">24</td><td class="num">839</td><td class="num hi">163.1</td><td class="num">6.8</td><td class="num">147</td><td class="num">161.7</td><td class="num">6.7</td></tr>
+<tr><td class="num">25</td><td class="num">832</td><td class="num hi">151.6</td><td class="num">6.1</td><td class="num">165</td><td class="num">149.4</td><td class="num">6.0</td></tr>
+<tr><td class="num">26</td><td class="num">835</td><td class="num hi">156.5</td><td class="num">6.0</td><td class="num">166</td><td class="num">154.5</td><td class="num">5.9</td></tr>
+<tr><td class="num">27</td><td class="num">836</td><td class="num hi">160.8</td><td class="num">6.0</td><td class="num">168</td><td class="num">157.4</td><td class="num">5.8</td></tr>
+<tr><td class="num">28</td><td class="num">838</td><td class="num hi">164.6</td><td class="num">5.9</td><td class="num">170</td><td class="num">162.6</td><td class="num">5.8</td></tr>
+<tr><td class="num">29</td><td class="num">833</td><td class="num hi">169.3</td><td class="num">5.8</td><td class="num">171</td><td class="num">165.2</td><td class="num">5.7</td></tr>
+<tr><td class="num">30</td><td class="num">835</td><td class="num hi">173.7</td><td class="num">5.8</td><td class="num">173</td><td class="num">170.9</td><td class="num">5.7</td></tr>
+<tr><td class="num">31</td><td class="num">836</td><td class="num hi">176.9</td><td class="num">5.7</td><td class="num">175</td><td class="num">171.5</td><td class="num">5.5</td></tr>
+<tr><td class="num">32</td><td class="num">838</td><td class="num hi">181.5</td><td class="num">5.7</td><td class="num">176</td><td class="num">179.2</td><td class="num">5.6</td></tr>
+</tbody></table></div>
+  <div class="prose">
+    <p><b>Update, 2026-09-07.</b> The 8-to-9 cliff is a compile-time constant, and raising <code>MMVQ_MAX_BATCH_SIZE</code> from 8 to 16 removes it on the tensor split: batch 9 goes from 96 to 163 tokens/s and 12 becomes a peak at 175. A rewrite of the kernel's Q8_0 path the same afternoon (scales converted once per row and column per block, four rows per thread block up to 8 columns and two above; five measured iterations, every build correct on 1186 of 1186 matrix-multiply tests) goes further on both placements from one binary: on the four-die split 174 / 198 / 207 tokens/s at 8 / 12 / 16 sequences against 161 / 122 / 152 stock, and on a single die 55 / 72 at 4 / 8 sequences against 48 / 53. The table below has both; the staircase rule stands for the stock build. The same kernel inside the ML-gfx906 fork, whose own gfx906 tile table reads prompts a third faster (1130 against 848 tokens/s on the split, 314 against 230 on one die), is one binary with both gains at perplexity identical to stock (5.5969): the box's production build since the evening of 2026-09-07, with the decode cells re-measured within 3% of the table below. 2048-token prompts on the split, 512 on one die, same session as the stock control; the measurements and the patch are in the <a href="https://claude.ai/code/artifact/5c2a1ae8-dd59-476e-9739-9dc1f179be93">run-through page</a>.</p>
+  </div>
+  <div class="tablewrap"><table><thead><tr><th class="num">batch</th><th class="num">four dies, stock</th><th class="num">16-column patch</th><th class="num">Q8_0 rewrite</th><th class="num">change</th><th class="num">one die, stock</th><th class="num">16-column patch</th><th class="num">Q8_0 rewrite</th><th class="num">change</th></tr></thead><tbody>
+<tr><td class="num">1</td><td class="num">45.6</td><td class="num">45.8</td><td class="num hi">45.5</td><td class="num">-0%</td><td class="num">19.5</td><td class="num">19.4</td><td class="num hi">19.5</td><td class="num">+0%</td></tr>
+<tr><td class="num">4</td><td class="num">116.8</td><td class="num">117.4</td><td class="num hi">118.1</td><td class="num">+1%</td><td class="num">48.3</td><td class="num">48.2</td><td class="num hi">55.0</td><td class="num">+14%</td></tr>
+<tr><td class="num">8</td><td class="num">160.9</td><td class="num">160.6</td><td class="num hi">174.1</td><td class="num">+8%</td><td class="num">52.7</td><td class="num">52.7</td><td class="num hi">72.2</td><td class="num">+37%</td></tr>
+<tr><td class="num">9</td><td class="num">96.5</td><td class="num">162.6</td><td class="num hi">—</td><td class="num">+68%</td><td class="num">—</td><td class="num">—</td><td class="num hi">—</td><td class="num"></td></tr>
+<tr><td class="num">12</td><td class="num">122.3</td><td class="num">176.6</td><td class="num hi">197.7</td><td class="num">+62%</td><td class="num">54.7</td><td class="num">51.7</td><td class="num hi">—</td><td class="num">-5%</td></tr>
+<tr><td class="num">16</td><td class="num">152.3</td><td class="num">171.3</td><td class="num hi">207.2</td><td class="num">+36%</td><td class="num">63.0</td><td class="num">46.6</td><td class="num hi">—</td><td class="num">-26%</td></tr>
+</tbody></table></div>
+  <div class="prose">
+    <p>The kernel boundaries are in the source of this build: the matrix-vector path is limited to <code>MMVQ_MAX_BATCH_SIZE</code> of 8 columns, and the MMQ launcher loops over tile widths from 8 to 128 in steps of 8 and keeps the first one that covers the batch in a single tile. On Vega 20 the matrix-vector kernel is also the more efficient one: eight tokens cost 49 ms a step through it, and sixteen cost about 100 ms through a 16-wide MMQ tile.</p>
+    <p>For serving that gives a rule: the number of sequences decoding together should sit at the top of a stair. Eight slots give the best latency for the throughput; thirty-two give 12% more in this pure-decode test but nothing more in serving (section 4); anything from 9 to 15 or 17 to 23 active sequences pays a full tile for a partial one, and 9, 17 and 25 are the worst sizes of all. Batch 32 reaches 181 tokens/s at 5.7 per sequence. Prompt length made no difference to the generation phase: the 2048-token rows in the table track the 512-token rows within a few percent.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">4 · Serving under concurrency</div><h2>Tensor split over four dies: 33 tokens/s for one client, 68 for eight, no more for thirty-two</h2></div>
+  <div class="prose"><p><code>llama-server</code> with 32 slots of 4096 tokens, continuous batching, flash attention, batch 2048. The client sends 1300-token prompts, asks for 256 tokens with end-of-sequence ignored, and runs 2× the concurrency in requests (at least 8) with no prompt caching, reading the server's own per-request timings. Three placements of the model: tensor split across all four dies, layer split across all four, and tensor split across the two dies of one MPX module. Every concurrency from 1 to 32 was run, as one ascending sweep per placement on a fresh server.</p></div>
+  <div class="legend"><span><i class="lk" style="background:var(--series)"></i>tp4: tensor split, 4 dies</span><span><i class="lk" style="background:var(--series-2)"></i>layer4: layer split, 4 dies</span><span><i class="lk" style="background:var(--series-3)"></i>tp2: tensor split, 2 dies (one module)</span></div>
+  <figure><div class="chart"><svg viewBox="0 0 760 296" role="img" aria-label="Column chart of aggregate generation throughput for tensor split, 4 dies at each measured concurrency from 1 to 32: highest 68 tokens per second at 32 clients, lowest above one client 44 at 7." data-kind="cols">
+<g class="grid">
+<line x1="52" y1="250.0" x2="740" y2="250.0"/>
+<line x1="52" y1="195.0" x2="740" y2="195.0"/>
+<line x1="52" y1="140.0" x2="740" y2="140.0"/>
+<line x1="52" y1="85.0" x2="740" y2="85.0"/>
+<line x1="52" y1="30.0" x2="740" y2="30.0"/>
+</g>
+<line class="axis" x1="52" y1="250" x2="740" y2="250"/>
+<text class="tick" x="44" y="254.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="199.0" text-anchor="end">20</text>
+<text class="tick" x="44" y="144.0" text-anchor="end">40</text>
+<text class="tick" x="44" y="89.0" text-anchor="end">60</text>
+<text class="tick" x="44" y="34.0" text-anchor="end">80</text>
+<g class="bar" tabindex="0" data-tip="1 concurrent: 32.7 tokens/s aggregate, 44.5 per request, first token after 1.83 s, 7.7 requests/min (8 requests, 63 s)"><rect class="hit" x="52.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M55.8 250.0 V164.1 a4 4 0 0 1 4 -4 H65.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="62.8" y="153.1" text-anchor="middle">33</text></g>
+<g class="bar" tabindex="0" data-tip="2 concurrent: 45.6 tokens/s aggregate, 34.4 per request, first token after 3.64 s, 10.7 requests/min (8 requests, 45 s)"><rect class="hit" x="73.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M77.2 250.0 V128.6 a4 4 0 0 1 4 -4 H87.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="3 concurrent: 51.6 tokens/s aggregate, 31.9 per request, first token after 4.81 s, 12.1 requests/min (8 requests, 40 s)"><rect class="hit" x="95.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M98.8 250.0 V112.1 a4 4 0 0 1 4 -4 H108.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="4 concurrent: 59.5 tokens/s aggregate, 26.3 per request, first token after 5.84 s, 14.0 requests/min (8 requests, 34 s)"><rect class="hit" x="116.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M120.2 250.0 V90.4 a4 4 0 0 1 4 -4 H130.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="127.2" y="79.4" text-anchor="middle">60</text></g>
+<g class="bar" tabindex="0" data-tip="5 concurrent: 46.9 tokens/s aggregate, 15.4 per request, first token after 6.04 s, 11.0 requests/min (10 requests, 55 s)"><rect class="hit" x="138.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M141.8 250.0 V125.0 a4 4 0 0 1 4 -4 H151.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="6 concurrent: 49.7 tokens/s aggregate, 13.1 per request, first token after 6.32 s, 11.6 requests/min (12 requests, 62 s)"><rect class="hit" x="159.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M163.2 250.0 V117.3 a4 4 0 0 1 4 -4 H173.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="7 concurrent: 43.8 tokens/s aggregate, 8.5 per request, first token after 7.09 s, 10.3 requests/min (14 requests, 82 s)"><rect class="hit" x="181.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M184.8 250.0 V133.6 a4 4 0 0 1 4 -4 H194.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="191.8" y="122.6" text-anchor="middle">44</text></g>
+<g class="bar" tabindex="0" data-tip="8 concurrent: 67.5 tokens/s aggregate, 13.4 per request, first token after 6.65 s, 15.8 requests/min (16 requests, 61 s)"><rect class="hit" x="202.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M206.2 250.0 V68.4 a4 4 0 0 1 4 -4 H216.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="213.2" y="57.4" text-anchor="middle">68</text></g>
+<g class="bar" tabindex="0" data-tip="9 concurrent: 48.0 tokens/s aggregate, 7.2 per request, first token after 7.25 s, 11.2 requests/min (18 requests, 96 s)"><rect class="hit" x="224.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M227.8 250.0 V122.0 a4 4 0 0 1 4 -4 H237.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="10 concurrent: 50.3 tokens/s aggregate, 6.8 per request, first token after 7.25 s, 11.8 requests/min (20 requests, 102 s)"><rect class="hit" x="245.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M249.2 250.0 V115.7 a4 4 0 0 1 4 -4 H259.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="11 concurrent: 52.2 tokens/s aggregate, 6.4 per request, first token after 7.50 s, 12.2 requests/min (22 requests, 108 s)"><rect class="hit" x="267.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M270.8 250.0 V110.4 a4 4 0 0 1 4 -4 H280.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="12 concurrent: 52.8 tokens/s aggregate, 6.0 per request, first token after 7.77 s, 12.4 requests/min (24 requests, 116 s)"><rect class="hit" x="288.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M292.2 250.0 V108.8 a4 4 0 0 1 4 -4 H302.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="13 concurrent: 52.7 tokens/s aggregate, 5.8 per request, first token after 7.73 s, 12.4 requests/min (26 requests, 126 s)"><rect class="hit" x="310.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M313.8 250.0 V109.1 a4 4 0 0 1 4 -4 H323.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="14 concurrent: 55.1 tokens/s aggregate, 5.7 per request, first token after 8.34 s, 12.9 requests/min (28 requests, 130 s)"><rect class="hit" x="331.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M335.2 250.0 V102.5 a4 4 0 0 1 4 -4 H345.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="15 concurrent: 44.5 tokens/s aggregate, 3.7 per request, first token after 7.99 s, 10.4 requests/min (30 requests, 173 s)"><rect class="hit" x="353.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M356.8 250.0 V131.6 a4 4 0 0 1 4 -4 H366.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="16 concurrent: 51.6 tokens/s aggregate, 4.3 per request, first token after 7.84 s, 12.1 requests/min (32 requests, 159 s)"><rect class="hit" x="374.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M378.2 250.0 V112.1 a4 4 0 0 1 4 -4 H388.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="385.2" y="101.1" text-anchor="middle">52</text></g>
+<g class="bar" tabindex="0" data-tip="17 concurrent: 50.5 tokens/s aggregate, 3.7 per request, first token after 8.02 s, 11.8 requests/min (34 requests, 172 s)"><rect class="hit" x="396.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M399.8 250.0 V115.1 a4 4 0 0 1 4 -4 H409.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="18 concurrent: 54.7 tokens/s aggregate, 4.0 per request, first token after 8.23 s, 12.8 requests/min (36 requests, 168 s)"><rect class="hit" x="417.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M421.2 250.0 V103.6 a4 4 0 0 1 4 -4 H431.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="19 concurrent: 55.5 tokens/s aggregate, 3.8 per request, first token after 8.31 s, 13.0 requests/min (38 requests, 175 s)"><rect class="hit" x="439.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M442.8 250.0 V101.4 a4 4 0 0 1 4 -4 H452.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="20 concurrent: 54.6 tokens/s aggregate, 3.6 per request, first token after 8.01 s, 12.8 requests/min (40 requests, 188 s)"><rect class="hit" x="460.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M464.2 250.0 V103.8 a4 4 0 0 1 4 -4 H474.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="21 concurrent: 55.5 tokens/s aggregate, 3.5 per request, first token after 8.24 s, 13.0 requests/min (42 requests, 194 s)"><rect class="hit" x="482.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M485.8 250.0 V101.4 a4 4 0 0 1 4 -4 H495.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="22 concurrent: 58.5 tokens/s aggregate, 3.7 per request, first token after 8.03 s, 13.7 requests/min (44 requests, 192 s)"><rect class="hit" x="503.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M507.2 250.0 V93.1 a4 4 0 0 1 4 -4 H517.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="23 concurrent: 51.3 tokens/s aggregate, 2.8 per request, first token after 8.43 s, 12.0 requests/min (46 requests, 230 s)"><rect class="hit" x="525.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M528.8 250.0 V112.9 a4 4 0 0 1 4 -4 H538.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="24 concurrent: 56.9 tokens/s aggregate, 3.0 per request, first token after 7.96 s, 13.3 requests/min (48 requests, 216 s)"><rect class="hit" x="546.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M550.2 250.0 V97.5 a4 4 0 0 1 4 -4 H560.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="25 concurrent: 54.6 tokens/s aggregate, 2.7 per request, first token after 7.97 s, 12.8 requests/min (50 requests, 234 s)"><rect class="hit" x="568.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M571.8 250.0 V103.8 a4 4 0 0 1 4 -4 H581.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="26 concurrent: 58.7 tokens/s aggregate, 2.9 per request, first token after 8.15 s, 13.8 requests/min (52 requests, 227 s)"><rect class="hit" x="589.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M593.2 250.0 V92.6 a4 4 0 0 1 4 -4 H603.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="27 concurrent: 58.9 tokens/s aggregate, 2.9 per request, first token after 8.76 s, 13.8 requests/min (54 requests, 234 s)"><rect class="hit" x="611.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M614.8 250.0 V92.0 a4 4 0 0 1 4 -4 H624.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="28 concurrent: 53.6 tokens/s aggregate, 2.4 per request, first token after 8.33 s, 12.6 requests/min (56 requests, 268 s)"><rect class="hit" x="632.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M636.2 250.0 V106.6 a4 4 0 0 1 4 -4 H646.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="29 concurrent: 56.4 tokens/s aggregate, 2.5 per request, first token after 8.60 s, 13.2 requests/min (58 requests, 263 s)"><rect class="hit" x="654.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M657.8 250.0 V98.9 a4 4 0 0 1 4 -4 H667.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="30 concurrent: 57.1 tokens/s aggregate, 2.5 per request, first token after 8.27 s, 13.4 requests/min (60 requests, 269 s)"><rect class="hit" x="675.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M679.2 250.0 V97.0 a4 4 0 0 1 4 -4 H689.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="31 concurrent: 60.3 tokens/s aggregate, 2.5 per request, first token after 7.96 s, 14.1 requests/min (62 requests, 263 s)"><rect class="hit" x="697.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M700.8 250.0 V88.2 a4 4 0 0 1 4 -4 H710.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="32 concurrent: 67.6 tokens/s aggregate, 2.9 per request, first token after 7.99 s, 15.8 requests/min (64 requests, 242 s)"><rect class="hit" x="718.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series)" d="M722.2 250.0 V68.1 a4 4 0 0 1 4 -4 H732.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="729.2" y="57.1" text-anchor="middle">68</text></g>
+<text class="tick" x="62.8" y="268" text-anchor="middle">1</text>
+<text class="tick" x="127.2" y="268" text-anchor="middle">4</text>
+<text class="tick" x="213.2" y="268" text-anchor="middle">8</text>
+<text class="tick" x="299.2" y="268" text-anchor="middle">12</text>
+<text class="tick" x="385.2" y="268" text-anchor="middle">16</text>
+<text class="tick" x="471.2" y="268" text-anchor="middle">20</text>
+<text class="tick" x="557.2" y="268" text-anchor="middle">24</text>
+<text class="tick" x="643.2" y="268" text-anchor="middle">28</text>
+<text class="tick" x="729.2" y="268" text-anchor="middle">32</text>
+<text class="tick" x="396.0" y="286" text-anchor="middle">concurrent requests</text>
+<text class="tick" x="52" y="13">tp4: tensor split, 4 dies · generated tokens/s, all requests together</text>
+</svg><div class="tip" role="status" aria-live="polite"></div></div></figure><figure><div class="chart"><svg viewBox="0 0 760 296" role="img" aria-label="Column chart of aggregate generation throughput for layer split, 4 dies at each measured concurrency from 1 to 32: highest 28 tokens per second at 7 clients, lowest above one client 21 at 2." data-kind="cols">
+<g class="grid">
+<line x1="52" y1="250.0" x2="740" y2="250.0"/>
+<line x1="52" y1="195.0" x2="740" y2="195.0"/>
+<line x1="52" y1="140.0" x2="740" y2="140.0"/>
+<line x1="52" y1="85.0" x2="740" y2="85.0"/>
+<line x1="52" y1="30.0" x2="740" y2="30.0"/>
+</g>
+<line class="axis" x1="52" y1="250" x2="740" y2="250"/>
+<text class="tick" x="44" y="254.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="199.0" text-anchor="end">20</text>
+<text class="tick" x="44" y="144.0" text-anchor="end">40</text>
+<text class="tick" x="44" y="89.0" text-anchor="end">60</text>
+<text class="tick" x="44" y="34.0" text-anchor="end">80</text>
+<g class="bar" tabindex="0" data-tip="1 concurrent: 13.6 tokens/s aggregate, 20.1 per request, first token after 5.87 s, 3.2 requests/min (8 requests, 150 s)"><rect class="hit" x="52.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M55.8 250.0 V216.6 a4 4 0 0 1 4 -4 H65.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="62.8" y="205.6" text-anchor="middle">14</text></g>
+<g class="bar" tabindex="0" data-tip="2 concurrent: 20.8 tokens/s aggregate, 18.0 per request, first token after 10.19 s, 4.9 requests/min (8 requests, 98 s)"><rect class="hit" x="73.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M77.2 250.0 V196.8 a4 4 0 0 1 4 -4 H87.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="84.2" y="185.8" text-anchor="middle">21</text></g>
+<g class="bar" tabindex="0" data-tip="3 concurrent: 23.6 tokens/s aggregate, 15.8 per request, first token after 12.26 s, 5.5 requests/min (8 requests, 87 s)"><rect class="hit" x="95.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M98.8 250.0 V189.1 a4 4 0 0 1 4 -4 H108.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="4 concurrent: 27.2 tokens/s aggregate, 12.6 per request, first token after 15.71 s, 6.4 requests/min (8 requests, 75 s)"><rect class="hit" x="116.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M120.2 250.0 V179.2 a4 4 0 0 1 4 -4 H130.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="127.2" y="168.2" text-anchor="middle">27</text></g>
+<g class="bar" tabindex="0" data-tip="5 concurrent: 25.4 tokens/s aggregate, 9.6 per request, first token after 17.12 s, 6.0 requests/min (10 requests, 101 s)"><rect class="hit" x="138.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M141.8 250.0 V184.2 a4 4 0 0 1 4 -4 H151.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="6 concurrent: 26.2 tokens/s aggregate, 7.6 per request, first token after 16.29 s, 6.1 requests/min (12 requests, 117 s)"><rect class="hit" x="159.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M163.2 250.0 V181.9 a4 4 0 0 1 4 -4 H173.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="7 concurrent: 28.4 tokens/s aggregate, 7.0 per request, first token after 16.56 s, 6.6 requests/min (14 requests, 126 s)"><rect class="hit" x="181.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M184.8 250.0 V175.9 a4 4 0 0 1 4 -4 H194.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="191.8" y="164.9" text-anchor="middle">28</text></g>
+<g class="bar" tabindex="0" data-tip="8 concurrent: 24.8 tokens/s aggregate, 5.2 per request, first token after 21.21 s, 5.8 requests/min (16 requests, 165 s)"><rect class="hit" x="202.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M206.2 250.0 V185.8 a4 4 0 0 1 4 -4 H216.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="213.2" y="174.8" text-anchor="middle">25</text></g>
+<g class="bar" tabindex="0" data-tip="9 concurrent: 25.4 tokens/s aggregate, 4.2 per request, first token after 17.15 s, 6.0 requests/min (18 requests, 181 s)"><rect class="hit" x="224.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M227.8 250.0 V184.2 a4 4 0 0 1 4 -4 H237.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="10 concurrent: 26.0 tokens/s aggregate, 4.1 per request, first token after 20.94 s, 6.1 requests/min (20 requests, 197 s)"><rect class="hit" x="245.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M249.2 250.0 V182.5 a4 4 0 0 1 4 -4 H259.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="11 concurrent: 27.2 tokens/s aggregate, 3.8 per request, first token after 18.82 s, 6.4 requests/min (22 requests, 207 s)"><rect class="hit" x="267.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M270.8 250.0 V179.2 a4 4 0 0 1 4 -4 H280.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="12 concurrent: 28.0 tokens/s aggregate, 3.6 per request, first token after 19.05 s, 6.6 requests/min (24 requests, 219 s)"><rect class="hit" x="288.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M292.2 250.0 V177.0 a4 4 0 0 1 4 -4 H302.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="13 concurrent: 26.0 tokens/s aggregate, 2.9 per request, first token after 18.46 s, 6.1 requests/min (26 requests, 256 s)"><rect class="hit" x="310.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M313.8 250.0 V182.5 a4 4 0 0 1 4 -4 H323.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="14 concurrent: 26.4 tokens/s aggregate, 2.8 per request, first token after 21.71 s, 6.2 requests/min (28 requests, 271 s)"><rect class="hit" x="331.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M335.2 250.0 V181.4 a4 4 0 0 1 4 -4 H345.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="15 concurrent: 26.3 tokens/s aggregate, 2.5 per request, first token after 20.54 s, 6.2 requests/min (30 requests, 292 s)"><rect class="hit" x="353.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M356.8 250.0 V181.7 a4 4 0 0 1 4 -4 H366.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="16 concurrent: 27.2 tokens/s aggregate, 2.4 per request, first token after 19.89 s, 6.4 requests/min (32 requests, 301 s)"><rect class="hit" x="374.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M378.2 250.0 V179.2 a4 4 0 0 1 4 -4 H388.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="385.2" y="168.2" text-anchor="middle">27</text></g>
+<g class="bar" tabindex="0" data-tip="17 concurrent: 26.6 tokens/s aggregate, 2.3 per request, first token after 21.27 s, 6.2 requests/min (34 requests, 328 s)"><rect class="hit" x="396.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M399.8 250.0 V180.8 a4 4 0 0 1 4 -4 H409.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="18 concurrent: 27.8 tokens/s aggregate, 2.2 per request, first token after 19.25 s, 6.5 requests/min (36 requests, 331 s)"><rect class="hit" x="417.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M421.2 250.0 V177.6 a4 4 0 0 1 4 -4 H431.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="19 concurrent: 28.0 tokens/s aggregate, 2.1 per request, first token after 20.25 s, 6.6 requests/min (38 requests, 347 s)"><rect class="hit" x="439.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M442.8 250.0 V177.0 a4 4 0 0 1 4 -4 H452.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="20 concurrent: 27.0 tokens/s aggregate, 2.0 per request, first token after 20.72 s, 6.3 requests/min (40 requests, 379 s)"><rect class="hit" x="460.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M464.2 250.0 V179.8 a4 4 0 0 1 4 -4 H474.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="21 concurrent: 27.9 tokens/s aggregate, 1.9 per request, first token after 20.31 s, 6.5 requests/min (42 requests, 385 s)"><rect class="hit" x="482.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M485.8 250.0 V177.3 a4 4 0 0 1 4 -4 H495.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="22 concurrent: 27.1 tokens/s aggregate, 1.7 per request, first token after 20.31 s, 6.4 requests/min (44 requests, 415 s)"><rect class="hit" x="503.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M507.2 250.0 V179.5 a4 4 0 0 1 4 -4 H517.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="23 concurrent: 27.0 tokens/s aggregate, 1.6 per request, first token after 19.45 s, 6.3 requests/min (46 requests, 435 s)"><rect class="hit" x="525.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M528.8 250.0 V179.8 a4 4 0 0 1 4 -4 H538.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="24 concurrent: 27.4 tokens/s aggregate, 1.6 per request, first token after 20.33 s, 6.4 requests/min (48 requests, 449 s)"><rect class="hit" x="546.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M550.2 250.0 V178.7 a4 4 0 0 1 4 -4 H560.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="25 concurrent: 27.8 tokens/s aggregate, 1.5 per request, first token after 19.99 s, 6.5 requests/min (50 requests, 461 s)"><rect class="hit" x="568.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M571.8 250.0 V177.6 a4 4 0 0 1 4 -4 H581.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="26 concurrent: 28.1 tokens/s aggregate, 1.5 per request, first token after 20.60 s, 6.6 requests/min (52 requests, 473 s)"><rect class="hit" x="589.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M593.2 250.0 V176.7 a4 4 0 0 1 4 -4 H603.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="27 concurrent: 28.1 tokens/s aggregate, 1.4 per request, first token after 21.26 s, 6.6 requests/min (54 requests, 492 s)"><rect class="hit" x="611.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M614.8 250.0 V176.7 a4 4 0 0 1 4 -4 H624.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="28 concurrent: 27.4 tokens/s aggregate, 1.3 per request, first token after 21.30 s, 6.4 requests/min (56 requests, 522 s)"><rect class="hit" x="632.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M636.2 250.0 V178.7 a4 4 0 0 1 4 -4 H646.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="29 concurrent: 27.8 tokens/s aggregate, 1.3 per request, first token after 21.42 s, 6.5 requests/min (58 requests, 534 s)"><rect class="hit" x="654.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M657.8 250.0 V177.6 a4 4 0 0 1 4 -4 H667.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="30 concurrent: 28.3 tokens/s aggregate, 1.3 per request, first token after 20.47 s, 6.6 requests/min (60 requests, 542 s)"><rect class="hit" x="675.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M679.2 250.0 V176.2 a4 4 0 0 1 4 -4 H689.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="31 concurrent: 28.3 tokens/s aggregate, 1.2 per request, first token after 19.83 s, 6.6 requests/min (62 requests, 561 s)"><rect class="hit" x="697.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M700.8 250.0 V176.2 a4 4 0 0 1 4 -4 H710.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="32 concurrent: 28.1 tokens/s aggregate, 1.2 per request, first token after 20.00 s, 6.6 requests/min (64 requests, 584 s)"><rect class="hit" x="718.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-2)" d="M722.2 250.0 V176.7 a4 4 0 0 1 4 -4 H732.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="729.2" y="165.7" text-anchor="middle">28</text></g>
+<text class="tick" x="62.8" y="268" text-anchor="middle">1</text>
+<text class="tick" x="127.2" y="268" text-anchor="middle">4</text>
+<text class="tick" x="213.2" y="268" text-anchor="middle">8</text>
+<text class="tick" x="299.2" y="268" text-anchor="middle">12</text>
+<text class="tick" x="385.2" y="268" text-anchor="middle">16</text>
+<text class="tick" x="471.2" y="268" text-anchor="middle">20</text>
+<text class="tick" x="557.2" y="268" text-anchor="middle">24</text>
+<text class="tick" x="643.2" y="268" text-anchor="middle">28</text>
+<text class="tick" x="729.2" y="268" text-anchor="middle">32</text>
+<text class="tick" x="396.0" y="286" text-anchor="middle">concurrent requests</text>
+<text class="tick" x="52" y="13">layer4: layer split, 4 dies · generated tokens/s, all requests together</text>
+</svg><div class="tip" role="status" aria-live="polite"></div></div></figure><figure><div class="chart"><svg viewBox="0 0 760 296" role="img" aria-label="Column chart of aggregate generation throughput for tensor split, 2 dies (one module) at each measured concurrency from 1 to 32: highest 43 tokens per second at 32 clients, lowest above one client 31 at 2." data-kind="cols">
+<g class="grid">
+<line x1="52" y1="250.0" x2="740" y2="250.0"/>
+<line x1="52" y1="195.0" x2="740" y2="195.0"/>
+<line x1="52" y1="140.0" x2="740" y2="140.0"/>
+<line x1="52" y1="85.0" x2="740" y2="85.0"/>
+<line x1="52" y1="30.0" x2="740" y2="30.0"/>
+</g>
+<line class="axis" x1="52" y1="250" x2="740" y2="250"/>
+<text class="tick" x="44" y="254.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="199.0" text-anchor="end">20</text>
+<text class="tick" x="44" y="144.0" text-anchor="end">40</text>
+<text class="tick" x="44" y="89.0" text-anchor="end">60</text>
+<text class="tick" x="44" y="34.0" text-anchor="end">80</text>
+<g class="bar" tabindex="0" data-tip="1 concurrent: 21.7 tokens/s aggregate, 30.7 per request, first token after 3.28 s, 5.1 requests/min (8 requests, 94 s)"><rect class="hit" x="52.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M55.8 250.0 V194.3 a4 4 0 0 1 4 -4 H65.8 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="62.8" y="183.3" text-anchor="middle">22</text></g>
+<g class="bar" tabindex="0" data-tip="2 concurrent: 31.2 tokens/s aggregate, 26.6 per request, first token after 6.60 s, 7.3 requests/min (8 requests, 66 s)"><rect class="hit" x="73.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M77.2 250.0 V168.2 a4 4 0 0 1 4 -4 H87.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="84.2" y="157.2" text-anchor="middle">31</text></g>
+<g class="bar" tabindex="0" data-tip="3 concurrent: 34.7 tokens/s aggregate, 23.6 per request, first token after 7.73 s, 8.1 requests/min (8 requests, 59 s)"><rect class="hit" x="95.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M98.8 250.0 V158.6 a4 4 0 0 1 4 -4 H108.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="4 concurrent: 38.3 tokens/s aggregate, 18.4 per request, first token after 10.02 s, 9.0 requests/min (8 requests, 53 s)"><rect class="hit" x="116.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M120.2 250.0 V148.7 a4 4 0 0 1 4 -4 H130.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="127.2" y="137.7" text-anchor="middle">38</text></g>
+<g class="bar" tabindex="0" data-tip="5 concurrent: 33.2 tokens/s aggregate, 12.0 per request, first token after 11.75 s, 7.8 requests/min (10 requests, 77 s)"><rect class="hit" x="138.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M141.8 250.0 V162.7 a4 4 0 0 1 4 -4 H151.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="6 concurrent: 34.7 tokens/s aggregate, 9.4 per request, first token after 10.75 s, 8.1 requests/min (12 requests, 88 s)"><rect class="hit" x="159.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M163.2 250.0 V158.6 a4 4 0 0 1 4 -4 H173.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="7 concurrent: 32.0 tokens/s aggregate, 6.8 per request, first token after 11.87 s, 7.5 requests/min (14 requests, 112 s)"><rect class="hit" x="181.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M184.8 250.0 V166.0 a4 4 0 0 1 4 -4 H194.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="8 concurrent: 40.6 tokens/s aggregate, 8.6 per request, first token after 13.31 s, 9.5 requests/min (16 requests, 101 s)"><rect class="hit" x="202.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M206.2 250.0 V142.3 a4 4 0 0 1 4 -4 H216.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="213.2" y="131.3" text-anchor="middle">41</text></g>
+<g class="bar" tabindex="0" data-tip="9 concurrent: 33.1 tokens/s aggregate, 5.2 per request, first token after 12.24 s, 7.8 requests/min (18 requests, 139 s)"><rect class="hit" x="224.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M227.8 250.0 V163.0 a4 4 0 0 1 4 -4 H237.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="10 concurrent: 34.5 tokens/s aggregate, 4.9 per request, first token after 11.89 s, 8.1 requests/min (20 requests, 148 s)"><rect class="hit" x="245.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M249.2 250.0 V159.1 a4 4 0 0 1 4 -4 H259.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="11 concurrent: 35.4 tokens/s aggregate, 4.9 per request, first token after 15.39 s, 8.3 requests/min (22 requests, 159 s)"><rect class="hit" x="267.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M270.8 250.0 V156.7 a4 4 0 0 1 4 -4 H280.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="12 concurrent: 36.0 tokens/s aggregate, 4.3 per request, first token after 12.69 s, 8.4 requests/min (24 requests, 171 s)"><rect class="hit" x="288.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M292.2 250.0 V155.0 a4 4 0 0 1 4 -4 H302.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="13 concurrent: 34.8 tokens/s aggregate, 3.8 per request, first token after 12.61 s, 8.2 requests/min (26 requests, 191 s)"><rect class="hit" x="310.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M313.8 250.0 V158.3 a4 4 0 0 1 4 -4 H323.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="14 concurrent: 37.0 tokens/s aggregate, 4.0 per request, first token after 14.84 s, 8.7 requests/min (28 requests, 194 s)"><rect class="hit" x="331.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M335.2 250.0 V152.2 a4 4 0 0 1 4 -4 H345.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="15 concurrent: 34.9 tokens/s aggregate, 3.2 per request, first token after 14.02 s, 8.2 requests/min (30 requests, 220 s)"><rect class="hit" x="353.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M356.8 250.0 V158.0 a4 4 0 0 1 4 -4 H366.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="16 concurrent: 36.6 tokens/s aggregate, 3.1 per request, first token after 13.35 s, 8.6 requests/min (32 requests, 224 s)"><rect class="hit" x="374.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M378.2 250.0 V153.3 a4 4 0 0 1 4 -4 H388.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="385.2" y="142.3" text-anchor="middle">37</text></g>
+<g class="bar" tabindex="0" data-tip="17 concurrent: 35.1 tokens/s aggregate, 2.7 per request, first token after 13.25 s, 8.2 requests/min (34 requests, 248 s)"><rect class="hit" x="396.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M399.8 250.0 V157.5 a4 4 0 0 1 4 -4 H409.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="18 concurrent: 37.6 tokens/s aggregate, 2.9 per request, first token after 13.66 s, 8.8 requests/min (36 requests, 245 s)"><rect class="hit" x="417.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M421.2 250.0 V150.6 a4 4 0 0 1 4 -4 H431.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="19 concurrent: 37.7 tokens/s aggregate, 2.7 per request, first token after 13.62 s, 8.8 requests/min (38 requests, 258 s)"><rect class="hit" x="439.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M442.8 250.0 V150.3 a4 4 0 0 1 4 -4 H452.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="20 concurrent: 38.4 tokens/s aggregate, 2.6 per request, first token after 13.02 s, 9.0 requests/min (40 requests, 267 s)"><rect class="hit" x="460.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M464.2 250.0 V148.4 a4 4 0 0 1 4 -4 H474.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="21 concurrent: 37.4 tokens/s aggregate, 2.4 per request, first token after 13.33 s, 8.8 requests/min (42 requests, 288 s)"><rect class="hit" x="482.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M485.8 250.0 V151.2 a4 4 0 0 1 4 -4 H495.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="22 concurrent: 38.8 tokens/s aggregate, 2.5 per request, first token after 14.26 s, 9.1 requests/min (44 requests, 290 s)"><rect class="hit" x="503.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M507.2 250.0 V147.3 a4 4 0 0 1 4 -4 H517.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="23 concurrent: 35.1 tokens/s aggregate, 1.9 per request, first token after 13.24 s, 8.2 requests/min (46 requests, 336 s)"><rect class="hit" x="525.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M528.8 250.0 V157.5 a4 4 0 0 1 4 -4 H538.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="24 concurrent: 38.4 tokens/s aggregate, 2.1 per request, first token after 13.44 s, 9.0 requests/min (48 requests, 320 s)"><rect class="hit" x="546.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M550.2 250.0 V148.4 a4 4 0 0 1 4 -4 H560.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="25 concurrent: 38.8 tokens/s aggregate, 2.1 per request, first token after 14.05 s, 9.1 requests/min (50 requests, 330 s)"><rect class="hit" x="568.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M571.8 250.0 V147.3 a4 4 0 0 1 4 -4 H581.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="26 concurrent: 38.8 tokens/s aggregate, 2.0 per request, first token after 14.84 s, 9.1 requests/min (52 requests, 343 s)"><rect class="hit" x="589.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M593.2 250.0 V147.3 a4 4 0 0 1 4 -4 H603.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="27 concurrent: 39.1 tokens/s aggregate, 1.9 per request, first token after 13.92 s, 9.2 requests/min (54 requests, 353 s)"><rect class="hit" x="611.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M614.8 250.0 V146.5 a4 4 0 0 1 4 -4 H624.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="28 concurrent: 36.7 tokens/s aggregate, 1.7 per request, first token after 15.19 s, 8.6 requests/min (56 requests, 391 s)"><rect class="hit" x="632.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M636.2 250.0 V153.1 a4 4 0 0 1 4 -4 H646.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="29 concurrent: 37.6 tokens/s aggregate, 1.7 per request, first token after 14.22 s, 8.8 requests/min (58 requests, 395 s)"><rect class="hit" x="654.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M657.8 250.0 V150.6 a4 4 0 0 1 4 -4 H667.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="30 concurrent: 37.2 tokens/s aggregate, 1.6 per request, first token after 13.79 s, 8.7 requests/min (60 requests, 412 s)"><rect class="hit" x="675.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M679.2 250.0 V151.7 a4 4 0 0 1 4 -4 H689.2 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="31 concurrent: 39.2 tokens/s aggregate, 1.7 per request, first token after 13.57 s, 9.2 requests/min (62 requests, 405 s)"><rect class="hit" x="697.0" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M700.8 250.0 V146.2 a4 4 0 0 1 4 -4 H710.8 a4 4 0 0 1 4 4 V250.0 Z"/></g>
+<g class="bar" tabindex="0" data-tip="32 concurrent: 42.8 tokens/s aggregate, 1.9 per request, first token after 13.76 s, 10.0 requests/min (64 requests, 383 s)"><rect class="hit" x="718.5" y="30" width="21.5" height="250"/><path class="mark" fill="var(--series-3)" d="M722.2 250.0 V136.3 a4 4 0 0 1 4 -4 H732.2 a4 4 0 0 1 4 4 V250.0 Z"/><text class="val" x="729.2" y="125.3" text-anchor="middle">43</text></g>
+<text class="tick" x="62.8" y="268" text-anchor="middle">1</text>
+<text class="tick" x="127.2" y="268" text-anchor="middle">4</text>
+<text class="tick" x="213.2" y="268" text-anchor="middle">8</text>
+<text class="tick" x="299.2" y="268" text-anchor="middle">12</text>
+<text class="tick" x="385.2" y="268" text-anchor="middle">16</text>
+<text class="tick" x="471.2" y="268" text-anchor="middle">20</text>
+<text class="tick" x="557.2" y="268" text-anchor="middle">24</text>
+<text class="tick" x="643.2" y="268" text-anchor="middle">28</text>
+<text class="tick" x="729.2" y="268" text-anchor="middle">32</text>
+<text class="tick" x="396.0" y="286" text-anchor="middle">concurrent requests</text>
+<text class="tick" x="52" y="13">tp2: tensor split, 2 dies (one module) · generated tokens/s, all requests together</text>
+</svg><div class="tip" role="status" aria-live="polite"></div></div></figure>
+  <figcaption>Aggregate generation throughput at each concurrency, one panel per placement on the same scale; a column stands only where a level was measured. Hover or focus a column for the per-request rate, time to first token and requests per minute at that level.</figcaption>
+  <figure>
+    <div class="chart"><svg viewBox="0 0 760 296" role="img" aria-label="Line chart of time to first token versus concurrency for the three placements: tensor split on four dies rises from 1.8 seconds to about 8 by eight clients and stays there; tensor split on two dies and layer split on four dies rise higher." data-kind="lines" data-panel="ttft" tabindex="0">
+<g class="grid">
+<line x1="52" y1="250.0" x2="656" y2="250.0"/>
+<line x1="52" y1="194.0" x2="656" y2="194.0"/>
+<line x1="52" y1="138.0" x2="656" y2="138.0"/>
+<line x1="52" y1="82.0" x2="656" y2="82.0"/>
+<line x1="52" y1="26.0" x2="656" y2="26.0"/>
+</g>
+<line class="axis" x1="52" y1="250" x2="656" y2="250"/>
+<text class="tick" x="44" y="254.0" text-anchor="end">0</text>
+<text class="tick" x="44" y="198.0" text-anchor="end">5</text>
+<text class="tick" x="44" y="142.0" text-anchor="end">10</text>
+<text class="tick" x="44" y="86.0" text-anchor="end">15</text>
+<text class="tick" x="44" y="30.0" text-anchor="end">20</text>
+<text class="tick" x="52.0" y="268" text-anchor="middle">1</text>
+<text class="tick" x="110.5" y="268" text-anchor="middle">4</text>
+<text class="tick" x="188.4" y="268" text-anchor="middle">8</text>
+<text class="tick" x="266.3" y="268" text-anchor="middle">12</text>
+<text class="tick" x="344.3" y="268" text-anchor="middle">16</text>
+<text class="tick" x="422.2" y="268" text-anchor="middle">20</text>
+<text class="tick" x="500.1" y="268" text-anchor="middle">24</text>
+<text class="tick" x="578.1" y="268" text-anchor="middle">28</text>
+<text class="tick" x="656.0" y="268" text-anchor="middle">32</text>
+<text class="tick" x="354.0" y="286" text-anchor="middle">concurrent requests</text>
+<line class="xh" x1="52.0" x2="52.0" y1="26" y2="250" hidden/>
+<path class="line" stroke="var(--series)" d="M52.0 229.5 L71.5 209.2 L91.0 196.1 L110.5 184.6 L129.9 182.4 L149.4 179.2 L168.9 170.6 L188.4 175.5 L207.9 168.8 L227.4 168.8 L246.8 166.0 L266.3 163.0 L285.8 163.4 L305.3 156.6 L324.8 160.5 L344.3 162.2 L363.7 160.2 L383.2 157.8 L402.7 156.9 L422.2 160.3 L441.7 157.7 L461.2 160.1 L480.6 155.6 L500.1 160.8 L519.6 160.7 L539.1 158.7 L558.6 151.9 L578.1 156.7 L597.5 153.7 L617.0 157.4 L636.5 160.8 L656.0 160.5"/>
+<circle class="pt" cx="52.0" cy="229.5" r="4.5" fill="var(--series)"/>
+<circle class="pt" cx="656.0" cy="160.5" r="4.5" fill="var(--series)"/>
+<text class="val" x="666.0" y="164.5">tp4 7.99</text>
+<path class="line" stroke="var(--series-2)" d="M52.0 184.3 L71.5 135.9 L91.0 112.7 L110.5 74.0 L129.9 58.3 L149.4 67.6 L168.9 64.5 L188.4 12.4 L207.9 57.9 L227.4 15.5 L246.8 39.2 L266.3 36.6 L285.8 43.2 L305.3 6.8 L324.8 20.0 L344.3 27.2 L363.7 11.8 L383.2 34.4 L402.7 23.2 L422.2 17.9 L441.7 22.5 L461.2 22.5 L480.6 32.2 L500.1 22.3 L519.6 26.1 L539.1 19.3 L558.6 11.9 L578.1 11.4 L597.5 10.1 L617.0 20.7 L636.5 27.9 L656.0 26.0"/>
+<circle class="pt" cx="52.0" cy="184.3" r="4.5" fill="var(--series-2)"/>
+<circle class="pt" cx="656.0" cy="26.0" r="4.5" fill="var(--series-2)"/>
+<text class="val" x="666.0" y="30.0">layer4 20</text>
+<path class="line" stroke="var(--series-3)" d="M52.0 213.3 L71.5 176.1 L91.0 163.4 L110.5 137.8 L129.9 118.4 L149.4 129.6 L168.9 117.1 L188.4 100.9 L207.9 112.9 L227.4 116.8 L246.8 77.6 L266.3 107.9 L285.8 108.8 L305.3 83.8 L324.8 93.0 L344.3 100.5 L363.7 101.6 L383.2 97.0 L402.7 97.5 L422.2 104.2 L441.7 100.7 L461.2 90.3 L480.6 101.7 L500.1 99.5 L519.6 92.6 L539.1 83.8 L558.6 94.1 L578.1 79.9 L597.5 90.7 L617.0 95.6 L636.5 98.0 L656.0 95.9"/>
+<circle class="pt" cx="52.0" cy="213.3" r="4.5" fill="var(--series-3)"/>
+<circle class="pt" cx="656.0" cy="95.9" r="4.5" fill="var(--series-3)"/>
+<text class="val" x="666.0" y="99.9">tp2 13.76</text>
+<text class="tick" x="52" y="13">time to first token, seconds (1300-token prompt)</text>
+</svg>
+<script type="application/json" data-for="ttft">{"x": [52.0, 71.48387096774194, 90.96774193548387, 110.45161290322581, 129.93548387096774, 149.4193548387097, 168.90322580645162, 188.38709677419354, 207.8709677419355, 227.35483870967744, 246.83870967741936, 266.32258064516134, 285.80645161290323, 305.2903225806452, 324.7741935483871, 344.258064516129, 363.741935483871, 383.22580645161287, 402.7096774193549, 422.19354838709677, 441.6774193548387, 461.1612903225806, 480.6451612903226, 500.1290322580645, 519.6129032258065, 539.0967741935483, 558.5806451612904, 578.0645161290323, 597.5483870967741, 617.0322580645161, 636.516129032258, 656.0], "conc": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32], "series": [{"name": "tensor split, 4 dies", "short": "tp4", "var": "series", "values": [1.83, 3.64, 4.81, 5.84, 6.04, 6.32, 7.09, 6.65, 7.25, 7.25, 7.5, 7.77, 7.73, 8.34, 7.99, 7.84, 8.02, 8.23, 8.31, 8.01, 8.24, 8.03, 8.43, 7.96, 7.97, 8.15, 8.76, 8.33, 8.6, 8.27, 7.96, 7.99]}, {"name": "layer split, 4 dies", "short": "layer4", "var": "series-2", "values": [5.87, 10.19, 12.26, 15.71, 17.12, 16.29, 16.56, 21.21, 17.15, 20.94, 18.82, 19.05, 18.46, 21.71, 20.54, 19.89, 21.27, 19.25, 20.25, 20.72, 20.31, 20.31, 19.45, 20.33, 19.99, 20.6, 21.26, 21.3, 21.42, 20.47, 19.83, 20.0]}, {"name": "tensor split, 2 dies (one module)", "short": "tp2", "var": "series-3", "values": [3.28, 6.6, 7.73, 10.02, 11.75, 10.75, 11.87, 13.31, 12.24, 11.89, 15.39, 12.69, 12.61, 14.84, 14.02, 13.35, 13.25, 13.66, 13.62, 13.02, 13.33, 14.26, 13.24, 13.44, 14.05, 14.84, 13.92, 15.19, 14.22, 13.79, 13.57, 13.76]}]}</script><div class="tip" role="status" aria-live="polite"></div></div>
+    <figcaption>Time to first token for a 1300-token prompt. Move across the chart, or focus it and use the arrow keys, for all three placements at one concurrency; markers sit on measured levels where a placement has only six. On four dies it rises to about 8 s by eight clients and stays there, because every new prompt shares the dies with the streams already generating.</figcaption>
+  </figure>
+  <div class="tablewrap"><table><thead><tr><th class="num" rowspan="2">concurrency</th><th class="num" rowspan="2">requests</th><th colspan="3">generation t/s, aggregate</th><th colspan="3">time to first token, s</th><th colspan="3">generation t/s per request</th><th colspan="3">requests / min</th></tr><tr><th class="num"><span class="key" style="background:var(--series)"></span>tp4</th><th class="num"><span class="key" style="background:var(--series-2)"></span>layer4</th><th class="num"><span class="key" style="background:var(--series-3)"></span>tp2</th><th class="num"><span class="key" style="background:var(--series)"></span>tp4</th><th class="num"><span class="key" style="background:var(--series-2)"></span>layer4</th><th class="num"><span class="key" style="background:var(--series-3)"></span>tp2</th><th class="num"><span class="key" style="background:var(--series)"></span>tp4</th><th class="num"><span class="key" style="background:var(--series-2)"></span>layer4</th><th class="num"><span class="key" style="background:var(--series-3)"></span>tp2</th><th class="num"><span class="key" style="background:var(--series)"></span>tp4</th><th class="num"><span class="key" style="background:var(--series-2)"></span>layer4</th><th class="num"><span class="key" style="background:var(--series-3)"></span>tp2</th></tr></thead><tbody>
+<tr><td class="num">1</td><td class="num">8</td><td class="num hi">32.7</td><td class="num">13.6</td><td class="num">21.7</td><td class="num">1.83</td><td class="num">5.87</td><td class="num">3.28</td><td class="num">44.5</td><td class="num">20.1</td><td class="num">30.7</td><td class="num">7.7</td><td class="num">3.2</td><td class="num">5.1</td></tr>
+<tr><td class="num">2</td><td class="num">8</td><td class="num hi">45.6</td><td class="num">20.8</td><td class="num">31.2</td><td class="num">3.64</td><td class="num">10.19</td><td class="num">6.60</td><td class="num">34.4</td><td class="num">18.0</td><td class="num">26.6</td><td class="num">10.7</td><td class="num">4.9</td><td class="num">7.3</td></tr>
+<tr><td class="num">3</td><td class="num">8</td><td class="num hi">51.6</td><td class="num">23.6</td><td class="num">34.7</td><td class="num">4.81</td><td class="num">12.26</td><td class="num">7.73</td><td class="num">31.9</td><td class="num">15.8</td><td class="num">23.6</td><td class="num">12.1</td><td class="num">5.5</td><td class="num">8.1</td></tr>
+<tr><td class="num">4</td><td class="num">8</td><td class="num hi">59.5</td><td class="num">27.2</td><td class="num">38.3</td><td class="num">5.84</td><td class="num">15.71</td><td class="num">10.02</td><td class="num">26.3</td><td class="num">12.6</td><td class="num">18.4</td><td class="num">14.0</td><td class="num">6.4</td><td class="num">9.0</td></tr>
+<tr><td class="num">5</td><td class="num">10</td><td class="num hi">46.9</td><td class="num">25.4</td><td class="num">33.2</td><td class="num">6.04</td><td class="num">17.12</td><td class="num">11.75</td><td class="num">15.4</td><td class="num">9.6</td><td class="num">12.0</td><td class="num">11.0</td><td class="num">6.0</td><td class="num">7.8</td></tr>
+<tr><td class="num">6</td><td class="num">12</td><td class="num hi">49.7</td><td class="num">26.2</td><td class="num">34.7</td><td class="num">6.32</td><td class="num">16.29</td><td class="num">10.75</td><td class="num">13.1</td><td class="num">7.6</td><td class="num">9.4</td><td class="num">11.6</td><td class="num">6.1</td><td class="num">8.1</td></tr>
+<tr><td class="num">7</td><td class="num">14</td><td class="num hi">43.8</td><td class="num">28.4</td><td class="num">32.0</td><td class="num">7.09</td><td class="num">16.56</td><td class="num">11.87</td><td class="num">8.5</td><td class="num">7.0</td><td class="num">6.8</td><td class="num">10.3</td><td class="num">6.6</td><td class="num">7.5</td></tr>
+<tr><td class="num">8</td><td class="num">16</td><td class="num hi">67.5</td><td class="num">24.8</td><td class="num">40.6</td><td class="num">6.65</td><td class="num">21.21</td><td class="num">13.31</td><td class="num">13.4</td><td class="num">5.2</td><td class="num">8.6</td><td class="num">15.8</td><td class="num">5.8</td><td class="num">9.5</td></tr>
+<tr><td class="num">9</td><td class="num">18</td><td class="num hi">48.0</td><td class="num">25.4</td><td class="num">33.1</td><td class="num">7.25</td><td class="num">17.15</td><td class="num">12.24</td><td class="num">7.2</td><td class="num">4.2</td><td class="num">5.2</td><td class="num">11.2</td><td class="num">6.0</td><td class="num">7.8</td></tr>
+<tr><td class="num">10</td><td class="num">20</td><td class="num hi">50.3</td><td class="num">26.0</td><td class="num">34.5</td><td class="num">7.25</td><td class="num">20.94</td><td class="num">11.89</td><td class="num">6.8</td><td class="num">4.1</td><td class="num">4.9</td><td class="num">11.8</td><td class="num">6.1</td><td class="num">8.1</td></tr>
+<tr><td class="num">11</td><td class="num">22</td><td class="num hi">52.2</td><td class="num">27.2</td><td class="num">35.4</td><td class="num">7.50</td><td class="num">18.82</td><td class="num">15.39</td><td class="num">6.4</td><td class="num">3.8</td><td class="num">4.9</td><td class="num">12.2</td><td class="num">6.4</td><td class="num">8.3</td></tr>
+<tr><td class="num">12</td><td class="num">24</td><td class="num hi">52.8</td><td class="num">28.0</td><td class="num">36.0</td><td class="num">7.77</td><td class="num">19.05</td><td class="num">12.69</td><td class="num">6.0</td><td class="num">3.6</td><td class="num">4.3</td><td class="num">12.4</td><td class="num">6.6</td><td class="num">8.4</td></tr>
+<tr><td class="num">13</td><td class="num">26</td><td class="num hi">52.7</td><td class="num">26.0</td><td class="num">34.8</td><td class="num">7.73</td><td class="num">18.46</td><td class="num">12.61</td><td class="num">5.8</td><td class="num">2.9</td><td class="num">3.8</td><td class="num">12.4</td><td class="num">6.1</td><td class="num">8.2</td></tr>
+<tr><td class="num">14</td><td class="num">28</td><td class="num hi">55.1</td><td class="num">26.4</td><td class="num">37.0</td><td class="num">8.34</td><td class="num">21.71</td><td class="num">14.84</td><td class="num">5.7</td><td class="num">2.8</td><td class="num">4.0</td><td class="num">12.9</td><td class="num">6.2</td><td class="num">8.7</td></tr>
+<tr><td class="num">15</td><td class="num">30</td><td class="num hi">44.5</td><td class="num">26.3</td><td class="num">34.9</td><td class="num">7.99</td><td class="num">20.54</td><td class="num">14.02</td><td class="num">3.7</td><td class="num">2.5</td><td class="num">3.2</td><td class="num">10.4</td><td class="num">6.2</td><td class="num">8.2</td></tr>
+<tr><td class="num">16</td><td class="num">32</td><td class="num hi">51.6</td><td class="num">27.2</td><td class="num">36.6</td><td class="num">7.84</td><td class="num">19.89</td><td class="num">13.35</td><td class="num">4.3</td><td class="num">2.4</td><td class="num">3.1</td><td class="num">12.1</td><td class="num">6.4</td><td class="num">8.6</td></tr>
+<tr><td class="num">17</td><td class="num">34</td><td class="num hi">50.5</td><td class="num">26.6</td><td class="num">35.1</td><td class="num">8.02</td><td class="num">21.27</td><td class="num">13.25</td><td class="num">3.7</td><td class="num">2.3</td><td class="num">2.7</td><td class="num">11.8</td><td class="num">6.2</td><td class="num">8.2</td></tr>
+<tr><td class="num">18</td><td class="num">36</td><td class="num hi">54.7</td><td class="num">27.8</td><td class="num">37.6</td><td class="num">8.23</td><td class="num">19.25</td><td class="num">13.66</td><td class="num">4.0</td><td class="num">2.2</td><td class="num">2.9</td><td class="num">12.8</td><td class="num">6.5</td><td class="num">8.8</td></tr>
+<tr><td class="num">19</td><td class="num">38</td><td class="num hi">55.5</td><td class="num">28.0</td><td class="num">37.7</td><td class="num">8.31</td><td class="num">20.25</td><td class="num">13.62</td><td class="num">3.8</td><td class="num">2.1</td><td class="num">2.7</td><td class="num">13.0</td><td class="num">6.6</td><td class="num">8.8</td></tr>
+<tr><td class="num">20</td><td class="num">40</td><td class="num hi">54.6</td><td class="num">27.0</td><td class="num">38.4</td><td class="num">8.01</td><td class="num">20.72</td><td class="num">13.02</td><td class="num">3.6</td><td class="num">2.0</td><td class="num">2.6</td><td class="num">12.8</td><td class="num">6.3</td><td class="num">9.0</td></tr>
+<tr><td class="num">21</td><td class="num">42</td><td class="num hi">55.5</td><td class="num">27.9</td><td class="num">37.4</td><td class="num">8.24</td><td class="num">20.31</td><td class="num">13.33</td><td class="num">3.5</td><td class="num">1.9</td><td class="num">2.4</td><td class="num">13.0</td><td class="num">6.5</td><td class="num">8.8</td></tr>
+<tr><td class="num">22</td><td class="num">44</td><td class="num hi">58.5</td><td class="num">27.1</td><td class="num">38.8</td><td class="num">8.03</td><td class="num">20.31</td><td class="num">14.26</td><td class="num">3.7</td><td class="num">1.7</td><td class="num">2.5</td><td class="num">13.7</td><td class="num">6.4</td><td class="num">9.1</td></tr>
+<tr><td class="num">23</td><td class="num">46</td><td class="num hi">51.3</td><td class="num">27.0</td><td class="num">35.1</td><td class="num">8.43</td><td class="num">19.45</td><td class="num">13.24</td><td class="num">2.8</td><td class="num">1.6</td><td class="num">1.9</td><td class="num">12.0</td><td class="num">6.3</td><td class="num">8.2</td></tr>
+<tr><td class="num">24</td><td class="num">48</td><td class="num hi">56.9</td><td class="num">27.4</td><td class="num">38.4</td><td class="num">7.96</td><td class="num">20.33</td><td class="num">13.44</td><td class="num">3.0</td><td class="num">1.6</td><td class="num">2.1</td><td class="num">13.3</td><td class="num">6.4</td><td class="num">9.0</td></tr>
+<tr><td class="num">25</td><td class="num">50</td><td class="num hi">54.6</td><td class="num">27.8</td><td class="num">38.8</td><td class="num">7.97</td><td class="num">19.99</td><td class="num">14.05</td><td class="num">2.7</td><td class="num">1.5</td><td class="num">2.1</td><td class="num">12.8</td><td class="num">6.5</td><td class="num">9.1</td></tr>
+<tr><td class="num">26</td><td class="num">52</td><td class="num hi">58.7</td><td class="num">28.1</td><td class="num">38.8</td><td class="num">8.15</td><td class="num">20.60</td><td class="num">14.84</td><td class="num">2.9</td><td class="num">1.5</td><td class="num">2.0</td><td class="num">13.8</td><td class="num">6.6</td><td class="num">9.1</td></tr>
+<tr><td class="num">27</td><td class="num">54</td><td class="num hi">58.9</td><td class="num">28.1</td><td class="num">39.1</td><td class="num">8.76</td><td class="num">21.26</td><td class="num">13.92</td><td class="num">2.9</td><td class="num">1.4</td><td class="num">1.9</td><td class="num">13.8</td><td class="num">6.6</td><td class="num">9.2</td></tr>
+<tr><td class="num">28</td><td class="num">56</td><td class="num hi">53.6</td><td class="num">27.4</td><td class="num">36.7</td><td class="num">8.33</td><td class="num">21.30</td><td class="num">15.19</td><td class="num">2.4</td><td class="num">1.3</td><td class="num">1.7</td><td class="num">12.6</td><td class="num">6.4</td><td class="num">8.6</td></tr>
+<tr><td class="num">29</td><td class="num">58</td><td class="num hi">56.4</td><td class="num">27.8</td><td class="num">37.6</td><td class="num">8.60</td><td class="num">21.42</td><td class="num">14.22</td><td class="num">2.5</td><td class="num">1.3</td><td class="num">1.7</td><td class="num">13.2</td><td class="num">6.5</td><td class="num">8.8</td></tr>
+<tr><td class="num">30</td><td class="num">60</td><td class="num hi">57.1</td><td class="num">28.3</td><td class="num">37.2</td><td class="num">8.27</td><td class="num">20.47</td><td class="num">13.79</td><td class="num">2.5</td><td class="num">1.3</td><td class="num">1.6</td><td class="num">13.4</td><td class="num">6.6</td><td class="num">8.7</td></tr>
+<tr><td class="num">31</td><td class="num">62</td><td class="num hi">60.3</td><td class="num">28.3</td><td class="num">39.2</td><td class="num">7.96</td><td class="num">19.83</td><td class="num">13.57</td><td class="num">2.5</td><td class="num">1.2</td><td class="num">1.7</td><td class="num">14.1</td><td class="num">6.6</td><td class="num">9.2</td></tr>
+<tr><td class="num">32</td><td class="num">64</td><td class="num hi">67.6</td><td class="num">28.1</td><td class="num">42.8</td><td class="num">7.99</td><td class="num">20.00</td><td class="num">13.76</td><td class="num">2.9</td><td class="num">1.2</td><td class="num">1.9</td><td class="num">15.8</td><td class="num">6.6</td><td class="num">10.0</td></tr>
+</tbody></table></div>
+  <div class="prose">
+    <p>Tensor split across four dies is the configuration. It leads at every concurrency, saturates at about 68 tokens/s, and reads a prompt in 1.83 s when alone (710 tokens/s of prefill). Layer split runs the four dies one after another, so each token waits on a chain of transfers: 2.4× slower for one client, 2.4× slower for thirty-two, with three times the wait for the first token. Two dies in tensor split reach 42.8 tokens/s, 63% of four.</p>
+    <p>Why 66 and not the 181 of the batched bench? The server's clients each hold a 1300-token context, and their prompts arrive while other slots are generating; prefill and generation then share the dies. During the generation phase alone the thirty-two slots still produce about 93 tokens/s (2.9 each); the aggregate over the whole request, prompt included, is 68.</p>
+    <p><b>Why the curve is jagged.</b> The client sends identical requests, 1300 tokens in and 256 out, so at each level they run in synchronised waves. Whenever one wave's prompts arrive while another is still generating, the 1300-token prefill is batched with the decode tokens, and for the two seconds it takes every running sequence advances by one token. How often that happens depends on how the waves drift apart, which differs from level to level and from run to run, and the batch-size stairs of section 3 add their own steps. The peaks, 60 tokens/s at 4 and 68 tokens/s at 8 and 68 tokens/s at 32 clients, are what the server delivers when the waves line up; the trough, 44 at 7, is what it delivers when they do not. The same level can land on either side: sixteen clients gave 64 tokens/s in the six-level run earlier in the day and 52 in this one. Traffic with varied prompt and output lengths sits between the two.</p>
+  </div>
+  <p class="claim"><b>What to run:</b> eight slots (<code>-np 8</code>), and let the HTTP layer queue the rest. Eight clients already reach the ceiling, 67.5 tokens/s against 67.6 at thirty-two and the same 15.8 requests per minute, but each request streams at 13.4 tokens/s instead of 2.9. Four clients keep 26.3 per request at 59.5 in total; the 8.0 tokens/s between four and eight is about 691,200 tokens a day (397,440 to 691,200 across the two runs), while the 0.8 s of extra first-token wait is smaller than the spread between two measurements of eight (6.65 and 7.00 s). Beyond eight, each added client only slows the others: at thirty-two everyone reads at 2.9 tokens/s, below a reader's five to six.</p>
+  <div class="prose"><p>Eight is also the size that keeps every decode step on the matrix-vector kernel of section 3, so the figure holds instead of drifting through the padded tile sizes as a 32-slot server does. Held there, the box delivers about 5.8 million generated tokens and 22,752 requests of this shape per day, against 5.1 million at four slots.</p></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">5 · What limits it</div><h2>Power in prefill, bandwidth and synchronisation in generation</h2></div>
+  <div class="prose">
+    <p>A sampler read every die's clock, junction temperature and power every five seconds for the whole run. Under prompt processing a die sits at its 200 W cap (instantaneous readings up to 284 W) with its clock at 1730 MHz, so prefill is compute-limited at the power cap and forcing the top DPM level adds nothing. Generation draws far less: the mean over dies at full clock was 90 to 170 W by stage, the signature of memory-bound work.</p>
+    <p>The 1000 MHz samples are idle moments, not throttling: in the tensor-split sweep the dies reading 1000 MHz averaged 57 W against 150 W for those at 1730, and in layer split three dies idle while the fourth works, which is what its 71% is. With the chassis fans at maximum (set by hand; the fan speed itself is not readable from Linux on this box), junction temperatures peaked at 82 °C on the Slot-1 dies during single- and two-die work and stayed under 80 °C with all four loaded.</p>
+  </div>
+  <div class="tablewrap"><table><thead><tr><th>stage</th><th>window (UTC)</th><th class="num">5-s samples</th><th class="num">samples with an idle die at 1000 MHz</th><th>max junction °C, dies 0b / 0e / 1b / 1e</th><th>max W, instantaneous</th><th class="num">mean W of dies at 1730 MHz</th></tr></thead><tbody>
+<tr><td>llama-bench sweep</td><td class="mono">05:26–05:39</td><td class="num">165</td><td class="num">6%</td><td class="mono">81 / 81 / 69 / 67</td><td class="mono">226 / 244 / 202 / 210</td><td class="num">90</td></tr>
+<tr><td>batched bench, 4 dies</td><td class="mono">05:39–05:45</td><td class="num">64</td><td class="num">5%</td><td class="mono">78 / 80 / 75 / 73</td><td class="mono">235 / 232 / 213 / 206</td><td class="num">169</td></tr>
+<tr><td>server, tensor split 4</td><td class="mono">05:45–05:55</td><td class="num">121</td><td class="num">26%</td><td class="mono">76 / 78 / 71 / 70</td><td class="mono">198 / 226 / 233 / 214</td><td class="num">150</td></tr>
+<tr><td>server, layer split 4</td><td class="mono">05:55–06:18</td><td class="num">277</td><td class="num">71%</td><td class="mono">68 / 67 / 64 / 62</td><td class="mono">237 / 250 / 284 / 249</td><td class="num">112</td></tr>
+<tr><td>server, tensor split 2</td><td class="mono">06:18–06:34</td><td class="num">184</td><td class="num">7%</td><td class="mono">81 / 82 / 40 / 40</td><td class="mono">211 / 219 / 40 / 42</td><td class="num">96</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">6 · Repeatability</div><h2>Measured twice, a day apart, under different clock conditions</h2></div>
+  <div class="prose"><p>The whole set was first run on 2026-09-03 with default clock management and default fan control, then again on 2026-09-04 after a reboot with the performance level forced high and the fans at maximum. Across the 126 comparable cells the median change is +0.6% and everything lies within ±2%, except one: layer split at concurrency 32, where the earlier figure came from a separate retry on a fresh server after a GPU page fault rather than from the end of a full sweep. That fault did not recur.</p></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>measurement</th><th class="num">2026-09-03</th><th class="num">2026-09-04</th><th class="num">change</th></tr></thead>
+    <tbody>
+      <tr><td>llama-bench, one die, pp2048 / tg256</td><td class="num">234.4 / 20.06</td><td class="num">234.7 / 20.25</td><td class="num">+0.1% / +0.9%</td></tr>
+      <tr><td>llama-bench, four dies, pp2048 / tg256</td><td class="num">823.5 / 45.40</td><td class="num">829.7 / 45.69</td><td class="num">+0.8% / +0.6%</td></tr>
+      <tr><td>batched bench, batch 32, generation (2048-token prompts)</td><td class="num">178.7</td><td class="num">179.2</td><td class="num">+0.3%</td></tr>
+      <tr><td>server, tensor split 4, concurrency 8 / 32</td><td class="num">64.1 / 66.3</td><td class="num">64.4 / 66.1</td><td class="num">+0.5% / −0.3%</td></tr>
+      <tr><td>server, tensor split 2, concurrency 8 / 32</td><td class="num">40.2 / 42.1</td><td class="num">40.5 / 42.5</td><td class="num">+0.7% / +1.0%</td></tr>
+      <tr><td>server, layer split 4, concurrency 8 / 32</td><td class="num">25.8 / 30.3 (retry)</td><td class="num">25.9 / 28.1</td><td class="num">+0.4% / −7.3%</td></tr>
+    </tbody></table></div>
+  <div class="prose"><p>This box has shown a failure mode in which the dies silently drop to 1000 MHz after hours of load and stay there until a reboot; it invalidated other benchmark runs on 2026-09-03. Those observations were made with no fan daemon and no SMC sensor module installed (the T2 fan daemon <code>t2fanrd</code> and <code>applesmc-t2</code> went in on 2026-09-04 at 03:48 and 03:58 UTC, minutes before the boot these measurements ran on) and with rocm-smi at its defaults. Under this day's conditions, fans set to maximum by hand and the performance level forced high, 7.4 hours of GPU load including the 6.3-hour serving sweep showed no clamp: no sample had three or more dies at 1000 MHz under load, and no die read 1000 MHz at load for longer than 20 s. Whether the fans, the forced level, or neither made the difference is untested. Both runs of this set fell outside the clamp either way.</p></div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="eyebrow">7 · Reproduce</div><h2>Three commands and one client script</h2></div>
+<pre><code># scaling: 1, 2 and 4 dies, tensor split, depths 0 / 16k / 32k
+llama-bench -m /root/models/Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm0/rocm1,rocm0/rocm1/rocm2/rocm3 \
+  -sm tensor -fa 1 -p 2048 -ub 2048 -b 2048 -n 256 -d 0,16384,32768 -r 2 -o md
+# batching: four dies, 512 / 2048-token prompts, 128 generated tokens, batch 1..32
+llama-batched-bench -m /root/models/Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on \
+  -c 71680 -b 2048 -ub 2048 -npp 512,2048 -ntg 128 -npl 1,2,4,8,16,32
+# serving: 32 slots x 4096 tokens; then the sweep client (tp4 shown; layer4 = -sm layer; tp2 = --device rocm0,rocm1)
+llama-server -m /root/models/Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on \
+  -np 32 -cb -c 131072 -b 2048 -ub 2048 --host 127.0.0.1 --port 8089
+python3 /root/rocm-tests/bench/server-bench.py http://127.0.0.1:8089 TAG --conc 1,2,4,8,16,32 --gen 256 --prompt-tokens 1300</code></pre>
+  <div class="files">
+    <span>rocm-tests/bench/rerun-27b-q8_0-unclamped.sh · runs all of the above in order</span><span>qwen38-27b-q8_0-unclamped.md · llama-bench sweep</span>
+    <span>qwen38-27b-q8_0-unclamped-batched.md · batched bench</span><span>qwen38-27b-q8_0-unclamped-server-{tp4,layer4,tp2}.md · server sweeps (+ .json, .log)</span>
+    <span>qwen38-27b-q8_0-unclamped-clocks.txt · clock / temperature / power trace, 5 s</span><span>qwen38-27b-q8_0-unclamped-COMPARE.md · 2026-09-03 vs 2026-09-04, all 126 cells</span>
+    <span>qwen38-27b-q8_0*.md · the 2026-09-03 set</span><span>qwen38-27b-ud-q4_k_m.md · the Q4_K_M llama-bench sweep</span>
+  </div>
+  <div class="prose"><p>Related: <a href="https://claude.ai/code/artifact/f811df1d-b2bb-4d95-9157-4726d0519194">gfx906 Four-Way XGMI Ring</a>, the measurement of the fabric these four dies synchronise over, including why RCCL needs a corrected topology file on this machine.</p></div>
+</section>
+
+<footer>
+  <p>Measured 2026-09-04 on macpro2019-01 with llama.cpp b10288 on ROCm 7.14. Tokens per second as llama.cpp reports them; server figures from the server's own per-request timings; bandwidths in 10⁹ bytes per second.</p>
+</footer>
+
+</main>
+
+<script>
+(function () {
+  var charts = document.querySelectorAll('.chart');
+  charts.forEach(function (chart) {
+    var tip = chart.querySelector('.tip'); if (!tip) return;
+    function place(x, y) {
+      var r = chart.getBoundingClientRect();
+      var px = x - r.left + 12, py = y - r.top - 8;
+      if (px + tip.offsetWidth > r.width - 8) px = Math.max(4, x - r.left - tip.offsetWidth - 12);
+      tip.style.left = px + 'px'; tip.style.top = Math.max(4, py - tip.offsetHeight) + 'px';
+      tip.setAttribute('data-show', '1');
+    }
+    function hide() { tip.removeAttribute('data-show'); }
+    // column charts: each bar carries its own tooltip
+    chart.querySelectorAll('.bar').forEach(function (bar) {
+      function show(evt) {
+        tip.textContent = bar.getAttribute('data-tip');
+        var b = bar.querySelector('.mark').getBoundingClientRect();
+        place(evt && evt.clientX ? evt.clientX : b.right, b.top);
+      }
+      bar.addEventListener('mouseenter', show); bar.addEventListener('mousemove', show); bar.addEventListener('mouseleave', hide);
+      bar.addEventListener('focus', function () { show(null); }); bar.addEventListener('blur', hide);
+    });
+    // line charts: crosshair snapped to the nearest concurrency, one tooltip for every series
+    var svg = chart.querySelector('svg[data-kind="lines"]'); if (!svg) return;
+    var data = JSON.parse(chart.querySelector('script[data-for="' + svg.getAttribute('data-panel') + '"]').textContent);
+    var xh = svg.querySelector('.xh'), vb = svg.viewBox.baseVal, idx = -1;
+    function showIdx(i, clientX) {
+      idx = i; var x = data.x[i];
+      xh.setAttribute('x1', x); xh.setAttribute('x2', x); xh.removeAttribute('hidden');
+      while (tip.firstChild) tip.removeChild(tip.firstChild);
+      var h = document.createElement('div'); h.className = 'h'; h.textContent = data.conc[i] + ' concurrent request' + (data.conc[i] > 1 ? 's' : ''); tip.appendChild(h);
+      data.series.forEach(function (s) {
+        var row = document.createElement('div'); row.className = 'row';
+        var k = document.createElement('i'); k.style.background = 'var(--' + s.var + ')';
+        var v = document.createElement('b'); v.textContent = s.values[i] == null ? '–' : Number(s.values[i]).toFixed(s.values[i] < 10 ? 2 : 1);
+        var n = document.createElement('span'); n.textContent = s.name;
+        row.appendChild(k); row.appendChild(v); row.appendChild(n); tip.appendChild(row);
+      });
+      var r = svg.getBoundingClientRect(); var sx = r.left + (x / vb.width) * r.width;
+      place(clientX || sx, r.top + 24);
+    }
+    function hideAll() { hide(); xh.setAttribute('hidden', ''); idx = -1; }
+    svg.addEventListener('pointermove', function (e) {
+      var r = svg.getBoundingClientRect(); var vx = (e.clientX - r.left) / r.width * vb.width;
+      var best = 0, bd = Infinity; data.x.forEach(function (x, i) { var d = Math.abs(x - vx); if (d < bd) { bd = d; best = i; } });
+      showIdx(best, e.clientX);
+    });
+    svg.addEventListener('pointerleave', hideAll);
+    svg.addEventListener('focus', function () { showIdx(idx < 0 ? data.x.length - 1 : idx); });
+    svg.addEventListener('blur', hideAll);
+    svg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { showIdx(Math.min(data.x.length - 1, (idx < 0 ? 0 : idx) + 1)); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { showIdx(Math.max(0, (idx < 0 ? data.x.length - 1 : idx) - 1)); e.preventDefault(); }
+      else if (e.key === 'Escape') hideAll();
+    });
+  });
+})();
+</script>

@@ -1,0 +1,27 @@
+From 9931a712b1719c4ca679be7d547b1c9fe566ffcc Mon Sep 17 00:00:00 2001
+From: Joshua <joshua@exabit.io>
+Date: Tue, 8 Sep 2026 13:15:00 +0000
+Subject: [PATCH 09/16] mmvq: whole-block (vdr 8) load at one column by default
+ (ported to b10912)
+
+(cherry picked from commit cc7c789067ddbbe7fa546b9abdcaa76f86d4f0cc)
+---
+ ggml/src/ggml-cuda/mmvq.cu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index ae90ab9be..3f2f97740 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -129,7 +129,7 @@ static constexpr __host__ __device__ int get_vdr_mmvq(ggml_type type) {
+ #define GGML_MMVQ_GCN_NWARPS1 2
+ #endif
+ #ifndef GGML_MMVQ_GCN_Q8_VDR8_1COL
+-#define GGML_MMVQ_GCN_Q8_VDR8_1COL 0
++#define GGML_MMVQ_GCN_Q8_VDR8_1COL 1
+ #endif
+ #ifndef GGML_MMVQ_GCN_ROWS_HI
+ #define GGML_MMVQ_GCN_ROWS_HI 2
+-- 
+2.43.0
+

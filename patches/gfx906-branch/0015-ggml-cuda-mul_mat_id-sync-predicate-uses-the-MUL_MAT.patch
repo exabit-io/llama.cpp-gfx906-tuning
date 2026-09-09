@@ -1,0 +1,38 @@
+From 5d36d6fc8ddf426c8f3c4f843feb8f93a0fd19a5 Mon Sep 17 00:00:00 2001
+From: Joshua <joshua@exabit.io>
+Date: Tue, 8 Sep 2026 14:55:26 +0000
+Subject: [PATCH 15/16] ggml-cuda: mul_mat_id sync predicate uses the
+ MUL_MAT_ID batch window (MMVQ_MMID_MAX_BATCH_SIZE)
+
+The gfx906 MMVQ change widened the dense MMVQ window to 16 columns and kept
+MUL_MAT_ID at 8 (MMVQ_MMID_MAX_BATCH_SIZE), but ggml_cuda_mul_mat_id_needs_sync
+still tested dst->ne[2] against MMVQ_MAX_BATCH_SIZE. For a non-quantized expert
+product with 9-16 tokens on AMD the predicate answered "no sync" while the
+dispatch fell through to the sorted path: GGML_ASSERT at ggml-cuda.cu:2727,
+test-backend-ops -o MUL_MAT_ID. Found by tools/gfx906-master-validate.sh.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01N36nSaJm4MzytJeS8H91zW
+---
+ ggml/src/ggml-cuda/ggml-cuda.cu | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index 3cb10524e..6b426fa16 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -2656,7 +2656,10 @@ static bool ggml_cuda_mul_mat_id_needs_sync(const ggml_tensor * dst, const int c
+         return true;
+     }
+ 
+-    if (dst->ne[2] <= MMVQ_MAX_BATCH_SIZE) {
++    // MUL_MAT_ID keeps the upstream 8-column MMVQ/MMVF window (MMVQ_MMID_MAX_BATCH_SIZE); the dense path is 16 wide on gfx906.
++    // The predicate must mirror the dispatch in ggml_cuda_mul_mat_id, or a 9-16-token f16/bf16 expert product on AMD is
++    // predicted "no sync" and then falls through to the sorted path (assert in test-backend-ops MUL_MAT_ID).
++    if (dst->ne[2] <= MMVQ_MMID_MAX_BATCH_SIZE) {
+         if (ggml_is_quantized(src0->type)) {
+             if (dst->ne[2] <= get_mmvq_mmid_max_batch(src0->type, cc)) {
+                 return false;
+-- 
+2.43.0
+

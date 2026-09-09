@@ -1,0 +1,179 @@
+<title>gfx906 Work Review</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@87.5,500;87.5,600;100,400;100,500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#EEF1F4; --surface:#FFFFFF; --ink:#161B21; --muted:#5B6873; --line:#D3DAE0; --line-strong:#B9C3CC;
+  --accent:#B8321C; --done:#2F7A4E; --run:#2457A6; --warn:#B27A0F; --risk:#B8321C;
+  --done-bg:#E6F2EA; --run-bg:#E4ECF9; --warn-bg:#F7EEDC; --risk-bg:#F8E5E1; --open-bg:#E9EDF0;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif; --body:"Source Serif 4",Georgia,"Times New Roman",serif; --mono:"JetBrains Mono","SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ground:#12171C; --surface:#1A2128; --ink:#E4E9ED; --muted:#98A5B1; --line:#2B353F; --line-strong:#3D4954;
+  --accent:#E25A42; --done:#59B37F; --run:#6E9EEB; --warn:#D7A24A; --risk:#E25A42;
+  --done-bg:#1B2E24; --run-bg:#1B2738; --warn-bg:#32291A; --risk-bg:#36211D; --open-bg:#232B33;
+}}
+:root[data-theme="dark"]{
+  --ground:#12171C; --surface:#1A2128; --ink:#E4E9ED; --muted:#98A5B1; --line:#2B353F; --line-strong:#3D4954;
+  --accent:#E25A42; --done:#59B37F; --run:#6E9EEB; --warn:#D7A24A; --risk:#E25A42;
+  --done-bg:#1B2E24; --run-bg:#1B2738; --warn-bg:#32291A; --risk-bg:#36211D; --open-bg:#232B33;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;font-variant-numeric:tabular-nums}
+.page{max-width:78ch;margin:0 auto;padding:40px 24px 80px}
+.eyebrow{font-family:var(--display);font-stretch:87.5%;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-stretch:87.5%;font-weight:600;font-size:44px;line-height:1.05;margin:8px 0 12px;text-wrap:balance;letter-spacing:-.01em}
+.lede{font-size:19px;color:var(--muted);margin:0 0 28px;max-width:66ch}
+h2{font-family:var(--display);font-stretch:87.5%;font-weight:600;font-size:24px;margin:44px 0 12px;padding-top:18px;border-top:2px solid var(--line-strong);text-wrap:balance}
+h3{font-family:var(--display);font-weight:600;font-size:16px;margin:24px 0 8px}
+p{margin:0 0 14px;max-width:70ch}
+ul,ol{margin:0 0 14px;padding-left:1.4em;max-width:70ch}
+li{margin:0 0 8px}
+li b,p b{font-family:var(--display);font-weight:600;font-size:.95em}
+code{font-family:var(--mono);font-size:.84em;background:var(--open-bg);padding:1px 5px;border-radius:3px}
+pre{font-family:var(--mono);font-size:13px;line-height:1.5;background:var(--surface);border:1px solid var(--line);padding:12px 14px;overflow-x:auto;margin:0 0 16px}
+.state{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:0 0 8px}
+.state div{background:var(--surface);padding:12px 14px}
+.state .k{font-family:var(--display);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.state .v{font-family:var(--mono);font-size:15px}
+.cap{font-family:var(--display);font-size:13px;color:var(--muted);margin:0 0 20px}
+.tw{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-align:left;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--mono);font-size:14px;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;white-space:nowrap}
+.done{color:var(--done);background:var(--done-bg)} .run{color:var(--run);background:var(--run-bg)} .warn{color:var(--warn);background:var(--warn-bg)} .risk{color:var(--risk);background:var(--risk-bg)} .open{color:var(--muted);background:var(--open-bg)}
+ol.findings{list-style:none;padding:0;counter-reset:f}
+ol.findings li{counter-increment:f;display:grid;grid-template-columns:2.2em 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);margin:0}
+ol.findings li::before{content:counter(f);font-family:var(--display);font-weight:600;font-size:20px;color:var(--muted);line-height:1.2}
+ol.findings li .t{font-family:var(--display);font-weight:600;font-size:16px;margin-bottom:4px}
+ol.findings li .t .pill{margin-left:8px;vertical-align:middle}
+.small{font-size:14px;color:var(--muted)}
+a{color:var(--accent)}
+@media (max-width:600px){h1{font-size:34px} body{font-size:16px}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="page">
+<div class="eyebrow">Technical-lead review · macpro2019-01 · 2026-09-07, 10:35 UTC, updated 19:00</div>
+<h1>gfx906 Work Review</h1>
+<p class="lede">Everything under /root that concerns the four Vega 20 dies: what exists, what state it is in, what I found wrong and fixed, the plan for the rest of the box's life, and what the product lead needs to decide.</p>
+
+<div class="state">
+  <div><div class="k">Queue</div><div class="v">all ten TODO items closed; kernel iteration 5b measured (dropped); fork + kernel build measured and exact: production build <code>/opt/llama.cpp-mxxm-fh</code>, confirmed at the server level 18:52 (82 vs 64 tok/s at 16 clients)</div></div>
+  <div><div class="k">Wall / DC</div><div class="v">305 W / 250 W (idle)</div></div>
+  <div><div class="k">Dies</div><div class="v">idle, perf level auto; peak today 4 × ~180 W</div></div>
+  <div><div class="k">Envelope margin</div><div class="v">105 W DC at the day's peak (1123 W, host capped at 150 W)</div></div>
+  <div><div class="k">Clamp flag</div><div class="v">none</div></div>
+  <div><div class="k">Follow-on queues</div><div class="v">none; queues 1 to 7 finished 18:52, GPUs idle</div></div>
+</div>
+<p class="cap">State at 19:00 UTC. The wall figure is the SMC's AC key, which matched the meter within 7 W this morning; the 1228 W envelope that clamps the dies is measured on the DC side.</p>
+
+<h2>Summary</h2>
+<ul>
+  <li><b>The work is in good order.</b> Six streams, five of them finished and written up; the sixth, the llama.cpp tuning guide, is live with all ten measurement items closed, the kernel work done and its production build measured at the server level.</li>
+  <li><b>Nothing found invalidates a published number.</b> The kernel-log items below are driver noise on this platform, verified against today's fabric probes and the tensor-split figures, which match 4 September within 2%.</li>
+  <li><b>Five things were wrong and are fixed</b>: a missing launch profile, stale setup notes, an uncommitted kernel patch that would have died with the box, a monitor that could not see the queue exit, and no plan for the GPUs after the queue.</li>
+  <li><b>Two things need you</b>: the host memory module that keeps logging correctable errors, and the shape of the off-box copy before the wipe. Both are in "For the product lead".</li>
+  <li><b>The llama.cpp patching stream delivered</b>: the vector-kernel rewrite is the guide's serving build, +8% at 8 slots, +62% at 12 and +36% at 16 on the split and +37% at 8 slots on one die, from one binary, correctness-checked. Fed to the optimiser it moves the busy-server profile back to the four-die split at 16 slots (197 tok/s against the pairs' 179) and offline batch to 282 tok/s. The power-cap sweep adds a second operational change: 175 W per die for serving costs 2% and keeps the machine inside its envelope even with a loaded host. And the ML-gfx906 fork's tile table reads prompts a third faster; one binary carrying it together with the decode kernel measured at 18:30 with perplexity identical to stock (5.5969) is the production build: prefill +33%, decode +9% / +62% / +34% at 8 / 12 / 16 slots on the split, +31% at 8 slots on one die; at the server level 82 tok/s to 16 clients against 64 stock and 79 for the two pairs, with half the pairs' first-token latency. The launch script defaults to it, and the busy-server recommendation moves back to one four-die server at 16 slots.</li>
+</ul>
+
+<h2>What exists, and its state</h2>
+<div class="tw"><table>
+<tr><th>Stream</th><th>Where</th><th>State</th><th>Open</th></tr>
+<tr><td>Platform bring-up: ROCm 7.14 TheRock gfx906 build, PyTorch 2.13 venv, llama.cpp b10288 plus three variant builds</td><td><code>/root/rocm-gfx906-SETUP.md</code>, <code>/opt/rocm</code>, <code>/opt/llama.cpp*</code>, <code>/root/pytorch-gfx906</code></td><td><span class="pill done">done 09-03</span></td><td>Setup notes were stale; amended today. PyTorch not re-verified since the kernel and CPU changes (not on the serving path).</td></tr>
+<tr><td>BAR resize: resize-amdgpu-bars 1.1, kernel patch, linux-pci report</td><td><code>/root/resize-amdgpu-bars</code>, <code>/root/AMDGPU-BAR-HANDOVER.md</code>, GitHub exabit-io</td><td><span class="pill done">released</span></td><td>All four dies at a 32 GiB BAR0 this boot, service active and enabled. Owed: watching the mailing-list thread.</td></tr>
+<tr><td>XGMI ring investigation: evidence, HTML report, probe tools, corrected RCCL topology</td><td><code>/root/xgmi_4way_evidence.md</code>, <code>/root/xgmi-session-HANDOVER.md</code>, <code>/root/ifl_allreduce</code>, <code>/root/rccl_topo_fixed.xml</code></td><td><span class="pill done">done 09-04</span></td><td>Today's two post-boot probes were clean: 255.6 GB/s SDMA both runs, no slow-link transient. One superseded duplicate artifact.</td></tr>
+<tr><td>llama.cpp tuning guide: README, optimiser, settings, 29 datasets, three HTML reports and the run-through</td><td><code>/root/llama.cpp-benchmarking</code>; scripts and 157 result files in <code>/root/rocm-tests/bench</code></td><td><span class="pill run">live</span></td><td>TODO items 1, 2, 3A, 6, 7 done; 8 running; 9, 10, 5, 3B, Q4_1 and the LL server check queued; 4 planned on the b10837 build. Not under version control.</td></tr>
+<tr><td>Clock clamp and power: SMC envelope found, watchdog, SMC logger, CPU cap</td><td><code>bench/power-draw-test.md</code>, <code>smc-*.py</code>, <code>clamp-watchdog*.sh</code></td><td><span class="pill done">resolved 09-07</span></td><td>The 06:47 clamp is still not fully explained by the envelope alone; the SMC log now runs beside every job, so a repeat is diagnosable.</td></tr>
+<tr><td>llama.cpp patches for gfx906</td><td><code>/root/llama.cpp-mmvq16</code>, <code>llama.cpp-benchmarking/patches/</code>, README section 5, ISA-NOTES section 3</td><td><span class="pill done">delivered</span></td><td>Both patches ship in the production build <code>/opt/llama.cpp-mxxm-fh</code> (fork + kernel, 18:30); see "The patching stream" below.</td></tr>
+<tr><td>Host: CPU swap to W-3275M, Geekbench and oneMKL runs</td><td><code>/root/CPU-SWAP-README.md</code>, <code>/root/Geekbench-*</code></td><td><span class="pill open">out of scope</span></td><td>Host-side work, not gfx906. The CPU swap matters here only through the power envelope.</td></tr>
+</table></div>
+
+<h2>Findings, most important first</h2>
+<ol class="findings">
+<li><div><div class="t">Host memory keeps logging correctable errors<span class="pill risk">hardware</span></div>Two more on memory controller 0, DIMM slot 2, this boot, on top of 13 on channel 0 on 3 September and a channel 1 event yesterday. No effect on GPU results, but a module that errors on every boot should be flagged before the machine is handed on.</div></li>
+<li><div><div class="t">The MMVQ batch-16 patch existed only as uncommitted edits in a worktree<span class="pill warn">fixed</span></div>Three files, 88 insertions, in <code>/root/llama.cpp-mmvq16</code> with nothing committed. The box is due to be wiped. Saved today as <code>patches/mmvq-max-batch-16-b10288.patch</code> in the benchmarking folder.</div></li>
+<li><div><div class="t">The launch script did not offer the placement the guide adopted<span class="pill warn">fixed</span></div>The README's busy-server answer since yesterday is two tensor-split pairs, one server per MPX module. <code>settings/launch.sh</code> claimed to wrap the winners but had no such profile and was not executable. A <code>pairs</code> profile is added and the mode bit set.</div></li>
+<li><div><div class="t">The setup notes were three changes behind<span class="pill warn">fixed</span></div>They named kernel 7.0.0-30 and the W-3245, called the clamp unexplained, and listed only the smoke-test model. A dated amendments section now records the -31 kernel, the CPU swap, the SMC-envelope cause, the four builds and the serving model.</div></li>
+<li><div><div class="t">The off-box copy is 60 MB of work inside 267 GB of rebuildable trees<span class="pill warn">decision</span></div>Everything that cannot be regenerated totals 60 MB. The rest is three 37 GB kernel build trees, 142 GB of model files, a 24 GB logits file the Q4_1 job still needs, Geekbench and caches. An exclude list is in "For the product lead".</div></li>
+<li><div><div class="t">The benchmarking folder is not versioned and its zip was stale<span class="pill warn">decision</span></div>Ten files were newer than the 02:57 snapshot. A tarball is now refreshed after each write-up (the box has no zip); a private repository is the right home, and where it goes is yours to say.</div></li>
+<li><div><div class="t">Driver log noise: peer mapping refused by the chipset<span class="pill open">benign</span></div>64 lines this boot of "PCIe P2P access from peer device is not supported by the chipset" and "Failed to map peer, mem_domain 2", in bursts of 4 to 16 at every multi-die process start. The kernel's PCI core does not whitelist this Xeon root complex for peer DMA, so another die's system-memory buffers cannot be mapped directly. Die-to-die VRAM traffic goes over XGMI and is unaffected: today's probes read 255.6 GB/s and the tensor-split numbers match 4 September within 2%. Not present in the saved logs of earlier boots because those predate ROCm on this box.</div></li>
+<li><div><div class="t">One kernel warning per boot at process teardown<span class="pill open">benign</span></div>At 09:58:01, when the first XGMI probe exited: a pin-count underflow warning in the TTM buffer manager, reached from the KFD process-release worker. It is a warn-once, no functional effect was seen, and it plausibly follows from the refused peer mapping above. Tracked, not chased.</div></li>
+<li><div><div class="t">The TODO's "minutes each" checks were never run; now done<span class="pill done">done</span></div>The HIP library carries only gfx906 code objects, 268 bundles and no generic fallback. HBM ECC is not exposed on these cards, so the ECC-cost test is moot. Transparent huge pages are on madvise. The IOMMU is on in translated mode; passthrough is not set and would need a reboot for a gain that is negligible for serving, where host-to-die traffic is small.</div></li>
+<li><div><div class="t">Two capture defects in the faq script<span class="pill done">rerun done</span></div>Its buffer-size fields came out empty and its two perplexity rows were dropped, both because the new build writes timestamped log lines the script's patterns did not expect. This build did not log the context sizes at all; the one hard number is the 9.5 GiB compute buffer in the out-of-memory line of the q8_0/q8_0 fit, and the perplexity rerun in the third queue captures the rest.</div></li>
+</ol>
+
+<h2>Dropped after the boot, recovered by 10:55</h2>
+<p>Found by re-reading the handovers against what had actually been done since the cold cycle, after the product lead asked. Listed here so the record is honest.</p>
+<ul>
+  <li><b>The SMC key diff.</b> The queue takes an unclamped key dump at start for this one purpose. Diffed now against the two clamped dumps: 25 of 1282 keys differ consistently, all sensors; the one non-sensor candidate tracks load, not the clamp. No static key marks the clamped state, so the DC total against the envelope stays the only signal.</li>
+  <li><b>The BAR handover's after-reboot checklist.</b> Run now: plan all-max, four dies at 32 GiB with the driver bound, none of the must-not-appear lines, one hive of four, five topology nodes.</li>
+  <li><b>The XGMI handover's three-run probe test</b> for the slow-link transient. Not run; the queue took the post-boot slot. The transient did not appear on this boot, which is now recorded, with the instruction to run the test by hand before any queue next boot.</li>
+  <li><b>The guide's own convention</b> after a measurement, wiring cells into the optimizer and re-running it. Done: the optimizer has a build dimension for the two patched builds, its stock output is unchanged, and results.md, README and CLAUDE.md carry the new rows.</li>
+  <li><b>The artifact reports.</b> The run-through now has its page, <a href="https://claude.ai/code/artifact/5c2a1ae8-dd59-476e-9739-9dc1f179be93">gfx906 Tuning Run-Through</a>, items 1 to 10 and the power finding; it is republished as jobs land. The 27B page gets the patched-build staircase next.</li>
+</ul>
+
+<h2>Also fixed during the review</h2>
+<ul>
+  <li><b>My own monitor could not see the queue exit.</b> Its process-alive check matched the monitor's own shell, whose command text mentions the queue script. Re-armed with an anchored pattern, and the follow-on scripts use anchored patterns throughout.</li>
+  <li><b>The GPUs had no work after the queue.</b> A follow-on queue now waits for a clean finish and runs the power-cap sweep, the b10837 build with the GPUs idle, and the pooled-cache rerun, with its own watchdog and SMC log. It refuses to start if the first queue ends without its done flag or with a clamp flag.</li>
+</ul>
+
+<h2>Results landed this morning</h2>
+<p>From the faq job, the build with quantised-KV attention kernels. The job finished at 10:26 and its clock trace is clean over all 329 samples, so these rows count.</p>
+<div class="tw"><table>
+<tr><th>8 sequences, tp4</th><th class="n">2K prefill t/s</th><th class="n">2K decode t/s</th><th class="n">32K prefill t/s</th><th class="n">32K decode t/s</th></tr>
+<tr><td>f16 KV</td><td class="n">847.2</td><td class="n">159.7</td><td class="n">737.1</td><td class="n">131.2</td></tr>
+<tr><td>q8_0 K, q8_0 V</td><td class="n">845.5</td><td class="n">153.2</td><td class="n">733.2</td><td class="n">111.2</td></tr>
+<tr><td>q8_0 K, q4_0 V</td><td class="n">846.1</td><td class="n">152.8</td><td class="n">733.4</td><td class="n">107.4</td></tr>
+</table></div>
+<p>The q4_0 value cache, which aborted on the stock build, now runs on the split at a 3% cost against q8_0 at depth. More useful: 8 sequences at 256K fit with q8_0 keys and q4_0 values and do not fit with q8_0 for both. That is a guide change. The two perplexity rows of the job were lost to a capture bug: the new build prefixes every log line with a timestamp, and the script matched "Final estimate" at line start. A seven-minute rerun with the capture fixed is in the third queue.</p>
+
+<h2>The patching stream</h2>
+<p>You asked whether llama.cpp was going to be patched for gfx906. It is, and the plan is written in README section 5 and ISA-NOTES section 3 of the benchmarking folder. Ranked by gain per effort, with my decision on each:</p>
+<div class="tw"><table>
+<tr><th>Patch</th><th>Lever</th><th>Effort</th><th>Decision</th></tr>
+<tr><td>MMVQ_MAX_BATCH_SIZE 8 to 16</td><td>Removes the worst stair: batches 9 to 16 fall to a 16-wide tile at ~105 ms a step; a 16-column MMVQ near 79 ms would make 16 slots a ~200 tok/s setting instead of 153</td><td>Done. Built, correct on 1186 of 1186 matmul tests</td><td><span class="pill run">timing at ~10:45</span></td></tr>
+<tr><td>ML-gfx906 "mxxm" tile config for Q4_K, Q5_K, Q6_K</td><td>An existing 14-line change claiming +15 to 35% prefill for Q5_K and Q6_K on MI50; Q6_K is the guide's capacity trade at −22% prefill</td><td>Measured 17:46: the fork's own gfx906 tile table reads prompts a third faster on Q8_0 (1130 vs 848 tok/s on four dies, 315 vs 234 on one), +26 to 31% on Q6_K, with decode within 4%. The largest prefill result of the day. Perplexity 5.5969 on the fork and on the fork with the decode kernel, identical to stock; the combined build keeps both gains (18:30) and is the production build</td><td><span class="pill done">prefill +33%</span></td></tr>
+<tr><td>Multi-column MMVQ rewrite, batch 2 to 8</td><td>The 8-slot server from 160 to ~270 tok/s if an 8-column step costs 1.3× a single column; the assembly says a memory-latency chain with too few waves, not instruction count</td><td>Five iterations measured by 16:20. The unified build (Q8_0 scale fast path, rows 4 up to 8 columns and 2 above) gives the four-die split +8% at 8 slots, +62% at 12 and +36% at 16, and one die +14% at 4 and +37% at 8 slots, correctness-checked, reproduced four times. Occupancy, load count and activation-traffic hypotheses were each tested and refuted; instruction count per dot product is what moves it. It is the guide's serving build; a branchless load variant is the last measurement</td><td><span class="pill done">serving build landed</span></td></tr>
+<tr><td>Flash attention at head size 256 in packed fp16</td><td>Attention is 72% of a 256K prompt's time at 30% of the packed-fp16 peak; the long-context lever</td><td>Larger than the MMVQ rewrite</td><td><span class="pill open">after MMVQ, same condition</span></td></tr>
+<tr><td>Latency-optimised four-die allreduce</td><td>94 µs per layer against a 507 ns hop; +23% single-stream before MTP</td><td>Research-grade</td><td><span class="pill open">not on this box</span></td></tr>
+</table></div>
+
+<h2>Plan for the rest of the day, UTC</h2>
+<div class="tw"><table>
+<tr><th class="n">Start</th><th>Job</th><th>Closes</th><th class="n">Length</th></tr>
+<tr><td class="n">09:58</td><td>faq-test: quantised-KV kernels (finished 10:26, clock trace clean)</td><td>TODO 8</td><td class="n">28 min</td></tr>
+<tr><td class="n">10:26</td><td>mmvq-profile: batch-16 patch timing, then hardware counters</td><td>TODO 9, 10</td><td class="n">~30 min</td></tr>
+<tr><td class="n">~11:15</td><td>knobs-server-ab: LL protocol in the real server</td><td>TODO 1 follow-up</td><td class="n">28 min</td></tr>
+<tr><td class="n">~11:45</td><td>q41-quality: Q4_1 in the quant table</td><td>TODO 6 addendum</td><td class="n">13 min</td></tr>
+<tr><td class="n">~12:00</td><td>mixed-b: three dies plus one for mixed traffic</td><td>TODO 3B</td><td class="n">22 min</td></tr>
+<tr><td class="n">~12:25</td><td>mtp-depth-sweep2: draft length at depth, decode-only</td><td>TODO 5</td><td class="n">~107 min</td></tr>
+<tr><td class="n">~14:15</td><td>powercap-sweep: 200/185/175/160/150/200 W per die</td><td>perf-per-watt item</td><td class="n">~45 min</td></tr>
+<tr><td class="n">~15:00</td><td>build b10837 with the GPUs idle, then the mxxm build</td><td>TODO 4 prerequisite</td><td class="n">~35 min</td></tr>
+<tr><td class="n">~15:35</td><td>kvu-rerun: one 256K request alone, pooled versus private</td><td>TODO 4</td><td class="n">~60 min</td></tr>
+<tr><td class="n">~16:35</td><td>faq perplexity rerun with the capture fixed</td><td>TODO 8 rows</td><td class="n">~7 min</td></tr>
+<tr><td class="n">~16:45</td><td>mxxm fork build with the GPUs idle, then Q8_0 and Q6_K bench against b10288</td><td>patch 2</td><td class="n">~35 min</td></tr>
+</table></div>
+<p>Write-ups go into the run-through report, the data file and the TODO as each job lands, the run-through gets its artifact after the first queue, and the guide's numbers are updated after the second. A monitor wakes me on every job boundary, clamp trip, envelope approach, and queue exit.</p>
+
+<h2>For the product lead</h2>
+<ul>
+  <li><b>The memory module.</b> Correctable errors on every boot on memory controller 0. Decide whether to have it replaced or note it in the hardware record before the box leaves.</li>
+  <li><b>The wipe copy.</b> Take <code>/root</code> minus these: <code>models</code>, <code>ubuild*</code>, <code>kbuild</code>, <code>Geekbench-*</code>, <code>benchmarks_2026.0</code>, <code>l_onemklbench*</code>, <code>local-apt</code>, <code>.ccache</code>, <code>.cache</code>, <code>llama.cpp</code>, <code>llama.cpp-mmvq16</code>, <code>llama.cpp-b10837</code>, <code>pytorch-gfx906</code>, and the 24 GB <code>rocm-tests/bench/*.kld</code> file once the Q4_1 job is done. What remains is about 60 MB and holds every result, script, report, patch and note. The signing key tarball is already separate.</li>
+  <li><b>Timing.</b> Today's GPU chain ends around 17:20 UTC. The write-ups follow the same evening. A wipe before then loses the follow-on results but nothing already written.</li>
+  <li><b>Where the benchmarking folder lives after the box.</b> I recommend a private repository under exabit-io. Say the word and I create it and push.</li>
+  <li><b>A cold power cycle is the one thing I cannot do.</b> If the clamp trips, the queue stops itself and I report; the box then needs unplugging for 30 seconds.</li>
+</ul>
+
+<h2>Not doing, and why</h2>
+<ul>
+  <li><b>Testing IOMMU passthrough.</b> Needs a reboot in the middle of the chain for a gain the serving workload would not see.</li>
+  <li><b>Re-verifying PyTorch.</b> Not on the serving path; the wheels are generic x86-64 and the kernel change does not touch them.</li>
+  <li><b>Chasing the 06:47 clamp.</b> No SMC data exists from then. The logger now runs beside every job, so a repeat becomes evidence instead of a mystery.</li>
+  <li><b>Adopting b10837 as the baseline.</b> Only TODO item 4 is measured on it. Every guide number stays on b10288 so today's results remain comparable.</li>
+  <li><b>PowerPlay and HBM timing edits from the wiki.</b> They target MI50 firmware tables; these are different boards.</li>
+</ul>
+<p class="small">Paths in this review are on macpro2019-01. Artifacts: Qwen3.8-27B Q8_0 on gfx906, Qwen3.8-27B at 256K on gfx906, gfx906 Four-Way XGMI Ring (the later of the two copies is current).</p>
+</div>

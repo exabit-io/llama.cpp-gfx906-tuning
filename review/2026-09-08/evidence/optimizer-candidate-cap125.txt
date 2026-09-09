@@ -1,0 +1,75 @@
+gfx906 x4 / Qwen3.8-27B: MILP over 18x10x3 core cells x ubatch x draft x topo x graphs; build prod; cap 125 W; VRAM budget 31 GiB/die
+
+A. one user, short context (chat / code, <= 8K)
+  placement tp4     slots/instance 1   streams 1   ctx/slot 8K (up to 256K fits)  kv f16       ub 2048  draft 3  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode    64.2 tok/s aggregate  (64.2 per stream)   prefill    788 tok/s   memory/die 8.9 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~45 tok/s, ~10.6 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  (draft factor is the conservative free-prose figure; on code-edit prompts the same draft gave 1.88x)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 1 -c 8192 -b 2048 -ub 2048 -cb --spec-type draft-mtp --spec-draft-n-max 3
+
+B. one user, 32K working context
+  placement tp4     slots/instance 1   streams 1   ctx/slot 32K (up to 256K fits)  kv f16       ub 2048  draft 3  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode    59.3 tok/s aggregate  (59.3 per stream)   prefill    688 tok/s   memory/die 9.3 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~41 tok/s, ~9.7 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  (draft factor is the conservative free-prose figure; on code-edit prompts the same draft gave 1.88x)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 1 -c 32768 -b 2048 -ub 2048 -cb --spec-type draft-mtp --spec-draft-n-max 3
+
+C. one user, 128K working context
+  placement tp4     slots/instance 1   streams 1   ctx/slot 128K (up to 256K fits)  kv f16       ub 2048  draft 3  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode    58.4 tok/s aggregate  (58.4 per stream)   prefill    483 tok/s   memory/die 10.8 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~36 tok/s, ~8.5 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  (draft factor is the conservative free-prose figure; on code-edit prompts the same draft gave 1.88x)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 1 -c 131072 -b 2048 -ub 2048 -cb --spec-type draft-mtp --spec-draft-n-max 3
+
+D. small team chat server: max aggregate, every stream >= 12 tok/s, 16K per slot
+  placement tp4     slots/instance 12  streams 12  ctx/slot 16K (up to 116K fits)  kv f16       ub 2048  draft 0  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode   169.6 tok/s aggregate  (14.1 per stream)   prefill    786 tok/s   memory/die 12.2 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~81 tok/s, ~19.0 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 12 -c 196608 -b 2048 -ub 2048 -cb
+
+E. busy server: max aggregate, every stream >= 6 tok/s (reading speed), 32K per slot
+  placement tp4     slots/instance 16  streams 16  ctx/slot 32K (up to 84K fits)  kv f16       ub 2048  draft 0  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode   169.8 tok/s aggregate  (10.6 per stream)   prefill    766 tok/s   memory/die 17.3 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~80 tok/s, ~18.7 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 16 -c 524288 -b 2048 -ub 2048 -cb
+
+F. offline batch generation, short prompts, no latency floor
+  placement dp4     slots/instance 8   streams 32  ctx/slot 4K (up to 4K fits)  kv f16       ub 2048  draft 0  topo default  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode   241.8 tok/s aggregate  (7.6 per stream)   prefill    875 tok/s   memory/die 30.9 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~101 tok/s, ~23.6 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocmN   (one server per die, N=0..3) -fa on -np 8 -c 32768 -b 2048 -ub 2048 -cb
+
+G. long-context server: 128K per slot, max aggregate, >= 4 streams
+  placement tp4     slots/instance 4   streams 4   ctx/slot 128K (up to 256K fits)  kv f16       ub 2048  draft 1  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode    78.3 tok/s aggregate  (19.6 per stream)   prefill    483 tok/s   memory/die 16.9 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~43 tok/s, ~10.1 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 4 -c 524288 -b 2048 -ub 2048 -cb --spec-type draft-mtp --spec-draft-n-max 1
+
+H. full 256K context, as many slots as fit
+  placement tp4     slots/instance 2   streams 2   ctx/slot 256K (up to 256K fits)  kv f16       ub 2048  draft 3  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode    58.2 tok/s aggregate  (29.1 per stream)   prefill    344 tok/s   memory/die 16.8 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~31 tok/s, ~7.3 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 2 -c 524288 -b 2048 -ub 2048 -cb --spec-type draft-mtp --spec-draft-n-max 3
+
+I. prompt ingestion (RAG indexing): maximise prefill, 32K documents
+  placement tp4     slots/instance 12  streams 12  ctx/slot 32K (up to 104K fits)  kv f16       ub 4096  draft 0  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode   136.1 tok/s aggregate  (11.3 per stream)   prefill    694 tok/s   memory/die 17.5 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~68 tok/s, ~16.0 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 12 -c 393216 -b 2048 -ub 4096 -cb
+
+J. eight slots at the memory ceiling: 8 streams, 160K each
+  placement tp4     slots/instance 8   streams 8   ctx/slot 160K (up to 172K fits)  kv f16       ub 2048  draft 0  topo fixed16  graphs on  quant Q8_0  build prod  cap 125 W (~131 gen tok/kJ at 16 clients)
+  decode    66.6 tok/s aggregate  (8.3 per stream)   prefill    438 tok/s   memory/die 29.0 GiB   [decode model, prefill model]
+  request-level for 1300-token prompts / 256 generated: ~38 tok/s, ~8.8 requests/min (simple prefill-then-decode model, optimistic by 15-25% vs report 1)
+  cap 125 W per die: set with settings/powercap.sh 125; caps below ~85 W are accepted by the driver and not honoured
+  NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 $LLAMA_PROD/llama-server -m Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on -np 8 -c 1310720 -b 2048 -ub 2048 -cb
+

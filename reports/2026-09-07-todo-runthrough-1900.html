@@ -1,0 +1,331 @@
+<title>gfx906 Tuning Run-Through</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#EEF1F4; --surface:#F8FAFB; --surface-2:#E3E8ED; --ink:#17212C; --ink-2:#485664; --muted:#76828E; --rule:#D2D9E0; --rule-2:#BFC8D1;
+  --accent:#B04F1C; --accent-ink:#8E3E13; --accent-soft:rgba(176,79,28,0.10);
+  --series:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-dim:#a9b4be; --grid:#E0E5EA; --axis:#BFC8D1; --code-bg:#E4E9EE; --focus:#2a78d6;
+  --good:#2F7A4E; --good-bg:#E6F2EA; --warn:#B27A0F; --warn-bg:#F7EEDC; --bad:#B8321C; --bad-bg:#F8E5E1;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E7ECF1; --ink-2:#B2BCC6; --muted:#7E8A96; --rule:#29343F; --rule-2:#35414E;
+  --accent:#E28B55; --accent-ink:#F0A97C; --accent-soft:rgba(226,139,85,0.14);
+  --series:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-dim:#4c5966; --grid:#253039; --axis:#35414E; --code-bg:#19232D; --focus:#3987e5;
+  --good:#59B37F; --good-bg:#1B2E24; --warn:#D7A24A; --warn-bg:#32291A; --bad:#E25A42; --bad-bg:#36211D;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E7ECF1; --ink-2:#B2BCC6; --muted:#7E8A96; --rule:#29343F; --rule-2:#35414E;
+  --accent:#E28B55; --accent-ink:#F0A97C; --accent-soft:rgba(226,139,85,0.14);
+  --series:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-dim:#4c5966; --grid:#253039; --axis:#35414E; --code-bg:#19232D; --focus:#3987e5;
+  --good:#59B37F; --good-bg:#1B2E24; --warn:#D7A24A; --warn-bg:#32291A; --bad:#E25A42; --bad-bg:#36211D;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif;font-size:17.5px;line-height:1.55;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:900px;margin:0 auto;padding:44px 24px 80px}
+h1,h2,h3{font-family:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;text-wrap:balance;margin:0;line-height:1.1;letter-spacing:-0.012em}
+h1{font-size:clamp(2.1rem,4.5vw,3.1rem);font-weight:800;max-width:22ch}
+h2{font-size:1.5rem;font-weight:700;margin:52px 0 14px;padding-top:20px;border-top:2px solid var(--rule-2)}
+h3{font-size:1.05rem;font-weight:700;margin:26px 0 8px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);font-weight:500;margin-bottom:10px}
+.mono,code,pre,td.num,th.num{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+code{font-size:.86em;background:var(--code-bg);padding:.08em .35em;border-radius:3px}
+.lede{font-size:1.2rem;color:var(--ink-2);max-width:60ch;margin:14px 0 22px}
+.claim{border-left:3px solid var(--accent);padding:.35rem 0 .35rem 1rem;max-width:64ch;font-size:1.05rem;margin:0 0 8px}
+.claim b{font-weight:600}
+p{margin:0 0 14px;max-width:68ch}
+ul{margin:0 0 14px;padding-left:1.3em;max-width:68ch} li{margin:0 0 6px}
+.cond{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:22px 0 6px}
+.cond div{background:var(--surface);padding:11px 13px}
+.cond .k{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cond .v{font-size:.95rem}
+.cap{font-size:.86rem;color:var(--muted);margin:6px 0 18px;max-width:68ch}
+.tw{overflow-x:auto;margin:10px 0 16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th{font-family:"Schibsted Grotesk",sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;text-align:left;color:var(--ink-2);padding:9px 11px;border-bottom:1px solid var(--rule-2);white-space:nowrap}
+td{padding:8px 11px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;white-space:nowrap;font-size:.88rem}
+td.hi{font-weight:600}
+.verdict{display:inline-block;font-family:"Schibsted Grotesk",sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-left:8px;vertical-align:middle}
+.v-change{color:var(--good);background:var(--good-bg)} .v-none{color:var(--muted);background:var(--surface-2)} .v-trade{color:var(--warn);background:var(--warn-bg)} .v-stop{color:var(--bad);background:var(--bad-bg)}
+figure{margin:18px 0 6px;background:var(--surface);border:1px solid var(--rule);padding:16px 16px 10px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:.86rem;color:var(--muted);margin-top:6px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.86rem;color:var(--ink-2);margin:0 0 8px}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--sw)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-family:"IBM Plex Mono",monospace;font-size:.78rem;padding:5px 8px;border-radius:3px;opacity:0;transition:opacity .08s;z-index:9;white-space:nowrap}
+.mark{cursor:default}
+.mark:focus{outline:2px solid var(--focus);outline-offset:2px}
+.small{font-size:.9rem;color:var(--ink-2)}
+a{color:var(--accent-ink)}
+@media (prefers-reduced-motion: reduce){.tip{transition:none}}
+</style>
+<div class="wrap">
+<div class="eyebrow">gfx906 · Qwen3.8-27B Q8_0 · BENCHMARKS-TODO run-through · 2026-09-07, updated 19:00 UTC</div>
+<h1>gfx906 Tuning Run-Through</h1>
+<p class="lede">Ten open questions from the tuning guide's TODO list, measured on the four Vega 20 dies in one day, with the two interruptions that turned into a finding about the machine's power supply.</p>
+<div class="claim"><b>What changed in the guide.</b> Two tensor-split pairs replace one four-die server from 8 streams up on the stock build; on the production build one four-die server at 16 slots takes that row back. A one-line kernel patch removes the 9-to-16-slot cliff on the split, and a rewrite of the vector kernel's Q8_0 path adds +61% at 12 slots and +36% at 16 on top, +36% at 8 slots on one die. A 4-bit value cache now runs and lets eight 256K contexts fit at no quality cost. The ML-gfx906 fork's tile table reads prompts a third faster, and one binary now carries it with the kernel rewrite at identical perplexity: the production build. Q4_0 is a measured quality loss, Q6_K a capacity trade. Nothing in the environment moves single-stream decode. And the "clock clamp" is the Mac Pro's 1228 W DC envelope, cleared only by a cold power cycle; a 175 W per-die cap keeps serving within 2% and the machine inside it.</div>
+
+<div class="cond">
+  <div><div class="k">Box</div><div class="v">Mac Pro 7,1 · 2 × Vega II Duo · 4 × gfx906, 32 GB HBM2 each, one XGMI hive</div></div>
+  <div><div class="k">Software</div><div class="v">Ubuntu 24.04 · kernel 7.0.0-31 · ROCm 7.14 · llama.cpp b10288</div></div>
+  <div><div class="k">Model</div><div class="v">Qwen3.8-27B Q8_0, 27.04 GiB; four quants beside it</div></div>
+  <div><div class="k">Every run</div><div class="v">perf level high, fans max, governor performance, 5 s clock sampler, XGMI probe first</div></div>
+  <div><div class="k">Since 09:40</div><div class="v">host CPU capped at 150 W, SMC power log and clamp watchdog beside each job</div></div>
+</div>
+<p class="cap">Run-to-run spread on this box is ±2%; differences under that are noise. Every table row traces to a cell in the folder's data file; "model" marks a fitted value.</p>
+
+<h2>1. Environment knobs for single-stream decode <span class="verdict v-none">no change</span></h2>
+<p>Nineteen rows on the four-die split: RCCL protocol and algorithm, channel counts, kernel-argument placement, hardware queues, SDMA, host C-states. Four interleaved baselines put single-stream decode at 47.6 tok/s with a 0.3% spread.</p>
+<div class="tw"><table>
+<tr><th>variant</th><th class="num">pp2048</th><th class="num">tg256</th><th class="num">batch-8 pp</th><th class="num">batch-8 tg</th></tr>
+<tr><td>baseline (mean of four)</td><td class="num">848</td><td class="num">47.6</td><td class="num">849</td><td class="num">157.0</td></tr>
+<tr><td>NCCL_PROTO=LL</td><td class="num">811</td><td class="num">47.4</td><td class="num">812</td><td class="num hi">164.9</td></tr>
+<tr><td>NCCL_PROTO=Simple / LL128</td><td class="num">848</td><td class="num hi">40.5</td><td class="num">849</td><td class="num">158.8</td></tr>
+<tr><td>channels 8 / 16 / 32, NCCL_ALGO=Ring</td><td class="num">847–850</td><td class="num">47.4–47.6</td><td class="num">848–850</td><td class="num">152.6–158.6</td></tr>
+<tr><td>HIP_FORCE_DEV_KERNARG, GPU_MAX_HW_QUEUES 1/8, HSA_ENABLE_SDMA=0</td><td class="num">844–849</td><td class="num">47.4–47.5</td><td class="num">845–849</td><td class="num">155.7–158.6</td></tr>
+<tr><td>host C6 off · C1E+C6 off</td><td class="num">848 · 847</td><td class="num">47.2 · 47.4</td><td class="num">847 · 846</td><td class="num">155.9 · 155.1</td></tr>
+</table></div>
+<p>The 13 ms per token that is not weight streaming is not reachable from the environment. The default protocol is already the low-latency one; forcing the others costs 15%. <code>NCCL_PROTO=LL</code> is a batch-8 trade in the bench, +3.7% decode for −4.3% prefill, and it does not survive the real server: at 8 clients the aggregate is −0.4% and the first token waits 3% longer; at one client −1%. The graph-optimisation pass on a single die changes nothing. Neither goes into the environment file.</p>
+
+<h2>2. Two tensor-split pairs for 8 to 16 streams <span class="verdict v-change">adopted</span></h2>
+<p>One server per MPX module (two dies each, one XGMI link apart, the bridge idle) against one four-die server, in the batched bench and under the serving client.</p>
+<div class="tw"><table>
+<tr><th>layout</th><th class="num">clients</th><th class="num">agg gen tok/s</th><th class="num">per request</th><th class="num">first token s</th><th class="num">request wall s</th></tr>
+<tr><td>2 × tp2, 8 slots each</td><td class="num">8</td><td class="num hi">75.2</td><td class="num">15.6</td><td class="num">7.9</td><td class="num">26.7</td></tr>
+<tr><td>2 × tp2, 8 slots each</td><td class="num">16</td><td class="num hi">79.4</td><td class="num">8.0</td><td class="num">10.6</td><td class="num">50.8</td></tr>
+<tr><td>tp4, 8 slots</td><td class="num">8</td><td class="num">66.1</td><td class="num">12.8</td><td class="num">6.4</td><td class="num">30.9</td></tr>
+<tr><td>tp4, 8 slots</td><td class="num">16</td><td class="num">66.6</td><td class="num">11.7</td><td class="num">5.9</td><td class="num">55.4</td></tr>
+<tr><td>tp4, 16 slots</td><td class="num">16</td><td class="num">63.2</td><td class="num">5.5</td><td class="num">7.4</td><td class="num">64.6</td></tr>
+</table></div>
+<p>The pairs do not interfere (93.9 tok/s alone, 93.7 beside the other pair) and win by 14% at 8 clients and 19% at 16, for 1.5 s more first-token wait because a pair reads a prompt at 440 tok/s. Below 8 streams the four-die split wins. A three-die split also loads and runs: 36.4 tok/s single-stream, 596 prefill, against 47.3 and 846 for four.</p>
+
+<h2>3. Short traffic beside a long prefill <span class="verdict v-change">route by length</span></h2>
+<div class="tw"><table>
+<tr><th>layout</th><th class="num">long: first token s</th><th class="num">long: gen tok/s</th><th class="num">short: gen tok/s</th><th class="num">short: wall s</th></tr>
+<tr><td>control: one tp4 server takes a 128K prompt and seven 4K prompts</td><td class="num">262</td><td class="num">13.0</td><td class="num hi">0.9</td><td class="num">318</td></tr>
+<tr><td>A: long on one pair, short on the other</td><td class="num">476</td><td class="num">23.1</td><td class="num hi">8.1</td><td class="num hi">90</td></tr>
+<tr><td>B: long on three dies, short on one die (rerun 11:17)</td><td class="num hi">401</td><td class="num">25.5</td><td class="num">5.9</td><td class="num">155</td></tr>
+</table></div>
+<p>Giving the short traffic its own pair takes it from 0.9 to 8.1 tok/s and from 318 s to 90 s of wall time. The long request pays: first token at 476 s instead of 262. Layout B trades the other way: three dies read the long prompt fast enough for a 401 s first token, but the short requests on their single die fall to 5.9 tok/s and 155 s. Neither layout meets both targets; A when short traffic dominates, B when the long prompt's first token matters more. A 128K prompt costs four to eight minutes of first-token wait whatever the layout; route by prompt length at the proxy and keep the long-prompt instance the bigger split.</p>
+
+<h2>4. The pooled cache on a newer llama.cpp <span class="verdict v-change">fixed upstream</span></h2>
+<p>On b10288 the server read a lone 256K prompt through the shared cache pool at half speed, 188 against 366 tok/s on private caches, while the bench showed no pool penalty. Upstream b10837, 549 tags later, was built with the same recipe and given the same request.</p>
+<div class="tw"><table>
+<tr><th>one 256K request alone</th><th class="num">prefill tok/s</th><th class="num">first token s</th><th class="num">decode tok/s</th></tr>
+<tr><td>per-slot server, 4 × 256K (b10288: 366 / 716 s)</td><td class="num hi">395</td><td class="num">663</td><td class="num">30.8</td></tr>
+<tr><td>pooled server, 8 × 256K (b10288: 188 / 1393 s)</td><td class="num hi">394</td><td class="num">664</td><td class="num">30.8</td></tr>
+<tr><td>batched bench, private, one sequence</td><td class="num">395</td><td class="num">663</td><td class="num">30.9</td></tr>
+</table></div>
+<p>The pool now reads at the bench's rate, and the private prompt path is 8% faster than on b10288 as well, 53 s sooner to the first token at 256K. The pool's decode cost at 8 × 32K, a third on the old build, is not yet re-measured on the new one, so the pooled cache stays a capacity mode for rare long requests. The guide's numbers remain on b10288; the 8% prompt-path gain is the first reason to consider moving the baseline.</p>
+
+<h2>5. Multi-token prediction at depth <span class="verdict v-change">settled</span></h2>
+<div class="tw"><table>
+<tr><th>depth</th><th class="num">slots</th><th>draft</th><th class="num">per-request gen tok/s</th><th class="num">sum</th><th class="num">acceptance</th></tr>
+<tr><td>32K</td><td class="num">4</td><td>none · 1 · 2</td><td class="num">8.9 · 9.7 · 8.6</td><td class="num">35.7 · 38.8 · 34.2</td><td class="num">— · 0.88 · 0.79</td></tr>
+<tr><td>32K</td><td class="num">2</td><td>none · 2 · 3</td><td class="num">17.2 · 25.1 · 25.0</td><td class="num">34.4 · 50.2 · 49.9</td><td class="num">— · 0.79 · 0.69</td></tr>
+<tr><td>128K</td><td class="num">4</td><td>none · 1 · 2</td><td class="num">5.9 · 9.3 · 11.3</td><td class="num">23.4 · 37.2 · 45.4</td><td class="num">— · 0.97 · 0.90</td></tr>
+<tr><td>128K</td><td class="num">2</td><td>none · 2 · 3</td><td class="num">12.7 · 22.4 · 26.0</td><td class="num">25.3 · 44.9 · 51.9</td><td class="num">— · 0.93 · 0.88</td></tr>
+</table></div>
+<p>The burst rows above overstate the four-slot gains at 128K, because a drafted run needs fewer decode steps interleaved with the other slots' prefill. The decode-only rerun, finished at 13:06, gives the steady-state figures from the server's own timings: at four slots draft 1 is +11% at 32K and +20% at 128K while draft 2 is −12% and +6%; at two slots draft 2 is +37% and +51%, draft 3 +41% and +61%. Acceptance rises with depth, 0.88 to 0.98 for draft 1. The long-context profile keeps draft 1 at four slots, two slots with draft 3 is the fastest per-stream long-context setting, and the optimiser now carries depth-dependent draft factors.</p>
+
+<h2>6. What the smaller model files cost <span class="verdict v-trade">quality measured</span></h2>
+<div class="tw"><table>
+<tr><th>file</th><th class="num">GiB</th><th class="num">perplexity</th><th class="num">vs Q8_0</th><th class="num">mean KL (nats)</th><th class="num">top token unchanged</th><th>speed on four dies</th></tr>
+<tr><td>Q8_0</td><td class="num">27.05</td><td class="num">5.597</td><td class="num">1</td><td class="num">0</td><td class="num">100%</td><td>reference</td></tr>
+<tr><td>Q4_0</td><td class="num">14.95</td><td class="num">6.167</td><td class="num hi">1.105</td><td class="num hi">0.091</td><td class="num hi">91.6%</td><td>+11% decode, +33% prefill</td></tr>
+<tr><td>Q4_K_M</td><td class="num">15.33</td><td class="num">5.501</td><td class="num">0.985</td><td class="num">0.036</td><td class="num">95.3%</td><td>+4% decode, −12% prefill</td></tr>
+<tr><td>Q6_K</td><td class="num">20.47</td><td class="num">5.626</td><td class="num">1.008</td><td class="num">0.019</td><td class="num">97.6%</td><td>0% decode, −22% prefill</td></tr>
+<tr><td>Q4_1 (11:10)</td><td class="num">16.33</td><td class="num">5.463</td><td class="num">0.979</td><td class="num">0.056</td><td class="num">93.7%</td><td>+13% decode, +33% prefill (Q4_0's speed within 3%)</td></tr>
+</table></div>
+<p>Q4_0 changes the top token on one position in twelve; its speed is a quality trade. Q4_K_M is the 4-bit file if 4-bit is wanted. Q6_K buys capacity: on single-die instances it turns 4K per slot at eight slots into 17K. Q4_1, measured at 11:10, runs at Q4_0's speed with 40% less divergence, but still 1.6× Q4_K_M's; it is the pick only where prefill outweighs 0.02 nats.</p>
+
+<h2>7. rocBLAS instead of the integer tiles for prefill <span class="verdict v-none">tie, build retired</span></h2>
+<p>Single-die pp2048: 241 and 245 tok/s in two runs against 235 stock, inside the run-to-run band; decode identical. The four-die rows were never obtained at full clock because both clamps of the morning followed this build's single-die prefill, and the build was retired from the queue. The cold-boot power test later ran the same prefill clean, so the coincidence was the warm reboot, not the build.</p>
+
+<h2>8. Quantised KV-cache kernels <span class="verdict v-change">256K ceiling moves</span></h2>
+<p>The build with every attention-vector quant instantiated. Eight sequences on the four-die split, 2K and 32K prompts, 128 generated.</p>
+<figure>
+<div class="legend"><span style="--sw:var(--series)">f16 KV</span><span style="--sw:var(--series-2)">q8_0 keys, q8_0 values</span><span style="--sw:var(--series-3)">q8_0 keys, q4_0 values</span></div>
+<svg viewBox="0 0 640 260" role="img" aria-label="Decode tokens per second for eight sequences at 2K and 32K depth by KV type">
+  <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">
+    <line x1="60" y1="30" x2="60" y2="210" stroke="var(--axis)"/>
+    <line x1="60" y1="210" x2="620" y2="210" stroke="var(--axis)"/>
+    <g stroke="var(--grid)"><line x1="60" y1="165" x2="620" y2="165"/><line x1="60" y1="120" x2="620" y2="120"/><line x1="60" y1="75" x2="620" y2="75"/><line x1="60" y1="30" x2="620" y2="30"/></g>
+    <text x="52" y="214" text-anchor="end">0</text><text x="52" y="169" text-anchor="end">50</text><text x="52" y="124" text-anchor="end">100</text><text x="52" y="79" text-anchor="end">150</text><text x="52" y="34" text-anchor="end">200</text>
+    <text x="14" y="120" transform="rotate(-90 14 120)" text-anchor="middle">decode tok/s (8 sequences)</text>
+    <text x="200" y="236" text-anchor="middle" fill="var(--ink-2)">2K depth</text><text x="480" y="236" text-anchor="middle" fill="var(--ink-2)">32K depth</text>
+  </g>
+  <g class="bars">
+    <rect class="mark" tabindex="0" data-t="f16 · 2K · 159.7 tok/s" x="120" y="66.3" width="48" height="143.7" rx="4" fill="var(--series)"/>
+    <rect class="mark" tabindex="0" data-t="q8_0/q8_0 · 2K · 153.2 tok/s" x="176" y="72.1" width="48" height="137.9" rx="4" fill="var(--series-2)"/>
+    <rect class="mark" tabindex="0" data-t="q8_0/q4_0 · 2K · 152.8 tok/s" x="232" y="72.5" width="48" height="137.5" rx="4" fill="var(--series-3)"/>
+    <rect class="mark" tabindex="0" data-t="f16 · 32K · 131.2 tok/s" x="400" y="91.9" width="48" height="118.1" rx="4" fill="var(--series)"/>
+    <rect class="mark" tabindex="0" data-t="q8_0/q8_0 · 32K · 111.2 tok/s" x="456" y="109.9" width="48" height="100.1" rx="4" fill="var(--series-2)"/>
+    <rect class="mark" tabindex="0" data-t="q8_0/q4_0 · 32K · 107.4 tok/s" x="512" y="113.3" width="48" height="96.7" rx="4" fill="var(--series-3)"/>
+    <rect x="120" y="206" width="440" height="4" fill="var(--surface)"/>
+  </g>
+  <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-2)" text-anchor="middle">
+    <text x="424" y="86">131</text><text x="480" y="104">111</text><text x="536" y="107">107</text>
+  </g>
+</svg>
+<figcaption>Prefill is identical across the three (733–847 tok/s). At 32K depth the quantised caches cost 15% and 18% of decode against f16, the same gap the stock build showed for q8_0.</figcaption>
+</figure>
+<div class="tw"><table>
+<tr><th>8 sequences, tp4</th><th class="num">2K prefill</th><th class="num">2K decode</th><th class="num">32K prefill</th><th class="num">32K decode</th><th>8 × 256K fits</th></tr>
+<tr><td>f16</td><td class="num">847.2</td><td class="num">159.7</td><td class="num">737.1</td><td class="num">131.2</td><td>no</td></tr>
+<tr><td>q8_0 / q8_0</td><td class="num">845.5</td><td class="num">153.2</td><td class="num">733.2</td><td class="num">111.2</td><td>no: 9.5 GiB compute buffer fails to allocate</td></tr>
+<tr><td>q8_0 / q4_0</td><td class="num">846.1</td><td class="num">152.8</td><td class="num">733.4</td><td class="num">107.4</td><td class="hi">yes: 848.6 prefill, 142.8 decode at 512-token prompts</td></tr>
+</table></div>
+<p>The 4-bit value cache, which aborts on the stock build, runs at a 3% cost against q8_0 at depth and is the first configuration that holds eight full 256K contexts on this box. It is a capacity mode, not a speed one: q8_0 decode at depth does not close on f16 with these kernels. On quality it is free: the perplexity rerun at 17:31 puts q8_0 keys with q4_0 values at 5.619 and q8_0 for both at 5.611 against 5.615 for f16, ±0.062 on all three, so the −18% decode at depth is the whole price of eight 256K contexts.</p>
+
+<h2>9. A 16-column vector kernel <span class="verdict v-change">stair removed on the split</span></h2>
+<p>The stock build routes batches of 9 to 16 to a 16-wide tile kernel, which is why the guide said to sit at 8 or 16 slots. One constant and its template instantiations extend the vector kernel to 16 columns. Correct on 1186 of 1186 matrix-multiply tests.</p>
+<figure>
+<div class="legend"><span style="--sw:var(--series)">stock build</span><span style="--sw:var(--series-2)">MMVQ 16-column patch</span></div>
+<svg viewBox="0 0 640 280" role="img" aria-label="Aggregate decode tokens per second by batch size on four dies, stock versus patched build">
+  <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">
+    <line x1="60" y1="24" x2="60" y2="224" stroke="var(--axis)"/><line x1="60" y1="224" x2="620" y2="224" stroke="var(--axis)"/>
+    <g stroke="var(--grid)"><line x1="60" y1="174" x2="620" y2="174"/><line x1="60" y1="124" x2="620" y2="124"/><line x1="60" y1="74" x2="620" y2="74"/><line x1="60" y1="24" x2="620" y2="24"/></g>
+    <text x="52" y="228" text-anchor="end">0</text><text x="52" y="178" text-anchor="end">50</text><text x="52" y="128" text-anchor="end">100</text><text x="52" y="78" text-anchor="end">150</text><text x="52" y="28" text-anchor="end">200</text>
+    <text x="14" y="124" transform="rotate(-90 14 124)" text-anchor="middle">decode tok/s, four dies</text>
+    <text x="95" y="244" text-anchor="middle">1</text><text x="200" y="244" text-anchor="middle">4</text><text x="340" y="244" text-anchor="middle">8</text><text x="375" y="244" text-anchor="middle">9</text><text x="480" y="244" text-anchor="middle">12</text><text x="620" y="244" text-anchor="middle">16</text>
+    <text x="340" y="266" text-anchor="middle" fill="var(--ink-2)">batch (concurrent sequences), 2K depth</text>
+  </g>
+  <polyline points="95,179.6 340,64.5 375,127.5 480,101.5 620,71.5" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round"/>
+  <polyline points="95,179.5 200,106.6 340,65.8 375,61.4 410,57.4 480,49.4 550,52.7 620,53.3" fill="none" stroke="var(--series-2)" stroke-width="2" stroke-linejoin="round"/>
+  <g stroke="var(--surface)" stroke-width="2">
+    <circle class="mark" tabindex="0" data-t="stock · batch 1 · 44.4 tok/s" cx="95" cy="179.6" r="4.5" fill="var(--series)"/>
+    <circle class="mark" tabindex="0" data-t="stock · batch 8 · 159.5 tok/s" cx="340" cy="64.5" r="4.5" fill="var(--series)"/>
+    <circle class="mark" tabindex="0" data-t="stock · batch 9 · 96.5 tok/s" cx="375" cy="127.5" r="4.5" fill="var(--series)"/>
+    <circle class="mark" tabindex="0" data-t="stock · batch 12 · 122.5 tok/s" cx="480" cy="101.5" r="4.5" fill="var(--series)"/>
+    <circle class="mark" tabindex="0" data-t="stock · batch 16 · 152.5 tok/s" cx="620" cy="71.5" r="4.5" fill="var(--series)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 1 · 44.5 tok/s" cx="95" cy="179.5" r="4.5" fill="var(--series-2)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 4 · 117.4 tok/s" cx="200" cy="106.6" r="4.5" fill="var(--series-2)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 8 · 158.2 tok/s" cx="340" cy="65.8" r="4.5" fill="var(--series-2)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 9 · 162.6 tok/s" cx="375" cy="61.4" r="4.5" fill="var(--series-2)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 10 · 166.7 tok/s" cx="410" cy="57.4" r="4.5" fill="var(--series-2)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 12 · 174.6 tok/s" cx="480" cy="49.4" r="4.5" fill="var(--series-2)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 14 · 171.3 tok/s" cx="550" cy="52.7" r="4.5" fill="var(--series-2)"/>
+    <circle class="mark" tabindex="0" data-t="patched · batch 16 · 170.7 tok/s" cx="620" cy="53.3" r="4.5" fill="var(--series-2)"/>
+  </g>
+  <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-2)">
+    <text x="384" y="143">96</text><text x="466" y="40">175</text><text x="384" y="52">163</text>
+  </g>
+</svg>
+<figcaption>Four dies, tensor split, 2048-token prompts. Stock and patched measured in the same session; the stock 2 and 4 points were not rerun and are omitted.</figcaption>
+</figure>
+<div class="tw"><table>
+<tr><th>batch</th><th class="num">four dies, stock</th><th class="num">four dies, patched</th><th class="num">change</th><th class="num">one die, stock</th><th class="num">one die, patched</th><th class="num">change</th></tr>
+<tr><td class="num">8</td><td class="num">159.5</td><td class="num">158.2</td><td class="num">−1%</td><td class="num">52.8</td><td class="num">52.7</td><td class="num">0%</td></tr>
+<tr><td class="num">9</td><td class="num">96.5</td><td class="num hi">162.6</td><td class="num hi">+69%</td><td class="num">—</td><td class="num">—</td><td class="num"></td></tr>
+<tr><td class="num">12</td><td class="num">122.5</td><td class="num hi">174.6</td><td class="num hi">+43%</td><td class="num">54.7</td><td class="num">51.7</td><td class="num hi">−6%</td></tr>
+<tr><td class="num">16</td><td class="num">152.5</td><td class="num hi">170.7</td><td class="num hi">+12%</td><td class="num">63.0</td><td class="num">46.6</td><td class="num hi">−26%</td></tr>
+</table></div>
+<p>On the split the stair is gone and 12 slots is the new peak. On a single die the opposite: the 16-column kernel needs 113 registers, leaves two waves per SIMD, and loses to the tile on a full-width matrix. So the patched build is for tensor-split servers wanting 9 to 16 slots; single-die instances keep the stock build at 8. The optimiser models both builds with a <code>--build</code> flag; with the patch the team-chat profile moves to 12 slots at 173 tok/s.</p>
+
+<h2>10. Why eight columns cost 2.3× one column <span class="verdict v-none">diagnosed</span></h2>
+<div class="tw"><table>
+<tr><th>per vector-kernel dispatch, one die</th><th class="num">batch 1</th><th class="num">batch 8</th><th class="num">ratio</th></tr>
+<tr><td>registers per thread</td><td class="num">20</td><td class="num">64</td><td class="num"></td></tr>
+<tr><td>VALU instructions per wave</td><td class="num">157</td><td class="num">637</td><td class="num">4.1</td></tr>
+<tr><td>memory-read instructions per wave</td><td class="num">29</td><td class="num">96</td><td class="num">3.3</td></tr>
+<tr><td>waves per dispatch</td><td class="num">14,100</td><td class="num">11,900</td><td class="num">0.84</td></tr>
+<tr><td>GPU cycles per dispatch</td><td class="num">184 K</td><td class="num">413 K</td><td class="num">2.25</td></tr>
+<tr><td>VALU busy</td><td class="num hi">20%</td><td class="num hi">30%</td><td class="num">1.5</td></tr>
+<tr><td>LDS-wait cycles per VALU-active cycle</td><td class="num">0.2%</td><td class="num">0.5%</td><td class="num"></td></tr>
+</table></div>
+<p>Static instruction counts and hardware counters agree: the eight-column kernel is not issue-bound. Its SIMDs are 30% busy; the idle 70% is load latency, 96 loads per wave behind a 15-deep wait chain at the four-waves-per-SIMD occupancy that 64 registers allow. The code target is occupancy and load pipelining, not instruction count, with a bound of roughly 2× on the eight-slot step. The memory-side counters were not obtained: the profiler aborts at process exit after its second counter pass.</p>
+
+<h2>10c. Rewriting the vector kernel <span class="verdict v-change">+62% at 12 slots, +37% on one die</span></h2>
+<p>Started at 11:47. Two compile-time knobs on the kernel's gfx906 table (rows per thread block, warps per block) and a Q8_0 fast path that loads each weight block's quants and scale once per row and each activation block's once per column, applying the two scales as one product per pair. Ten builds measured in one session at 13:07 to 13:53, all passing 1186 of 1186 matrix-multiply tests; the clock trace is clean.</p>
+<div class="tw"><table>
+<tr><th>build</th><th class="num">tp4 b8</th><th class="num">tp4 b12</th><th class="num">tp4 b16</th><th class="num">one die b4</th><th class="num">one die b8</th></tr>
+<tr><td>stock b10288</td><td class="num">160.9</td><td class="num">122.3</td><td class="num">152.3</td><td class="num">48.3</td><td class="num">52.7</td></tr>
+<tr><td>batch-16 patch (rows 2, warps 1)</td><td class="num">160.6</td><td class="num">176.6</td><td class="num">171.3</td><td class="num">48.2</td><td class="num">52.7</td></tr>
+<tr><td>rows 1 (any warp count)</td><td class="num">111–124 (−23 to −31%)</td><td class="num">100–119</td><td class="num">98–114 (−25 to −36%)</td><td class="num">37–39 (−20%)</td><td class="num">34–37 (−29 to −36%)</td></tr>
+<tr><td>rows 2, warps 2</td><td class="num">139.0 (−14%)</td><td class="num">161.8</td><td class="num">153.7</td><td class="num">48.2</td><td class="num">43.5 (−17%)</td></tr>
+<tr><td class="hi">fast path, rows 2, warps 1</td><td class="num hi">172.1 (+7%)</td><td class="num hi">196.9 (+61%)</td><td class="num hi">207.3 (+36%)</td><td class="num">49.2</td><td class="num hi">59.7 (+13%)</td></tr>
+<tr><td>rows 4, warps 1</td><td class="num">170.1 (+6%)</td><td class="num">166.3 (+36%)</td><td class="num">176.1 (+16%)</td><td class="num">51.1 (+6%)</td><td class="num hi">70.5 (+34%)</td></tr>
+<tr><td class="hi">fast path, rows 4, warps 1</td><td class="num">172.6 (+7%)</td><td class="num">170.0 (+39%)</td><td class="num">172.1 (+13%)</td><td class="num hi">54.3 (+12%)</td><td class="num hi">71.6 (+36%)</td></tr>
+<tr><td class="hi">fast path, hybrid rows 4/2 (iteration 5, the serving build)</td><td class="num hi">174.1 (+8%)</td><td class="num hi">197.7 (+62%)</td><td class="num hi">207.2 (+36%)</td><td class="num hi">55.0 (+14%)</td><td class="num hi">72.2 (+37%)</td></tr>
+</table></div>
+<p>The occupancy hypothesis from the counters was wrong as a lever: halving registers per thread doubles the waves in flight and loses 20 to 35%, because each loaded activation block then feeds half as many rows. The kernel is bound by load instructions per dot product. Two things follow from that and both won: fewer instructions between the loads and the accumulate (the fast path, the tensor-split winner) and more rows per loaded block (rows 4, the single-die winner at +36% for batch 8). Iteration 3 tested the load-count reading directly and refuted it: loading a whole 32-weight block per thread, a quarter of the load instructions per dot product, loses 16 to 32% at batch 8 because the dependent dot-product chain per thread becomes four times longer; it wins only at batch 1 (+5% on one die). Rows 8 loses to register pressure, and the fast path reproduces to 0.3%. Iteration 4 then shared one LDS-staged copy of each iteration's activations across the warps of a block and lost 16 to 52%, so activation re-read traffic is not the binding resource either. What four iterations agree on: fewer instructions per dot product wins, anything that adds a barrier or lengthens a dependent chain loses, and registers beyond about 64 per thread lose. Iteration 5 confirmed it: the hybrid of rows 4 up to 8 columns and rows 2 above is one binary that matches the best of both earlier winners on every cell, +8% at 8 slots, +62% at 12 and +36% at 16 on the split, +14% at 4 and +37% at 8 slots on one die, and it is now the guide's serving build. The aligned-dword weight load lost 9 to 17% with a parity branch and, made branchless, still loses 10 to 16% at 12 and 16 columns where registers are critical, so it is dropped; the hybrid build reproduced a fifth time. Fed to the optimiser, the new kernel moves the team and busy-server profiles back to the four-die split at 16 slots (204 and 197 tok/s, beating the two pairs' 179) and offline batch to 282 tok/s on four single-die instances; the server-level confirmation is the next measurement.</p>
+
+<h2>The clamp was the power supply</h2>
+<p>Twice in the morning all four dies dropped to 1000 MHz and stayed there through idle, perf-level changes and a driver reset, invalidating two runs. The cold-cycled box ran a four-phase power test with the SMC's own budget table logged every five seconds.</p>
+<div class="tw"><table>
+<tr><th>phase</th><th>load</th><th class="num">DC total W</th><th class="num">AC W (meter)</th><th class="num">CPU zone W</th><th>result</th></tr>
+<tr><td>0</td><td>idle</td><td class="num">302</td><td class="num">358</td><td class="num">37</td><td>1730 MHz</td></tr>
+<tr><td>1</td><td>rocBLAS single-die prefill, the morning's suspect</td><td class="num">548</td><td class="num">675</td><td class="num">84</td><td>no clamp</td></tr>
+<tr><td>2</td><td>four dies at the 200 W cap, host idle</td><td class="num">1062</td><td class="num">1353</td><td class="num">88</td><td>no clamp</td></tr>
+<tr><td>3</td><td>the same plus a full CPU load</td><td class="num hi">1264</td><td class="num hi">1428</td><td class="num">303</td><td class="hi">clamped in 20 s, latched</td></tr>
+</table></div>
+<p>The DC envelope is 1228 W. Four loaded dies with the host idle sit 166 W inside it; any host load above about 150 W beside them crosses it, and the SMC clamps the GPUs, hive-wide, until a cold power cycle. A warm reboot brings the clocks back but not the SMC, which is why the second clamp came five minutes after a reboot at 550 W. The rules since: host CPU capped at 150 W by every benchmark script, no host work beside GPU jobs, a watchdog that stops the chain when the DC total nears the envelope, and a cold cycle after any clamp. The 06:47 clamp, three and a half hours into a chain with no power log, is the one event the envelope does not fully explain.</p>
+
+<h2>11. The fork's tile table, and the production build <span class="verdict v-change">prefill +33%, decode +62% at 12</span></h2>
+<p>The ML-gfx906 project's alternate llama.cpp build, a fork at b10254 with its own gfx906 tile configuration for the integer matrix kernels plus a 14-line patch for the K-quants, measured against stock b10288 in one session.</p>
+<div class="tw"><table>
+<tr><th>file</th><th class="num">one die pp2048</th><th class="num">one die tg256</th><th class="num">tp4 pp2048</th><th class="num">tp4 tg256</th></tr>
+<tr><td>Q8_0 stock</td><td class="num">233.6</td><td class="num">20.6</td><td class="num">848</td><td class="num">47.3</td></tr>
+<tr><td class="hi">Q8_0 fork</td><td class="num hi">315.0 (+35%)</td><td class="num">20.8</td><td class="num hi">1130 (+33%)</td><td class="num">49.1 (+4%)</td></tr>
+<tr><td>Q6_K stock</td><td class="num">175.0</td><td class="num">21.0</td><td class="num">658</td><td class="num">47.5</td></tr>
+<tr><td class="hi">Q6_K fork</td><td class="num hi">228.7 (+31%)</td><td class="num">21.0</td><td class="num hi">827 (+26%)</td><td class="num">49.4</td></tr>
+<tr><td>Q4_K_M stock</td><td class="num">201.3</td><td class="num">24.9</td><td class="num">746</td><td class="num">49.7</td></tr>
+<tr><td>Q4_K_M fork</td><td class="num">216.7 (+8%)</td><td class="num">25.0</td><td class="num">796 (+7%)</td><td class="num">51.8</td></tr>
+</table></div>
+<p>The largest prefill result of the day, and it comes from the fork's own Q8_0 tile table rather than the K-quant patch: upstream's integer matrix kernel uses a generic table on gfx906. A third more prompt throughput moves every first-token figure on this page by the same fraction.</p>
+<h3>Correctness, and one binary with the decode kernel</h3>
+<p>Perplexity on the split at 16K context reads 5.5969 on the fork and 5.5969 on the fork with the section 10c kernel, the stock figure to four digits: both are exact. The kernel patch applies to the fork's tree once the header half of the 16-column change goes in first, and the result is one build carrying both gains, measured against stock in the same session (18:13 to 18:30, clock trace clean):</p>
+<div class="tw"><table>
+<tr><th>Q8_0</th><th class="num">one die pp2048</th><th class="num">tp4 pp2048</th><th class="num">tp4 decode 8 / 12 / 16</th><th class="num">one die decode 4 / 8</th><th class="num">tp4 requests, 8 / 16 slots</th></tr>
+<tr><td>stock b10288</td><td class="num">229.8</td><td class="num">848</td><td class="num">159.8 / 122.5 / 152.7</td><td class="num">48.3 / 52.7</td><td class="num">677 / 669</td></tr>
+<tr><td class="hi">fork + kernel</td><td class="num hi">313.6 (+36%)</td><td class="num hi">1130 (+33%)</td><td class="num hi">173.6 (+9%) / 198.6 (+62%) / 204.1 (+34%)</td><td class="num hi">53.3 (+10%) / 69.1 (+31%)</td><td class="num hi">861 (+27%) / 900 (+35%)</td></tr>
+</table></div>
+<p class="cap">Decode is aggregate tok/s at 2048-token prompts on the split and 512 on one die; "requests" is batched-bench's end-to-end tok/s for 2048 in, 128 out. The decode cells match the kernel build on upstream within 3%, so the fork's tree costs the kernel nothing. Batched-bench's first batch pays a one-time cost on any build (580 then 1114 tok/s here; stock 627 then 839 in a repeat check), which llama-bench hides with a warm-up run; a server pays it once.</p>
+<p><b>This is the production build.</b> The optimiser prices it as <code>--build mxxm+fh</code>: every profile keeps the kernel build's decode and gains a third of prompt throughput; the launch script defaults to it. Stock b10288 stays the reference every other number on this page is measured on.</p>
+<h3>Server level, 16 slots</h3>
+<p>The 16-slot rows above are batched-bench cells, so the production build went through llama-server on the split with 16 slots under the same client as section 2 (1300-token prompts, 256 generated; aggregate is generated tokens over the wall clock of the whole wave, prompt time included), stock in the same session:</p>
+<div class="tw"><table>
+<tr><th class="num">clients</th><th class="num">production, agg tok/s</th><th class="num">stock, agg tok/s</th><th class="num">per request, prod / stock</th><th class="num">first token s, prod / stock</th><th class="num">two pairs (section 2)</th></tr>
+<tr><td class="num">4</td><td class="num hi">65.1</td><td class="num">57.9</td><td class="num">28.2 / 27.0</td><td class="num">4.96 / 6.20</td><td class="num"></td></tr>
+<tr><td class="num">8</td><td class="num hi">75.5</td><td class="num">65.1</td><td class="num">14.5 / 13.0</td><td class="num">5.25 / 6.66</td><td class="num">75.2, TTFT 7.91</td></tr>
+<tr><td class="num">12</td><td class="num hi">83.1</td><td class="num">58.8</td><td class="num">10.1 / 6.7</td><td class="num">5.65 / 7.29</td><td class="num"></td></tr>
+<tr><td class="num">16</td><td class="num hi">82.1</td><td class="num">63.6</td><td class="num">7.3 / 5.5</td><td class="num">5.63 / 7.38</td><td class="num">79.4, TTFT 10.56</td></tr>
+</table></div>
+<p>+16% at 8 clients, +41% at 12 and +29% at 16 over stock on the same server, first tokens 1.2 to 1.7 s sooner. One four-die server at 16 slots now matches the two pairs at 8 clients and beats them at 16 with half their first-token latency, so the busy-server recommendation moves from the pairs to the split at 16 slots on the production build; the pairs remain the answer to head-of-line blocking.</p>
+
+<h2>Power cap versus throughput <span class="verdict v-change">175 W for serving</span></h2>
+<p>The per-die cap swept from 200 W down to 150 W and back, with the single-die and four-die bench and the 8-slot server at each point. Power is the four dies' own readings averaged over the server phase.</p>
+<div class="tw"><table>
+<tr><th class="num">cap W</th><th class="num">one die pp2048</th><th class="num">tp4 tg256</th><th class="num">server, 8 clients</th><th class="num">four dies W</th><th class="num">bays W (SMC)</th><th class="num">tok/s per 100 W</th></tr>
+<tr><td class="num">200</td><td class="num">232.9</td><td class="num">47.4</td><td class="num">65.7</td><td class="num">614</td><td class="num">761</td><td class="num">10.7</td></tr>
+<tr><td class="num">185</td><td class="num">225.9</td><td class="num">47.1</td><td class="num">65.5</td><td class="num">655</td><td class="num">778</td><td class="num">10.0</td></tr>
+<tr><td class="num hi">175</td><td class="num">222.3</td><td class="num">47.2</td><td class="num hi">64.5</td><td class="num">551</td><td class="num">736</td><td class="num hi">11.7</td></tr>
+<tr><td class="num">160</td><td class="num">215.1</td><td class="num">46.5</td><td class="num">63.0</td><td class="num">532</td><td class="num">704</td><td class="num">11.8</td></tr>
+<tr><td class="num">150</td><td class="num">209.6</td><td class="num">45.8</td><td class="num">61.6</td><td class="num">531</td><td class="num">687</td><td class="num">11.6</td></tr>
+<tr><td class="num">200 again</td><td class="num">226.7</td><td class="num">47.1</td><td class="num">65.7</td><td class="num">684</td><td class="num">747</td><td class="num">9.6</td></tr>
+</table></div>
+<p>Decode never reaches the cap: the four dies draw 130 to 170 W each while serving, so only prefill pays for a lower cap. At 175 W the split loses 0.4% of decode, the server 2% at eight clients and a single die 3% of prefill, and the four dies at the cap plus a fully loaded host come to about 1164 W, inside the 1228 W envelope that clamps the machine. That is the recommendation for serving; ingest work and benchmarks keep 200 W. The per-watt column is indicative only, the sampler-window power being ±5 to 10% noisy between the two 200 W runs.</p>
+
+<h2>Still running, and what comes after</h2>
+<ul>
+  <li><b>All six queues finished at 18:30</b>; the GPUs are idle. Peak DC draw over the day's runs stayed under 1130 W against the 1228 W envelope with the host capped at 150 W.</li>
+  <li><b>Server-level check done at 18:52</b> (section 11): the production build at 16 slots serves 82 tok/s to 16 clients against 64 stock and 79 for the two pairs. Left to measure: the 8 × 32K pooled-cache decode on b10837.</li>
+  <li><b>Code</b>: the kernel work is closed for the day. Both patches are in the guide's patches folder and apply to upstream b10288 and to the fork; the aligned-load, whole-block-load and LDS-staging variants are measured losers and documented. Larger ideas remain: packed-fp16 attention at head size 256, and the Q8_1 activation-scale handling inside the fast path.</li>
+</ul>
+<p class="small">Sources: <code>reports/2026-09-07-todo-runthrough.md</code> and <code>data/benchmarks.json</code> in the tuning-guide folder; raw outputs and scripts in <code>/root/rocm-tests/bench</code>. Sibling pages: Qwen3.8-27B Q8_0 on gfx906, Qwen3.8-27B at 256K on gfx906, gfx906 Four-Way XGMI Ring.</p>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+(function(){
+  var tip=document.getElementById('tip');
+  function show(e,t){tip.textContent=t;tip.style.opacity=1;var x=(e.clientX||0)+12,y=(e.clientY||0)-30;if(e.type==='focus'){var r=e.target.getBoundingClientRect();x=r.left+r.width+8;y=r.top-6;}tip.style.left=x+'px';tip.style.top=y+'px';}
+  function hide(){tip.style.opacity=0;}
+  document.querySelectorAll('.mark').forEach(function(m){
+    var t=m.getAttribute('data-t');
+    m.addEventListener('mousemove',function(e){show(e,t);}); m.addEventListener('mouseleave',hide);
+    m.addEventListener('focus',function(e){show(e,t);}); m.addEventListener('blur',hide);
+  });
+})();
+</script>

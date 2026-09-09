@@ -1,0 +1,15 @@
+test_attainable_dp4_floor_still_succeeds (__main__.PlacementRegression.test_attainable_dp4_floor_still_succeeds) ... /private/tmp/gfx906-review-venv/lib/python3.14/site-packages/pulp/pulp.py:318: DeprecationWarning: Constructing LpVariable(name, ...) directly is deprecated; in PuLP 4.0 use prob.add_variable(name, lowBound, upBound, cat=...). Variables are then attached to the model when created.
+  _v4_deprecation(msg, stacklevel=2)
+/private/tmp/gfx906-review-venv/lib/python3.14/site-packages/pulp/apis/coin_api.py:70: DeprecationWarning: PULP_CBC_CMD is deprecated and will be removed in PuLP 4.0. Install CBC with `pip install pulp[cbc]` and use COIN_CMD instead.
+  v4_deprecation(PULP_CBC_CMD_DEPRECATION_MSG, stacklevel=stacklevel)
+ok
+test_fictitious_tp4_gain_cannot_satisfy_dp4_floor (__main__.PlacementRegression.test_fictitious_tp4_gain_cannot_satisfy_dp4_floor) ... ok
+test_existing_f16_and_q8_ladders_are_preserved (__main__.Q4VRegression.test_existing_f16_and_q8_ladders_are_preserved) ... ok
+test_q4v_command_keeps_speculative_flags (__main__.Q4VRegression.test_q4v_command_keeps_speculative_flags) ... ok
+test_recorded_q4v_cells_are_reachable (__main__.Q4VRegression.test_recorded_q4v_cells_are_reachable) ... ok
+test_unrecorded_q4v_cell_is_a_model (__main__.Q4VRegression.test_unrecorded_q4v_cell_is_a_model) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.051s
+
+OK

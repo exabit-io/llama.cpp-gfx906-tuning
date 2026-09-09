@@ -1,0 +1,53 @@
+{
+  "scope": "Read-only project/source/ISA review plus isolated optimizer patch candidates",
+  "queries_performed": [
+    "site.rocm.docs.amd.com gfx906 rocprofv3 supported GPU",
+    "site.rocm.docs.amd.com RCCL hipGraph stream capture graph support",
+    "site.llvm.org AMDGPU gfx906 v_dot2_f32_f16 code object version",
+    "site.rocm.docs.amd.com rocprofiler-sdk supported GPUs gfx906",
+    "site.rocm.docs.amd.com RCCL HIP graph capture support",
+    "site.rocm.docs.amd.com HIP memory model fine grained atomic synchronization peer memory",
+    "site.rocm.docs.amd.com/projects/rocprofiler-sdk gfx906",
+    "site.rocm.docs.amd.com Hardware atomics gfx906"
+  ],
+  "targeted_followup": [
+    "Pinned upstream b10288/b10837/current, fork b10254 and ML recipe comparisons",
+    "Official HIP coherence and atomic scopes",
+    "Current TheRock exclusions versus stale rocBLAS exclusion claim",
+    "rocprofv3 HIP/kernel/RCCL/graph attribution and counter enumeration",
+    "LLVM dot2 subnormal lowering and VGPR resource calculation",
+    "AMD ISA DPP/SDWA and dot instruction sections",
+    "Local optimizer execution, provenance and coefficient checks"
+  ],
+  "gaps": [
+    {
+      "claim": "Existing FA dot2, fused GDN, custom AR and graph capture",
+      "confidence": "high source evidence",
+      "contradiction": "roadmap treats implemented paths as absent",
+      "resolution": "corrected, production runtime eligibility still unknown"
+    },
+    {
+      "claim": "Optimizer crash and speed constraint",
+      "confidence": "high reproduced",
+      "resolution": "two candidate patches; six passing tests"
+    },
+    {
+      "claim": "Production speedup isolated to tile table",
+      "confidence": "not established",
+      "missing": "exact local source patches, production manifest, isolated ablations",
+      "next": "retrieve from known benchmark directory and perform matched comparisons"
+    },
+    {
+      "claim": "New kernel speedups",
+      "confidence": "unmeasured",
+      "missing": "gfx906 execution and traces",
+      "next": "apply report acceptance gates on GPU host"
+    }
+  ],
+  "persistent_access_limitations": [
+    "Initial rocprofiler SDK index HTTP429; alternative official pages supplied needed evidence",
+    "Versioned atomic docs open unavailable; current official page accessed",
+    "Two production MMVQ patches and raw GPU logs absent locally"
+  ],
+  "stop_reason": "Consequential ISA and code claims have primary evidence; optimizer failures reproduced and patch candidates verified. Remaining uncertainties require the actual production artifacts or GPU measurements, not another broad search."
+}

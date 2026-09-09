@@ -1,0 +1,69 @@
+test_attainable_dp4_floor_still_succeeds (__main__.PlacementRegression.test_attainable_dp4_floor_still_succeeds) ... /private/tmp/gfx906-review-venv/lib/python3.14/site-packages/pulp/pulp.py:318: DeprecationWarning: Constructing LpVariable(name, ...) directly is deprecated; in PuLP 4.0 use prob.add_variable(name, lowBound, upBound, cat=...). Variables are then attached to the model when created.
+  _v4_deprecation(msg, stacklevel=2)
+/private/tmp/gfx906-review-venv/lib/python3.14/site-packages/pulp/apis/coin_api.py:70: DeprecationWarning: PULP_CBC_CMD is deprecated and will be removed in PuLP 4.0. Install CBC with `pip install pulp[cbc]` and use COIN_CMD instead.
+  v4_deprecation(PULP_CBC_CMD_DEPRECATION_MSG, stacklevel=stacklevel)
+FAIL
+test_fictitious_tp4_gain_cannot_satisfy_dp4_floor (__main__.PlacementRegression.test_fictitious_tp4_gain_cannot_satisfy_dp4_floor) ... FAIL
+test_existing_f16_and_q8_ladders_are_preserved (__main__.Q4VRegression.test_existing_f16_and_q8_ladders_are_preserved) ... ok
+test_q4v_command_keeps_speculative_flags (__main__.Q4VRegression.test_q4v_command_keeps_speculative_flags) ... ERROR
+test_recorded_q4v_cells_are_reachable (__main__.Q4VRegression.test_recorded_q4v_cells_are_reachable) ... ERROR
+test_unrecorded_q4v_cell_is_a_model (__main__.Q4VRegression.test_unrecorded_q4v_cell_is_a_model) ... ERROR
+
+======================================================================
+ERROR: test_q4v_command_keeps_speculative_flags (__main__.Q4VRegression.test_q4v_command_keeps_speculative_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/nbritton/Downloads/llama.cpp-benchmarking/review/2026-09-08/test_optimizer_patch.py", line 49, in test_q4v_command_keeps_speculative_flags
+    self.assertEqual(tokens[tokens.index("--spec-draft-n-max") + 1], "3")
+                            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+ValueError: list.index(x): x not in list
+
+======================================================================
+ERROR: test_recorded_q4v_cells_are_reachable (__main__.Q4VRegression.test_recorded_q4v_cells_are_reachable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/nbritton/Downloads/llama.cpp-benchmarking/review/2026-09-08/test_optimizer_patch.py", line 22, in test_recorded_q4v_cells_are_reachable
+    self.assertEqual(opt._decode_tps_stock("tp4", 8, 2048, "q8_0/q4_0"), (152.8, "measured"))
+                     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nbritton/Downloads/llama.cpp-benchmarking/optimize/optimize.py", line 112, in _decode_tps_stock
+    v = lad["decode_tps"][f"n{n}_{kv}"][i]
+        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'n8_q8_0/q4_0'
+
+======================================================================
+ERROR: test_unrecorded_q4v_cell_is_a_model (__main__.Q4VRegression.test_unrecorded_q4v_cell_is_a_model)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/nbritton/Downloads/llama.cpp-benchmarking/review/2026-09-08/test_optimizer_patch.py", line 27, in test_unrecorded_q4v_cell_is_a_model
+    value, provenance = opt._decode_tps_stock("tp4", n, 131072, "q8_0/q4_0")
+                        ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/nbritton/Downloads/llama.cpp-benchmarking/optimize/optimize.py", line 112, in _decode_tps_stock
+    v = lad["decode_tps"][f"n{n}_{kv}"][i]
+        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'n4_q8_0/q4_0'
+
+======================================================================
+FAIL: test_attainable_dp4_floor_still_succeeds (__main__.PlacementRegression.test_attainable_dp4_floor_still_succeeds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/nbritton/Downloads/llama.cpp-benchmarking/review/2026-09-08/test_optimizer_patch.py", line 69, in test_attainable_dp4_floor_still_succeeds
+    self.assertEqual(result["topo"], "default")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'fixed16' != 'default'
+- fixed16
++ default
+
+
+======================================================================
+FAIL: test_fictitious_tp4_gain_cannot_satisfy_dp4_floor (__main__.PlacementRegression.test_fictitious_tp4_gain_cannot_satisfy_dp4_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/nbritton/Downloads/llama.cpp-benchmarking/review/2026-09-08/test_optimizer_patch.py", line 62, in test_fictitious_tp4_gain_cannot_satisfy_dp4_floor
+    self.assertIsNone(result)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^
+AssertionError: {'placement': 'dp4', 'slots': 1, 'ctx': 2048, 'ctx_max': 47104, 'kv': 'f16', 'quant': 'Q8_0', 'ubatch': 2048, 'draft': 0, 'topo': 'fixed16', 'graphs': 'on', 'build': 'stock', 'cap': None, 'kj': 105.0, 'streams': 4, 'decode_tps': 77.2, 'per_stream_tps': 19.3, 'prefill_tps': 929.0, 'mem_gib': 28.025, 'provenance': 'measured', 'prefill_prov': 'measured', 'draft_edit_upper': None, 'shape': (1300, 256), 'req_tps': 54.290010171977386, 'req_per_min': 12.7242211340572, 'objective': 5.354465431845326, 'core': ('dp4', 1, 2048, 'f16', 'Q8_0')} is not None
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.072s
+
+FAILED (failures=2, errors=3)

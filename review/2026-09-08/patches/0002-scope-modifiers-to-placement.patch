@@ -1,0 +1,63 @@
+--- a/optimize/optimize.py
++++ b/optimize/optimize.py
+@@ -483,14 +483,21 @@
+         for d in DRAFTS:
+             nd_v[(n, d)] = pulp.LpVariable(f"nd_{n}_{d}", cat="Binary")
+         prob += pulp.lpSum(nd_v[(n, d)] for d in DRAFTS) == pulp.lpSum(core_n)
+-        for t in TOPOS:
+-            nt_v[(n, t)] = pulp.LpVariable(f"nt_{n}_{t}", cat="Binary")
+-            prob += nt_v[(n, t)] <= tp_v[t]
+-        prob += pulp.lpSum(nt_v[(n, t)] for t in TOPOS) == pulp.lpSum(core_n)
+-        for g in GRAPHS:
+-            ng_v[(n, g)] = pulp.LpVariable(f"ng_{n}_{g}", cat="Binary")
+-            prob += ng_v[(n, g)] <= gr_v[g]
+-        prob += pulp.lpSum(ng_v[(n, g)] for g in GRAPHS) == pulp.lpSum(core_n)
++    # Topology and graph effects depend on both placement and slot count.
++    # Use the same placement in the objective, latency constraint and final output.
++    for p in plist:
++        for n in SLOTS:
++            core_pn = [v["var"] for k, v in Z.items() if k[0] == p and k[1] == n]
++            if not core_pn:
++                continue
++            for t in TOPOS:
++                nt_v[(p, n, t)] = pulp.LpVariable(f"nt_{p}_{n}_{t}", cat="Binary")
++                prob += nt_v[(p, n, t)] <= tp_v[t]
++            prob += pulp.lpSum(nt_v[(p, n, t)] for t in TOPOS) == pulp.lpSum(core_pn)
++            for g in GRAPHS:
++                ng_v[(p, n, g)] = pulp.LpVariable(f"ng_{p}_{n}_{g}", cat="Binary")
++                prob += ng_v[(p, n, g)] <= gr_v[g]
++            prob += pulp.lpSum(ng_v[(p, n, g)] for g in GRAPHS) == pulp.lpSum(core_pn)
+ 
+     # draft legality depends on placement too: forbid draft>0 with non-tp4 core or unmeasured combos
+     for (n, d), var in nd_v.items():
+@@ -531,11 +538,11 @@
+             f, _ = f_draft(d, n, depth, "tp4")
+             if f:
+                 obj.append((scn["w_dec"] * L(f) - EPS) * var)
+-    for (n, t), var in nt_v.items():
+-        fd, fp = f_topo(t, n, "tp4")
++    for (p, n, t), var in nt_v.items():
++        fd, fp = f_topo(t, n, p)
+         obj.append((scn["w_dec"] * L(fd) + scn["w_pre"] * L(fp) - EPS * (t != "default")) * var)
+-    for (n, g), var in ng_v.items():
+-        obj.append((scn["w_dec"] * L(f_graphs(g, n, "tp4")) - EPS * (g != "on")) * var)
++    for (p, n, g), var in ng_v.items():
++        obj.append((scn["w_dec"] * L(f_graphs(g, n, p)) - EPS * (g != "on")) * var)
+     for u, var in ub_v.items():
+         obj.append((scn["w_pre"] * L(UB_PREFILL[u]) - LAMBDA_MEM * (UB_COMPUTE_F16[u] - UB_COMPUTE_F16[2048]) - EPS * (u != 2048)) * var)
+     prob += pulp.lpSum(obj)
+@@ -573,10 +580,10 @@
+                 f, _ = f_draft(d, n, depth, "tp4")
+                 if f:
+                     lhs.append(L(f) * var)
+-        for (n, t), var in nt_v.items():
+-            lhs.append(L(f_topo(t, n, "tp4")[0]) * var)
+-        for (n, g), var in ng_v.items():
+-            lhs.append(L(f_graphs(g, n, "tp4")) * var)
++        for (p, n, t), var in nt_v.items():
++            lhs.append(L(f_topo(t, n, p)[0]) * var)
++        for (p, n, g), var in ng_v.items():
++            lhs.append(L(f_graphs(g, n, p)) * var)
+         prob += pulp.lpSum(lhs) >= L(scn["per_stream_min"])
+ 
+     status = prob.solve(pulp.PULP_CBC_CMD(msg=verbose))

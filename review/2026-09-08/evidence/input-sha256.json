@@ -1,0 +1,17 @@
+{
+  "ISA-NOTES.md": "29c7c405e0d386b4061a8f2c20c325a3d4ffde7ddab067c6e484652b5fc7263f",
+  "README.md": "bb9584ac66f2ac640c9f477a3130759f49d7a609ec56ef5916e33d4684fe2b3d",
+  "BENCHMARKS-TODO.md": "5cfa0a61beaff9e7ac55a95d3dc2f3915b7ab1df0020e745bff4b9360e320630",
+  "NEXT-STEPS.md": "d44647035dfa7a74caf6c638a4c0e12f4f4f5940bdaf7b2decc36570042618ee",
+  "CLAUDE.md": "96a82e7bc246263739607e0a57dcde35e7fe53887aba4557074600bc738b960e",
+  "optimize/optimize.py": "8a62195d44a89819383a6f14c67e0a9ee4efa904d5434b756d7e84ec1845e6df",
+  "data/benchmarks.json": "039e0c5265034b98a9782d84704538dc71153e1ee7f2c2304befb959898cdb7f",
+  "settings/launch.sh": "1ed23f66afacedba495b4288bb0847acbfa1891fcaeea74d8a35155d3d177209",
+  "settings/gfx906.env": "43e8a9fb0281ba1db1616294aadb12ac9a86e3fc470b15c9b03f73b1c9bd1eaa",
+  "settings/powercap.sh": "43ac2c0550d22dd5a3cfb2a32697a5b54e5a7ee898410f2b2c4a4cbf44837ec9",
+  "reports/gfx906-xgmi-ring.html": "1d0a2164082e711d03cd4bd1e3f5c524032231d7774838e1123bef7f20439ab7",
+  "reports/qwen38-27b-q8_0-gfx906.html": "689471a35099ddb9e74921ea07a6cc2a7aeb6b1494b4b5ffaf09f2acdd31d436",
+  "reports/qwen38-27b-ctx-gfx906.html": "de47cd8c9f866b653063dfd6d435a81b058f93cee554ae8678873b4f63628239",
+  "reports/2026-09-07-todo-runthrough.html": "db870df96e5dd24e25a629345b6f584b8351b47fe89b3d5f02f32739c0e9c550",
+  "patches/README.md": "62bb0317c11f316fc93f367179faa9ce7ea2d8c43df1372e8ab51d2ade7d2e48"
+}

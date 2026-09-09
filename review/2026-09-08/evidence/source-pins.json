@@ -1,0 +1,42 @@
+[
+  {
+    "repository": "ggml-org/llama.cpp",
+    "url": "https://github.com/ggml-org/llama.cpp.git",
+    "ref": "HEAD",
+    "sha": "895c045fd104ced72132160245edcd6a86e50ba0",
+    "commit_date": "2026-09-08T09:29:37+03:00",
+    "title": "chat : split specialized parsers into common/parsers (#27764)"
+  },
+  {
+    "repository": "ggml-org/llama.cpp",
+    "url": "https://github.com/ggml-org/llama.cpp.git",
+    "ref": "b10288",
+    "sha": "360e1349f0009c5ad99d21e3c4546b707addc68a",
+    "commit_date": "2026-08-05T17:58:34+02:00",
+    "title": "tests: re-enable MiniMax M3 in `test-llama-archs` (#26633)"
+  },
+  {
+    "repository": "ggml-org/llama.cpp",
+    "url": "https://github.com/ggml-org/llama.cpp.git",
+    "ref": "b10837",
+    "sha": "5202104b59ada9005db079eea43882a2b7bf5802",
+    "commit_date": "2026-09-07T09:14:32+02:00",
+    "title": "caps : recheck typed content if template checks for string (#28511)"
+  },
+  {
+    "repository": "mxxm-t/mx-llama.cpp",
+    "url": "https://github.com/mxxm-t/mx-llama.cpp.git",
+    "ref": "b10254",
+    "sha": "751b6114cdc6103efaedb94bace11e4ab8dc29be",
+    "commit_date": "2026-08-04T16:25:51+03:00",
+    "title": "ggml-backend-meta: record a whole decode token into one graph per lane"
+  },
+  {
+    "repository": "ML-gfx906",
+    "url": "https://github.com/mixa3607/ML-gfx906.git",
+    "ref": "HEAD",
+    "sha": "9c4683555c9bc4e0bc7c7d14136cb4522c8508e0",
+    "commit_date": "2026-08-31T04:08:53+05:00",
+    "title": "fix ci images tagging"
+  }
+]

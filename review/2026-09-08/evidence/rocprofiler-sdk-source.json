@@ -1,0 +1,13 @@
+{
+  "repository": "ROCm/rocprofiler-sdk",
+  "ref": "amd-mainline",
+  "sha": "f4cce0d2d40068162166e42f526c644df6ecd7b6",
+  "commit_date": "2025-07-17T23:09:17Z",
+  "files": [
+    {
+      "path": "README.md",
+      "source": "https://raw.githubusercontent.com/ROCm/rocprofiler-sdk/f4cce0d2d40068162166e42f526c644df6ecd7b6/README.md",
+      "snapshot": "review/2026-09-08/evidence/rocprofiler-sdk-README.md"
+    }
+  ]
+}

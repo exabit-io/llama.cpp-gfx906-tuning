@@ -1,0 +1,27 @@
+From d49570bc136eb0cedbc78007a5e05efb7021eee8 Mon Sep 17 00:00:00 2001
+From: Joshua <joshua@exabit.io>
+Date: Tue, 8 Sep 2026 11:21:45 +0000
+Subject: [PATCH 8/9] mmvq: whole-block (vdr 8) load at one column by default
+ on gfx906 (+2.8% single stream on the split, +7.1% on one die; b1 sweep
+ 2026-09-08)
+
+---
+ ggml/src/ggml-cuda/mmvq.cu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ggml/src/ggml-cuda/mmvq.cu b/ggml/src/ggml-cuda/mmvq.cu
+index 4ce7fc7..3b855ba 100644
+--- a/ggml/src/ggml-cuda/mmvq.cu
++++ b/ggml/src/ggml-cuda/mmvq.cu
+@@ -99,7 +99,7 @@ static constexpr __host__ __device__ int get_vdr_mmvq(ggml_type type) {
+ #define GGML_MMVQ_GCN_NWARPS1 2
+ #endif
+ #ifndef GGML_MMVQ_GCN_Q8_VDR8_1COL
+-#define GGML_MMVQ_GCN_Q8_VDR8_1COL 0
++#define GGML_MMVQ_GCN_Q8_VDR8_1COL 1
+ #endif
+ #ifndef GGML_MMVQ_GCN_ROWS_HI
+ #define GGML_MMVQ_GCN_ROWS_HI 2
+-- 
+2.43.0
+

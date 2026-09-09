@@ -1,0 +1,13 @@
+{
+  "repository": "ROCm/TheRock",
+  "ref": "main",
+  "sha": "6f2cb230d4e1caf780e69f71b1eaa4ead00394cd",
+  "commit_date": "2026-09-08T04:16:00Z",
+  "files": [
+    {
+      "path": "cmake/therock_amdgpu_targets.cmake",
+      "source": "https://raw.githubusercontent.com/ROCm/TheRock/6f2cb230d4e1caf780e69f71b1eaa4ead00394cd/cmake/therock_amdgpu_targets.cmake",
+      "snapshot": "review/2026-09-08/evidence/TheRock-cmake_therock_amdgpu_targets.cmake"
+    }
+  ]
+}

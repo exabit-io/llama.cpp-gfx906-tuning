@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.DS_Store
+__MACOSX/
+*.bak*
+*.orig
+*.zip
+.rocprofv3/
+# AMD documents: copyrighted PDFs, not redistributed (see reference/README.md)
+reference/amd-*.txt

@@ -1,0 +1,1722 @@
+<title>gfx906 Next-Steps Measurements</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+
+:root{
+  --bg:#EEF1F4; --surface:#F8FAFB; --surface-2:#E3E8ED; --ink:#17212C; --ink-2:#485664; --muted:#76828E; --rule:#D2D9E0; --rule-2:#BFC8D1;
+  --accent:#B04F1C; --accent-ink:#8E3E13; --accent-soft:rgba(176,79,28,0.10);
+  --series:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-dim:#a9b4be; --grid:#E0E5EA; --axis:#BFC8D1; --code-bg:#E4E9EE; --focus:#2a78d6;
+  --good:#2F7A4E; --good-bg:#E6F2EA; --warn:#B27A0F; --warn-bg:#F7EEDC; --bad:#B8321C; --bad-bg:#F8E5E1;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E7ECF1; --ink-2:#B2BCC6; --muted:#7E8A96; --rule:#29343F; --rule-2:#35414E;
+  --accent:#E28B55; --accent-ink:#F0A97C; --accent-soft:rgba(226,139,85,0.14);
+  --series:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-dim:#4c5966; --grid:#253039; --axis:#35414E; --code-bg:#19232D; --focus:#3987e5;
+  --good:#59B37F; --good-bg:#1B2E24; --warn:#D7A24A; --warn-bg:#32291A; --bad:#E25A42; --bad-bg:#36211D;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E7ECF1; --ink-2:#B2BCC6; --muted:#7E8A96; --rule:#29343F; --rule-2:#35414E;
+  --accent:#E28B55; --accent-ink:#F0A97C; --accent-soft:rgba(226,139,85,0.14);
+  --series:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-dim:#4c5966; --grid:#253039; --axis:#35414E; --code-bg:#19232D; --focus:#3987e5;
+  --good:#59B37F; --good-bg:#1B2E24; --warn:#D7A24A; --warn-bg:#32291A; --bad:#E25A42; --bad-bg:#36211D;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif;font-size:17.5px;line-height:1.55;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:900px;margin:0 auto;padding:44px 24px 80px}
+h1,h2,h3{font-family:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;text-wrap:balance;margin:0;line-height:1.1;letter-spacing:-0.012em}
+h1{font-size:clamp(2.1rem,4.5vw,3.1rem);font-weight:800;max-width:22ch}
+h2{font-size:1.5rem;font-weight:700;margin:52px 0 14px;padding-top:20px;border-top:2px solid var(--rule-2)}
+h3{font-size:1.05rem;font-weight:700;margin:26px 0 8px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);font-weight:500;margin-bottom:10px}
+.mono,code,pre,td.num,th.num{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+code{font-size:.86em;background:var(--code-bg);padding:.08em .35em;border-radius:3px}
+.lede{font-size:1.2rem;color:var(--ink-2);max-width:60ch;margin:14px 0 22px}
+.claim{border-left:3px solid var(--accent);padding:.35rem 0 .35rem 1rem;max-width:64ch;font-size:1.05rem;margin:0 0 8px}
+.claim b{font-weight:600}
+p{margin:0 0 14px;max-width:68ch}
+ul{margin:0 0 14px;padding-left:1.3em;max-width:68ch} li{margin:0 0 6px}
+.cond{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:22px 0 6px}
+.cond div{background:var(--surface);padding:11px 13px}
+.cond .k{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cond .v{font-size:.95rem}
+.cap{font-size:.86rem;color:var(--muted);margin:6px 0 18px;max-width:68ch}
+.tw{overflow-x:auto;margin:10px 0 16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th{font-family:"Schibsted Grotesk",sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;text-align:left;color:var(--ink-2);padding:9px 11px;border-bottom:1px solid var(--rule-2);white-space:nowrap}
+td{padding:8px 11px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;white-space:nowrap;font-size:.88rem}
+td.hi{font-weight:600}
+.verdict{display:inline-block;font-family:"Schibsted Grotesk",sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-left:8px;vertical-align:middle}
+.v-change{color:var(--good);background:var(--good-bg)} .v-none{color:var(--muted);background:var(--surface-2)} .v-trade{color:var(--warn);background:var(--warn-bg)} .v-stop{color:var(--bad);background:var(--bad-bg)}
+figure{margin:18px 0 6px;background:var(--surface);border:1px solid var(--rule);padding:16px 16px 10px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:.86rem;color:var(--muted);margin-top:6px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.86rem;color:var(--ink-2);margin:0 0 8px}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--sw)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-family:"IBM Plex Mono",monospace;font-size:.78rem;padding:5px 8px;border-radius:3px;opacity:0;transition:opacity .08s;z-index:9;white-space:nowrap}
+.mark{cursor:default}
+.mark:focus{outline:2px solid var(--focus);outline-offset:2px}
+.small{font-size:.9rem;color:var(--ink-2)}
+a{color:var(--accent-ink)}
+@media (prefers-reduced-motion: reduce){.tip{transition:none}}
+
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:18px 0 10px}
+.kpi div{background:var(--surface);padding:12px 14px}
+.kpi .n{font-family:"Schibsted Grotesk",sans-serif;font-size:1.7rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:.84rem;color:var(--ink-2);margin-top:2px}
+</style>
+<div class="wrap">
+<div class="eyebrow">gfx906 · Qwen3.8-27B Q8_0 · NEXT-STEPS measurements · 2026-09-08, updated 2026-09-08 20:52 UTC</div>
+<h1>Next-Steps Measurements</h1>
+<p class="lede">The roadmap's diagnostics and its first code, measured on the four Vega 20 dies in one day: where a decode token's time goes, which of the planned changes paid, and what the fork tree already had waiting.</p>
+<div class="claim"><b>Single stream:</b> the fork's own peer-write allreduce, gated to four rows, is +14.5% on its own; the one-column whole-block load and two exact kernel fusions add ~5%; MTP draft 3 multiplies the rest.</div>
+<div class="claim"><b>Kernel fusion measured ~3%, not the 15–20% the trace implied:</b> the small kernels are latency-bound on each block's critical path, and neither fusing them nor running them on more streams recovers that time.</div>
+<div class="claim"><b>Serving:</b> 32 slots beat 16 by 4–5% on the decode-only bench but not at the server level (80–85 vs 83 tok/s, half the per-user rate); the two pairs beat the four-die server by 20% at the request level; MTP's verify batch may reach 16 rows on the production build.</div>
+<div class="cond">
+<div><div class="k">Builds</div><div class="v">production = fork tile table + MMVQ patches (2026-09-07); fusion build = production + the nine-patch series</div></div>
+<div><div class="k">Conditions</div><div class="v">perf level high, fans max, host RAPL 150 W, SMC log and clock sampler beside every job, watchdog v2</div></div>
+<div><div class="k">Model</div><div class="v">Qwen3.8-27B Q8_0, 27.04 GiB, 64 blocks (48 linear-attention), n_embd 5120</div></div>
+<div><div class="k">Placement</div><div class="v">tp4 = tensor split over four dies; one die = rocm0; pairs = two tp2 servers</div></div>
+</div>
+<p class="cap">Every number here is in <code>data/benchmarks.json</code> (keys named per section) and reproduced by the scripts in <code>tools/</code>; the Markdown source is <code>reports/2026-09-08-next-steps-measurements.md</code>.</p>
+
+<h2>What the day settled</h2>
+<div class="kpi">
+<div><div class="n">56.6</div><div class="l">tok/s single stream with the fork's allreduce gated to four rows (49.4 before)</div></div>
+<div><div class="n">+4–5%</div><div class="l">32 slots over 16 at 2K, 8K and 32K on the production build</div></div>
+<div><div class="n">101.9</div><div class="l">tok/s at 16 clients from two tp2 pairs on the final build, against 83.4 from the four-die server</div></div>
+<div><div class="n">80.0</div><div class="l">tok/s at 32 clients on 32 slots at the server level: slots beyond 16 add nothing there (busy profile → 16)</div></div>
+<div><div class="n">+23%</div><div class="l">4 slots × draft 3 at 32K on the production build (draft 2 lost 12% on stock)</div></div>
+<div><div class="n">~3%</div><div class="l">what three kernel fusions returned against a +15–20% estimate</div></div>
+<div><div class="n">0</div><div class="l">effect of multi-stream graph optimisation on either placement</div></div>
+</div>
+
+<h2>M1 recap — where a token goes</h2>
+<p>The morning's kernel trace (<code>reports/2026-09-08-m1-kernel-trace.md</code>) split the 21.5 ms single-stream token on the split into 11.2 ms of matrix-vector kernels at 604 GB/s, 3.4 ms of RCCL kernels (128 allreduces at 27 µs), 5.8 ms of 1,300 small kernels and 1.1 ms idle: the die is busy 95% of the time, so launch gaps were never the lever. That ordering — allreduce, small kernels, batch-1 matvec — set the day's sequence; the results below are what each turned out to be worth.</p>
+
+<h2>M2 — 24 and 32 slots, and 12–32 at depth <span class="verdict v-change">busy profile → 32 slots</span></h2>
+<p>Production build, tp4 <code>llama-batched-bench -ntg 128</code>, f16 KV. Key <code>m2_slots_prod</code>.</p>
+<figure><div class="legend"><span style="--sw:var(--series)">2K</span><span style="--sw:var(--series-2)">8K</span><span style="--sw:var(--series-3)">32K</span></div>
+<svg viewBox="0 0 860 324" role="img" aria-label="M2 — production build, tp4 decode tok/s by slots at 2K / 8K / 32K prompts">
+<line x1="150.0" y1="8" x2="150.0" y2="302" stroke="var(--grid)" stroke-width="1"/><text x="150.0" y="316" font-size="11" fill="var(--muted)" text-anchor="middle">0</text>
+<line x1="289.3" y1="8" x2="289.3" y2="302" stroke="var(--grid)" stroke-width="1"/><text x="289.3" y="316" font-size="11" fill="var(--muted)" text-anchor="middle">50</text>
+<line x1="428.6" y1="8" x2="428.6" y2="302" stroke="var(--grid)" stroke-width="1"/><text x="428.6" y="316" font-size="11" fill="var(--muted)" text-anchor="middle">100</text>
+<line x1="567.9" y1="8" x2="567.9" y2="302" stroke="var(--grid)" stroke-width="1"/><text x="567.9" y="316" font-size="11" fill="var(--muted)" text-anchor="middle">150</text>
+<line x1="707.3" y1="8" x2="707.3" y2="302" stroke="var(--grid)" stroke-width="1"/><text x="707.3" y="316" font-size="11" fill="var(--muted)" text-anchor="middle">200</text>
+<text x="142" y="41.0" font-size="12" fill="var(--ink-2)" text-anchor="end">8 slots</text>
+<rect class="mark" tabindex="0" x="150" y="12" width="487.8" height="12" fill="var(--series)" data-tip="8 slots · 2K: 175.07 tok/s"/>
+<text x="642.8" y="22" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">175.07</text>
+<text x="142" y="99.0" font-size="12" fill="var(--ink-2)" text-anchor="end">12 slots</text>
+<rect class="mark" tabindex="0" x="150" y="70" width="549.8" height="12" fill="var(--series)" data-tip="12 slots · 2K: 197.31 tok/s"/>
+<text x="704.8" y="80" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">197.31</text>
+<rect class="mark" tabindex="0" x="150" y="86" width="517.9" height="12" fill="var(--series-2)" data-tip="12 slots · 8K: 185.89 tok/s"/>
+<text x="672.9" y="96" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">185.89</text>
+<rect class="mark" tabindex="0" x="150" y="102" width="414.4" height="12" fill="var(--series-3)" data-tip="12 slots · 32K: 148.71 tok/s"/>
+<text x="569.4" y="112" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">148.71</text>
+<text x="142" y="157.0" font-size="12" fill="var(--ink-2)" text-anchor="end">16 slots</text>
+<rect class="mark" tabindex="0" x="150" y="128" width="567.6" height="12" fill="var(--series)" data-tip="16 slots · 2K: 203.72 tok/s"/>
+<text x="722.6" y="138" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">203.72</text>
+<rect class="mark" tabindex="0" x="150" y="144" width="537.2" height="12" fill="var(--series-2)" data-tip="16 slots · 8K: 192.79 tok/s"/>
+<text x="692.2" y="154" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">192.79</text>
+<rect class="mark" tabindex="0" x="150" y="160" width="444.8" height="12" fill="var(--series-3)" data-tip="16 slots · 32K: 159.63 tok/s"/>
+<text x="599.8" y="170" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">159.63</text>
+<text x="142" y="215.0" font-size="12" fill="var(--ink-2)" text-anchor="end">24 slots</text>
+<rect class="mark" tabindex="0" x="150" y="186" width="536.8" height="12" fill="var(--series)" data-tip="24 slots · 2K: 192.64 tok/s"/>
+<text x="691.8" y="196" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">192.64</text>
+<rect class="mark" tabindex="0" x="150" y="202" width="510.4" height="12" fill="var(--series-2)" data-tip="24 slots · 8K: 183.18 tok/s"/>
+<text x="665.4" y="212" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">183.18</text>
+<rect class="mark" tabindex="0" x="150" y="218" width="424.9" height="12" fill="var(--series-3)" data-tip="24 slots · 32K: 152.48 tok/s"/>
+<text x="579.9" y="228" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">152.48</text>
+<text x="142" y="273.0" font-size="12" fill="var(--ink-2)" text-anchor="end">32 slots</text>
+<rect class="mark" tabindex="0" x="150" y="244" width="592.6" height="12" fill="var(--series)" data-tip="32 slots · 2K: 212.68 tok/s"/>
+<text x="747.6" y="254" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">212.68</text>
+<rect class="mark" tabindex="0" x="150" y="260" width="565.0" height="12" fill="var(--series-2)" data-tip="32 slots · 8K: 202.76 tok/s"/>
+<text x="720.0" y="270" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">202.76</text>
+<rect class="mark" tabindex="0" x="150" y="276" width="468.1" height="12" fill="var(--series-3)" data-tip="32 slots · 32K: 167.99 tok/s"/>
+<text x="623.1" y="286" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">167.99</text>
+</svg><figcaption>M2 — production build, tp4 decode tok/s by slots at 2K / 8K / 32K prompts</figcaption></figure>
+<div class="tw"><table><thead><tr>
+<th class="num">prompt</th>
+<th class="num">slots</th>
+<th class="num">prefill t/s</th>
+<th class="num">decode t/s</th>
+<th class="num">per stream</th>
+<th class="num">e2e t/s</th>
+</tr></thead><tbody>
+<tr>
+<td class="num">2048</td>
+<td class="num">8</td>
+<td class="num">1139.6</td>
+<td class="num">175.1</td>
+<td class="num">21.9</td>
+<td class="num">860.6</td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">12</td>
+<td class="num">1143.4</td>
+<td class="num">197.3</td>
+<td class="num">16.4</td>
+<td class="num">891.8</td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">16</td>
+<td class="num">1142.8</td>
+<td class="num">203.7</td>
+<td class="num">12.7</td>
+<td class="num">899.0</td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">24</td>
+<td class="num">1142.9</td>
+<td class="num">192.6</td>
+<td class="num">8.0</td>
+<td class="num">885.9</td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">32</td>
+<td class="num">1143.2</td>
+<td class="num">212.7</td>
+<td class="num">6.6</td>
+<td class="num">909.2</td>
+</tr>
+<tr>
+<td class="num">8192</td>
+<td class="num">12</td>
+<td class="num">1100.5</td>
+<td class="num">185.9</td>
+<td class="num">15.5</td>
+<td class="num">1023.1</td>
+</tr>
+<tr>
+<td class="num">8192</td>
+<td class="num">16</td>
+<td class="num">1100.9</td>
+<td class="num">192.8</td>
+<td class="num">12.0</td>
+<td class="num">1026.5</td>
+</tr>
+<tr>
+<td class="num">8192</td>
+<td class="num">24</td>
+<td class="num">1100.3</td>
+<td class="num">183.2</td>
+<td class="num">7.6</td>
+<td class="num">1021.6</td>
+</tr>
+<tr>
+<td class="num">8192</td>
+<td class="num">32</td>
+<td class="num">1100.3</td>
+<td class="num">202.8</td>
+<td class="num">6.3</td>
+<td class="num">1030.2</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">12</td>
+<td class="num">959.2</td>
+<td class="num">148.7</td>
+<td class="num">12.4</td>
+<td class="num">939.3</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">16</td>
+<td class="num">959.1</td>
+<td class="num">159.6</td>
+<td class="num">10.0</td>
+<td class="num">940.8</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">24</td>
+<td class="num">959.2</td>
+<td class="num">152.5</td>
+<td class="num">6.4</td>
+<td class="num">939.9</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">32</td>
+<td class="num">959.1</td>
+<td class="num">168.0</td>
+<td class="num">5.2</td>
+<td class="num">941.8</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>32 slots beat 16 by 4.4% at 2K, 5.2% at 8K and 5.2% at 32K; 24 slots sit below 16 at every depth. The fork's tile table lifts the 24/32-slot decode 19% over stock against +33% on prefill, so a decode-shaped tile still has ~10% (S7).</li>
+<li>16 slots hold at depth (−5% at 8K, −22% at 32K). The optimiser's busy-server scenario moved to <code>-np 32</code> (<code>launch.sh busy</code>); the team scenario stays at 16.</li>
+<li>The SMC DC total peaked at 1199 W during the 32 × 32K prefill at the 200 W caps with the host at 150 W: 29 W under the envelope.</li>
+</ul>
+
+<h2>M4 — the pooled cache on b10837 <span class="verdict v-none">capacity mode</span></h2>
+<div class="tw"><table><thead><tr>
+<th class="">mode</th>
+<th class="num">prefill_tps</th>
+<th class="num">decode_tps</th>
+</tr></thead><tbody>
+<tr>
+<td class="">private</td>
+<td class="num">742.5</td>
+<td class="num">128.9</td>
+</tr>
+<tr>
+<td class="">unified</td>
+<td class="num">400.8</td>
+<td class="num">85.5</td>
+</tr>
+</tbody></table></div>
+<p class="cap">b10837 tp4, 8 × 32K, llama-batched-bench. b10288 reference: 130 / 86 decode.</p>
+<p>The pool still costs 34% of decode and 46% of prefill at 8 × 32K; the upstream change fixed the server's lone-prompt path only. Nothing in the guide changes.</p>
+
+<h2>The fork's own allreduce and whole-token graph <span class="verdict v-change">adopted with a gate</span></h2>
+<p>The fork tree (mx-llama.cpp b10254, commit 751b611) carries a peer-write custom allreduce (<code>tp-allreduce.cu</code>, vLLM-style, one kernel per rank) and a whole-token HIP graph per lane — the two things the roadmap's S2 was going to build — behind environment variables that no measurement had set: <code>GGML_ENABLE_CUSTOM_AR=1</code> and, on gfx906, <code>HSA_FORCE_FINE_GRAIN_PCIE=1</code>. Key <code>fork_knobs_sweep</code>.</p>
+<div class="tw"><table><thead><tr>
+<th class="">variant</th>
+<th class="">env</th>
+<th class="num">pp2048</th>
+<th class="num">tg128</th>
+<th class="num">slots8_2k</th>
+<th class="num">slots16_2k</th>
+</tr></thead><tbody>
+<tr>
+<td class="">baseline</td>
+<td class=""></td>
+<td class="num">1128.0</td>
+<td class="num">47.7</td>
+<td class="num">174.5</td>
+<td class="num">203.8</td>
+</tr>
+<tr>
+<td class="">custom-ar-oneshot</td>
+<td class="">GGML_ENABLE_CUSTOM_AR=1</td>
+<td class="num">1128.7</td>
+<td class="num">47.7</td>
+<td class="num">174.2</td>
+<td class="num">204.1</td>
+</tr>
+<tr>
+<td class="">peerwrite</td>
+<td class="">GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1</td>
+<td class="num">1129.1</td>
+<td class="num">54.3</td>
+<td class="num">160.2</td>
+<td class="num">187.8</td>
+</tr>
+<tr>
+<td class="">peerwrite-no-tg</td>
+<td class="">+ GGML_META_TOKEN_GRAPH=0</td>
+<td class="num">1129.4</td>
+<td class="num">52.4</td>
+<td class="num">155.1</td>
+<td class="num">182.1</td>
+</tr>
+<tr>
+<td class="">peerwrite-nogate</td>
+<td class="">+ GGML_TP_AR_NO_GATE=1</td>
+<td class="num">720.0</td>
+<td class="num">54.2</td>
+<td class="num">158.5</td>
+<td class="num">185.0</td>
+</tr>
+<tr>
+<td class="">fgp-only</td>
+<td class="">HSA_FORCE_FINE_GRAIN_PCIE=1</td>
+<td class="num">1129.0</td>
+<td class="num">47.8</td>
+<td class="num">174.8</td>
+<td class="num">204.3</td>
+</tr>
+<tr>
+<td class="">serial-dispatch</td>
+<td class="">GGML_META_PARALLEL_DISPATCH=0</td>
+<td class="num">1127.3</td>
+<td class="num">46.9</td>
+<td class="num">173.9</td>
+<td class="num">203.1</td>
+</tr>
+<tr>
+<td class="">baseline-repeat</td>
+<td class=""></td>
+<td class="num">1129.2</td>
+<td class="num">47.7</td>
+<td class="num">174.6</td>
+<td class="num">204.1</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><b>Single stream +14%</b> (47.7 → 54.3): the kernel +10%, the whole-token graph another +3.6%. Perplexity through the custom path 5.5969, identical. The trace shows 4 <code>hipGraphLaunch</code> per token instead of 516, and <code>k_broadcast_reduce&lt;4&gt;</code> at 46 µs per allreduce including its spin-wait.</li>
+<li>8 and 16 slots lose 8% because the fork's size gate (<code>ne &lt; 262144</code>) also sends their 8–16-row messages through the peer-write kernel. Disabling the gate puts prefill through the F32 two-shot kernel: −36%.</li>
+<li>Fine-grained memory by itself changes nothing; serial lane dispatch costs 1.7%.</li>
+</ul>
+<h3>The size gate</h3>
+<p><code>GGML_TP_AR_MAX_NE</code> (fusion-tree commit 25e1d46) replaces the fixed gate with an element count; one decode row is 5,120 elements. Key <code>ar_gate_sweep</code>.</p>
+<figure><div class="legend"><span style="--sw:var(--series)">1</span><span style="--sw:var(--series-2)">2</span><span style="--sw:var(--series-3)">4</span><span style="--sw:var(--accent)">8</span><span style="--sw:var(--series-dim)">16</span></div>
+<svg viewBox="0 0 860 394" role="img" aria-label="Allreduce size gate — decode tok/s at 1 / 2 / 4 / 8 / 16 slots (2K), fusion build">
+<line x1="150.0" y1="8" x2="150.0" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="150.0" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">0</text>
+<line x1="295.2" y1="8" x2="295.2" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="295.2" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">50</text>
+<line x1="440.3" y1="8" x2="440.3" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="440.3" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">100</text>
+<line x1="585.5" y1="8" x2="585.5" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="585.5" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">150</text>
+<line x1="730.7" y1="8" x2="730.7" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="730.7" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">200</text>
+<text x="142" y="57.0" font-size="12" fill="var(--ink-2)" text-anchor="end">base (RCCL)</text>
+<rect class="mark" tabindex="0" x="150" y="12" width="141.9" height="12" fill="var(--series)" data-tip="base (RCCL) · 1: 48.89 tok/s"/>
+<text x="296.9" y="22" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">48.89</text>
+<rect class="mark" tabindex="0" x="150" y="28" width="223.7" height="12" fill="var(--series-2)" data-tip="base (RCCL) · 2: 77.05 tok/s"/>
+<text x="378.7" y="38" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">77.05</text>
+<rect class="mark" tabindex="0" x="150" y="44" width="354.1" height="12" fill="var(--series-3)" data-tip="base (RCCL) · 4: 121.98 tok/s"/>
+<text x="509.1" y="54" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">121.98</text>
+<rect class="mark" tabindex="0" x="150" y="60" width="508.1" height="12" fill="var(--accent)" data-tip="base (RCCL) · 8: 175 tok/s"/>
+<text x="663.1" y="70" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">175</text>
+<rect class="mark" tabindex="0" x="150" y="76" width="591.9" height="12" fill="var(--series-dim)" data-tip="base (RCCL) · 16: 203.86 tok/s"/>
+<text x="746.9" y="86" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">203.86</text>
+<text x="142" y="147.0" font-size="12" fill="var(--ink-2)" text-anchor="end">peer-write, fork default gate</text>
+<rect class="mark" tabindex="0" x="150" y="102" width="162.1" height="12" fill="var(--series)" data-tip="peer-write, fork default gate · 1: 55.82 tok/s"/>
+<text x="317.1" y="112" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">55.82</text>
+<rect class="mark" tabindex="0" x="150" y="118" width="267.6" height="12" fill="var(--series-2)" data-tip="peer-write, fork default gate · 2: 92.18 tok/s"/>
+<text x="422.6" y="128" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">92.18</text>
+<rect class="mark" tabindex="0" x="150" y="134" width="362.5" height="12" fill="var(--series-3)" data-tip="peer-write, fork default gate · 4: 124.85 tok/s"/>
+<text x="517.5" y="144" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">124.85</text>
+<rect class="mark" tabindex="0" x="150" y="150" width="464.8" height="12" fill="var(--accent)" data-tip="peer-write, fork default gate · 8: 160.11 tok/s"/>
+<text x="619.8" y="160" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">160.11</text>
+<rect class="mark" tabindex="0" x="150" y="166" width="544.0" height="12" fill="var(--series-dim)" data-tip="peer-write, fork default gate · 16: 187.39 tok/s"/>
+<text x="699.0" y="176" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">187.39</text>
+<text x="142" y="237.0" font-size="12" fill="var(--ink-2)" text-anchor="end">peer-write, 4 rows</text>
+<rect class="mark" tabindex="0" x="150" y="192" width="157.5" height="12" fill="var(--series)" data-tip="peer-write, 4 rows · 1: 54.26 tok/s"/>
+<text x="312.5" y="202" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">54.26</text>
+<rect class="mark" tabindex="0" x="150" y="208" width="266.2" height="12" fill="var(--series-2)" data-tip="peer-write, 4 rows · 2: 91.7 tok/s"/>
+<text x="421.2" y="218" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">91.7</text>
+<rect class="mark" tabindex="0" x="150" y="224" width="359.0" height="12" fill="var(--series-3)" data-tip="peer-write, 4 rows · 4: 123.64 tok/s"/>
+<text x="514.0" y="234" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">123.64</text>
+<rect class="mark" tabindex="0" x="150" y="240" width="507.8" height="12" fill="var(--accent)" data-tip="peer-write, 4 rows · 8: 174.91 tok/s"/>
+<text x="662.8" y="250" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">174.91</text>
+<rect class="mark" tabindex="0" x="150" y="256" width="592.6" height="12" fill="var(--series-dim)" data-tip="peer-write, 4 rows · 16: 204.11 tok/s"/>
+<text x="747.6" y="266" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">204.11</text>
+<text x="142" y="327.0" font-size="12" fill="var(--ink-2)" text-anchor="end">peer-write, 8 rows</text>
+<rect class="mark" tabindex="0" x="150" y="282" width="158.5" height="12" fill="var(--series)" data-tip="peer-write, 8 rows · 1: 54.59 tok/s"/>
+<text x="313.5" y="292" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">54.59</text>
+<rect class="mark" tabindex="0" x="150" y="298" width="269.9" height="12" fill="var(--series-2)" data-tip="peer-write, 8 rows · 2: 92.98 tok/s"/>
+<text x="424.9" y="308" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">92.98</text>
+<rect class="mark" tabindex="0" x="150" y="314" width="364.4" height="12" fill="var(--series-3)" data-tip="peer-write, 8 rows · 4: 125.5 tok/s"/>
+<text x="519.4" y="324" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">125.5</text>
+<rect class="mark" tabindex="0" x="150" y="330" width="483.6" height="12" fill="var(--accent)" data-tip="peer-write, 8 rows · 8: 166.56 tok/s"/>
+<text x="638.6" y="340" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">166.56</text>
+<rect class="mark" tabindex="0" x="150" y="346" width="591.7" height="12" fill="var(--series-dim)" data-tip="peer-write, 8 rows · 16: 203.81 tok/s"/>
+<text x="746.7" y="356" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">203.81</text>
+</svg><figcaption>Allreduce size gate — decode tok/s at 1 / 2 / 4 / 8 / 16 slots (2K), fusion build</figcaption></figure>
+<div class="tw"><table><thead><tr>
+<th class="">variant</th>
+<th class="num">max_ne</th>
+<th class="num">slots1</th>
+<th class="num">slots2</th>
+<th class="num">slots4</th>
+<th class="num">slots8</th>
+<th class="num">slots16</th>
+<th class="num">tg128_llama_bench</th>
+</tr></thead><tbody>
+<tr>
+<td class="">base (RCCL)</td>
+<td class="num">—</td>
+<td class="num">48.9</td>
+<td class="num">77.0</td>
+<td class="num">122.0</td>
+<td class="num">175.0</td>
+<td class="num">203.9</td>
+<td class="num">49.4</td>
+</tr>
+<tr>
+<td class="">peer-write, fork default gate</td>
+<td class="num">262144</td>
+<td class="num">55.8</td>
+<td class="num">92.2</td>
+<td class="num">124.8</td>
+<td class="num">160.1</td>
+<td class="num">187.4</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">peer-write, 1 row</td>
+<td class="num">5121</td>
+<td class="num">52.1</td>
+<td class="num">76.3</td>
+<td class="num">121.1</td>
+<td class="num">175.3</td>
+<td class="num">203.9</td>
+<td class="num">56.5</td>
+</tr>
+<tr>
+<td class="">peer-write, 2 rows</td>
+<td class="num">10241</td>
+<td class="num">44.9</td>
+<td class="num">92.9</td>
+<td class="num">122.1</td>
+<td class="num">175.7</td>
+<td class="num">203.9</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">peer-write, 4 rows</td>
+<td class="num">20481</td>
+<td class="num">54.3</td>
+<td class="num">91.7</td>
+<td class="num">123.6</td>
+<td class="num">174.9</td>
+<td class="num">204.1</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">peer-write, 8 rows</td>
+<td class="num">40961</td>
+<td class="num">54.6</td>
+<td class="num">93.0</td>
+<td class="num">125.5</td>
+<td class="num">166.6</td>
+<td class="num">203.8</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">base again</td>
+<td class="num">—</td>
+<td class="num">48.8</td>
+<td class="num">77.0</td>
+<td class="num">122.5</td>
+<td class="num">174.8</td>
+<td class="num">203.7</td>
+<td class="num">—</td>
+</tr>
+</tbody></table></div>
+<p class="cap">The batched bench's one-slot cell is unreliable with the custom path (the whole-token graph warms up during the first batch); llama-bench tg128 is the single-stream figure.</p>
+<p><b>Adopted</b> for builds with the knob: <code>GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481</code>. One stream +14.5% (49.4 → 56.6), two streams +19%, four +1–3%, eight and more untouched. <code>settings/launch.sh</code> drops the settings on a binary without the knob, where the default gate would cost 8% at 8–16 slots.</p>
+
+<h2>Kernel fusions (S3) <span class="verdict v-trade">~3%, and a lesson</span></h2>
+<p>Three fusions on the production source, each with an off switch: the fused norm emits the Q8_1 copy of its output (128 quantize launches), the residual add runs inside the norm kernel (129), and the delta-net block's q/k norms and beta sigmoid are recomputed inside the GDN kernel (144). Kernels per token per die 1866 → 1466, busy 20.4 → 19.3 ms. Key <code>fusion_nq_test</code>.</p>
+<div class="tw"><table><thead><tr>
+<th class="">variant</th>
+<th class="">env</th>
+<th class="num">tp4_pp2048</th>
+<th class="num">tp4_tg128</th>
+<th class="num">die0_pp2048</th>
+<th class="num">die0_tg128</th>
+<th class="num">greedy_identical</th>
+<th class="num">ppl_16k</th>
+</tr></thead><tbody>
+<tr>
+<td class="">production</td>
+<td class=""></td>
+<td class="num">1127.56</td>
+<td class="num">48.17</td>
+<td class="num">321.71</td>
+<td class="num">20.32</td>
+<td class="num">yes</td>
+<td class="num">5.60</td>
+</tr>
+<tr>
+<td class="">fusions, all on</td>
+<td class=""></td>
+<td class="num">1051.97</td>
+<td class="num">49.51</td>
+<td class="num">310.93</td>
+<td class="num">20.45</td>
+<td class="num">no</td>
+<td class="num">5.61</td>
+</tr>
+<tr>
+<td class="">all off</td>
+<td class="">GGML_CUDA_NORM_Q8=0 GGML_CUDA_ADD_NORM=0 GGML_CUDA_GDN_PREFUSE=0</td>
+<td class="num">1127.68</td>
+<td class="num">47.97</td>
+<td class="num">327.85</td>
+<td class="num">20.62</td>
+<td class="num">yes</td>
+<td class="num">5.60</td>
+</tr>
+<tr>
+<td class="">q8 off</td>
+<td class="">GGML_CUDA_NORM_Q8=0</td>
+<td class="num">1053.96</td>
+<td class="num">49.81</td>
+<td class="num">310.90</td>
+<td class="num">20.61</td>
+<td class="num">—</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">add+norm off</td>
+<td class="">GGML_CUDA_ADD_NORM=0</td>
+<td class="num">1048.54</td>
+<td class="num">48.70</td>
+<td class="num">310.53</td>
+<td class="num">20.62</td>
+<td class="num">—</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">GDN fold off</td>
+<td class="">GGML_CUDA_GDN_PREFUSE=0</td>
+<td class="num">1135.21</td>
+<td class="num">48.61</td>
+<td class="num">328.50</td>
+<td class="num">20.34</td>
+<td class="num">yes</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">q8 only</td>
+<td class="">GGML_CUDA_ADD_NORM=0 GGML_CUDA_GDN_PREFUSE=0</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">yes</td>
+<td class="num">5.60</td>
+</tr>
+<tr>
+<td class="">add+norm only</td>
+<td class="">GGML_CUDA_NORM_Q8=0 GGML_CUDA_GDN_PREFUSE=0</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">yes</td>
+<td class="num">5.60</td>
+</tr>
+<tr>
+<td class="">GDN fold only</td>
+<td class="">GGML_CUDA_NORM_Q8=0 GGML_CUDA_ADD_NORM=0</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">—</td>
+<td class="num">no</td>
+<td class="num">5.61</td>
+</tr>
+<tr>
+<td class="">production again</td>
+<td class=""></td>
+<td class="num">1129.55</td>
+<td class="num">48.05</td>
+<td class="num">322.24</td>
+<td class="num">20.30</td>
+<td class="num">—</td>
+<td class="num">—</td>
+</tr>
+<tr>
+<td class="">fusions again</td>
+<td class=""></td>
+<td class="num">1053.42</td>
+<td class="num">49.44</td>
+<td class="num">310.95</td>
+<td class="num">20.45</td>
+<td class="num">—</td>
+<td class="num">—</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><b>Correctness:</b> the q8 and add+norm fusions are bit-exact. The GDN fold's perplexity shift (5.6083) came from running inside the 2048-token prefill steps, now excluded; isolated at decode, the sigmoid part is exact and the L2-norm part diverged late in greedy decoding through its summation order — commit 797124c reproduces the standalone kernel's order, checked in the final run below.</li>
+<li><b>Speed:</b> add+norm +1.6%, GDN fold +1.8%, q8 fusion 0 (−0.6%). The trace says why: the q8-emitting norm takes 10.5 µs where norm + quantize took 6.4 + 3.9. <b>The small kernels are latency-bound, not launch-bound</b> — their time is their own dependent chain, and fusing two dependent phases keeps both latencies.</li>
+<li>The fold also cost 7% of prefill on tp4 (strided raw views walked token by token inside the prefill GDN kernel); the two folds are now restricted to ≤ 64 rows.</li>
+</ul>
+<h3>Overlap instead of fusion <span class="verdict v-none">0</span></h3>
+<p>If fusion cannot remove the latency, concurrency might hide it: the fork's multi-stream graph optimisation (<code>GGML_CUDA_GRAPH_OPT</code>) was gated to single-device processes, and <code>=2</code> (commit a1462e0) allows it per split lane. Key <code>graph_opt_split</code>.</p>
+<div class="tw"><table><thead><tr>
+<th class="">variant</th>
+<th class="">env</th>
+<th class="num">tp4_pp2048</th>
+<th class="num">tp4_tg128</th>
+<th class="num">die0_pp2048</th>
+<th class="num">die0_tg128</th>
+</tr></thead><tbody>
+<tr>
+<td class="">off</td>
+<td class=""></td>
+<td class="num">1130.29</td>
+<td class="num">49.46</td>
+<td class="num">327.96</td>
+<td class="num">20.48</td>
+</tr>
+<tr>
+<td class="">opt1</td>
+<td class="">GGML_CUDA_GRAPH_OPT=1</td>
+<td class="num">1131.81</td>
+<td class="num">49.53</td>
+<td class="num">328.31</td>
+<td class="num">20.41</td>
+</tr>
+<tr>
+<td class="">opt2</td>
+<td class="">GGML_CUDA_GRAPH_OPT=2</td>
+<td class="num">1130.51</td>
+<td class="num">49.43</td>
+<td class="num">328.12</td>
+<td class="num">20.48</td>
+</tr>
+<tr>
+<td class="">custom AR (adopted)</td>
+<td class="">GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481</td>
+<td class="num">1130.58</td>
+<td class="num">56.49</td>
+<td class="num">328.00</td>
+<td class="num">20.35</td>
+</tr>
+<tr>
+<td class="">custom AR + opt2</td>
+<td class="">+ GGML_CUDA_GRAPH_OPT=2</td>
+<td class="num">1130.29</td>
+<td class="num">56.44</td>
+<td class="num">328.23</td>
+<td class="num">20.49</td>
+</tr>
+<tr>
+<td class="">off again</td>
+<td class=""></td>
+<td class="num">1129.58</td>
+<td class="num">49.56</td>
+<td class="num">328.21</td>
+<td class="num">20.57</td>
+</tr>
+</tbody></table></div>
+<p>Nothing moves on either placement (perplexity intact). The small kernels sit on each block's single dependency chain; their 5.8 ms is intrinsic latency, recoverable neither by fusing consecutive kernels nor by stream-level concurrency. Only a different execution model — a persistent per-block kernel — would change it, and that is beyond this roadmap.</p>
+
+<h2>Batch-1 matrix-vector variants (S6) <span class="verdict v-change">whole-block load adopted</span></h2>
+<p>New one-column knobs (rows and warps per block, whole-block load at one column). Key <code>mmvq_batch1_variants</code>.</p>
+<div class="tw"><table><thead><tr>
+<th class="">build</th>
+<th class="num">rows1</th>
+<th class="num">nwarps1</th>
+<th class="num">vdr8_1col</th>
+<th class="num">tp4_tg128</th>
+<th class="num">die0_tg128</th>
+</tr></thead><tbody>
+<tr>
+<td class="">nq-base</td>
+<td class="num">1</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">49.30</td>
+<td class="num">20.32</td>
+</tr>
+<tr>
+<td class="">r2</td>
+<td class="num">2</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">49.34</td>
+<td class="num">21.22</td>
+</tr>
+<tr>
+<td class="">r4</td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">48.46</td>
+<td class="num">21.38</td>
+</tr>
+<tr>
+<td class="">v8</td>
+<td class="num">1</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">50.73</td>
+<td class="num">21.77</td>
+</tr>
+<tr>
+<td class="">r2v8</td>
+<td class="num">2</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">50.27</td>
+<td class="num">21.60</td>
+</tr>
+<tr>
+<td class="">w4</td>
+<td class="num">1</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num">46.85</td>
+<td class="num">20.39</td>
+</tr>
+<tr>
+<td class="">production (no fusions)</td>
+<td class="num">1</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">47.93</td>
+<td class="num">20.23</td>
+</tr>
+<tr>
+<td class="">nq-base again</td>
+<td class="num">1</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">49.40</td>
+<td class="num">20.45</td>
+</tr>
+</tbody></table></div>
+<p>The whole-block load (nine aligned dwords and a funnel shift per 32-weight block) is +2.8% on the split and +7.1% on one die and is now the default (commit d49570b); it lost at batch 8 in the run-through, which is why it is restricted to one column. More rows per block help only one die; four warps lose.</p>
+
+<h2>M3 — MTP on the production build <span class="verdict v-change">verify batch ≤ 16</span></h2>
+<p>tp4 <code>llama-server</code>, greedy, 300 generated, N concurrent distinct prompts, two waves; the decode-only wave is shown. Key <code>mtp_prod_build</code>.</p>
+<figure><div class="legend"><span style="--sw:var(--series-dim)">no draft</span><span style="--sw:var(--series)">draft 1</span><span style="--sw:var(--series-2)">draft 2</span><span style="--sw:var(--series-3)">draft 3</span></div>
+<svg viewBox="0 0 860 330" role="img" aria-label="M3 — MTP on the production build, decode-only wave, tok/s">
+<line x1="150.0" y1="8" x2="150.0" y2="308" stroke="var(--grid)" stroke-width="1"/><text x="150.0" y="322" font-size="11" fill="var(--muted)" text-anchor="middle">0</text>
+<line x1="333.9" y1="8" x2="333.9" y2="308" stroke="var(--grid)" stroke-width="1"/><text x="333.9" y="322" font-size="11" fill="var(--muted)" text-anchor="middle">50</text>
+<line x1="517.8" y1="8" x2="517.8" y2="308" stroke="var(--grid)" stroke-width="1"/><text x="517.8" y="322" font-size="11" fill="var(--muted)" text-anchor="middle">100</text>
+<line x1="701.8" y1="8" x2="701.8" y2="308" stroke="var(--grid)" stroke-width="1"/><text x="701.8" y="322" font-size="11" fill="var(--muted)" text-anchor="middle">150</text>
+<text x="142" y="49.0" font-size="12" fill="var(--ink-2)" text-anchor="end">2K · 4 slots</text>
+<rect class="mark" tabindex="0" x="150" y="12" width="429.6" height="12" fill="var(--series-dim)" data-tip="2K · 4 slots · no draft: 116.8 tok/s"/>
+<text x="584.6" y="22" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">116.8</text>
+<rect class="mark" tabindex="0" x="150" y="28" width="488.5" height="12" fill="var(--series)" data-tip="2K · 4 slots · draft 1: 132.8 tok/s"/>
+<text x="643.5" y="38" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">132.8</text>
+<rect class="mark" tabindex="0" x="150" y="44" width="492.9" height="12" fill="var(--series-2)" data-tip="2K · 4 slots · draft 2: 134 tok/s"/>
+<text x="647.9" y="54" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">134</text>
+<rect class="mark" tabindex="0" x="150" y="60" width="489.2" height="12" fill="var(--series-3)" data-tip="2K · 4 slots · draft 3: 133 tok/s"/>
+<text x="644.2" y="70" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">133</text>
+<text x="142" y="123.0" font-size="12" fill="var(--ink-2)" text-anchor="end">2K · 8 slots</text>
+<rect class="mark" tabindex="0" x="150" y="86" width="592.6" height="12" fill="var(--series-dim)" data-tip="2K · 8 slots · no draft: 161.1 tok/s"/>
+<text x="747.6" y="96" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">161.1</text>
+<rect class="mark" tabindex="0" x="150" y="102" width="579.7" height="12" fill="var(--series)" data-tip="2K · 8 slots · draft 1: 157.6 tok/s"/>
+<text x="734.7" y="112" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">157.6</text>
+<text x="142" y="197.0" font-size="12" fill="var(--ink-2)" text-anchor="end">32K · 4 slots</text>
+<rect class="mark" tabindex="0" x="150" y="160" width="370.0" height="12" fill="var(--series-dim)" data-tip="32K · 4 slots · no draft: 100.6 tok/s"/>
+<text x="525.0" y="170" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">100.6</text>
+<rect class="mark" tabindex="0" x="150" y="176" width="428.2" height="12" fill="var(--series)" data-tip="32K · 4 slots · draft 1: 116.4 tok/s"/>
+<text x="583.2" y="186" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">116.4</text>
+<rect class="mark" tabindex="0" x="150" y="192" width="447.3" height="12" fill="var(--series-2)" data-tip="32K · 4 slots · draft 2: 121.6 tok/s"/>
+<text x="602.3" y="202" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">121.6</text>
+<rect class="mark" tabindex="0" x="150" y="208" width="454.7" height="12" fill="var(--series-3)" data-tip="32K · 4 slots · draft 3: 123.6 tok/s"/>
+<text x="609.7" y="218" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">123.6</text>
+<text x="142" y="271.0" font-size="12" fill="var(--ink-2)" text-anchor="end">32K · 8 slots</text>
+<rect class="mark" tabindex="0" x="150" y="234" width="489.2" height="12" fill="var(--series-dim)" data-tip="32K · 8 slots · no draft: 133 tok/s"/>
+<text x="644.2" y="244" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">133</text>
+<rect class="mark" tabindex="0" x="150" y="250" width="515.0" height="12" fill="var(--series)" data-tip="32K · 8 slots · draft 1: 140 tok/s"/>
+<text x="670.0" y="260" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">140</text>
+</svg><figcaption>M3 — MTP on the production build, decode-only wave, tok/s</figcaption></figure>
+<div class="tw"><table><thead><tr>
+<th class="num">prompt</th>
+<th class="num">slots</th>
+<th class="num">draft</th>
+<th class="num">decode t/s</th>
+<th class="num">vs none</th>
+<th class="num">acceptance</th>
+</tr></thead><tbody>
+<tr>
+<td class="num">2048</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num">116.8</td>
+<td class="num">—</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">4</td>
+<td class="num">1</td>
+<td class="num">132.8</td>
+<td class="num">+14%</td>
+<td class="num">0.84</td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num">134.0</td>
+<td class="num">+15%</td>
+<td class="num">0.72</td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">4</td>
+<td class="num">3</td>
+<td class="num">133.0</td>
+<td class="num">+14%</td>
+<td class="num">0.64</td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">8</td>
+<td class="num">0</td>
+<td class="num">161.1</td>
+<td class="num">—</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="num">2048</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num">157.6</td>
+<td class="num">-2%</td>
+<td class="num">0.86</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num">100.6</td>
+<td class="num">—</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">4</td>
+<td class="num">1</td>
+<td class="num">116.4</td>
+<td class="num">+16%</td>
+<td class="num">0.88</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num">121.6</td>
+<td class="num">+21%</td>
+<td class="num">0.78</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">4</td>
+<td class="num">3</td>
+<td class="num">123.6</td>
+<td class="num">+23%</td>
+<td class="num">0.73</td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">8</td>
+<td class="num">0</td>
+<td class="num">133.0</td>
+<td class="num">—</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="num">32768</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num">140.0</td>
+<td class="num">+5%</td>
+<td class="num">0.89</td>
+</tr>
+</tbody></table></div>
+<p>On stock, 4 slots × draft 2 lost 12% at 32K (the 12-row verify batch fell into the MMQ tile); on the production build the 16-column kernel takes it, and 4 slots × draft 3 is +23% at 32K, +14% at 2K. 8 slots × draft 1 (16 rows) is neutral at 2K and +5% at 32K. Schedule for adaptive drafting (S5): slots × (draft + 1) ≤ 16. The optimiser carries these factors; the 128K and 160K profiles gained draft 1.</p>
+
+<h2>Two tensor-split pairs on the production build <span class="verdict v-change">request traffic</span></h2>
+<div class="tw"><table><thead><tr>
+<th class="num">slots_per_server</th>
+<th class="num">clients_total</th>
+<th class="num">agg_gen_tps</th>
+<th class="num">total_tps</th>
+<th class="num">req_per_min</th>
+<th class="num">per_req_gen_tps</th>
+<th class="num">ttft_s</th>
+<th class="num">per_server_agg</th>
+</tr></thead><tbody>
+<tr>
+<td class="num">8</td>
+<td class="num">8</td>
+<td class="num">90.7</td>
+<td class="num">551</td>
+<td class="num">21.3</td>
+<td class="num">18.2</td>
+<td class="num">6.8</td>
+<td class="num">45.3</td>
+</tr>
+<tr>
+<td class="num">8</td>
+<td class="num">16</td>
+<td class="num">100.3</td>
+<td class="num">610</td>
+<td class="num">23.5</td>
+<td class="num">10.0</td>
+<td class="num">8.8</td>
+<td class="num">50.2</td>
+</tr>
+<tr>
+<td class="num">16</td>
+<td class="num">16</td>
+<td class="num">101.7</td>
+<td class="num">618</td>
+<td class="num">23.8</td>
+<td class="num">9.7</td>
+<td class="num">7.9</td>
+<td class="num">50.8</td>
+</tr>
+<tr>
+<td class="num">16</td>
+<td class="num">32</td>
+<td class="num">97.0</td>
+<td class="num">589</td>
+<td class="num">22.7</td>
+<td class="num">4.3</td>
+<td class="num">9.3</td>
+<td class="num">48.5</td>
+</tr>
+</tbody></table></div>
+<p class="cap">Two llama-server instances (rocm0+1, rocm2+3), dual-server-bench, 1300-token prompts / 256 generated, aggregate over the wave's wall clock. Key tp2x2_prod_server.</p>
+<p>Against the production four-die server at 16 slots (75.5 / 82.1 tok/s at 8 / 16 clients) the pairs lead by 20% at 8 and 22% at 16 clients, at about 3 s more first-token latency; 16 slots per pair add nothing. The decode-only bench still favours tp4 (204 at 16 slots, 213 at 32): one server reads prompts in micro-batches that stall its decoders, two servers overlap one's prefill with the other's decode. The guide keeps both: tp4 for decode-heavy work, the pairs for request traffic.</p>
+<p><b>Fairness caveat (2026-09-08 evening, key <code>pair_link_sensitivity</code>):</b> on the ring as cabled each pair runs on one XGMI link (~33 GB/s per direction) while tp4 has the whole ring; a two-isolated-pairs bridge would give each pair two links. Measured bound: a pair with <i>no</i> direct link at all (the diagonal, two hops or PCIe) loses only 2.5–4.6% of prefill and nothing at decode against the one-link pairs, so a second link could add at most a few percent of prefill and first-token latency — the pairs' 20% server-level lead is the overlap of two servers' prefill and decode, not the link. Not tested physically by choice: models above 64 GB need all four dies on one fabric.</p>
+
+<h2 id="server">The final build and 32 slots at the server level <span class="verdict v-change">busy profile → 16 slots</span></h2>
+<p><code>llama-server</code> tp4 on the final build with <code>gfx906.env</code>, 1300-token prompts / 256 generated. Key <code>server_final_prod</code>.</p>
+<figure><div class="legend"><span style="--sw:var(--series-dim)">4 clients</span><span style="--sw:var(--series)">8</span><span style="--sw:var(--series-2)">12</span><span style="--sw:var(--series-3)">16</span><span style="--sw:var(--accent)">32</span></div>
+<svg viewBox="0 0 860 394" role="img" aria-label="Server level, 1300/256 requests — aggregate generation tok/s by clients">
+<line x1="150.0" y1="8" x2="150.0" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="150.0" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">0</text>
+<line x1="208.2" y1="8" x2="208.2" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="208.2" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">10</text>
+<line x1="266.3" y1="8" x2="266.3" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="266.3" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">20</text>
+<line x1="324.5" y1="8" x2="324.5" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="324.5" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">30</text>
+<line x1="382.6" y1="8" x2="382.6" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="382.6" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">40</text>
+<line x1="440.8" y1="8" x2="440.8" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="440.8" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">50</text>
+<line x1="498.9" y1="8" x2="498.9" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="498.9" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">60</text>
+<line x1="557.1" y1="8" x2="557.1" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="557.1" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">70</text>
+<line x1="615.2" y1="8" x2="615.2" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="615.2" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">80</text>
+<line x1="673.4" y1="8" x2="673.4" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="673.4" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">90</text>
+<line x1="731.5" y1="8" x2="731.5" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="731.5" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">100</text>
+<line x1="789.7" y1="8" x2="789.7" y2="372" stroke="var(--grid)" stroke-width="1"/><text x="789.7" y="386" font-size="11" fill="var(--muted)" text-anchor="middle">110</text>
+<text x="142" y="57.0" font-size="12" fill="var(--ink-2)" text-anchor="end">final, 16 slots</text>
+<rect class="mark" tabindex="0" x="150" y="12" width="392.0" height="12" fill="var(--series-dim)" data-tip="final, 16 slots · 4 clients: 67.4 tok/s"/>
+<text x="547.0" y="22" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">67.4</text>
+<rect class="mark" tabindex="0" x="150" y="28" width="442.6" height="12" fill="var(--series)" data-tip="final, 16 slots · 8: 76.1 tok/s"/>
+<text x="597.6" y="38" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">76.1</text>
+<rect class="mark" tabindex="0" x="150" y="44" width="482.7" height="12" fill="var(--series-2)" data-tip="final, 16 slots · 12: 83 tok/s"/>
+<text x="637.7" y="54" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">83</text>
+<rect class="mark" tabindex="0" x="150" y="60" width="485.0" height="12" fill="var(--series-3)" data-tip="final, 16 slots · 16: 83.4 tok/s"/>
+<text x="640.0" y="70" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">83.4</text>
+<text x="142" y="147.0" font-size="12" fill="var(--ink-2)" text-anchor="end">final, 32 slots</text>
+<rect class="mark" tabindex="0" x="150" y="150" width="494.3" height="12" fill="var(--series-3)" data-tip="final, 32 slots · 16: 85 tok/s"/>
+<text x="649.3" y="160" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">85</text>
+<rect class="mark" tabindex="0" x="150" y="166" width="465.2" height="12" fill="var(--accent)" data-tip="final, 32 slots · 32: 80 tok/s"/>
+<text x="620.2" y="176" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">80</text>
+<text x="142" y="237.0" font-size="12" fill="var(--ink-2)" text-anchor="end">2026-09-07 build, 32 slots</text>
+<rect class="mark" tabindex="0" x="150" y="240" width="485.0" height="12" fill="var(--series-3)" data-tip="2026-09-07 build, 32 slots · 16: 83.4 tok/s"/>
+<text x="640.0" y="250" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">83.4</text>
+<rect class="mark" tabindex="0" x="150" y="256" width="461.2" height="12" fill="var(--accent)" data-tip="2026-09-07 build, 32 slots · 32: 79.3 tok/s"/>
+<text x="616.2" y="266" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">79.3</text>
+<text x="142" y="327.0" font-size="12" fill="var(--ink-2)" text-anchor="end">final, two tp2 pairs</text>
+<rect class="mark" tabindex="0" x="150" y="298" width="549.0" height="12" fill="var(--series)" data-tip="final, two tp2 pairs · 8: 94.4 tok/s"/>
+<text x="704.0" y="308" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">94.4</text>
+<rect class="mark" tabindex="0" x="150" y="330" width="592.6" height="12" fill="var(--series-3)" data-tip="final, two tp2 pairs · 16: 101.9 tok/s"/>
+<text x="747.6" y="340" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">101.9</text>
+</svg><figcaption>Server level, 1300/256 requests — aggregate generation tok/s by clients</figcaption></figure>
+<div class="tw"><table><thead><tr>
+<th class="">profile</th>
+<th class="">build</th>
+<th class="num">slots</th>
+<th class="num">clients</th>
+<th class="num">agg gen tok/s</th>
+<th class="num">total tok/s</th>
+<th class="num">req/min</th>
+<th class="num">per-user tok/s</th>
+<th class="num">TTFT s</th>
+<th class="num">per-request s</th>
+</tr></thead><tbody>
+<tr>
+<td class="">team16</td>
+<td class="">prod</td>
+<td class="num">16</td>
+<td class="num">4</td>
+<td class="num">67.4</td>
+<td class="num">410</td>
+<td class="num">15.8</td>
+<td class="num">30.0</td>
+<td class="num">5.0</td>
+<td class="num">15.2</td>
+</tr>
+<tr>
+<td class="">team16</td>
+<td class="">prod</td>
+<td class="num">16</td>
+<td class="num">8</td>
+<td class="num">76.1</td>
+<td class="num">463</td>
+<td class="num">17.8</td>
+<td class="num">15.0</td>
+<td class="num">5.4</td>
+<td class="num">26.8</td>
+</tr>
+<tr>
+<td class="">team16</td>
+<td class="">prod</td>
+<td class="num">16</td>
+<td class="num">12</td>
+<td class="num">83.0</td>
+<td class="num">505</td>
+<td class="num">19.5</td>
+<td class="num">10.1</td>
+<td class="num">5.7</td>
+<td class="num">36.8</td>
+</tr>
+<tr>
+<td class="">team16</td>
+<td class="">prod</td>
+<td class="num">16</td>
+<td class="num">16</td>
+<td class="num">83.4</td>
+<td class="num">507</td>
+<td class="num">19.5</td>
+<td class="num">7.4</td>
+<td class="num">5.8</td>
+<td class="num">49.0</td>
+</tr>
+<tr>
+<td class="">busy32</td>
+<td class="">prod</td>
+<td class="num">32</td>
+<td class="num">16</td>
+<td class="num">85.0</td>
+<td class="num">517</td>
+<td class="num">19.9</td>
+<td class="num">7.6</td>
+<td class="num">6.5</td>
+<td class="num">48.0</td>
+</tr>
+<tr>
+<td class="">busy32</td>
+<td class="">prod</td>
+<td class="num">32</td>
+<td class="num">32</td>
+<td class="num">80.0</td>
+<td class="num">486</td>
+<td class="num">18.7</td>
+<td class="num">3.3</td>
+<td class="num">6.4</td>
+<td class="num">101.9</td>
+</tr>
+<tr>
+<td class="">pairs8</td>
+<td class="">prod</td>
+<td class="num">8</td>
+<td class="num">8</td>
+<td class="num">94.4</td>
+<td class="num">574</td>
+<td class="num">22.1</td>
+<td class="num">19.7</td>
+<td class="num">6.9</td>
+<td class="num">21.5</td>
+</tr>
+<tr>
+<td class="">pairs8</td>
+<td class="">prod</td>
+<td class="num">8</td>
+<td class="num">16</td>
+<td class="num">101.9</td>
+<td class="num">619</td>
+<td class="num">23.9</td>
+<td class="num">10.3</td>
+<td class="num">8.9</td>
+<td class="num">39.6</td>
+</tr>
+<tr>
+<td class="">prod0907-np32</td>
+<td class="">prod0907</td>
+<td class="num">32</td>
+<td class="num">16</td>
+<td class="num">83.4</td>
+<td class="num">507</td>
+<td class="num">19.5</td>
+<td class="num">7.5</td>
+<td class="num">6.7</td>
+<td class="num">48.9</td>
+</tr>
+<tr>
+<td class="">prod0907-np32</td>
+<td class="">prod0907</td>
+<td class="num">32</td>
+<td class="num">32</td>
+<td class="num">79.3</td>
+<td class="num">482</td>
+<td class="num">18.6</td>
+<td class="num">3.3</td>
+<td class="num">6.4</td>
+<td class="num">102.8</td>
+</tr>
+</tbody></table></div>
+<p>TODO 10: at the server level 32 slots give 85.0 tok/s at 16 clients and 80.0 at 32 clients (3.3 per user) against 83.4 at 16 clients on 16 slots: slots beyond 16 add nothing to the four-die server&#x27;s throughput and halve the per-user rate; the decode-only +4-5% of M2 does not survive prompt interleaving (same on the 2026-09-07 binary: 83.4 / 79.3). TODO 11: the final build is unchanged at 16 slots (76.1 / 83.4 vs 75.5 / 82.1 at 8 / 16 clients, +1-2%) and at 32 (85.0 / 80.0 vs 83.4 / 79.3), as the four-row allreduce gate predicts; the pairs gain +4% at 8 clients (94.4 vs 90.7; four clients per pair fall inside the gate) and +1.6% at 16 (101.9 vs 100.3). DC total peaked at 1162 W during the server runs (host 150 W).</p>
+
+
+<h2 id="governor">Host load beside the server and the governor threshold (M7) <span class="verdict v-trade">175 W host cap at 200 W dies</span></h2>
+<p>Production build tp4 at 16 slots, 16 clients on 1300/256 requests, beside one <code>yes</code> per hardware thread under stepped host RAPL caps; dies at 200 W caps; the job stops at DC 1180 W. Key <code>governor_threshold_m7</code>.</p>
+<div class="tw"><table><thead><tr>
+<th class="">host</th>
+<th class="num">agg gen tok/s</th>
+<th class="num">total tok/s</th>
+<th class="num">per user</th>
+<th class="num">TTFT s</th>
+<th class="num">per-request s</th>
+<th class="num">DC max W</th>
+</tr></thead><tbody>
+<tr>
+<td class="">idle, 150 W cap</td>
+<td class="num">82.3</td>
+<td class="num">500</td>
+<td class="num">7.4</td>
+<td class="num">6.5</td>
+<td class="num">49.6</td>
+<td class="num">1087</td>
+</tr>
+<tr>
+<td class="">all-core load at 150 W cap</td>
+<td class="num">72.1</td>
+<td class="num">438</td>
+<td class="num">6.3</td>
+<td class="num">6.7</td>
+<td class="num">56.5</td>
+<td class="num">1147</td>
+</tr>
+</tbody></table></div>
+<p class="cap">A. The serving cost of an all-core host load at the 150 W cap.</p>
+<div class="tw"><table><thead><tr>
+<th class="num">host cap W</th>
+<th class="num">DC max W (40 s)</th>
+<th class="num">die W mean</th>
+</tr></thead><tbody>
+<tr>
+<td class="num">150</td>
+<td class="num">1133</td>
+<td class="num">107</td>
+</tr>
+<tr>
+<td class="num">175</td>
+<td class="num">1172</td>
+<td class="num">147</td>
+</tr>
+<tr>
+<td class="num">200</td>
+<td class="num">1206</td>
+<td class="num">153</td>
+</tr>
+</tbody></table></div>
+<p class="cap">B. DC total against the host cap with the 16 clients running; stopped at 200 W (1206 W > the 1180 W guard). No clamp: 1730 MHz throughout.</p>
+<p>An all-core host load at the 150 W cap costs the 16-client server 12% (82.3 -&gt; 72.1 tok/s, TTFT +0.2 s): the server&#x27;s own threads compete with the tenants. DC rises about 1.5 W per watt of host cap with the dies at 200 W caps: 1133 / 1172 / 1206 W at 150 / 175 / 200 W, so 175 W is the last host cap inside the envelope at 200 W die caps (56 W margin) and 200 W already crosses 1200 W. Governor trigger 1150 W with a 50 W host-cap cut (-70 W DC) leaves three 5-s samples before the SMC&#x27;s ~20 s clamp; at the 125 W production die caps the dies contribute ~300 W less at peak, which is why the host can stay uncapped there.</p>
+
+
+<h2 id="caps">Cap sweep with the phases separated <span class="verdict v-change">optimiser curves replaced</span></h2>
+<p>Production build tp4; per cap, decode-only at 16 slots (2K) and prefill-only pp2048, caps set live and 200 W repeated at the end. Key <code>power_cap_phases</code>.</p>
+<figure><div class="legend"><span style="--sw:var(--series)">decode-only, 16 slots</span><span style="--sw:var(--series-2)">prefill-only, pp2048</span></div>
+<svg viewBox="0 0 860 202" role="img" aria-label="Cap sweep, phases separated — percent of the 200 W figure">
+<line x1="150.0" y1="8" x2="150.0" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="150.0" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">0</text>
+<line x1="212.1" y1="8" x2="212.1" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="212.1" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">10</text>
+<line x1="274.2" y1="8" x2="274.2" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="274.2" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">20</text>
+<line x1="336.3" y1="8" x2="336.3" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="336.3" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">30</text>
+<line x1="398.5" y1="8" x2="398.5" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="398.5" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">40</text>
+<line x1="460.6" y1="8" x2="460.6" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="460.6" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">50</text>
+<line x1="522.7" y1="8" x2="522.7" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="522.7" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">60</text>
+<line x1="584.8" y1="8" x2="584.8" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="584.8" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">70</text>
+<line x1="646.9" y1="8" x2="646.9" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="646.9" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">80</text>
+<line x1="709.0" y1="8" x2="709.0" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="709.0" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">90</text>
+<line x1="771.2" y1="8" x2="771.2" y2="180" stroke="var(--grid)" stroke-width="1"/><text x="771.2" y="194" font-size="11" fill="var(--muted)" text-anchor="middle">100</text>
+<text x="142" y="33.0" font-size="12" fill="var(--ink-2)" text-anchor="end">170 W</text>
+<rect class="mark" tabindex="0" x="150" y="12" width="592.6" height="12" fill="var(--series)" data-tip="170 W · decode-only, 16 slots: 95.4 %"/>
+<text x="747.6" y="22" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">95.4</text>
+<rect class="mark" tabindex="0" x="150" y="28" width="589.5" height="12" fill="var(--series-2)" data-tip="170 W · prefill-only, pp2048: 94.9 %"/>
+<text x="744.5" y="38" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">94.9</text>
+<text x="142" y="75.0" font-size="12" fill="var(--ink-2)" text-anchor="end">140 W</text>
+<rect class="mark" tabindex="0" x="150" y="54" width="548.5" height="12" fill="var(--series)" data-tip="140 W · decode-only, 16 slots: 88.3 %"/>
+<text x="703.5" y="64" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">88.3</text>
+<rect class="mark" tabindex="0" x="150" y="70" width="544.8" height="12" fill="var(--series-2)" data-tip="140 W · prefill-only, pp2048: 87.7 %"/>
+<text x="699.8" y="80" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">87.7</text>
+<text x="142" y="117.0" font-size="12" fill="var(--ink-2)" text-anchor="end">125 W</text>
+<rect class="mark" tabindex="0" x="150" y="96" width="514.3" height="12" fill="var(--series)" data-tip="125 W · decode-only, 16 slots: 82.8 %"/>
+<text x="669.3" y="106" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">82.8</text>
+<rect class="mark" tabindex="0" x="150" y="112" width="512.5" height="12" fill="var(--series-2)" data-tip="125 W · prefill-only, pp2048: 82.5 %"/>
+<text x="667.5" y="122" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">82.5</text>
+<text x="142" y="159.0" font-size="12" fill="var(--ink-2)" text-anchor="end">85 W</text>
+<rect class="mark" tabindex="0" x="150" y="138" width="420.5" height="12" fill="var(--series)" data-tip="85 W · decode-only, 16 slots: 67.7 %"/>
+<text x="575.5" y="148" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">67.7</text>
+<rect class="mark" tabindex="0" x="150" y="154" width="403.1" height="12" fill="var(--series-2)" data-tip="85 W · prefill-only, pp2048: 64.9 %"/>
+<text x="558.1" y="164" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">64.9</text>
+</svg><figcaption>Cap sweep, phases separated — percent of the 200 W figure</figcaption></figure>
+<div class="tw"><table><thead><tr>
+<th class="">cap W</th>
+<th class="">decode 16 slots tok/s</th>
+<th class="">vs 200 W</th>
+<th class="">prefill pp2048 tok/s</th>
+<th class="">vs 200 W</th>
+<th class="">die W (decode)</th>
+<th class="">sclk</th>
+<th class="">die W (prefill)</th>
+<th class="">sclk</th>
+</tr></thead><tbody>
+<tr>
+<td class="">200</td>
+<td class="">203.4</td>
+<td class="">+0.0%</td>
+<td class="">1130.0</td>
+<td class="">+0.0%</td>
+<td class="">200</td>
+<td class="">1689</td>
+<td class="">183</td>
+<td class="">1672</td>
+</tr>
+<tr>
+<td class="">170</td>
+<td class="">194.1</td>
+<td class="">-4.6%</td>
+<td class="">1072.8</td>
+<td class="">-5.1%</td>
+<td class="">165</td>
+<td class="">1598</td>
+<td class="">164</td>
+<td class="">1603</td>
+</tr>
+<tr>
+<td class="">140</td>
+<td class="">179.5</td>
+<td class="">-11.7%</td>
+<td class="">990.9</td>
+<td class="">-12.3%</td>
+<td class="">136</td>
+<td class="">1459</td>
+<td class="">145</td>
+<td class="">1499</td>
+</tr>
+<tr>
+<td class="">125</td>
+<td class="">168.3</td>
+<td class="">-17.2%</td>
+<td class="">932.1</td>
+<td class="">-17.5%</td>
+<td class="">126</td>
+<td class="">1389</td>
+<td class="">125</td>
+<td class="">1389</td>
+</tr>
+<tr>
+<td class="">85</td>
+<td class="">137.7</td>
+<td class="">-32.3%</td>
+<td class="">732.9</td>
+<td class="">-35.1%</td>
+<td class="">88</td>
+<td class="">999</td>
+<td class="">87</td>
+<td class="">999</td>
+</tr>
+<tr>
+<td class="">200</td>
+<td class="">204.2</td>
+<td class="">+0.4%</td>
+<td class="">1130.1</td>
+<td class="">+0.0%</td>
+<td class="">198</td>
+<td class="">1699</td>
+<td class="">181</td>
+<td class="">1671</td>
+</tr>
+</tbody></table></div>
+<p>Decode-only at 16 slots and prefill-only fall together (-4.6 / -5.1% at 170 W, -11.8 / -12.3% at 140, -17.3 / -17.5% at 125, -32.4 / -35.1% at 85), both faster than the 16-client server aggregate (-13.5% at 125, -30% at 85), whose prompt reads and queueing dilute the cap. The optimiser&#x27;s decode factor for 8+ streams and its prefill factor now come from these curves (measured at the five caps); the sclk model below 150 W (-42% at the floor) over-penalised prefill (-35% measured). Both phases run the same die power at each cap; sclk 1689 -&gt; 999 MHz.</p>
+
+
+<h2 id="ablation">Tile-table ablation (TODO 12) <span class="verdict v-change">one header is the gain</span></h2>
+<p>The fork's three MMQ commits applied cumulatively on stock b10288 (a = tile-load threads, b = + the gfx906 MMQ config table with its dispatch guards, c = + the Q8_0 partial-k unroll), against the whole fork b10254. Key <code>tile_table_ablation</code>.</p>
+<figure><div class="legend"><span style="--sw:var(--series)">four dies (tp4)</span><span style="--sw:var(--series-2)">one die</span></div>
+<svg viewBox="0 0 860 244" role="img" aria-label="Tile-table ablation — Q8_0 pp2048 tok/s, four dies and one die">
+<line x1="150.0" y1="8" x2="150.0" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="150.0" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">0</text>
+<line x1="176.2" y1="8" x2="176.2" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="176.2" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">50</text>
+<line x1="202.4" y1="8" x2="202.4" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="202.4" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">100</text>
+<line x1="228.6" y1="8" x2="228.6" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="228.6" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">150</text>
+<line x1="254.8" y1="8" x2="254.8" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="254.8" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">200</text>
+<line x1="281.0" y1="8" x2="281.0" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="281.0" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">250</text>
+<line x1="307.2" y1="8" x2="307.2" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="307.2" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">300</text>
+<line x1="333.4" y1="8" x2="333.4" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="333.4" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">350</text>
+<line x1="359.6" y1="8" x2="359.6" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="359.6" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">400</text>
+<line x1="385.8" y1="8" x2="385.8" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="385.8" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">450</text>
+<line x1="411.9" y1="8" x2="411.9" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="411.9" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">500</text>
+<line x1="438.1" y1="8" x2="438.1" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="438.1" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">550</text>
+<line x1="464.3" y1="8" x2="464.3" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="464.3" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">600</text>
+<line x1="490.5" y1="8" x2="490.5" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="490.5" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">650</text>
+<line x1="516.7" y1="8" x2="516.7" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="516.7" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">700</text>
+<line x1="542.9" y1="8" x2="542.9" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="542.9" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">750</text>
+<line x1="569.1" y1="8" x2="569.1" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="569.1" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">800</text>
+<line x1="595.3" y1="8" x2="595.3" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="595.3" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">850</text>
+<line x1="621.5" y1="8" x2="621.5" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="621.5" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">900</text>
+<line x1="647.7" y1="8" x2="647.7" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="647.7" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">950</text>
+<line x1="673.9" y1="8" x2="673.9" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="673.9" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">1000</text>
+<line x1="700.1" y1="8" x2="700.1" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="700.1" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">1050</text>
+<line x1="726.3" y1="8" x2="726.3" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="726.3" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">1100</text>
+<line x1="752.5" y1="8" x2="752.5" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="752.5" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">1150</text>
+<line x1="778.7" y1="8" x2="778.7" y2="222" stroke="var(--grid)" stroke-width="1"/><text x="778.7" y="236" font-size="11" fill="var(--muted)" text-anchor="middle">1200</text>
+<text x="142" y="33.0" font-size="12" fill="var(--ink-2)" text-anchor="end">stock</text>
+<rect class="mark" tabindex="0" x="150" y="12" width="442.5" height="12" fill="var(--series)" data-tip="stock · four dies (tp4): 844.57 tok/s"/>
+<text x="597.5" y="22" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">844.57</text>
+<rect class="mark" tabindex="0" x="150" y="28" width="120.7" height="12" fill="var(--series-2)" data-tip="stock · one die: 230.31 tok/s"/>
+<text x="275.7" y="38" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">230.31</text>
+<text x="142" y="75.0" font-size="12" fill="var(--ink-2)" text-anchor="end">a-tileload</text>
+<rect class="mark" tabindex="0" x="150" y="54" width="445.4" height="12" fill="var(--series)" data-tip="a-tileload · four dies (tp4): 850.24 tok/s"/>
+<text x="600.4" y="64" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">850.24</text>
+<rect class="mark" tabindex="0" x="150" y="70" width="121.0" height="12" fill="var(--series-2)" data-tip="a-tileload · one die: 230.96 tok/s"/>
+<text x="276.0" y="80" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">230.96</text>
+<text x="142" y="117.0" font-size="12" fill="var(--ink-2)" text-anchor="end">b-config</text>
+<rect class="mark" tabindex="0" x="150" y="96" width="576.6" height="12" fill="var(--series)" data-tip="b-config · four dies (tp4): 1100.65 tok/s"/>
+<text x="731.6" y="106" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">1100.65</text>
+<rect class="mark" tabindex="0" x="150" y="112" width="165.2" height="12" fill="var(--series-2)" data-tip="b-config · one die: 315.39 tok/s"/>
+<text x="320.2" y="122" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">315.39</text>
+<text x="142" y="159.0" font-size="12" fill="var(--ink-2)" text-anchor="end">c-kunroll</text>
+<rect class="mark" tabindex="0" x="150" y="138" width="582.0" height="12" fill="var(--series)" data-tip="c-kunroll · four dies (tp4): 1110.91 tok/s"/>
+<text x="737.0" y="148" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">1110.91</text>
+<rect class="mark" tabindex="0" x="150" y="154" width="166.3" height="12" fill="var(--series-2)" data-tip="c-kunroll · one die: 317.48 tok/s"/>
+<text x="321.3" y="164" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">317.48</text>
+<text x="142" y="201.0" font-size="12" fill="var(--ink-2)" text-anchor="end">fork-b10254</text>
+<rect class="mark" tabindex="0" x="150" y="180" width="592.6" height="12" fill="var(--series)" data-tip="fork-b10254 · four dies (tp4): 1131.14 tok/s"/>
+<text x="747.6" y="190" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">1131.14</text>
+<rect class="mark" tabindex="0" x="150" y="196" width="168.9" height="12" fill="var(--series-2)" data-tip="fork-b10254 · one die: 322.39 tok/s"/>
+<text x="323.9" y="206" font-size="11" fill="var(--ink)" font-family="IBM Plex Mono, monospace">322.39</text>
+</svg><figcaption>Tile-table ablation — Q8_0 pp2048 tok/s, four dies and one die</figcaption></figure>
+<div class="tw"><table><thead><tr>
+<th class="">build</th>
+<th class="num">Q8_0 tp4 pp2048</th>
+<th class="num">Q8_0 one die</th>
+<th class="num">Q6_K tp4</th>
+<th class="num">Q4_K_M tp4</th>
+<th class="num">decode 16 / 24 / 32 slots</th>
+</tr></thead><tbody>
+<tr>
+<td class="">stock</td>
+<td class="num">844.6</td>
+<td class="num">230.3</td>
+<td class="num">660.0</td>
+<td class="num">747.1</td>
+<td class="num">141 / 163 / 181</td>
+</tr>
+<tr>
+<td class="">a-tileload</td>
+<td class="num">850.2</td>
+<td class="num">231.0</td>
+<td class="num">661.8</td>
+<td class="num">748.7</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="">b-config</td>
+<td class="num">1100.7</td>
+<td class="num">315.4</td>
+<td class="num">670.9</td>
+<td class="num">750.9</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="">c-kunroll</td>
+<td class="num">1110.9</td>
+<td class="num">317.5</td>
+<td class="num">671.1</td>
+<td class="num">756.2</td>
+<td class="num">164 / 197 / 217</td>
+</tr>
+<tr>
+<td class="">fork-b10254</td>
+<td class="num">1131.1</td>
+<td class="num">322.4</td>
+<td class="num">829.0</td>
+<td class="num">796.6</td>
+<td class="num">167 / 193 / 213</td>
+</tr>
+</tbody></table></div>
+<p>The gfx906 MMQ config table is the gain: on Q8_0 it alone takes four-die prefill 845 -&gt; 1101 (+30%) and one die 230 -&gt; 315 (+37%), 89% of the whole fork&#x27;s +34% / +40%; the tile-load commit adds nothing (+0.7%), the k-unroll +1%, the rest of the fork&#x27;s 81-file diff +2%. It also carries the wide-batch decode gain: 164 / 197 / 217 tok/s at 16 / 24 / 32 slots against stock&#x27;s 141 / 163 / 181 (+16 / +21 / +20%), level with the whole fork. On the K-quants the table alone is worth 1-2% (Q6_K 660 -&gt; 671, Q4_K_M 747 -&gt; 751) and the fork&#x27;s +26% / +7% there comes from its K-quant kernel changes. Single-stream decode is untouched by all three (the +3-4% of the whole fork is elsewhere). S1 upstreaming = the config table plus its dispatch guard, with the K-quant kernels as a separate item.</p>
+
+
+<h2 id="fa">Flash-attention counters at head size 256 (S4) <span class="verdict v-trade">two targets</span></h2>
+<p>Production build tp4, <code>rocprofv3</code> kernel trace with <code>SQ_INSTS_VALU</code> (the only one of the four requested counters that exists for gfx906 on ROCm 7.14; the gfx906-set pass is queued), plus the instruction counts of the gfx906 code object. Primary source <code>reports/2026-09-08-fa-counters.md</code>; key <code>fa_counters_head256</code>.</p>
+<div class="tw"><table><thead><tr>
+<th class="">phase</th>
+<th class="">kernel</th>
+<th class="num">share %</th>
+<th class="num">dispatches</th>
+<th class="num">mean µs</th>
+<th class="num">max µs</th>
+</tr></thead><tbody>
+<tr>
+<td class="">prefill 4x32K</td>
+<td class="">mul_mat_q&lt;Q8_0,128&gt;</td>
+<td class="num">58.0</td>
+<td class="num">94208</td>
+<td class="num">3380</td>
+<td class="num">4994</td>
+</tr>
+<tr>
+<td class="">prefill 4x32K</td>
+<td class="">flash_attn_tile&lt;256,256,16,2&gt;</td>
+<td class="num">16.6</td>
+<td class="num">4160</td>
+<td class="num">21928</td>
+<td class="num">45129</td>
+</tr>
+<tr>
+<td class="">prefill 4x32K</td>
+<td class="">RCCL</td>
+<td class="num">10.1</td>
+<td class="num">33792</td>
+<td class="num">1635</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="">prefill 4x32K</td>
+<td class="">gated_delta_net&lt;128&gt;</td>
+<td class="num">5.8</td>
+<td class="num">12672</td>
+<td class="num">2503</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="">decode d128K</td>
+<td class="">mul_mat_q&lt;Q8_0,128&gt; (depth prefill)</td>
+<td class="num">37.2</td>
+<td class="num">327680</td>
+<td class="num">1208</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="">decode d128K</td>
+<td class="">flash_attn_tile&lt;256,256,16,2&gt; (depth prefill, ub 512)</td>
+<td class="num">33.9</td>
+<td class="num">16384</td>
+<td class="num">22046</td>
+<td class="num">56853</td>
+</tr>
+<tr>
+<td class="">decode d128K</td>
+<td class="">RCCL</td>
+<td class="num">13.6</td>
+<td class="num">147968</td>
+<td class="num">975</td>
+<td class="num"></td>
+</tr>
+<tr>
+<td class="">decode d128K</td>
+<td class="">flash_attn_tile&lt;256,256,1,2&gt;</td>
+<td class="num">0.1</td>
+<td class="num">2112</td>
+<td class="num">304</td>
+<td class="num">351</td>
+</tr>
+<tr>
+<td class="">decode d128K</td>
+<td class="">flash_attn_combine_results&lt;256&gt;</td>
+<td class="num">0.1</td>
+<td class="num">18496</td>
+<td class="num">33</td>
+<td class="num">75</td>
+</tr>
+</tbody></table></div>
+<p class="cap">Kernel time share under the profiler; attention is 17% of a 32K prompt on the split and 16 × 304 µs + 0.5 ms combine = 19% of a 128K decode token.</p>
+<div class="tw"><table><thead><tr>
+<th class="">kernel</th>
+<th class="">occupancy</th>
+<th class="">VALU issue</th>
+<th class="">KV loop</th>
+<th class="">reading</th>
+</tr></thead><tbody>
+<tr>
+<td class="">flash_attn_tile&lt;256,256,16,2&gt; (prefill)</td>
+<td class="">2 waves/SIMD: 89 VGPRs, 26 KB LDS</td>
+<td class="">45% of peak</td>
+<td class="">1842 instr: 512 v_dot2, 528 v_pk, 208 ds_read, 193 s_waitcnt</td>
+<td class="">latency-bound at low occupancy; a tile at 3 waves/SIMD needs ≤ 84 VGPRs and ≤ 21.8 KB</td>
+</tr>
+<tr>
+<td class="">flash_attn_tile&lt;256,256,1,2&gt; (decode 128K)</td>
+<td class="">3 waves/SIMD: 80 VGPRs, 20 KB</td>
+<td class="">17%</td>
+<td class="">840 instr: 128 v_dot2, 132 v_pk, 129 ds_read, 118 s_waitcnt</td>
+<td class="">KV-streaming at ≥ 441 GB/s and 3 passes over the same KV (GQA 6 packed as ncols2 = 2); a six-head packing reads it once, floor 150 µs vs 304</td>
+</tr>
+</tbody></table></div>
+<p><b>Second pass with the gfx906 counter set</b> (queue 23): the prefill tile kernel measures 46–47% VALU busy, 24 LDS instructions per global load, LDS wait 7.5 shader-engine cycles per active cycle, no bank conflicts and a 95% L2 hit rate on the K/V tiles — an LDS-bound loop at two waves per SIMD, as the disassembly said. The MMQ Q8_0 × 128 kernel beside it runs 61% VALU with 6 M LDS bank conflicts per dispatch (S7 material). The one-column decode kernel at depth needs a separate decode-heavy pass.</p>
+<p>The packed-fp16 dot is already in use in both kernels, so S4's order becomes: the corrected counters, then the six-head decode packing (a dispatch and template change worth up to 9% of the 128K token), then a prefill tile shape at three waves per SIMD.</p>
+
+
+<h2 id="ci">Paired confidence intervals for the production table <span class="verdict v-none">gains stand</span></h2>
+<p>Three builds interleaved per round; <code>llama-bench -r 5</code> × 3 rounds and <code>llama-batched-bench</code> × 2 rounds. Mean ± sd across rounds. Key <code>paired_ci_prod_table</code>.</p>
+<div class="tw"><table><thead><tr>
+<th class="">cell</th>
+<th class="">stock</th>
+<th class="">2026-09-07 production</th>
+<th class="">production</th>
+</tr></thead><tbody>
+<tr>
+<td class="">tp4 pp2048</td>
+<td class="">844.0 ± 0.6</td>
+<td class="">1128.0 ± 2.4</td>
+<td class="">1127.5 ± 2.3</td>
+</tr>
+<tr>
+<td class="">tp4 tg128</td>
+<td class="">46.5 ± 0.5</td>
+<td class="">47.7 ± 0.7</td>
+<td class="">57.9 ± 0.3</td>
+</tr>
+<tr>
+<td class="">rocm0 pp2048</td>
+<td class="">233.8 ± 0.2</td>
+<td class="">321.9 ± 0.3</td>
+<td class="">331.4 ± 0.1</td>
+</tr>
+<tr>
+<td class="">rocm0 tg128</td>
+<td class="">20.16 ± 0.05</td>
+<td class="">20.33 ± 0.14</td>
+<td class="">21.74 ± 0.06</td>
+</tr>
+<tr>
+<td class="">tp4 decode 8 slots</td>
+<td class="">142.6 ± 10.3</td>
+<td class="">174.5 ± 0.1</td>
+<td class="">174.6 ± 0.2</td>
+</tr>
+<tr>
+<td class="">tp4 decode 12 slots</td>
+<td class="">122.7 ± 0.1</td>
+<td class="">197.4 ± 0.1</td>
+<td class="">197.1 ± 0.3</td>
+</tr>
+<tr>
+<td class="">tp4 decode 16 slots</td>
+<td class="">152.6 ± 0.1</td>
+<td class="">203.9 ± 0.0</td>
+<td class="">202.8 ± 0.0</td>
+</tr>
+<tr>
+<td class="">rocm0 decode 4 slots</td>
+<td class="">46.7 ± 0.7</td>
+<td class="">53.2 ± 0.0</td>
+<td class="">53.4 ± 0.0</td>
+</tr>
+<tr>
+<td class="">rocm0 decode 8 slots</td>
+<td class="">52.7 ± 0.0</td>
+<td class="">69.1 ± 0.1</td>
+<td class="">70.3 ± 0.1</td>
+</tr>
+</tbody></table></div>
+<p>Production vs 2026-09-07: single stream 57.9 vs 47.7 (+21%, 10 tok/s against a between-round sd of 0.3-0.7), one die 21.74 vs 20.33 (+6.9%), one-die prefill 331.4 vs 321.9 (+3.0%, sd 0.2), one-die batch 8 70.3 vs 69.1 (+1.6%, sd 0.05); tp4 prefill and tp4 8/12/16-slot decode tie within 0.3%. Stock&#x27;s tp4 batch-8 cell is unstable (135.3 / 149.9: the MMVQ 8-column boundary), every other cell repeats within 1%. Within one <code>llama-bench</code> run the split's single-stream spread is 1–2.7 tok/s (the RCCL path), so rounds, not repeats, are the unit for the split.</p>
+
+
+<h2 id="final">The combined configuration against the 2026-09-07 production build</h2>
+<p>Single stream 48.1 -&gt; 57.9 tok/s (+20%; +5% from the kernels, +14.5% from the allreduce), one die 20.4 -&gt; 21.7 (+6.5%), prefill unchanged on the split and +3% on one die; 2 slots +18.5%, 4 slots +2.5%, 8-32 slots within 1%; single user with MTP draft 3: 75.3 -&gt; 78.5 at 2K (+4%), 67.9 -&gt; 73.9 at 32K (+9%). Adopted as the production build (/opt/llama.cpp-prod).</p>
+<div class="tw"><table><thead><tr>
+<th class="">build</th>
+<th class="">env</th>
+<th class="num">tp4 pp2048</th>
+<th class="num">tp4 tg128</th>
+<th class="num">one die pp2048</th>
+<th class="num">one die tg128</th>
+</tr></thead><tbody>
+<tr>
+<td class="">production</td>
+<td class=""></td>
+<td class="num">1129.7</td>
+<td class="num">48.3</td>
+<td class="num">322.0</td>
+<td class="num">20.7</td>
+</tr>
+<tr>
+<td class="">final</td>
+<td class="">custom AR + gate + folds</td>
+<td class="num">1129.9</td>
+<td class="num">58.1</td>
+<td class="num">331.6</td>
+<td class="num">21.8</td>
+</tr>
+<tr>
+<td class="">final, allreduce off</td>
+<td class="">folds only</td>
+<td class="num">1129.2</td>
+<td class="num">50.6</td>
+<td class="num">331.6</td>
+<td class="num">21.7</td>
+</tr>
+<tr>
+<td class="">production again</td>
+<td class=""></td>
+<td class="num">1130.8</td>
+<td class="num">47.9</td>
+<td class="num">322.0</td>
+<td class="num">20.2</td>
+</tr>
+<tr>
+<td class="">final again</td>
+<td class=""></td>
+<td class="num">1129.7</td>
+<td class="num">57.8</td>
+<td class="num">331.5</td>
+<td class="num">21.7</td>
+</tr>
+</tbody></table></div>
+<div class="tw"><table><thead><tr>
+<th class="">build</th>
+<th class="num">1 slot</th>
+<th class="num">2</th>
+<th class="num">4</th>
+<th class="num">8</th>
+<th class="num">16</th>
+<th class="num">32</th>
+</tr></thead><tbody>
+<tr>
+<td class="">production</td>
+<td class="num">47.7</td>
+<td class="num">76.6</td>
+<td class="num">123.0</td>
+<td class="num">174.7</td>
+<td class="num">203.9</td>
+<td class="num">212.7</td>
+</tr>
+<tr>
+<td class="">final</td>
+<td class="num">42.0</td>
+<td class="num">90.8</td>
+<td class="num">126.1</td>
+<td class="num">174.9</td>
+<td class="num">202.7</td>
+<td class="num">214.6</td>
+</tr>
+</tbody></table></div>
+<p class="cap">llama-batched-bench tp4, 2K prompts, decode tok/s.</p>
+<div class="tw"><table><thead><tr>
+<th class="">build</th>
+<th class="num">prompt</th>
+<th class="num">decode tok/s (wave 2)</th>
+<th class="num">acceptance</th>
+</tr></thead><tbody>
+<tr>
+<td class="">production</td>
+<td class="num">2048</td>
+<td class="num">75.3</td>
+<td class="num">0.7</td>
+</tr>
+<tr>
+<td class="">final</td>
+<td class="num">2048</td>
+<td class="num">78.5</td>
+<td class="num">0.7</td>
+</tr>
+<tr>
+<td class="">production</td>
+<td class="num">32768</td>
+<td class="num">67.9</td>
+<td class="num">0.7</td>
+</tr>
+<tr>
+<td class="">final</td>
+<td class="num">32768</td>
+<td class="num">73.9</td>
+<td class="num">0.7</td>
+</tr>
+</tbody></table></div>
+<p class="cap">Single user with MTP draft 3, llama-server -np 1, decode-only wave.</p>
+<p class="small">Perplexity 5.5969 (= production). KL divergence at 64-token batches over 8 x 2048 tokens: mean ln(PPL ratio) 0.000000, 90th percentile KLD 0.000015, maximum below 1e-4, same top token 100%. Greedy text diverges from the 2026-09-07 binary at character 556 of 200 tokens; on the new build itself the delta-net fold and the custom allreduce are greedy-identical to their off states (checked separately), so the divergence is the one-column whole-block load&#x27;s summation order.</p>
+
+<h2>What changed in the guide</h2>
+<ul>
+<li><code>settings/gfx906.env</code>: the custom allreduce with the four-row gate (builds with the knob); <code>settings/launch.sh</code>: <code>busy</code> profile at 32 slots, draft 1 on the 128K and 160K profiles, a guard for binaries without the gate knob.</li>
+<li><code>optimize/optimize.py</code>: measured 24/32-slot factors for the production build; production-build draft factors and the 16-row verify rule.</li>
+<li><code>NEXT-STEPS.md</code>: S2 closed by the fork's allreduce; S3 revised — fusion ~3%, overlap 0, the small-kernel time is intrinsic; S6 batch-1 load adopted; M2–M4 closed. <code>patches/</code>: the nine-patch series with switches and measured effects.</li>
+<li>Open: M6 (mixed-wave instrumentation), M7's tenant-latency half (needs a fleet node), the two S4 kernels, the decode-shaped MMQ tile (S7); the tile-table ablation settled S1's scope (one header).</li>
+</ul>
+<p class="small">Generated from <code>data/benchmarks.json</code> by <code>tools/gen-0908-report.py</code>.</p>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+(function(){var tip=document.getElementById('tip');function show(e){var t=e.target.getAttribute('data-tip');if(!t)return;tip.textContent=t;tip.style.opacity=1;var x=(e.clientX||0)+14,y=(e.clientY||0)+14;tip.style.left=x+'px';tip.style.top=y+'px';}
+document.querySelectorAll('.mark').forEach(function(m){m.addEventListener('mousemove',show);m.addEventListener('focus',function(e){var r=m.getBoundingClientRect();tip.textContent=m.getAttribute('data-tip');tip.style.opacity=1;tip.style.left=(r.left+r.width/2)+'px';tip.style.top=(r.top-28)+'px';});m.addEventListener('mouseleave',function(){tip.style.opacity=0;});m.addEventListener('blur',function(){tip.style.opacity=0;});});})();
+</script>

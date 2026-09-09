@@ -1,0 +1,125 @@
+# llama.cpp on AMD Vega 20 (gfx906) — tuning guide
+
+Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) in a 2019 Mac Pro under Ubuntu 24.04 / ROCm 7.14, serving Qwen3.8-27B Q8_0 with llama.cpp. This folder turns four measurement reports and four AMD reference documents into a settings guide, a machine-readable dataset, an optimiser that picks a launch configuration for a stated workload, and a roadmap for the software stack.
+
+| Where | What |
+|---|---|
+| `README.md` | this guide |
+| `NEXT-STEPS.md` | what to do next: measurements, then the software-stack optimisations for the Vega 7nm ISA, ranked; the promotion gates for the `gfx906` branch |
+| `BENCHMARKS-TODO.md` | measurements still open, with commands; items 1–14 are closed and recorded |
+| `settings/launch.sh`, `settings/gfx906.env`, `settings/powercap.sh` | the chosen configurations, the runtime environment and the power cap, ready to run |
+| `optimize/optimize.py`, `optimize/results.md` | the mixed-integer LP over the measured data, and its output for both builds, quality-bounded quants, and the production cap |
+| `data/benchmarks.json` | every number from the reports, structured (31 tables) |
+| `data/raw/<day>/` | the result tables, client JSON and clock samples behind every report, one directory per measurement day (`data/raw/README.md`) |
+| `reports/` | the measurement reports, HTML and Markdown, with the published artifact links (`reports/README.md`) |
+| `patches/` | the MMVQ patches and the nine-patch 2026-09-08 series behind the production build, the same series re-based as the `gfx906` branch, and the S1 upstream candidate (`patches/README.md`) |
+| `tools/` | the box-side scripts the reports and BENCHMARKS-TODO refer to: test environment (`gpu-test-env.sh`), clamp watchdog, SMC power log/reader, the server clients (`server-bench.py`, `mtp-depth-client.py`, `cold-start-client.py`), power-cap and HBM probes, the M1 trace, the queue and `post*` runners, the bisect tooling, the report generators |
+| `review/2026-09-08/` | an external contributor's review of the guide with its evidence and optimizer patches; `RESPONSE.md` records what was applied |
+| `ISA-NOTES.md` | what the Vega 7nm ISA and LLVM AMDGPU docs say gfx906 can do, what llama.cpp uses, what the kernel work found, what is left |
+| `ROCM-SETUP.md` | how ROCm 7.14 (TheRock, ML-gfx906), PyTorch and the stock llama.cpp were installed on the box |
+| `reference/` | section maps of the AMD Vega 7nm ISA, Infinity Fabric Link and Instinct tuning guides, and the LLVM AMDGPU backend guide (`reference/README.md`) |
+| `CLAUDE.md` | conventions for future sessions in this folder |
+
+The code is a separate repository: **https://github.com/exabit-io/llama.cpp** (branch `gfx906` = upstream master merged into the mx-llama.cpp fork + the Exabit series; `GFX906.md` there is the code-side guide). This guide is **https://github.com/exabit-io/llama.cpp-gfx906-tuning**.
+
+## Status — 2026-09-09
+
+- **Production** is `/opt/llama.cpp-prod` → `/opt/llama.cpp-mxxm-fh-nq` (mx-llama.cpp fork b10254 + the two MMVQ patches + `patches/0001–0009`), run with `settings/gfx906.env` and `settings/launch.sh`: single stream 58 tok/s with the allreduce gate, 78.5 with MTP draft 3; 204 tok/s decode-only at 16 slots; 83 tok/s at the server level on 16 clients, 100 on the two tp2 pairs.
+- **The `gfx906` branch** (exabit-io/llama.cpp, upstream master 2026-09-08 + fork tag b10912 + the 16-commit series) is **validated, not promoted**: with the fork's Q8_0 repack it gains +21% / +28% prefill and +15–20% at 24–32 slots but loses 1–16 slots to a kernel that bypasses the fast path; with `--no-repack` it is at parity except for the single stream. It fails the MTP gate either way (−5 to −7% at 32K draft 3, verify-step cost) and passes the serving gate only with S1b (`reports/2026-09-08-review-followup.md`).
+- **S1b candidate 1 (branch `s1b-a`, head `a3`)** extends the repacked narrow mat-vec to 16 columns with width-dependent launch bounds: 12/16 rows at parity with production, 17–32 rows +15–20%, prefill +20%, server level +1–3% / +5.5% at 8 / 16 clients. Single stream is still −5% (the one-token repacked kernel).
+- **Next:** candidate 2 = port production's one-column whole-block load (`patches/0008`) to the two-plane layout; a per-shape prewarm in `launch.sh` (the after-load warm-up is per process and per batch shape, ≤ 192 tokens; a 256-token prewarm covers it); then rerun the three gates (`tools/s1b-test.sh` A0 + E) and promote a3 + c2. In parallel: the S1 tile-table patch v2 for upstream (`patches/upstream-S1/`, +29% / +34% prefill on master; authorship is Marko Tombak's, send only with his agreement), the S4 attention kernels, the S9 governor before the fleet goes live.
+- **Reference perplexity** is 5.62 at 16K on upstream since 2026-09-06 (5.5969 on the production lineage); the move is upstream's, not ours.
+- Not to be re-tried: the list in `CLAUDE.md` "Things not to do" and `NEXT-STEPS.md` "What not to pursue".
+
+## 1. The machine in numbers
+
+Each die is 64 CUs of GCN 5 at 1730 MHz behind 32 GB of HBM2. Measured: 880–892 GB/s HBM read (713–718 copy) at every power cap, 13.8 TFLOP/s on an fp32 FMA loop, a 200 W per-die cap that prompt processing reaches, and a DPM floor at 999 MHz that draws about 83 W per die under decode load and 115 W under a streaming load. The four dies form one XGMI ring (0b–0e–1e–1b, HIP order 0-1-3-2): 33.5 GB/s per link per direction, 256 GB/s with all eight directions loaded, 507 ns one hop. The PSP firmware reports the bridge links crossed; RCCL needs `/root/rccl_topo_fixed.xml` to build its rings on the real wiring.
+
+The chassis has a 1228 W DC envelope. Four dies at 200 W with the host idle draw 1062 W; any host load above about 150 W beside them crosses it, and the SMC clamps every die to 1000 MHz, hive-wide, until a cold power cycle — a warm reboot restores the clocks but not the SMC. This is what the earlier reports called the "1000 MHz clamp". The rules since: host CPU RAPL-capped at 150 W during GPU work, a power watchdog beside every long run, a cold cycle after any clamp, and on production nodes a 125 W per-die cap (section 6).
+
+The model: 27.04 GiB of Q8_0, 64 blocks of which 16 are full attention (4 KV heads × 256) and 48 are linear attention with a fixed 150 MiB state per sequence. In tensor split each die holds 6.3 GiB of weights (the 1.3 GiB token embedding stays in host RAM) and 16 KiB of f16 KV cache per token; a single-die instance holds 25.4 GiB and 64 KiB per token.
+
+## 2. Builds and settings
+
+Two binaries matter. **Stock** is upstream b10288 built for `gfx906`; every number in the first three reports is measured on it. **Production** (`/opt/llama.cpp-prod`, since 2026-09-08) is the ML-gfx906 fork at b10254, whose gfx906 tile table for the integer matrix kernels reads prompts a third faster, plus two patches to the matrix-vector kernel and the nine-patch 2026-09-08 series (`patches/`): the 16-column extension that removes the 9–16 slot cliff on the tensor split, and a Q8_0 fast path that loads each weight block once per row and each activation block once per column. Perplexity is identical to stock to four digits. It wins on single dies too (+31% at 8 slots); only the plain 16-column patch loses there on register pressure, which the hybrid launch table (rows 4 up to 8 columns, rows 2 above) avoids.
+
+| Setting | Value | Worth | Why |
+|---|---|---|---|
+| Build (next) | the `gfx906` branch of https://github.com/exabit-io/llama.cpp (upstream master 2026-09-08 merged into the fork tag b10912 + the series; `/opt/llama.cpp-gfx906-master-r2`), **validated 2026-09-08 evening, not promoted**: prefill +21% (four dies) / +28% (one die) and +15–20% at 24–32 slots from the fork's Q8_0 weight repack, one die and 12–32 slots otherwise equal, Flash-Next loads; blockers: an intermittent four-die single-stream stall in the fork's newer tensor-parallel state (bisect running) and the 16-column fast path bypassed on repacked weights (S1b) | `reports/2026-09-08-gfx906-branch-validation.md`; perplexity reference moved to 5.62 on upstream's side |
+| Build | production (`/opt/llama.cpp-prod`, 2026-09-08: fork tile table + MMVQ patches + `patches/0001–0009`) with `settings/gfx906.env` | over the 2026-09-07 build: single stream +20% (48.1 → 57.9), one die +6.5%, 2 slots +18%, 8–32 slots unchanged, prefill unchanged; single user with MTP +4–9%; server level unchanged at 16 and 32 slots, pairs +4% at 8 clients (TODO 11). Over stock: prefill +33%, decode +9% at 8 slots, +62% at 12, +34% at 16 on the split (run-through s.11) | the 2026-09-08 series is the fork's custom allreduce with a four-row gate, the one-column whole-block load and two exact kernel folds (`reports/2026-09-08-next-steps-measurements.html`); the 2026-09-07 binary stays at `/opt/llama.cpp-mxxm-fh` as the reference; stock stays the baseline |
+| Placement | `-sm tensor` over all four dies | leads at every concurrency on the production build | layer split 2.4× slower; `-sm row` fails to load; three dies run at 36.4 tok/s single-stream (47.3 on four) |
+| Slots | `-np 16` on production (32 for maximum aggregate at 6–7 tok/s per user); 1, 2, 4 or 8 on stock | production: 204 tok/s at 16, 199 at 12, 174 at 8, 213 at 32, 193 at 24 (2K; M2, 2026-09-08); stock: 8 = 160, 9 = 97, 16 = 153 | on stock, batches 9–16 pay a 16-wide MMQ tile; the production kernel runs MMVQ to 16 columns, and the fork's tile table lifts the 24/32-slot MMQ decode by 19% |
+| Flash attention | `-fa on` | required | the only attention path measured |
+| KV cache type | f16 | q8_0 is 15–36% slower in decode at depth; q8_0 K / q4_0 V is 18% slower and free in quality | quantised caches are capacity modes: q8_0 buys 8 × 192K, q8_0/q4_0 (needs `GGML_CUDA_FA_ALL_QUANTS=ON`) buys 8 × 256K, the first configuration holding eight full contexts |
+| Micro-batch | `-ub 2048` | +18% prefill vs 512, +4–5% vs 1024; 4096 adds 1% for twice the compute buffer | 4096 only for prefill-only work |
+| Batch | `-b 2048` | 1024 / 512 are not a lever | in a mixed wave the short slots stay at 0.8–0.9 tok/s until the long prompt is read, and the long prompt only gets slower |
+| HIP graphs | on (default) | +7% single-stream decode | `GGML_CUDA_DISABLE_GRAPHS=1` costs 7% |
+| Allreduce | RCCL (default) | 1.31× the decode of `GGML_CUDA_ALLREDUCE=internal` | `GGML_CUDA_P2P=1` changes nothing |
+| RCCL topology | `NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16` | +3.7% single-stream decode, +1.8% prefill; server +3% at 1 client, +2% at 8 | the only environment variable that moves anything: nineteen others (NCCL protocol/algorithm/channels, `HIP_FORCE_DEV_KERNARG`, `GPU_MAX_HW_QUEUES`, `HSA_ENABLE_SDMA`, host C-states) land within 0.8% of a baseline whose own spread is 0.3%, or lose |
+| Speculative decoding | `--spec-type draft-mtp --spec-draft-n-max 3` at 1–4 streams on production (1–2 on stock), `--spec-draft-n-max 1` at 8 streams at depth (4 on stock), none above | 1 stream: 1.5× prose, 1.9–2.1× code edits, 1.7× at 128K; 2 streams: 1.41× at 32K, 1.61× at 128K; 4 streams: 1.11× / 1.20× | the GGUF's own next-token head; acceptance rises with depth (0.88 → 0.97 for draft 1). Separate draft models lose |
+| Model file | Q8_0 | Q4_0 +11% decode / +33% prefill but 0.091 nats mean KL, top token changed at 1 in 12 | Q4_K_M (0.036 nats, +4% decode, −12% prefill) if 4-bit is wanted; Q6_K (0.019) buys capacity; Q4_1 has Q4_0's speed at 0.056 nats |
+| Power cap | 200 W dedicated; 125 W on hyperconverged nodes | 185 W is within 2%, 170 within 5%, 140 within 10%; below 85 W nothing changes | `settings/powercap.sh`; section 6 |
+| Clocks / fans / host | `rocm-smi --setperflevel high`, fans max, host CPU ≤ 150 W during GPU work | keeps the box under its 1228 W envelope | the clamp is the power supply, not thermals or DPM (the best-supported diagnosis; one clamp episode in the run-through remains unexplained) |
+
+## 3. Which configuration for which workload (the LP's answer)
+
+`optimize/optimize.py` maximises `log(decode) + w·log(prefill)` over placement × slots (1–16, 24, 32) × context × KV type × micro-batch × draft length × topology × graphs, on a chosen build (`--build prod|stock`), with the model file (`--allow-quant --max-kl`) and the power cap (`--cap`) as options, subject to 31 GiB per die and the workload's constraints. Full output with runner-ups in `optimize/results.md`; `settings/launch.sh` wraps the winners. Production build unless noted.
+
+| Workload | Configuration | Decode | Per stream | Prefill |
+|---|---|---|---|---|
+| One user, ≤ 8K | tp4, `-np 1`, f16, MTP draft 3 | 78.5 measured at 2K (2026-09-08 final run; 58 without MTP) | 78.5 | 1130 |
+| One user at 32K / 128K | same | 73.9 measured at 32K (2026-09-08); 128K: model 65 | 74 / 65 | 975 / 623 (model; the tile-table gain shrinks with depth, see s.4) |
+| Team chat, ≥ 12 tok/s each, 16K–32K per slot | tp4, `-np 16`, f16 | 196–204 (stock: `-np 8`, 153–162) | 12–13 | 1097–1125 |
+| Busy server, ≥ 6 tok/s each | tp4, **`-np 16`**, f16 (the LP's decode-only answer is 32 slots, M2: 213 / 203 / 168 tok/s at 2K / 8K / 32K; at the server level on 1300/256 requests 32 slots give 85.0 tok/s at 16 clients and 80.0 at 32 clients, 3.3 per user, against 83.4 at 16 clients on 16 slots — slots beyond 16 add nothing and halve the per-user rate, TODO 10) | 204 decode-only; 83–85 at the server level | 12.7 decode-only; 7.4 at 16 clients | 1097–1125 |
+| Mixed traffic, and request traffic with real prompts | **two tp2 pairs**, 8 slots each, routed by prompt length at the proxy (`launch.sh pairs`) | production, server level on 1300/256 requests: 90.7 / 100.3 tok/s at 8 / 16 clients, +20% over the tp4 server at 16 slots (75.5 / 82.1); stock pairs 75–79; 16 slots per pair add nothing | 18 / 10 | 440 per pair |
+| Offline batch, short prompts | four single-die instances, `-np 8` each | 269 (stock 206; model from the production one-die cells) | 8.4 | 1253 |
+| Long-context server, 128K per slot | tp4, `-np 8`, f16, MTP draft 1 (M3: 8 slots × draft 1 is +5% at depth on production; 2 slots + draft 3 remains the fastest per stream) | 92 | 12 | 623 (model) |
+| Full 256K | tp4, `-np 2`, f16, MTP draft 3 (4 × 256K f16 fits; 8 × 256K needs q8_0 K / q4_0 V) | 65 | 32 | 425 (model) |
+| Eight slots at the f16 ceiling, 160K each | tp4, `-np 8`, f16, MTP draft 1 (29 GiB/die) | 81 (stock 74) | 10.2 | 557 (model) |
+| Prompt ingestion at 32K | tp4, `-np 12`, `-ub 4096` | 157 | 13 | 993 |
+
+Three things the numbers say. First, MTP is still the largest single lever for one to four streams and it is a launch flag; at depth it is worth more, not less. Second, on the production build one four-die server leads the decode-only bench (204 tok/s at 16 slots, 213 at 32) but at the server level, with prompts interleaved, the two pairs at 8 slots each lead by 20% (100 vs 82 tok/s at 16 clients on 1300/256 requests); tp4 is the decode-heavy choice, the pairs the request-traffic choice (82 vs 79 tok/s at 16 clients, at half the first-token latency), but the pairs remain the answer to head-of-line blocking (caveat: each pair runs on one XGMI link on the ring as cabled while tp4 has the ring; measured, a pair with no direct link at all loses only 3–5% of prefill and nothing at decode, so a two-link bridge configuration could add at most a few percent to the pairs, and it is not an option for nodes that host models above 64 GB; `pair_link_sensitivity`): a 128K prompt on a shared instance holds every short request to 0.9 tok/s for four minutes whatever `-b` is, and giving the short traffic its own pair lifts it to 8.1 tok/s at the cost of 476 s instead of 262 to the long prompt's first token. Third, `--kv-unified` is fixed upstream (b10837 reads a lone 256K prompt through the pool at 394 tok/s against 188 on b10288, and the private path gained 8% too) but its 8 × 32K decode cost is not yet re-measured, so it stays a capacity mode.
+
+Custom workloads: `python3 optimize/optimize.py --depth 16384 --ctx 65536 --streams 4 --per-stream 15 --cap 125`.
+
+## 4. How the LP works, and what it does not know
+
+The LP's slot count is a decode-only choice: it rewards 32 slots by the batched bench's +4–5% (M2), but at the server level, with prompts interleaved, 32 slots return 80–85 tok/s against 83 for 16 slots and halve the per-user rate (`server_final_prod`, 2026-09-08). Cap `-np` at 16 for interactive traffic whatever the LP says above 16; its request-level figure ("simple prefill-then-decode model") is the place this is visible.
+
+Corrections from the 2026-09-08 review (`review/2026-09-08/`, applied): the Q4V cache selection no longer crashes; topology and graph factors are keyed by placement, so a single-die instance is no longer credited with the tensor-split topology gain; the production build's decode factors come from its own measured cells (one die at 8 slots 69.1, not the upstream-fastpath 72.2) as base-term ratios; the tile-table prefill gain shrinks with depth (measured 1.33–1.36 to 32K, the matmul-only component model beyond: 1.20 at 128K, 1.15 at 256K, where attention is 72% of the cost); and `--measured-only` filters after the build/quant/cap composition. Still open: the cap curve is a 16-client request-level measurement applied to decode with prefill penalised separately (a phase-separated cap sweep is on the TODO), and draft/topology/graph provenance is composed after the cell filter. `python3 review/2026-09-08/test_optimizer_patch.py optimize/optimize.py` runs the regression tests.
+
+
+Every knob is a one-hot choice and the knobs multiply, so in log space the objective is linear in the binary variables and memory is linear in slots × context. Coefficients are measured cells where one exists (the batched-bench staircase at 2K for slots 1–32; the context ladders to 256K for 1, 4 and 8 slots; the production-build cells at 1, 8, 12, 16 slots on the split and 1, 4, 8 on one die; the platform-knob, MTP, quant and cap tables) and otherwise the reports' fitted models: prefill 1.18 ms/token + 0.0121 ms per 1K of depth, f16 decode step = base(slots) + 0.045 ms × slots × depth/1K, q8_0 slope 0.086, q8_0/q4_0 0.092. A build's kernel gain is applied to the depth-independent part of the step only, since the cache read is untouched. Model cells carry a 3% discount (6% when the build factor is interpolated between measured slot counts), and memory a 0.2%/GiB tie-break.
+
+What it cannot see: quality beyond the KL bound; the server's head-of-line behaviour (the request-level line is a prefill-then-decode model, 15–25% optimistic against the server sweeps); interactions it has no cell for — MTP on the production build (the verify-batch rule relaxes to 16 rows on the production build (M3, 2026-09-08: 4 slots × draft 3 +23% at 32K, 8 × draft 1 +5%)), 24/32 slots on the production build (MMQ tiles, unmeasured), the fast path at depth (measured at 2K, applied to the base term).
+
+## 5. Where the tokens go now
+
+Decode on four dies costs 21.5 ms per token for one stream on the production build. The M1 kernel trace (`reports/2026-09-08-m1-kernel-trace.md`) splits it: 11.2 ms in the matrix-vector kernels at 604 GB/s (68% of HBM, the same as one die), 3.4 ms in 128 RCCL allreduce kernels at 27 µs, 5.8 ms in 1,300 small kernels (activation quantisation, norms, residual adds, the linear-attention chain), 1.1 ms idle. The die is busy 95% of the token, which is why nineteen environment variables could not touch it and why launch gaps are not the lever; the order is kernel fusion, then the allreduce kernel, then batch-1 matvec bandwidth (`NEXT-STEPS.md` S3, S2, S6). The production table's cells were re-measured as paired, interleaved rounds (BENCHMARKS-TODO 14): between-round spreads are ≤ 0.7 tok/s on decode and ≤ 2.4 on prefill, so the quoted gains stand and the ties are ties. The fork's prefill gain is one header: on stock b10288 the gfx906 MMQ config table alone gives +30% four-die and +37% one-die Q8_0 prefill and +16–21% at 16–32 slots (TODO 12 ablation, 89% of the whole fork's gain); the K-quant gains are the fork's K-quant kernels. Attention at head size 256 is 17% of a 32K prompt and 19% of a 128K decode token; its counters (`reports/2026-09-08-fa-counters.md`) put the prefill kernel at two waves per SIMD and 45% VALU issue, and the decode kernel reading the same KV three times per token (GQA 6 packed as pairs) — the two S4 targets. Prefill on the production build reads 1130 tok/s at the 200 W cap: 15.4 TOPS per die, 27% of the die's dp4a peak. The eight-column matrix-vector step, diagnosed with counters (SIMDs 30% busy, 96 loads per wave behind a 15-deep wait chain) and then rewritten, turned out to be bound by load instructions per dot product rather than by occupancy: halving registers to double the waves lost 20–35%, while fewer instructions between load and accumulate won 8–62%. `ISA-NOTES.md` section 3 has the analysis; `NEXT-STEPS.md` ranks what remains: a decode-timeline profile to split the 13 ms, a latency-optimised allreduce over XGMI, the fork's tile table upstreamed, packed-fp16 attention at head size 256, the Q8_1 activation scale inside the fast path, an adaptive draft length in the server, and a power governor.
+
+## 6. Power
+
+An energy-integrated study on the production build (16 slots, 16 clients, 1300/256 requests, 32-request waves, cap switched live) gives the trade-off. Per-kJ efficiency rises all the way down to the DPM floor; there is no interior optimum, and below about 85 W the driver accepts any value and the dies ignore it (sclk level 0, 999 MHz, ~83 W each under this load).
+
+| Cap per die | Aggregate tok/s | vs 200 W | gen tok/kJ (bays) | Use |
+|---|---|---|---|---|
+| 200 W | 87.1 | — | 105 | maximum throughput |
+| 185 W | 86.6 | −0.6% | 108 | within 2% |
+| 170 W | 84.7 | −2.7% | 113 | within 5% |
+| 140 W | 79.4 | −8.9% | 124 | within 10% |
+| 125 W | 75.3 | −13.5% | 131 | production cap on hyperconverged nodes |
+| 85 W or below | 60.6 | −30% | 146 | the floor; maximum per-watt |
+
+The governor's numbers (M7, 2026-09-08, `governor_threshold_m7`): with the dies at 200 W caps and 16 clients served, a 56-thread host load takes the DC total to 1133 W at a 150 W host cap, 1172 W at 175 W and 1206 W at 200 W (about 1.5 W of DC per watt of host cap), so 175 W is the last host cap inside the envelope at 200 W dies; a 1150 W trigger that cuts the host cap by 50 W leaves three 5-s samples before the SMC's clamp. The same host load costs the server 12% at the 150 W cap (82.3 → 72.1 tok/s): give the serving threads their own cores on shared nodes.
+
+With the phases separated (TODO 13, `power_cap_phases`), decode-only at 16 slots and prefill-only pp2048 fall together and faster than the server aggregate above: −17% / −17.5% at 125 W and −32% / −35% at the floor (203 → 168 → 138 tok/s decode, 1130 → 932 → 733 tok/s prefill at 200 / 125 / 85 W); the server aggregate's shallower curve is its prompt reads and queueing, not the dies. The LP uses the separated curves.
+
+Fill the slots before lowering the cap: 16 clients at 200 W (105 tok/kJ) is as efficient as 8 clients at the floor (110). HBM2 bandwidth does not move with the cap (880–892 GB/s read at every setting), so memory-bound work is free to run at the floor; prefill scales with sclk.
+
+Fleet rule for the three hyperconverged nodes, whose idle draw (244 W DC) is sunk on Ceph and the VMs: serve from all three at the floor first (182 tok/s for 993 W above idle, 5.5 W per tok/s), then raise the caps in lockstep and stop at 125 W (226 tok/s), where a cap step costs three times a floor slot and where the 1228 W envelope also stops once the host is uncapped and the planned NVMe, NIC and SATA additions are counted (30 W of margin pinned at 125 W; anything above 140 W depends on the host never running all-core while the dies are pinned). Plan capacity at what two nodes deliver inside the envelope, 165 tok/s at 155 W. A dedicated serving node runs one node to 86 tok/s (cap ≈ 184 W) before a second node at the floor pays.
+
+## 7. Operating notes
+
+Run the XGMI probe twice after every boot before measuring: the first two GPU processes after boot have shown one direction of every link at 2.4 GB/s for about two minutes. Keep the T2 fan daemon running and the performance level at high; junction peaked at 87–89 °C over sixteen hours at the cap with no throttling. Keep a clock/power sampler (die hwmon plus the SMC's bay zones) beside every long run, and stop the chain when the DC total nears 1150 W — the SMC clamps about 20 s after the envelope is crossed. After any clamp, cold-cycle the box; a warm reboot leaves the SMC latched.
+
+The Instinct system-tuning guide in `reference/` is written for EPYC boards; on this Xeon W Mac Pro the transferable items are IOMMU passthrough and Large-BAR/above-4G decoding, which the flat hive address space shows is in effect. Host C-state control was measured (C6 off, C1E + C6 off) and changes nothing.
