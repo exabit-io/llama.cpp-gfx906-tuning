@@ -1,0 +1,159 @@
+<title>gfx906 Night Report 2026-09-09</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#EEF1F4; --surface:#F8FAFB; --surface-2:#E3E8ED; --ink:#17212C; --ink-2:#485664; --muted:#76828E; --rule:#D2D9E0; --rule-2:#BFC8D1;
+  --accent:#B04F1C; --accent-ink:#8E3E13; --accent-soft:rgba(176,79,28,0.10);
+  --series:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-dim:#a9b4be; --grid:#E0E5EA; --axis:#BFC8D1; --code-bg:#E4E9EE; --focus:#2a78d6;
+  --good:#2F7A4E; --good-bg:#E6F2EA; --warn:#B27A0F; --warn-bg:#F7EEDC; --bad:#B8321C; --bad-bg:#F8E5E1;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E7ECF1; --ink-2:#B2BCC6; --muted:#7E8A96; --rule:#29343F; --rule-2:#35414E;
+  --accent:#E28B55; --accent-ink:#F0A97C; --accent-soft:rgba(226,139,85,0.14);
+  --series:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-dim:#4c5966; --grid:#253039; --axis:#35414E; --code-bg:#19232D; --focus:#3987e5;
+  --good:#59B37F; --good-bg:#1B2E24; --warn:#D7A24A; --warn-bg:#32291A; --bad:#E25A42; --bad-bg:#36211D;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E141A; --surface:#151D25; --surface-2:#1C2630; --ink:#E7ECF1; --ink-2:#B2BCC6; --muted:#7E8A96; --rule:#29343F; --rule-2:#35414E;
+  --accent:#E28B55; --accent-ink:#F0A97C; --accent-soft:rgba(226,139,85,0.14);
+  --series:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-dim:#4c5966; --grid:#253039; --axis:#35414E; --code-bg:#19232D; --focus:#3987e5;
+  --good:#59B37F; --good-bg:#1B2E24; --warn:#D7A24A; --warn-bg:#32291A; --bad:#E25A42; --bad-bg:#36211D;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3","Segoe UI",system-ui,sans-serif;font-size:17.5px;line-height:1.55;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:900px;margin:0 auto;padding:44px 24px 80px}
+h1,h2,h3{font-family:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;text-wrap:balance;margin:0;line-height:1.1;letter-spacing:-0.012em}
+h1{font-size:clamp(2.1rem,4.5vw,3.1rem);font-weight:800;max-width:22ch}
+h2{font-size:1.5rem;font-weight:700;margin:52px 0 14px;padding-top:20px;border-top:2px solid var(--rule-2)}
+h3{font-size:1.05rem;font-weight:700;margin:26px 0 8px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);font-weight:500;margin-bottom:10px}
+.mono,code,pre,td.num,th.num{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+code{font-size:.86em;background:var(--code-bg);padding:.08em .35em;border-radius:3px}
+.lede{font-size:1.2rem;color:var(--ink-2);max-width:60ch;margin:14px 0 22px}
+.claim{border-left:3px solid var(--accent);padding:.35rem 0 .35rem 1rem;max-width:64ch;font-size:1.05rem;margin:0 0 8px}
+.claim b{font-weight:600}
+p{margin:0 0 14px;max-width:68ch}
+ul{margin:0 0 14px;padding-left:1.3em;max-width:68ch} li{margin:0 0 6px}
+.cond{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:22px 0 6px}
+.cond div{background:var(--surface);padding:11px 13px}
+.cond .k{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cond .v{font-size:.95rem}
+.cap{font-size:.86rem;color:var(--muted);margin:6px 0 18px;max-width:68ch}
+.tw{overflow-x:auto;margin:10px 0 16px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th{font-family:"Schibsted Grotesk",sans-serif;font-weight:700;font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;text-align:left;color:var(--ink-2);padding:9px 11px;border-bottom:1px solid var(--rule-2);white-space:nowrap}
+td{padding:8px 11px;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;white-space:nowrap;font-size:.88rem}
+td.hi{font-weight:600}
+.verdict{display:inline-block;font-family:"Schibsted Grotesk",sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;margin-left:8px;vertical-align:middle}
+.v-change{color:var(--good);background:var(--good-bg)} .v-none{color:var(--muted);background:var(--surface-2)} .v-trade{color:var(--warn);background:var(--warn-bg)} .v-stop{color:var(--bad);background:var(--bad-bg)}
+figure{margin:18px 0 6px;background:var(--surface);border:1px solid var(--rule);padding:16px 16px 10px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:.86rem;color:var(--muted);margin-top:6px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.86rem;color:var(--ink-2);margin:0 0 8px}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--sw)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-family:"IBM Plex Mono",monospace;font-size:.78rem;padding:5px 8px;border-radius:3px;opacity:0;transition:opacity .08s;z-index:9;white-space:nowrap}
+.mark{cursor:default}
+.mark:focus{outline:2px solid var(--focus);outline-offset:2px}
+.small{font-size:.9rem;color:var(--ink-2)}
+a{color:var(--accent-ink)}
+@media (prefers-reduced-motion: reduce){.tip{transition:none}}
+
+.tablewrap{overflow-x:auto;margin:12px 0} td.num{text-align:right;font-variant-numeric:tabular-nums}</style>
+<div class="wrap">
+<div class="eyebrow">gfx906 · Qwen3.8 · night report · generated 2026-09-09 20:24 UTC</div><h1>Night report, 2026-09-09: the fork-survey items measured at 32K on the four dies</h1>
+<p>Written for the morning. The survey (<code>reports/2026-09-09-fork-survey.md</code>) named nine things to take from the community forks. Six of them were built on the <code>gfx906</code> branch in the night and measured at 32K depth, which is the floor you set that afternoon; the box was yours to use and no one else touched it. Raw tables: <code>data/raw/2026-09-09/qwen38-27b-night0909*.md</code> (transcribed from <code>/root/rocm-tests/bench</code>), the chain scripts in <code>tools/night-0909-*.sh</code>. The builds are still installed under <code>/opt/llama.cpp-n*</code>.</p>
+<h2>Summary</h2>
+<div class="tablewrap"><table><thead><tr><th>Item (survey #)</th><th>Built as</th><th>Verdict at 32K</th><th>Numbers</th></tr></thead><tbody>
+<tr><td class="">MTP <code>out_ids</code> fix (1)</td><td class="">n1</td><td class=""><b>kept</b>, correct by construction; the acceptance collapse does not reproduce in our configuration (no unified KV cache)</td><td class="">two concurrent 32K slots on the buggy and the fixed build: acceptance 0.72 / 0.67 on both, 46.3 tok/s aggregate on both</td></tr>
+<tr><td class="">alex4300's head-256 tile rows (2)</td><td class="">n2</td><td class=""><b>dropped as imported, replaced by the box's own row</b>: the imported single-stream row −7.7% on one die at 32K, the 4–32 rows −5% on batched decode at depth and +0.4% perplexity; the sweep found a 64-thread row that is +2.3% (s.8)</td><td class="">rocm0 tg128@32K 19.6 → 18.05 (imported) → 20.05 (sweep winner); batched 16 slots @32K 139.5 → 132.8 (imported rows)</td></tr>
+<tr><td class="">DPP warp reductions (4)</td><td class="">n3 / n3b</td><td class=""><b>kept outside the attention kernels</b>: +2% four-die decode; inside the FA kernels they cost 3.6% of prefill at depth and 8% of the draft-3 verify path, outside they cost nothing (s.8)</td><td class="">tp4 tg128 54.5 → 55.6; rocm0 pp512@32K 259.5 (inside) vs 269.5 (outside); draft 3 at 32K 60.3 vs 65.6</td></tr>
+<tr><td class="">Adaptive MTP depth, PR 27210 (3)</td><td class="">n4</td><td class=""><b>no overhead, no gain on this prompt</b>: the controller sits at the floor (identical accepted/drafted counts to fixed depth 3)</td><td class="">n4 draft 3 60.4 / 60.0, adaptive 3..10 58.8 / 59.3, adaptive 2..6 57.0 / 57.5 (prod draft 3: 72.7–74.3)</td></tr>
+<tr><td class="">Upstream 2026-09-09 + mx-llama.cpp master merge (7, 8)</td><td class="">n5</td><td class=""><b>clean</b>: 16141/16141 backend tests, parity with n3, perplexity identical; <code>build.sh</code> now compiles the FA kernels for the three KV pairs the profiles use (<code>GGML_CUDA_FA_QUANTS</code>)</td><td class="">tp4 pp2048 1358 / tg128 54.5 / @32K 815 / 52.8; ppl 5.6448 (= n3)</td></tr>
+<tr><td class=""><b>Serving gate at 32K</b> (the survey's s.5)</td><td class="">prod vs n3</td><td class=""><b>the branch passes by a wide margin</b>: at 32K prompts the server is prefill-dominated and the repack's prefill gain decides it</td><td class="">total tok/s at 8 / 16 clients: prod 812, 810 / 715, 718; branch 917, 941 / 791, 814 (+13–16% / +11–13%); TTFT 84–89 → 69–76 s and 48 → 42 s</td></tr>
+<tr><td class=""><b>MTP gate at 32K</b></td><td class="">prod vs r2</td><td class="">still failed by the branch, same size as before</td><td class="">drafting off 53.3 vs 50.0 (−6%); draft 3 74 vs 66.7 (−10%); acceptance 0.68 on both</td></tr></tbody></table></div>
+<p>Also found on the way: <b>without the S1b a3 kernel the branch loses 13% at 16 slots × 32K</b> (batched 139.5 vs production 160.0), so a3 is merged into the final candidate (s.8).</p>
+<p>What changes the plan: <b>the promotion decision flips at 32K.</b> At 2K the branch lost the serving gate by 3–4% and the survey's plan was to fix the one-token kernel first. At 32K the serving gate is won by 11–16% on total throughput and 15% on time to first token, because a 32K request is 32K of prefill against 256 of decode; only the single-user MTP gate is still lost (−10%). The branch (with the DPP reductions, without the imported tile rows, on the merged base) is therefore promotable for the multi-user profiles now, with production kept for the single-user MTP profile until candidate 2 (the one-token kernel) lands.</p>
+<h2>1. What was built</h2>
+<p>On <code>night-0909</code> (from <code>gfx906</code> at eb39d6c7a): d0b7ef75f the <code>out_ids</code> fix (qwen35 and qwen35moe), fe3102bdd the GCN head-256 tile rows (alex4300's values, host-selected by <code>GGML_CUDA_CC_IS_GCN</code>, device-selected under <code>GCN</code>), 3771c572c the DPP reductions (furnace 32f284244 unchanged), 17dfa2336 + 7d3d582b6 the adaptive-MTP PR (its delta-net <code>t_min</code> hunk dropped on milpster's finding; a brace lost in the keep-both merge restored). <code>night-merge</code> = that + upstream master 2026-09-09 (13 commits; one conflict in <code>mmq.cu</code> where upstream added <code>ncols_opt</code> to <code>mmq_args</code>, resolved by keeping the fork's column-chunk loop and passing <code>ncols_max</code> for both initialisers) + mx-llama.cpp master (5 commits, clean) + the <code>build.sh</code> FA-quant list. <code>night-0909-n3b</code> = the DPP commit with <code>GGML_GCN_NO_DPP</code> defined at the top of <code>fattn-tile.cuh</code> and <code>fattn-vec.cuh</code>. <code>fa-sweep</code> = the tile rows as <code>GFX906_FA2..FA32</code> macros for the sweep.</p>
+<p>Builds: r2 (<code>/opt/llama.cpp-gfx906-master-r2</code>, the branch's kernels before the night), n1..n5 as above, prod (<code>/opt/llama.cpp-prod</code>). Branch builds run with the repack on and <code>settings/gfx906.env</code>; production with <code>gfx906.env</code>. Every build's <code>libggml-hip.so</code> hash is in the raw file's header.</p>
+<h2>2. Kernel tests and perplexity</h2>
+<ul><li>n2 <code>test-backend-ops -o FLASH_ATTN_EXT</code> 2959/2959; n3 all ops 15128/15128; n5 all ops 16141/16141.</li><li>Perplexity 16K/6 (tp4): r2 5.6173, n2 5.6418, n3 5.6448, n5 5.6448. The tile rows move it by +0.44% (fp16 accumulation order in the attention tile changes with the tile shape); the DPP reductions add +0.05%. Both are below the run-to-run band of the metric (±0.063) but the tile shift is the size of the upstream fidelity moves we tracked, so a tile row is not free numerically and must be checked when the sweep picks one.</li></ul>
+<h2>3. llama-bench at depth 0 and 32K (two rounds, order rotated; both rounds agree to ±0.5%)</h2>
+<div class="tablewrap"><table><thead><tr><th>build</th><th>tp4 pp2048</th><th>tp4 tg128</th><th>tp4 pp2048 @32K</th><th>tp4 tg128 @32K</th><th>rocm0 pp512</th><th>rocm0 tg128</th><th>rocm0 pp512 @32K</th><th>rocm0 tg128 @32K</th></tr></thead><tbody>
+<tr><td class="">r2</td><td class="num">1361 / 1357</td><td class="num">54.5 / 54.5</td><td class="num">868 / 854</td><td class="num">52.9 / 53.0</td><td class="num">424.5 / 424.0</td><td class="num">22.55 / 22.50</td><td class="num">273.7 / 273.9</td><td class="num">19.50 / 19.47</td></tr>
+<tr><td class="">n1 (out_ids)</td><td class="num">1359 / 1357</td><td class="num">54.8 / 54.4</td><td class="num">861 / 866</td><td class="num">53.1 / 52.8</td><td class="num">424.3 / 423.9</td><td class="num">22.48 / 22.54</td><td class="num">273.8 / 273.4</td><td class="num">19.46 / 19.50</td></tr>
+<tr><td class="">n2 (+ tile rows)</td><td class="num">1360 / 1361</td><td class="num">54.1 / 55.0</td><td class="num">884 / 879</td><td class="num">52.6 / 52.7</td><td class="num">424.3 / 424.8</td><td class="num">22.53 / 22.56</td><td class=""><b>269.6 / 269.8</b></td><td class=""><b>17.98 / 17.98</b></td></tr>
+<tr><td class="">n3 (+ DPP)</td><td class="num">1359 / 1356</td><td class=""><b>55.6 / 55.6</b></td><td class="num">862 / 860</td><td class="num">53.2 / 53.2</td><td class="num">424.4 / 424.6</td><td class="num">22.72 / 22.69</td><td class=""><b>259.6 / 260.0</b></td><td class="num">18.07 / 18.06</td></tr></tbody></table></div>
+<p>n1 is kernel-identical to r2 and reads it back within 0.5%, which is the noise floor of this stage. The single-stream cells on four dies do not move: each die holds one KV head there and attention is a small share of the token. On one die at 32K the imported single-stream row (<code>ncols = 2</code>: 128 threads, occupancy 8, 64-row KV tiles) loses 7.7% of decode against the RDNA2 row (256 threads, occupancy 2, 128-row tiles); alex4300 measured the opposite on a 60-CU MI50 at 16K under a 225 W cap with Q4_0 weights, so the row is theirs, not ours. The DPP reductions give the four-die single stream +2% at depth 0 and nothing at depth; on one die they cost the attention-heavy prefill at depth 3.6%, which is why the variant that keeps the generic reductions inside the attention kernels was built (s.8).</p>
+<h2>4. MTP gate at 32K (server, one slot, 32K prompt, 300 generated, wave 2 = decode only; two rounds each)</h2>
+<div class="tablewrap"><table><thead><tr><th>build</th><th>drafting off</th><th>draft 3</th><th>accepted / drafted</th></tr></thead><tbody>
+<tr><td class="">prod</td><td class="num">53.2 / 53.4</td><td class="num">74.3 / 73.9</td><td class="">201 / 294 = 0.68</td></tr>
+<tr><td class="">r2 (branch, repack on)</td><td class="num">50.2 / 49.6</td><td class="num">67.5 / 65.9</td><td class="">200 / 295 = 0.68</td></tr>
+<tr><td class="">n3 (+ tile rows + DPP)</td><td class="num">49.9 / 49.4</td><td class="num">60.1 / 60.5</td><td class="">200 / 297 = 0.67</td></tr>
+<tr><td class="">n4 (+ adaptive MTP), draft 3</td><td class="num">50.3 / 49.8</td><td class="num">60.4 / 60.0</td><td class="">200 / 297 = 0.67</td></tr>
+<tr><td class="">n4 adaptive 3..10</td><td class="">—</td><td class="num">58.8 / 59.3</td><td class="">200 / 297 = 0.67</td></tr>
+<tr><td class="">n4 adaptive 2..6</td><td class="">—</td><td class="num">57.0 / 57.5</td><td class="">196 / 283 = 0.69</td></tr></tbody></table></div>
+<p>The gate is still lost by the branch (−6% plain, −10% with draft 3, identical acceptance: the verify-step cost of the repacked kernel, as in the follow-up report). The imported tile rows and/or DPP cost the draft-3 path a further 10% (67 → 60): the verify batch is 4 rows × GQA 2 = 8 columns, exactly the <code>ncols = 8</code> row alex4300 changed. The adaptive controller of PR 27210 never left its floor on this prompt (the counts are identical to fixed depth 3), so it cannot help where acceptance is 0.67; its author's gains are on code and recall workloads where acceptance runs at 0.75–1.0. It stays in the tree as an option, off by default.</p>
+<h2>5. out_ids</h2>
+<p>Two concurrent 32K clients on <code>-np 2</code> with draft 3: r2 (bug present) and n1 (fixed) both give 0.716 / 0.666 acceptance for the two requests and 46.3 tok/s aggregate. The collapse alex4300 bisected needs a condition we do not run (their reproduction used <code>-kvu</code>, the unified cache, with backend sampling). The fix stays: it removes a graph topology that depends on the output count, which upstream avoids for the same reason.</p>
+<h2>6. Server level at 32K prompts (16 slots, 8 and 16 clients, 256 generated, two rounds rotated)</h2>
+<div class="tablewrap"><table><thead><tr><th>build</th><th>8 clients: total tok/s</th><th>per-request decode</th><th>TTFT s</th><th>16 clients: total tok/s</th><th>per-request decode</th><th>TTFT s</th></tr></thead><tbody>
+<tr><td class="">prod</td><td class="num">812 / 810</td><td class="num">4.6 / 3.9</td><td class="num">89.0 / 83.7</td><td class="num">715 / 718</td><td class="num">1.3 / 1.3</td><td class="num">48.1 / 48.0</td></tr>
+<tr><td class="">n3</td><td class="num">917 / 941</td><td class="num">3.9 / 3.7</td><td class="num">75.9 / 68.6</td><td class="num">791 / 814</td><td class="num">1.3 / 1.3</td><td class="num">42.2 / 42.1</td></tr></tbody></table></div>
+<p>At 32K a request is 32K tokens of prompt and 256 of output, so the server's total throughput is prefill throughput and the per-request decode rate is what the slot gets between other slots' prompt reads (1.3 tok/s at 16 clients on both builds: the head-of-line regime the guide describes, which is what the two-pair layout and a prompt cache are for). The branch's repack prefill gain (+21% on the batched bench) shows through as +11–16% total and 15% shorter first-token latency. This is the serving gate, and at 32K the branch passes it.</p>
+<h2>7. The merged base (n5)</h2>
+<p><code>night-merge</code> builds in three minutes on the cache, passes 16141/16141, and measures at parity with n3 on every cell (tp4 pp2048 1354 / 1358, tg128 54.1 / 54.5, @32K 800 / 815 and 49.6 (one after-load stall) / 52.8; one die identical); perplexity 5.6448 = n3. Upstream's <code>GGML_CUDA_FA_QUANTS</code> default does not include the q8_0-K / q4_0-V pair the capacity mode uses; <code>build.sh</code> now lists the three pairs the profiles use.</p>
+<h2>8. The tile-row sweep, batched decode at 32K, and the DPP scope (finished 19:27)</h2>
+<p><b>Single-stream tile row (<code>ncols = 2</code>), one die, tg128 at 32K, rows 4–32 held at the generic AMD values, two rounds (±0.03 tok/s), perplexity 16K/6 per candidate.</b> Fields are threads, occupancy hint, KV rows per tile, K columns per tile.</p>
+<div class="tablewrap"><table><thead><tr><th>candidate</th><th>row</th><th>one die tg128 @32K</th><th>one die pp512 @32K</th><th>four dies tg128 @32K</th><th>perplexity</th></tr></thead><tbody>
+<tr><td class=""><b>v6</b></td><td class=""><b>64, 8, 64, 64</b></td><td class=""><b>20.05 / 20.04 / 20.05 / 20.06</b></td><td class="num">274.0</td><td class="num">53.2</td><td class="num">5.6199</td></tr>
+<tr><td class="">v10</td><td class="num">64, 4, 64, 64</td><td class="num">20.07 / 20.03</td><td class="num">274.3</td><td class="num">53.3</td><td class="num">5.6199</td></tr>
+<tr><td class="">v8</td><td class="num">64, 8, 64, 128</td><td class="num">19.93 / 19.93</td><td class="num">274.2</td><td class="num">53.3</td><td class="num">5.6199</td></tr>
+<tr><td class="">v12</td><td class="num">64, 8, 128, 64</td><td class="num">19.65 / 19.67</td><td class="num">274.2</td><td class="num">51.6</td><td class="num">5.6199</td></tr>
+<tr><td class="">v0 (generic AMD row)</td><td class="num">256, 2, 128, 64</td><td class="num">19.61 / 19.61</td><td class="num">274.1</td><td class="num">52.9</td><td class="num">5.6199</td></tr>
+<tr><td class="">v1 (alex4300)</td><td class="num">128, 8, 64, 64</td><td class="num">18.05 / 18.05</td><td class="num">274.3</td><td class="num">52.9</td><td class="num">5.6199</td></tr>
+<tr><td class="">v7</td><td class="num">128, 4, 64, 128</td><td class="num">17.65 / 17.67</td><td class="num">274.1</td><td class="num">53.3</td><td class="num">5.6199</td></tr>
+<tr><td class="">v3 / v11</td><td class="num">128, 4/8, 128, 64</td><td class="num">17.27 / 17.24</td><td class="num">274.0</td><td class="num">53.1</td><td class="num">5.6199</td></tr>
+<tr><td class="">v4</td><td class="num">256, 2, 128, 128</td><td class="num">16.26 / 16.26</td><td class="num">274.2</td><td class="num">52.3</td><td class="num">5.6199</td></tr>
+<tr><td class="">v2, v5, v9</td><td class="">256-thread 64-row, 512-thread, occupancy 16</td><td class="">do not build (tile constraints)</td><td class=""></td><td class=""></td><td class=""></td></tr></tbody></table></div>
+<p>One 64-lane block per tile with 64-row tiles is the shape this kernel wants on Vega at depth: +2.3% single-stream decode on one die over the generic row, nothing on four dies (one KV head per die there), prefill and perplexity untouched (5.6199 = the branch's 5.6173 + 0.003 from the DPP reductions this sweep branch carries). Every 128- and 256-thread variant loses, and the occupancy field is inert (v6 = v10). This is the row the final candidate carries; rows 4–32 stay on the generic table, since alex4300's values for them cost the draft-3 verify batch and moved perplexity by +0.4% (s.2, s.4).</p>
+<p><b>Batched decode at 32K depth, four dies, each sequence with its own 32K prompt, 8 and 16 slots, two rounds:</b></p>
+<div class="tablewrap"><table><thead><tr><th>build</th><th>8 slots tg</th><th>16 slots tg</th></tr></thead><tbody>
+<tr><td class="">prod</td><td class="num">141.8 / 141.8</td><td class=""><b>160.0 / 159.9</b></td></tr>
+<tr><td class="">r2 (branch)</td><td class="num">141.9 / 142.7</td><td class="num">139.5 / 139.7</td></tr>
+<tr><td class="">n2 (+ imported rows)</td><td class="num">134.1 / 134.2</td><td class="num">132.8 / 132.9</td></tr>
+<tr><td class="">n3 (+ DPP)</td><td class="num">135.4 / 135.4</td><td class="num">134.1 / 134.1</td></tr></tbody></table></div>
+<p>At 8 slots the branch and production tie; at 16 slots × 32K the branch without the S1b kernel loses 13% — the 9–16-column repack cliff the follow-up report found at 2K is still there at depth. The imported rows cost 5% at both slot counts (the <code>ncols = 8/16</code> rows). <b>Consequence: the final candidate merges the <code>s1b-a</code> branch head (the a3 form, 46010953d), which is what closes the 16-slot gap; the tag of the same name is the earlier spilling form and must not be used.</b></p>
+<p><b>DPP scope (n3b = the DPP reductions with the attention kernels kept on the generic <code>ds_bpermute</code> cascades, two rounds):</b></p>
+<div class="tablewrap"><table><thead><tr><th>cell</th><th>n3 (DPP everywhere)</th><th>n3b (DPP outside attention)</th></tr></thead><tbody>
+<tr><td class="">one die pp512 @32K</td><td class="num">259.4 / 259.5</td><td class=""><b>269.2 / 269.5</b></td></tr>
+<tr><td class="">one die tg128 @32K</td><td class="num">18.03 / 18.04</td><td class="num">18.04 / 18.05</td></tr>
+<tr><td class="">four dies pp2048 @32K</td><td class="num">863 / 851</td><td class="num">892 / 899</td></tr>
+<tr><td class="">four dies tg128</td><td class="num">55.6 / 55.1</td><td class="num">55.4 / 54.7</td></tr>
+<tr><td class="">draft-3 gate at 32K (wave 2)</td><td class="num">60.3 / 60.8</td><td class=""><b>65.5 / 65.7</b></td></tr></tbody></table></div>
+<p>The reductions inside the attention kernels were most of the verify-path loss (r2 read 66–67 on that cell before the night's changes) and all of the prefill-at-depth loss; outside attention they keep the +2% single-stream decode on four dies. The final candidate carries <code>GGML_GCN_NO_DPP</code> in <code>fattn-tile.cuh</code> and <code>fattn-vec.cuh</code>.</p>
+<h2>8b. The final candidate</h2>
+<p><code>night-merge</code> = upstream master 2026-09-09 + mx-llama.cpp master + the <code>out_ids</code> fix + the DPP reductions (outside attention) + the measured <code>ncols = 2</code> row + adaptive MTP (off by default) + the S1b a3 kernel + the FA-quant build list, built as <code>/opt/llama.cpp-gfx906-20260909</code> and validated against production at 32K (<code>tools/night-0909-final.sh</code>): the table below is filled in from section 9 of the raw file when the run finishes.</p>
+<div class="tablewrap"><table><thead><tr><th>cell</th><th>production</th><th>final candidate</th><th>change</th></tr></thead><tbody>
+<tr><td class=""><code>test-backend-ops</code>, all ops</td><td class="">—</td><td class="num">16141 / 16141</td><td class="">clean</td></tr>
+<tr><td class="">four dies pp2048</td><td class="num">1132 / 1127</td><td class="num">1354 / 1355</td><td class=""><b>+20%</b></td></tr>
+<tr><td class="">four dies tg128</td><td class="num">57.3 / 57.5</td><td class="num">54.9 / 55.2</td><td class="">−4%</td></tr>
+<tr><td class="">four dies pp2048 @32K</td><td class="num">777 / 776</td><td class="num">846 / 848</td><td class=""><b>+9%</b></td></tr>
+<tr><td class="">four dies tg128 @32K</td><td class="num">54.2 / 54.4</td><td class="num">53.4 / 53.5</td><td class="">−1.5%</td></tr>
+<tr><td class="">one die pp512</td><td class="num">311 / 311</td><td class="num">424 / 424</td><td class=""><b>+36%</b></td></tr>
+<tr><td class="">one die tg128</td><td class="num">20.7 / 20.6</td><td class="num">22.6 / 22.6</td><td class=""><b>+9%</b></td></tr>
+<tr><td class="">one die pp512 @32K</td><td class="num">214 / 214</td><td class="num">274 / 274</td><td class=""><b>+28%</b></td></tr>
+<tr><td class="">one die tg128 @32K</td><td class="num">18.06 / 18.04</td><td class="num">20.07 / 20.09</td><td class=""><b>+11%</b></td></tr>
+<tr><td class="">batched 8 slots × 32K (pp / tg)</td><td class="num">958 / 141.6</td><td class="num">1131 / 141.5</td><td class="">prefill +18%, decode parity</td></tr>
+<tr><td class="">batched 16 slots × 32K (pp / tg)</td><td class="num">958 / 160.4</td><td class="num">1134 / 159.4</td><td class="">prefill +18%, decode parity</td></tr>
+<tr><td class="">single user 32K, drafting off (wave 2)</td><td class="num">53.1</td><td class="num">50.7</td><td class="">−4.5%</td></tr>
+<tr><td class="">single user 32K, draft 3 (wave 2)</td><td class="">73.7 (acc 0.68)</td><td class="">65.2 (acc 0.67)</td><td class=""><b>−11.5%</b></td></tr>
+<tr><td class="">perplexity 16K/6</td><td class="">5.5969 (its lineage)</td><td class="num">5.6099</td><td class="">upstream's reference band (5.62), slightly below it</td></tr></tbody></table></div>
+<p>Two rounds each where two numbers are shown; the batched and MTP cells are single rounds (the two-round versions of the same cells are in sections 4, 6 and 8 and agree). The candidate wins every prefill cell by 9–36%, wins one-die decode at every depth, ties four-die batched decode at 8 and 16 slots at 32K (the a3 kernel), and loses the four-die single stream by 4% plain and 11.5% with draft 3: the one-token repacked kernel, candidate 2's target, unchanged by the night.</p>
+<p><b>Promotion.</b> <code>/opt/llama.cpp-gfx906-20260909</code> (a symlink <code>/opt/llama.cpp-gfx906</code> points at it) is now the build behind the multi-user profiles in <code>settings/launch.sh</code> (<code>team</code>, <code>busy</code>, <code>pairs</code>, <code>ingest</code>, <code>batch</code>: variable <code>LLAMA_MULTI</code>); <code>/opt/llama.cpp-prod</code> stays behind the single-user MTP profiles (<code>single</code>, <code>long</code>, <code>long8</code>, <code>ceiling</code>: <code>LLAMA_PROD</code>) until candidate 2 lands. The <code>gfx906</code> branch of exabit-io/llama.cpp is fast-forwarded to this state and tagged <code>gfx906-20260909</code>.</p>
+<h2>9. What to do with it</h2>
+<p>1. Done in the night: the merged base + <code>out_ids</code> + DPP outside attention + the box's own single-stream tile row + adaptive MTP (off) + S1b a3 is <code>/opt/llama.cpp-gfx906-20260909</code>, promoted for the multi-user profiles; production stays for the single-user MTP profiles. <code>gfx906</code> on GitHub is this state. 2. Candidate 2 (one-token whole-block load on the two-plane layout) remains the item that closes the MTP gate (−11.5% at 32K draft 3) and the plain single stream (−4.5%); once it lands, one binary serves every profile. 3. Tile rows for 4–32 columns: a sweep on this box with the draft-3 verify batch and the 8/16-slot batched cells as the metric; the imported rows are out, the generic AMD rows stay until then. 4. Adaptive MTP: measure once on a code prompt (acceptance ≥ 0.75) before deciding a default; on prose it is inert. The out_ids collapse: try <code>-kvu</code> once to reproduce it. 5. The guide's gates are 32K gates from now on: <code>tools/night-0909-ab.sh</code> (stage 2 with own prompts per sequence, as in <code>night-0909-bb32k.sh</code>) and <code>night-0909-final.sh</code> are the templates; BENCHMARKS-TODO 16 and 17 are closed by this report. 6. The <code>s1b-a</code> name is both a tag (the first, spilling form) and a branch (the a3 form): always merge <code>refs/heads/s1b-a</code>.</p>
+<p class="small">Source: <code>reports/2026-09-09-night-report.md</code>, rendered by <code>tools/gen-night-report.py</code>.</p>
+</div>
