@@ -4,6 +4,7 @@ Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) 
 
 | Where | What |
 |---|---|
+| `REQUIREMENTS.md` | **the engineering requirements specification; outranks this guide** |
 | `README.md` | this guide |
 | `NEXT-STEPS.md` | what to do next: measurements, then the software-stack optimisations for the Vega 7nm ISA, ranked; the promotion gates for the `gfx906` branch |
 | `BENCHMARKS-TODO.md` | measurements still open, with commands; items 1–14 are closed and recorded |
