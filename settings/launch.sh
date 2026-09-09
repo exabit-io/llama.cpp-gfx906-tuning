@@ -4,10 +4,9 @@
 #   settings/launch.sh <profile> [extra llama-server args]
 #
 # Builds (env vars, see README section 2 and patches/README.md):
-#   LLAMA_PROD   production build (/opt/llama.cpp-prod -> /opt/llama.cpp-mxxm-fh-nq since 2026-09-08): fork tile table + MMVQ patches + the
-#                2026-09-08 series (patches/0001-0009: custom-allreduce gate, one-column whole-block load, exact kernel folds); default for every profile
+#   BIN          the production build for every profile: /opt/llama.cpp-gfx906 (the gfx906 branch, since 2026-09-09 evening)
+#   LLAMA_PROD_B10254  the previous production build (/opt/llama.cpp-prod -> mxxm-fh-nq, fork b10254 + the series), comparisons only
 #   LLAMA_PROD0  the 2026-09-07 production binary /opt/llama.cpp-mxxm-fh, kept as the reference for the report numbers
-#   LLAMA_MULTI  the gfx906 branch build (/opt/llama.cpp-gfx906, since 2026-09-09) used by team/busy/pairs/ingest/batch; see below
 #   LLAMA_STOCK  upstream b10288, the reference build (24-27% slower than production on single dies at 4-8 slots too)
 #
 # profiles (README section 3, optimize/results.md; figures are the production build unless noted):
@@ -32,15 +31,14 @@ HERE=$(cd "$(dirname "$0")" && pwd)
 MODEL=${MODEL:-/root/models/Qwen3.8-27B-Q8_0.gguf}
 PORT=${PORT:-8089}
 HOST=${HOST:-127.0.0.1}
-LLAMA_PROD=${LLAMA_PROD:-/opt/llama.cpp-prod/bin}
 LLAMA_STOCK=${LLAMA_STOCK:-/opt/llama.cpp/bin}
-# 2026-09-09: the gfx906 branch build (/opt/llama.cpp-gfx906 -> /opt/llama.cpp-gfx906-20260909: upstream master 2026-09-09 + the
-# mx-llama.cpp fork + the Exabit series + S1b a3 + DPP reductions + the swept tile row) serves the multi-user profiles: at 32K prompts
-# it reads +11-16% total throughput and 15% shorter TTFT than production at 8/16 clients, ties batched decode at 8/16 slots x 32K, and
-# wins every prefill cell (reports/2026-09-09-night-report.md). Production stays for the single-user MTP profiles (single, long,
-# long8, ceiling): the branch's one-token repacked kernel is -4.5% plain and -11.5% with draft 3 at 32K until candidate 2 lands.
-LLAMA_MULTI=${LLAMA_MULTI:-/opt/llama.cpp-gfx906/bin}
-case "${1:-}" in team|busy|pairs|ingest|batch) BIN=${BIN:-$LLAMA_MULTI};; *) BIN=${BIN:-$LLAMA_PROD};; esac
+# 2026-09-09: the gfx906 branch build (/opt/llama.cpp-gfx906 -> /opt/llama.cpp-gfx906-20260909) is THE production build. The
+# service is a batched, queued multi-user server at the largest context per slot the dies hold; there is no single-user profile.
+# At 32K prompts x 16 slots it reads +11-16% total throughput and 15% shorter TTFT than the b10254 lineage, ties batched decode
+# at 8/16 slots x 32K and wins every prefill cell (reports/2026-09-09-night-report.md). The b10254 build stays reachable as
+# LLAMA_PROD_B10254 for report comparisons only.
+LLAMA_PROD_B10254=${LLAMA_PROD_B10254:-/opt/llama.cpp-prod/bin}
+BIN=${BIN:-/opt/llama.cpp-gfx906/bin}
 # The /opt builds carry no rpath and /etc/ld.so.conf.d/llama.cpp.conf points at the stock /opt/llama.cpp/lib, so without this
 # line the production binary silently loads the STOCK libggml-hip (verified with ldd, 2026-09-08). Every report number was
 # measured with LD_LIBRARY_PATH set to the build's own lib/.
