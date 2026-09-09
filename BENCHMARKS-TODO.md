@@ -51,6 +51,12 @@ Same key. Unchanged where predicted: 16 slots 76.1 / 83.4 at 8 / 16 clients (202
 
 **2026-09-08, gfx906 branch (upstream master merged into the fork tag b10912 + the series):** `test-backend-ops -o MUL_MAT_ID` caught a real bug the dense-model runs never touch: the series keeps `MUL_MAT_ID` at the 8-column MMVQ window while the dense window is 16, but upstream's new `ggml_cuda_mul_mat_id_needs_sync` predicate (absent from the b10254/b10288 production lineage) still tested the 16-wide constant, so a 9–16-token f16/bf16 expert product on AMD was predicted "no sync" and fell through to an assert. Fixed in the branch (commit 5d36d6fc8, `patches/gfx906-branch/0015`); MUL_MAT 1288/1288 and the norm/GDN cases passed before the fix. The pristine upstream and fork builds pass 880/880. This is exactly the MoE/ID boundary test the item asks for; it stays in `tools/gfx906-master-validate.sh` for every merge.
 
+### 16. Every gate at 32K depth (user rule 2026-09-09)
+Batched-bench 8/12/16 slots at depth 32768 (and 128K for 8), the server client with 32K prompts (and a 128K row), for production, the branch and `s1b-a`; `tools/s1b-test.sh` and `tools/server-bench.py` get a depth parameter; new keys `*_32k` in `data/benchmarks.json`; the optimiser's default workload moves to 32K per slot. The S1b a3 gains (+15–20% at 17–32 rows) are 2K-only until this runs.
+
+### 17. Fork-survey A/Bs (`reports/2026-09-09-fork-survey.md` section 6)
+(a) alex4300's head-256 tile row vs ours at 32K, tp4, 1/8/16 slots, plus pp2048 and a 32K prompt; then a four-die sweep of the row. (b) PR #27210 adaptive MTP (with milpster's `t_min` revert) vs fixed draft 3 at 32K and 128K, code / prose / reasoning. (c) furnace DPP reductions + `mmq_y` 64: tg and pp on tp4 and one die, perplexity. (d) after the `out_ids` fix: MTP acceptance per slot at `-np 2/8/16` on the branch (the bug collapses slot 0).
+
 ## Closed by the 2026-09-07 run-through (see `reports/2026-09-07-todo-runthrough.html` and `data/benchmarks.json`)
 
 | Item | Result |
