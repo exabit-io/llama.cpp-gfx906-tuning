@@ -109,6 +109,21 @@ chk t4c-good     T4c 0 <<'EOF'
 pkill -x llama-server
 EOF
 
+echo "=== T11 bare 'wait' waits for every background child (gate4 deadlock, 2026-09-20)"
+chk t11-bad  T11 1 <<'EOF'
+#!/bin/bash
+llama-server & SRV=$!
+for i in 1 2; do curl -s localhost/x > /tmp/o$i & done
+wait
+EOF
+chk t11-good T11 0 <<'EOF'
+#!/bin/bash
+llama-server & SRV=$!
+cpids=()
+for i in 1 2; do curl -s localhost/x > /tmp/o$i & cpids+=($!); done
+for p in "${cpids[@]}"; do wait "$p"; done
+EOF
+
 echo "=== T3  trap handler that never exits: bash clears traps and RESUMES"
 chk t3-bad       T3 1 <<'EOF'
 #!/bin/bash

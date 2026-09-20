@@ -108,6 +108,15 @@ for f in "$@"; do
     done
   done <<< "$(nocomment "$f" | grep -nE 'p(kill|grep)[^|;]*-x[[:space:]]' || true)"
 
+  # ---- T11: a bare `wait` waits for EVERY background child of the shell, not just the ones the
+  # author means. On 2026-09-20 this deadlocked gate4-graphreuse.sh: all four completions had been
+  # written, and the script then waited forever on the llama-server it had itself started with `&`,
+  # with the GPUs at 0%. It reads exactly like "wait for the requests" and means something far wider.
+  while IFS=: read -r ln txt; do
+    [ -z "${ln:-}" ] && continue
+    add "FATAL" "$ln" "T11" "bare 'wait' waits for EVERY background child, including servers/samplers started with & in this shell — it deadlocks. Collect the pids you mean and wait on each."
+  done <<< "$(nocomment "$f" | grep -nE '(^|[[:space:]]|;|&&|\|\|)wait[[:space:]]*($|;|&|#)' || true)"
+
   # ---- T3: a trap handler that never exits -> bash clears traps and RESUMES the script
   if grep -qE '^[[:space:]]*(cleanup|on_exit|trap_handler)\(\)' "$f" 2>/dev/null; then
     awk '/^[[:space:]]*(cleanup|on_exit|trap_handler)\(\)/{f=1} f&&/exit[[:space:]]/{ok=1} f&&/^\}/{f=0} END{exit ok?0:1}' "$f" \
