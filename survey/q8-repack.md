@@ -3,9 +3,9 @@ axis:             multi-user
 zero point:       build-substrate-v041 (ba82ea19a) measured 2026-09-20, --no-repack arm
 recipe:           4 slots x 64K | q8_0 K and V | 125 W/die | --cache-ram 49152 | -ngl all | GGML_ENABLE_CUSTOM_AR=1, gate absent from this build
 metric:           decode tok/s/slot at the 4x64K design point; improves requires q<0.10 and effect >= +2%
-result:           multi 4x64K n=4: ON 15.432 +/- 0.024 / OFF 14.640 +/- 0.023 tok/s/slot; single 1x32K n=4 median: ON 39.685 / OFF 38.500 tok/s
-effect:           decode +5.41% multi-user, +3.08% single-user; prefill +5.24% multi, +2.79% single
-stats:            multi decode p=0.0286 q=0.0761 | multi prefill p=0.0286 q=0.0761 | single decode p=0.0571 q=0.0761 | single prefill p=0.0571 q=0.0761 — all PASS at q<0.10, BH across m=8 tests | n=4 fresh per arm per axis
+result:           multi 4x64K mean: ON 15.432 / OFF 14.636 tok/s/slot (n=4/n=5) | single 1x32K n=4 median: ON 39.686 / OFF 38.499 (full precision)
+effect:           decode +5.44% multi-user, +3.08% single-user; prefill +5.24% multi, +2.79% single
+stats:            multi decode p=0.00794 q=0.03175 | single decode p=0.05714 q=0.05714 | BH over the pre-registered family of 4 | n=4-5 fresh per arm per axis
 evidence:         confirmed-fresh
 structural:       standalone
 verdict:          improves
@@ -24,3 +24,10 @@ confirmed 2026-09-21:   Improves BOTH metrics on BOTH axes, every contrast throu
                   Caveat carried from the record above: the instrument is a runtime switch, and 26 of
                   its 28 commits are entangled. If a build-level revert ever disagrees with the switch,
                   the build-level result wins.
+
+full-precision re-derivation 2026-09-21: verdict unchanged, q slightly stronger. The metric is now
+                  derived from the timing columns rather than the tool's 2-decimal rate columns; see
+                  custom-allreduce-ungated.md for why that mattered. One extra repack-off cell (n=5) is
+                  a complete 489-byte table from the run that was killed on 2026-09-20 before its TSV
+                  row was appended -- included on a completeness test, not on its value, and it agrees
+                  with the independent re-measurement to 0.06%.

@@ -124,6 +124,17 @@ for i in 1 2; do curl -s localhost/x > /tmp/o$i & cpids+=($!); done
 for p in "${cpids[@]}"; do wait "$p"; done
 EOF
 
+echo "=== T12 reading \$? after a pipeline (the 2026-09-21 negative-test mistake)"
+chk t12-bad  T12 1 <<'EOF'
+#!/bin/bash
+./thing.py arg 2>&1 | sed 's/^/  /'; echo "exit=$?"
+EOF
+chk t12-good T12 0 <<'EOF'
+#!/bin/bash
+set -o pipefail
+./thing.py arg 2>&1 | sed 's/^/  /'; echo "exit=$?"
+EOF
+
 echo "=== T3  trap handler that never exits: bash clears traps and RESUMES"
 chk t3-bad       T3 1 <<'EOF'
 #!/bin/bash

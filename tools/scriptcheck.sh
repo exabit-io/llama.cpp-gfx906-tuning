@@ -117,6 +117,17 @@ for f in "$@"; do
     add "FATAL" "$ln" "T11" "bare 'wait' waits for EVERY background child, including servers/samplers started with & in this shell — it deadlocks. Collect the pids you mean and wait on each."
   done <<< "$(nocomment "$f" | grep -nE '(^|[[:space:]]|;|&&|\|\|)wait[[:space:]]*($|;|&|#)' || true)"
 
+  # ---- T12: reading $? after a PIPELINE gets the LAST command's status, not the one being tested.
+  # On 2026-09-21 a negative test of cell-metrics.py piped through sed and reported exit=0 for both
+  # failure cases, which looked like the error paths were broken when they were fine. Same family as
+  # T5b: the check reports something other than what it claims to check. Use PIPESTATUS, or test
+  # without a pipe, or set -o pipefail.
+  while IFS=: read -r ln txt; do
+    [ -z "${ln:-}" ] && continue
+    grep -q 'pipefail' "$f" && continue
+    add "WARN" "$ln" "T12" "\$? after a pipeline is the LAST command's status, not the command under test — use PIPESTATUS, drop the pipe, or set -o pipefail."
+  done <<< "$(nocomment "$f" | grep -nE '\|[^|]*(sed|awk|grep|head|tail|tee)[^|]*;[[:space:]]*(echo|printf)[^;]*\$\?' || true)"
+
   # ---- T3: a trap handler that never exits -> bash clears traps and RESUMES the script
   if grep -qE '^[[:space:]]*(cleanup|on_exit|trap_handler)\(\)' "$f" 2>/dev/null; then
     awk '/^[[:space:]]*(cleanup|on_exit|trap_handler)\(\)/{f=1} f&&/exit[[:space:]]/{ok=1} f&&/^\}/{f=0} END{exit ok?0:1}' "$f" \

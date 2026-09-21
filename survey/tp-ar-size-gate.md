@@ -3,9 +3,9 @@ axis:             multi-user
 zero point:       build-c4series (substrate+20 terms, f04198b3f lineage) measured 2026-09-20, gate OFF arm
 recipe:           4 slots x 64K | q8_0 K and V | 125 W/die | --cache-ram 49152 | -ngl all | env stated per arm, gfx906.env NOT sourced
 metric:           prefill t/s at the 4x64K design point; improves requires q<0.10 and effect >= +2%
-result:           multi 4x64K n=4: gate ON 633.27 +/- 0.47 / OFF 511.36 +/- 1.97 t/s prefill; single 1x32K n=4 median: ON 701.02 / OFF 546.12 t/s
+result:           multi 4x64K n=4 mean: gate ON 633.277 / OFF 511.360 t/s prefill | single 1x32K n=4 median: ON 701.019 / OFF 546.126 (full precision via tools/cell-metrics.py)
 effect:           prefill +23.84% multi-user, +28.36% single-user; decode -0.04% multi / +0.19% single (both n.s.)
-stats:            multi prefill p=0.0286 q=0.0761 PASS | single prefill p=0.0571 q=0.0761 PASS | multi decode p=0.9429 q=0.9429 n.s. | single decode p=0.7429 q=0.8490 n.s. | BH across m=8 tests at q<0.10 | n=4 fresh per arm per axis
+stats:            multi prefill p=0.02857 q=0.05714 | single prefill p=0.05714 q=0.05714 | decode not significant on either axis | BH over the pre-registered family of 4 | n=4 fresh per arm per axis
 evidence:         confirmed-fresh
 structural:       standalone
 verdict:          improves
@@ -38,3 +38,10 @@ confirmed 2026-09-21:   The fresh n=4 confirmation reproduces the screen almost 
                   before, 0.15% apart, so the dies had not changed state.
                   Decode is flat on both axes, which is the point: the gate does not trade anything
                   away. It is the largest single confirmed effect in the survey so far.
+
+full-precision re-derivation 2026-09-21: verdict unchanged, q slightly stronger. The metric is now
+                  derived from the timing columns rather than the tool's 2-decimal rate columns; see
+                  custom-allreduce-ungated.md for why that mattered. One extra repack-off cell (n=5) is
+                  a complete 489-byte table from the run that was killed on 2026-09-20 before its TSV
+                  row was appended -- included on a completeness test, not on its value, and it agrees
+                  with the independent re-measurement to 0.06%.
