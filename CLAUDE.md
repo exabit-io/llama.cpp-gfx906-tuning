@@ -61,4 +61,11 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
 - `review/2026-09-08/` is another contributor's review (optimizer patches, source corrections, modeling findings); `review/2026-09-08/RESPONSE.md` records what was applied, superseded or declined and why. Facts it established: gfx906 attention already uses `v_dot2_f32_f16`; the Q8_0×Q8_1 dot ignores the block sum; the fork differs from upstream across 81 files, so the +33% prefill is attributed to the tile table by inspection only.
 - Do not treat the Instinct tuning guide's EPYC BIOS items as applicable; the host is an Intel Xeon W.
 - Do not move or rename `reports/*.html` — external notes link to them by name.
+- **Every build is configured with `-DGGML_HIP_RCCL=ON` (REQUIREMENTS R3.11, lead 2026-09-21).** Upstream's default is
+  **OFF**, and this campaign inherited it without audit: with RCCL absent, `GGML_USE_NCCL` is undefined, nothing links
+  `librccl`, and the collective silently falls back nccl -> internal (needs `n_devices==2`) -> none -> **meta-backend
+  butterfly**. Every AllReduce measurement before 2026-09-21 was therefore against butterfly, not RCCL. The fleet is a
+  multi-node cluster on Mellanox ConnectX IB, so RCCL is retained alongside the fork's intra-node custom AllReduce and a
+  survey verdict may never bin it away. Check any build with `tools/assert-build-config.sh <build-dir>` before measuring
+  it; `GGML_CUDA_ALLREDUCE=nccl|internal|none` selects the path at runtime for A/B work.
 - Never run a build from `/opt/llama.cpp-*` without `LD_LIBRARY_PATH=<that prefix>/lib`: the binaries have no rpath and the loader path is the stock `/opt/llama.cpp/lib`, so the production binary would load stock kernels. `settings/launch.sh` sets it; `llama-bench` needs `-dev rocm0/rocm1/rocm2/rocm3` (slashes) for one four-die test, commas mean separate tests.

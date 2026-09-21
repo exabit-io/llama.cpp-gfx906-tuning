@@ -64,7 +64,17 @@ measurements that prove it against this specification.
   optimisations are mutually exclusive between the modes — a patch set that wins in one loses in the other:
   - **multi-user / service build** — batched `llama-server` and `llama-batched-bench`. Judged on §3 and the §5 chain.
     Currently the `gfx906` branch (tag `gfx906-20260909`), installed at `/opt/llama.cpp-gfx906`.
-  - **single-user build** — batch-1 / single-stream, MTP. Judged on single-stream decode at the R2.2 context floor.
+  - **single-user build** - batch-1 / single-stream, MTP. ~~Judged on single-stream decode at the R2.2 context floor.~~
+    **CORRECTED 2026-09-21 (lead): a floor is not a design point.** Judging single-user at 32K against a multi-user
+    design point of 4 x 64K is not an apples-to-apples comparison. The single-user design points are:
+    - **1 x 255K - PRIMARY.** Same **total KV** as the 4 x 64K multi-user design point (256K), so the two axes differ
+      only in concurrency, under equal memory and bandwidth pressure. 255K rather than 256K because `n_ctx_train` is
+      262144 and a cell needs room for its generated tokens: depth 260864 + 1280 headroom = 262144 exactly. This also
+      matches R2.2's own stated design point of 256K per slot.
+    - **1 x 64K - CONTROL.** Same **per-sequence depth** as multi-user, which isolates batching from depth.
+    The 32K floor of R2.2 remains a floor: a minimum below which nothing is measured, gated or recommended. It is never
+    a comparison depth. Any single-user verdict recorded against a 1 x 32K cell is **provisional** until it reproduces
+    at 1 x 255K.
     Currently the fork tile table + Q8_0 MMVQ fast path, installed at `/opt/llama.cpp-mxxm-fh`.
 
   Each profile is measured, gated and promoted **independently, on its own axis**. A change is never rejected for regressing the
@@ -108,6 +118,24 @@ measurements that prove it against this specification.
 - **R3.10 Second model (lead, 2026-09-19).** Qwen3.8-Flash-Next (`qwen4exp`) is a supported model on the
   same service, not an optional extra. Promoted from R2.5's TBC.
 
+
+- **R3.11 Multi-node collectives and RCCL (lead, 2026-09-21).** The fleet is a **multi-node GPU cluster interconnected
+  with Mellanox ConnectX InfiniBand**. PCIe bays 5, 6 and 7 are empty today; the cards go in once the llama.cpp patchset
+  work lands, and large-model multi-node testing follows. Therefore:
+  - **Every build ships with `GGML_HIP_RCCL=ON`.** Upstream's default is OFF, and this campaign inherited that default
+    without auditing it against this requirement. With RCCL absent, `GGML_USE_NCCL` is undefined, nothing links
+    `librccl`, and the collective falls back to the meta-backend **butterfly** path. Any AllReduce verdict measured
+    that way is against the wrong baseline for a shipping build and must be re-based against RCCL.
+  - **The RCCL AllReduce is retained, not replaced.** The fork's custom AllReduce is an intra-node PCIe/XGMI
+    optimisation and is kept for the single-node case on its measured merits; RCCL remains the path that multi-node
+    work will use. A survey verdict may never bin RCCL support away.
+  - **Known gap, not a flag.** RCCL ON does **not** give multi-node tensor parallelism. The TP communicator is built
+    from `cudaGetDeviceCount()` inside one process — there is no `ncclGetUniqueId` broadcast and no rank/world
+    bootstrap in ggml — so RCCL will drive the four **local** dies only. The single existing multi-machine path, the
+    RPC backend, is TCP sockets with no RDMA verbs, so it gains nothing from PeerDirect/GPUDirect. Spanning nodes
+    requires cross-process communicator setup added to ggml, plus the `amdgpu` peer-memory module for GPUDirect RDMA.
+    **Out of scope for the current patchset optimisation campaign (lead, 2026-09-21); tracked as a future-state
+    engineering task in `NEXT-STEPS.md` S7.** If no upstream multi-node path exists by then, it is ours to author.
 - **R3.8 Fleet.** Sixteen nodes, 64 dies, hyperconverged (KVM, DB, Ceph beside the service); the configuration must be
   reproducible from the repository on every node (`settings/`, `scripts/gfx906/build.sh`).
 

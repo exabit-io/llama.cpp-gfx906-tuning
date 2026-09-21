@@ -87,6 +87,50 @@ Effort: kernel. Bound: a few percent each; the kernel is now bound by instructio
 - Explicit scheduling: `__builtin_amdgcn_sched_group_barrier` to interleave the row loads and the `V_DOT4` chains inside the 64-VGPR budget, so the compiler does not serialise loads ahead of the arithmetic.
 - The measured losers are documented in `patches/README.md`; do not re-try rows 1, rows 8, whole-block loads, LDS staging or aligned dword loads.
 
+
+### S7. Multi-node tensor parallelism on ROCm — FUTURE STATE, out of scope for the current campaign
+
+**Status (lead, 2026-09-21): not in scope for the llama.cpp patchset optimisation work. On the
+future-state engineering task list.** Recorded here while the findings are fresh so it does not have to
+be re-derived. The fleet is a multi-node cluster on Mellanox ConnectX InfiniBand; the cards go into PCIe
+bays 5/6/7 after the patchset work lands, for large-model multi-node testing.
+
+**What exists today, established by inspection of v0.4.1 on 2026-09-21:**
+- Tensor-parallel splitting (`-sm tensor`) builds its communicator from `cudaGetDeviceCount()` inside a
+  **single process**. There is no `ncclGetUniqueId` broadcast, no `ncclCommInitRank` per rank, no MPI and
+  no rank/world concept anywhere in the CUDA/HIP backend. Remote GPUs cannot join that group.
+- RCCL is supported by the build (`GGML_HIP_RCCL=ON`, required by R3.11) and RCCL itself does IB with
+  GPUDirect RDMA — but llama.cpp never asks it to span nodes. It drives the local dies.
+- The only multi-machine path in-tree is the **RPC backend** (`ggml/src/ggml-rpc`), which is TCP sockets
+  (`send_msg`/`recv_msg` over `AF_INET`). No `ibv_*`, no RDMA verbs, no GPUDirect. Over IPoIB it would
+  function and gain nothing from PeerDirect; tensors are serialised through host memory.
+- The fork's custom AllReduce (`tp-allreduce.cu`) is explicitly an intra-node PCIe/XGMI design
+  (release/acquire ordering chosen because PCIe has no hardware cache coherence). It is not a candidate
+  for cross-node work and is not affected by this item.
+
+**So the work is one of two designs, and the choice should be made deliberately:**
+
+1. **Cross-process RCCL communicator in ggml.** Add a rank/world concept to the CUDA/HIP backend: rank 0
+   creates a unique id, broadcasts it out of band, every rank calls `ncclCommInitRank`. The existing
+   `comm_init_nccl` / `try_allreduce_nccl` dispatch already assumes a communicator vector, so the
+   collective call sites may need less change than the bootstrap does. Hardest parts are process
+   launch/discovery, buffer placement across nodes, and the scheduler's assumption that every backend is
+   locally addressable.
+2. **RDMA transport for the RPC backend.** Keeps llama.cpp's existing multi-machine structure and swaps
+   sockets for verbs. Lower architectural risk, but the RPC backend serialises whole tensors per call, so
+   it needs zero-copy GPU-registered buffers to be worth the cards — i.e. most of the win depends on the
+   same peer-memory plumbing as option 1.
+
+**Hard dependency for either:** GPUDirect RDMA on gfx906 requires the `amdgpu` peer-memory kernel module
+(the `ib_peer_mem` / `peermem` interface). That must be verified on the barfix kernel before either design
+is committed to — it is a kernel-side prerequisite, not an application concern, and this project already
+maintains a custom kernel (see [[macpro-gpu-bar-resize-work]] territory in the fleet notes).
+
+**Recommended sequencing:** scope this while the ConnectX cards are still out of the chassis. The worst
+outcome is discovering the gap with hardware already racked. An upstream check is also owed first —
+whether ggml has since gained any multi-node collective work — because authoring it ourselves is only the
+answer if nobody upstream is already doing it.
+
 ### S7. MMQ tiles for decode batches and other quants
 Effort: patch. Measured (M2): the fork's table lifts the 24/32-slot decode 19% (stock 161.7 / 179.2 → 192.6 / 212.7 at 2K) against +33% on prefill, so a decode-shaped tile (32 columns, not 2048) has ~10% left; `-np 32` at ~230 tok/s is the target. The fork's K-quant patch is 14 lines; the Q4_0 and Q4_1 tiles have not been looked at.
 
