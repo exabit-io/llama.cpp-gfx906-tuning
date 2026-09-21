@@ -42,6 +42,22 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
 - Six-head GQA packing in the attention tile is withdrawn (alex4300 measured it slower; the kernel is instruction-bound, `reports/2026-09-09-fork-survey.md`). The community forks were surveyed on 2026-09-09; do not re-survey iacopPBK, milpster, furnace, arte-fact/TurboQuant, eslowney, Luna — the survey has the verdicts and the reasons.
 - Kernel-fusion lesson (2026-09-08): the small decode kernels are latency-bound, not launch-bound; fusing consecutive ones or running them on more streams returned ~3% and 0. Do not re-plan S3 as "fuse the small kernels".
 - The fork's custom allreduce (`GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1`) is +14% single-stream but −8% at 8–16 slots unless `GGML_TP_AR_MAX_NE=20481` (4 rows; the knob exists only in the fusion tree and later builds) gates it; `settings/gfx906.env` sets all three. Never `GGML_TP_AR_NO_GATE=1` (prefill −36%). See the 2026-09-08 report.
+- **CORRECTED 2026-09-21, measured: the prefill credit belongs to the AR SIZE GATE, not the tile table.**
+  The guide has said since 2026-09-08 that the fork tile table is worth "+33% prefill" — attributed *by
+  inspection only*, as the line below still notes. Five configurations, measured at 125 W on the v0.4.1
+  base with `--cache-ram 49152`, say otherwise: stock 522.9 t/s; substrate with custom AR **ungated**
+  510.2; substrate with custom AR **off** 633.1; bundle with the gate **on** 633.3; bundle with the gate
+  **off** 511.4 (4×64K, n=4 per arm). So the substrate's prefill machinery really is worth ~+21% over
+  stock — and **ungated custom AR was masking all of it at −19%**. Confirmed fresh at n=4 on both axes:
+  gate prefill **+23.84% multi-user (q=0.0761), +28.36% single-user (q=0.0761)**, decode flat on both
+  (q=0.94 / 0.85). Mechanism: prefill works on large tensors, which the gate routes to the standard
+  path; decode works on ≤4-row tensors, which stay on custom AR. **Never run custom AR without
+  `GGML_TP_AR_MAX_NE=20481`** — and note the knob is NOT compiled into every build, so setting it in
+  `gfx906.env` is not evidence that it is in effect: check with `strings <build>/bin/libggml-hip.so*`.
+  Verdict records: `survey/tp-ar-size-gate.md`, `survey/custom-allreduce-ungated.md`.
+- **q8 weight repack is confirmed to improve BOTH axes** (2026-09-21, n=4): decode +5.41% multi-user /
+  +3.08% single-user, prefill +5.24% / +2.79%, all q=0.0761. It is on by default in the substrate, so
+  the operational rule is simply: never pass `--no-repack`. `survey/q8-repack.md`.
 - `review/2026-09-08/` is another contributor's review (optimizer patches, source corrections, modeling findings); `review/2026-09-08/RESPONSE.md` records what was applied, superseded or declined and why. Facts it established: gfx906 attention already uses `v_dot2_f32_f16`; the Q8_0×Q8_1 dot ignores the block sum; the fork differs from upstream across 81 files, so the +33% prefill is attributed to the tile table by inspection only.
 - Do not treat the Instinct tuning guide's EPYC BIOS items as applicable; the host is an Intel Xeon W.
 - Do not move or rename `reports/*.html` — external notes link to them by name.
