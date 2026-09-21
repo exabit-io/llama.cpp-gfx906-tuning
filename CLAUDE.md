@@ -26,6 +26,16 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
 
 ## Things not to do
 - Do not recommend `-sm layer`, `-sm row` (fails to load), `GGML_CUDA_ALLREDUCE=internal`, `GGML_CUDA_DISABLE_GRAPHS=1`, or a 4-bit V cache — all measured losers or non-functional here.
+  **CORRECTED 2026-09-21 on the 4-bit V cache: it is NOT non-functional, and the reason it is a loser is specific.**
+  `q8_0`-K / `q4_0`-V runs and is quality-free (PPL 5.5771 ± 0.062 on 16K/6, inside the reference cluster;
+  `data/raw/2026-09-06/qwen38-27b-q8_0-ctx-ppl-q8q4-layer.md`). What it needs is an FA build that compiles the
+  combination — `GGML_CUDA_FA_QUANTS` must include `q8_0-q4_0`, which the fork's own recipe has and our v0.4.1 builds
+  did not, so "non-functional" was a build-config artifact. It saves **23.5%** of KV bytes (105.6 vs 138.1 KiB/token
+  for this model) but its decode slope is **0.092 vs 0.086** ms per sequence per 1K of depth — i.e. **7% SLOWER**,
+  not faster. Fewer bytes read and yet a higher slope means the FA kernel's dequant cost exceeds the bandwidth it
+  saves on gfx906. Since capacity here is **decode-bandwidth-bound, not memory-bound** (memory allows ~3.1x more
+  than R3.1 does), trading decode for memory is the wrong direction at the current design points. Keep it as a
+  capacity lever for a future memory-bound case (a larger model such as Flash-Next), not as a throughput option.
 - Do not recommend q8_0 KV for speed; it is a capacity trade (slower at depth: 43.4 vs 73.9 tok/s at the 8-slot ceiling).
 - Do not recommend `--kv-unified` for speed on any build: on b10288 the server reads a lone prompt through the pool at half speed (188 vs 366 tok/s); the lone-prompt path is fixed in b10837, but 8 × 32K still loses a third of decode and half of prefill there (M4, 2026-09-08). It is a capacity mode.
 - The XGMI topology is the Apple A2326 bridge ring (two Duo modules; each die: one port to its on-card partner, one across the bridge; ~33 GB/s per direction per link). The A2339 bridge would make two isolated two-link pairs and is deliberately not installed: models above 64 GB (Flash-Next) need all four dies on one fabric. A pair's link matters little anyway: with no direct link a pair loses 3–5% of prefill and nothing at decode (`pair_link_sensitivity`, 2026-09-08).
