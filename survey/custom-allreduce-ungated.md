@@ -3,9 +3,9 @@ axis:             multi-user
 zero point:       build-c4series (bundle: substrate + 20 terms) measured 2026-09-21, GGML_ENABLE_CUSTOM_AR=0 arm — BOTH arms on ONE build so exactly one variable moves
 recipe:           4x64K and 1x32K | q8_0 K and V | 125 W/die | --cache-ram 49152 | -ngl all | AR-on arm carries GGML_TP_AR_MAX_NE=20481; env stated per arm
 metric:           decode tok/s/slot DERIVED as n_tg/T_TG (full precision, tools/cell-metrics.py); improves requires q<0.10 and effect >= +2%
-result:           multi 4x64K n=6 mean: AR off 14.4441 / AR on+gated 15.8976 tok/s/slot | single 1x32K n=6 median: 31.9621 / 40.1907
-effect:           decode +10.06% multi-user, +25.75% single-user; prefill -0.05% / -0.02% (secondary safety check: the gate costs nothing)
-stats:            multi decode p=0.00216 q=0.00866 | single decode p=0.01299 q=0.02597 | BH over the pre-registered family of 4 | n=6 fresh per arm per axis
+result:           on the SHIPPING collective (RCCL), n=4 per arm per cell: 4x64K 14.854 -> 15.883 | 1x254K 17.690 -> 18.578 | 1x64K 31.687 -> 34.614 tok/s/slot
+effect:           decode +6.93% multi-user, +5.02% single-user 254K, +9.24% single-user 64K; prefill +/-0.06% (n.s.)
+stats:            decode p=0.0286-0.0571 q=0.0857 PASS on all three cells | prefill n.s. | BH over m=9 | n=4 fresh per arm per cell
 evidence:         confirmed-fresh
 structural:       required-by:tp-ar-size-gate
 verdict:          improves
@@ -36,3 +36,9 @@ confirmed 2026-09-21:   Custom AllReduce DOES earn its place, but only as a PAIR
                   Deriving the metric from the timing columns (three decimals) removes the ties and
                   every verdict then passes under the ORIGINAL rule. No post-hoc test change was kept.
                   Fix the instrument, not the test.
+
+RE-BASED 2026-09-22 against RCCL:  The earlier +10.06%/+25.75% figures were against the BUTTERFLY
+                  fallback, which R3.11 makes the wrong baseline. Against RCCL, custom AR still wins and
+                  the verdict is unchanged in direction: +6.93% / +5.02% / +9.24% decode, with prefill
+                  untouched. It is a decode optimisation and nothing else. The 1x32K single-user cells
+                  that produced +25.75% are superseded: 32K is a floor, not a design point (R2.7).

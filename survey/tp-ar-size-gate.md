@@ -4,7 +4,7 @@ zero point:       build-c4series (substrate+20 terms, f04198b3f lineage) measure
 recipe:           4 slots x 64K | q8_0 K and V | 125 W/die | --cache-ram 49152 | -ngl all | env stated per arm, gfx906.env NOT sourced
 metric:           prefill t/s at the 4x64K design point; improves requires q<0.10 and effect >= +2%
 result:           multi 4x64K n=4 mean: gate ON 633.277 / OFF 511.360 t/s prefill | single 1x32K n=4 median: ON 701.019 / OFF 546.126 (full precision via tools/cell-metrics.py)
-effect:           prefill +23.84% multi-user, +28.36% single-user; decode -0.04% multi / +0.19% single (both n.s.)
+effect:            prefill: prevents a COLLAPSE, does not create a gain — see notes. decode unaffected.
 stats:            multi prefill p=0.02857 q=0.05714 | single prefill p=0.05714 q=0.05714 | decode not significant on either axis | BH over the pre-registered family of 4 | n=4 fresh per arm per axis
 evidence:         confirmed-fresh
 structural:       standalone
@@ -45,3 +45,16 @@ full-precision re-derivation 2026-09-21: verdict unchanged, q slightly stronger.
                   a complete 489-byte table from the run that was killed on 2026-09-20 before its TSV
                   row was appended -- included on a completeness test, not on its value, and it agrees
                   with the independent re-measurement to 0.06%.
+
+CORRECTED 2026-09-22 after the RCCL re-basing:   My earlier headline, "+23.84% prefill from the size
+                  gate", was a misattribution. The three-way decomposition on one binary shows custom AR
+                  has NO measurable prefill effect when gated (+/-0.06%, n.s. at 4x64K, 1x254K and
+                  1x64K); the prefill LEVEL is set by the fallback collective -- butterfly 633.1 vs RCCL
+                  750.8 t/s at 4x64K. What the gate does is stop custom AR from taking large tensors,
+                  which without it collapses prefill to ~510. So the gate is REQUIRED whenever custom AR
+                  is enabled, and its +23.84% was recovery to the butterfly baseline measured as though
+                  it were a gain. The gate keeps bin `both` on that basis -- a configuration that omits
+                  it regresses prefill badly -- but the credit for prefill belongs to rccl-collective.md.
+                  This is the second time in this campaign that a prefill gain was credited to the wrong
+                  mechanism; the first was the tile table. Both errors came from comparing against a
+                  baseline that was itself misconfigured.

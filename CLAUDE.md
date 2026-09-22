@@ -78,4 +78,16 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   multi-node cluster on Mellanox ConnectX IB, so RCCL is retained alongside the fork's intra-node custom AllReduce and a
   survey verdict may never bin it away. Check any build with `tools/assert-build-config.sh <build-dir>` before measuring
   it; `GGML_CUDA_ALLREDUCE=nccl|internal|none` selects the path at runtime for A/B work.
+  **MEASURED 2026-09-22, three-way on one binary, n=4 per arm per cell:** RCCL instead of butterfly is
+  **+18.59% prefill at 4x64K, +11.34% at 1x254K, +18.21% at 1x64K** (q=0.0857), decode unchanged. Custom AR
+  is **+6.93% / +5.02% / +9.24% decode** (q=0.0857) with prefill untouched (±0.06%, n.s.). The two are
+  **orthogonal and ship together**: custom AR owns decode, the collective owns prefill. This is the largest
+  confirmed effect in the survey and it is a build flag, not a patch.
+  **CORRECTION that follows:** the "+23.84% prefill from the AR size gate" reported on 2026-09-21 was a
+  misattribution. The gate has no prefill effect of its own — it prevents custom AR from taking large
+  tensors, which otherwise collapses prefill to ~510 t/s. Its apparent gain was recovery to the butterfly
+  baseline. The gate stays required whenever custom AR is on; the prefill credit belongs to RCCL.
+  **Also invalidated:** gate 1's "substrate prefill machinery is worth ~+21% over stock" (633 vs 523)
+  compared a butterfly substrate against a butterfly stock. Both were off the shipping collective, so the
+  tile table's value is still unmeasured; the stock zero point is being rebuilt with RCCL to redo it.
 - Never run a build from `/opt/llama.cpp-*` without `LD_LIBRARY_PATH=<that prefix>/lib`: the binaries have no rpath and the loader path is the stock `/opt/llama.cpp/lib`, so the production binary would load stock kernels. `settings/launch.sh` sets it; `llama-bench` needs `-dev rocm0/rocm1/rocm2/rocm3` (slashes) for one four-die test, commas mean separate tests.

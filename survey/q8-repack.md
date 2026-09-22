@@ -31,3 +31,9 @@ full-precision re-derivation 2026-09-21: verdict unchanged, q slightly stronger.
                   a complete 489-byte table from the run that was killed on 2026-09-20 before its TSV
                   row was appended -- included on a completeness test, not on its value, and it agrees
                   with the independent re-measurement to 0.06%.
+
+PROVISIONAL 2026-09-22:  Measured on a build WITHOUT RCCL (butterfly collective) and with its
+                  single-user arm at 1x32K. Both are now wrong per R3.11 and R2.7. The repack effect is
+                  a weight-layout change and is not expected to interact with the collective, but that is
+                  an expectation, not a measurement. Re-measure on build-faq (RCCL + corrected FA_QUANTS)
+                  at 4x64K and 1x254K before this verdict is treated as final.
