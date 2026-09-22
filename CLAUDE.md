@@ -79,7 +79,7 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
 - Do not move or rename `reports/*.html` — external notes link to them by name.
 - **Every build is configured with `-DGGML_HIP_RCCL=ON` (REQUIREMENTS R3.11, lead 2026-09-21).** Upstream's default is
   **OFF**, and this campaign inherited it without audit: with RCCL absent, `GGML_USE_NCCL` is undefined, nothing links
-  `librccl`, and the collective silently falls back nccl -> internal (needs `n_devices==2`) -> none -> **meta-backend
+  `librccl`, and the collective falls back to f16 conversion, with a warning nccl -> internal (needs `n_devices==2`) -> none -> **meta-backend
   butterfly**. Every AllReduce measurement before 2026-09-21 was therefore against butterfly, not RCCL. The fleet is a
   multi-node cluster on Mellanox ConnectX IB, so RCCL is retained alongside the fork's intra-node custom AllReduce and a
   survey verdict may never bin it away. Check any build with `tools/assert-build-config.sh <build-dir>` before measuring

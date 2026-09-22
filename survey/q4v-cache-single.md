@@ -34,7 +34,7 @@ CLOSED 2026-09-22:  Quality gate PASSED. PPL 5.6216 +/- 0.0624 (q4_0-V) against 
                   measurable quality cost. Bin BOTH -- it improves the primary metric on both axes.
                   Operationally this is `-ctv q4_0` with `-ctk q8_0` on a build whose
                   GGML_CUDA_FA_QUANTS includes q8_0-q4_0. Without that kernel the mode still RUNS but
-                  silently takes a slower generic path (measured: q5_1, uncompiled, ran 8% slow at
+                  converts K and V to f16 and WARNS in the log (measured: q5_1, uncompiled, ran 8% slow at
                   identical prefill), which is how it came to be recorded as a loser.
                   OWED: optimize.py Q4V_SLOPE=0.092 has the wrong sign and still feeds the MILP; the
                   README KV-cache row says "18% slower and free in quality".

@@ -9,7 +9,7 @@ misconfigured, and none has a lint-checked record.
 
 | prose verdict | what is actually true |
 |---|---|
-| "a 4-bit V cache — measured loser or non-functional" | **+4.44% / +8.30% decode, quality-neutral.** The `q8_0-q4_0` FA kernel was simply not compiled; an uncompiled combination runs anyway on a slower generic path. `survey/q4v-cache.md` |
+| "a 4-bit V cache — measured loser or non-functional" | **+4.44% / +8.30% decode, quality-neutral.** The `q8_0-q4_0` FA kernel was simply not compiled; an uncompiled combination converts K and V to f16, with a warning in the log. `survey/q4v-cache.md` |
 | "`GGML_CUDA_ALLREDUCE=internal` — a measured loser" | The internal AllReduce **requires `n_devices == 2`** (`allreduce.cu:398`). On four dies it cannot initialise, so it never ran. That is an unsupported configuration recorded as a performance result. |
 
 ## The remaining prose verdicts, all on the old baseline
