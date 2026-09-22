@@ -56,5 +56,10 @@ RETRACTION 2026-09-22 (same day, before the ink dried):  My explanation for the 
                   NOT established at 8 slots, which is R2.2's other design point (8 x 192K). The old data
                   says q4_0-V loses 3% there. Until 8 slots is measured on the current build, this bin
                   should be read as "improves at 4 slots and single-stream", not unconditionally.
-                  The silent-fallback mechanism is separately real and verified (q5_1, uncompiled, ran 8%
-                  slow at identical prefill) -- it just was not what happened in 2026-09-07.
+                  The fallback mechanism is real, but my EVIDENCE for it was bad: q5_1 (6.0 bits,
+                  uncompiled) against q4_0 (4.5 bits, compiled) varies cache width AND compilation at
+                  once, so the 8% gap is not attributable to the fallback. What establishes the
+                  mechanism is the log line itself: "no FlashAttention vector kernel compiled for K/V
+                  types q8_0-q5_1, converting K and V to f16 instead (slow)". It is not silent, and it
+                  was not what happened in 2026-09-07. Detection is mechanical now:
+                  tools/assert-no-fa-fallback.sh scans run logs for that line.
