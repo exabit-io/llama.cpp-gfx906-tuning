@@ -1,11 +1,11 @@
 patch:            q4v-cache | build option GGML_CUDA_FA_QUANTS must include q8_0-q4_0 | runtime -ctv q4_0 | 4-bit value cache with 8-bit keys
-axis:             multi-user
+axis:             single-user
 zero point:       build-faq with -ctv q8_0 measured 2026-09-22 (same binary, one flag differs)
-recipe:           4x64K and 1x254K | -ctk q8_0, -ctv q8_0 vs q4_0 | 125 W/die | --cache-ram 49152 | -ngl all | RCCL + gated custom AR
-metric:           decode tok/s/slot derived at full precision; improves requires q<0.10 and effect >= +2%; quality gate: PPL within sampling error of the q8_0-V arm
-result:           4x64K 15.883 -> 16.587 | 1x254K median 18.588 -> 20.132 tok/s/slot (n=4 per arm per cell)
-effect:           decode +4.44% multi-user, +8.30% single-user; prefill +/-0.09% (n.s.); KV 23.5% smaller (34.0 -> 26.0 KiB/token)
-stats:            decode p=0.0286 q=0.0762 (4x64K), p=0.0571 q=0.0762 (1x254K) | prefill n.s. | BH over m=8 | n=4 fresh per arm per cell
+recipe:           1 x 254K PRIMARY (same total KV as the 4x64K multi-user point), 1 x 64K control | -ctk q8_0 | 125 W/die | --cache-ram 49152 | -ngl all | RCCL + gated custom AR
+metric:           single-stream decode tok/s (prefill secondary), MEDIAN of n>=4 — the four-die single-stream stall fires about 1 run in 16 and shifts a mean by ~1.5%, most of the 2% floor; improves requires q<0.10 and effect >= +2%
+result:           decode median 18.588 -> 20.132 tok/s (n=4)
+effect:           decode +8.30%; prefill -0.09% (n.s.)
+stats:            decode p=0.0571 q=0.0762 PASS | BH over m=8 | n=4 fresh per arm
 evidence:         confirmed-fresh
 structural:       standalone
 verdict:          improves
@@ -38,3 +38,8 @@ CLOSED 2026-09-22:  Quality gate PASSED. PPL 5.6216 +/- 0.0624 (q4_0-V) against 
                   identical prefill), which is how it came to be recorded as a loser.
                   OWED: optimize.py Q4V_SLOPE=0.092 has the wrong sign and still feeds the MILP; the
                   README KV-cache row says "18% slower and free in quality".
+
+AXIS NOTE:        companion record to q4v-cache.md. R2.7 (corrected 2026-09-21) requires the single-user
+                  axis to be measured at its OWN design point: 1 x 254K primary, 1 x 64K control.
+                  Any single-user figure in this campaign dated before that correction was taken at
+                  1 x 32K and is superseded -- a floor is not a design point.

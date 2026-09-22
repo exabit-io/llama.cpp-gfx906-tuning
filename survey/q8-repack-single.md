@@ -1,11 +1,11 @@
 patch:            q8-repack | mx-llama.cpp q8_repack/ (26 entangled commits + 2 separable) | Q8_0 weight repacking with --no-repack / -nr to disable | repacked narrow-batch mat-vec paths
-axis:             multi-user
+axis:             single-user
 zero point:       build-substrate-v041 (ba82ea19a) measured 2026-09-20, --no-repack arm
-recipe:           4 slots x 64K | q8_0 K and V | 125 W/die | --cache-ram 49152 | -ngl all | GGML_ENABLE_CUSTOM_AR=1, gate absent from this build
-metric:           decode tok/s/slot at the 4x64K design point; improves requires q<0.10 and effect >= +2%
-result:           re-measured on RCCL at the R2.7 depths, n=4: 4x64K prefill 660.3 -> 750.1 t/s, decode 15.517 -> 15.824 | 1x254K decode 16.395 -> 18.590, prefill 368.3 -> 394.6
-effect:           4x64K prefill +13.59%, decode +1.97% (below the 2% floor) | 1x254K decode +13.39%, prefill +7.13%
-stats:            4x64K prefill p=0.0286 q=0.0762 | 1x254K decode p=0.0571 q=0.0762 | 1x254K prefill q=0.0762 | BH over m=8 | n=4 fresh per arm per cell
+recipe:           1 x 254K PRIMARY | -ctk q8_0 | 125 W/die | --cache-ram 49152 | -ngl all | RCCL + gated custom AR
+metric:           single-stream decode tok/s (prefill secondary), MEDIAN of n>=4 — the four-die single-stream stall fires about 1 run in 16 and shifts a mean by ~1.5%, most of the 2% floor; improves requires q<0.10 and effect >= +2%
+result:           decode median 16.395 -> 18.590 tok/s, prefill 368.3 -> 394.6 t/s (n=4)
+effect:           decode +13.39%, prefill +7.13%
+stats:            decode p=0.0571 q=0.0762, prefill q=0.0762 | BH over m=8 | n=4 fresh per arm
 evidence:         confirmed-fresh
 structural:       standalone
 verdict:          improves
@@ -47,3 +47,8 @@ CLOSED 2026-09-22:  Re-measured on the shipping collective (RCCL) at the correct
                   Bin BOTH. Already default-on inside the substrate, so the operational rule is simply:
                   never pass --no-repack. The 4x64K decode figure (+1.97%) sits just under the 2%
                   materiality floor and is reported as such rather than rounded up.
+
+AXIS NOTE:        companion record to q8-repack.md. R2.7 (corrected 2026-09-21) requires the single-user
+                  axis to be measured at its OWN design point: 1 x 254K primary, 1 x 64K control.
+                  Any single-user figure in this campaign dated before that correction was taken at
+                  1 x 32K and is superseded -- a floor is not a design point.
