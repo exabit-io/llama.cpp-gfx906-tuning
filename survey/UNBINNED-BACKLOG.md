@@ -20,8 +20,15 @@ whole-block loads, LDS staging, aligned dword loads) · alex4300's tile rows · 
 kernels · six-head GQA packing · `-b 1024/512` · `-np 32` for interactive traffic · `--kv-unified` ·
 "q8_0 KV is not for speed" · kernel fusion (S3).
 
-Every one was measured on: **b10288/b10912 base, ROCm 7.14, `GGML_HIP_RCCL` OFF (so the butterfly
-collective), default `FA_QUANTS`**, and — before 2026-09-21 — **single-user cells at 1×32K**. This
+**CORRECTED 2026-09-22:** I first wrote that these were all measured with `GGML_HIP_RCCL` OFF. That is
+wrong. The `/opt` production builds (`llama.cpp-gfx906`, `llama.cpp-prod`, `llama.cpp-mxxm-fh`) all link
+`librccl` with the same call sites as the current builds — they were built from the fork's own
+`build.sh` recipe, which sets `GGML_HIP_RCCL=ON`. **The butterfly regression was introduced by me in the
+v0.4.1 campaign**, by configuring with plain cmake defaults instead of that recipe. So the old verdicts
+were measured on RCCL, and are less suspect on that axis than I claimed.
+What they were measured on: **b10288/b10912 base, ROCm 7.14**, and — before 2026-09-21 — **single-user
+cells at 1×32K**. `/opt/llama.cpp-prod` also lacks the `q8_0-q4_0` FA instance while
+`/opt/llama.cpp-gfx906` has it, so FA coverage varied build to build. This
 campaign measured baseline misconfiguration alone moving results by up to **18.7%**, which is larger
 than most of the effects those verdicts turned on.
 

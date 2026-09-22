@@ -38,3 +38,23 @@ CLOSED 2026-09-22:  Quality gate PASSED. PPL 5.6216 +/- 0.0624 (q4_0-V) against 
                   identical prefill), which is how it came to be recorded as a loser.
                   OWED: optimize.py Q4V_SLOPE=0.092 has the wrong sign and still feeds the MILP; the
                   README KV-cache row says "18% slower and free in quality".
+
+RETRACTION 2026-09-22 (same day, before the ink dried):  My explanation for the historical figure was
+                  WRONG and I propagated it into CLAUDE.md, README.md, optimize.py and a memory before
+                  checking it.
+                  What I claimed: the old "q4_0-V is slower" number timed an UNCOMPILED fallback path.
+                  What is true: it was measured on /opt/llama.cpp-faq, an explicit
+                  GGML_CUDA_FA_ALL_QUANTS=ON build (data/raw/2026-09-07/qwen38-27b-q8_0-faq.md). The
+                  kernel was present. And the numbers were q8_0/q8_0 111.2 vs q8_0/q4_0 107.4 aggregate
+                  decode at 8 sequences x 32K with ntg=128 -- a 3% cost against q8_0, not 18%. The 18%
+                  was against f16.
+                  So the discrepancy with today's result is NOT a build artefact. It is a difference of
+                  SHAPE and PLATFORM: 8 slots / 32K / ntg=128 on a b10288-era base and ROCm 7.14, versus
+                  4 slots / 64K and 1 slot / 254K with ntg=1024 on v0.4.1 + RCCL + ROCm 10.0. Which of
+                  those dimensions flips the sign is UNKNOWN.
+                  CONSEQUENCE FOR THIS VERDICT: it stands where measured -- 4 slots and 1 slot -- and is
+                  NOT established at 8 slots, which is R2.2's other design point (8 x 192K). The old data
+                  says q4_0-V loses 3% there. Until 8 slots is measured on the current build, this bin
+                  should be read as "improves at 4 slots and single-stream", not unconditionally.
+                  The silent-fallback mechanism is separately real and verified (q5_1, uncompiled, ran 8%
+                  slow at identical prefill) -- it just was not what happened in 2026-09-07.

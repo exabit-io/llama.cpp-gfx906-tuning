@@ -30,7 +30,7 @@ PENDING = "unbinned-pending"
 
 d = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.abspath(__file__))
 files = [f for f in sorted(glob.glob(os.path.join(d, "*.md")))
-         if os.path.basename(f) not in ("TEMPLATE.md", "README.md")]
+         if os.path.basename(f) not in ("TEMPLATE.md", "README.md", "UNBINNED-BACKLOG.md")]
 if not files:
     print(f"no verdict files in {d} (TEMPLATE.md excluded)"); sys.exit(0)
 
