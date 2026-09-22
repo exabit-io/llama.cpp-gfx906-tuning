@@ -69,7 +69,17 @@ F16_SLOPE = 0.045     # ms per sequence per 1K of depth (tp4, f16)   report 2 s.
 Q8_SLOPE = 0.086      # ms per sequence per 1K of depth (tp4, q8_0)
 Q8_BASE_OFFSET = 2.2  # ms: q8_0 step at 2K is ~2 ms above f16 at n=4 and 8 (calibrated)
 SINGLE_SLOPE = 0.237  # ms per sequence per 1K on ONE die (20.25 -> 17.69 t/s over 2K..32K)
-Q4V_SLOPE = 0.092     # q8_0 K / q4_0 V: (8/107.4 - 8/152.8) s / (8 x 30 K)  run-through s.8
+# CORRECTED 2026-09-22. The old value, 0.092, was measured on a build whose GGML_CUDA_FA_QUANTS did
+# not include q8_0-q4_0. An uncompiled FA combination does not fail -- it silently runs on a slower
+# generic path (verified: q5_1, uncompiled, ran 8% slow at identical prefill). So the old number timed
+# the FALLBACK, not the kernel, and had the SIGN WRONG: q8_0-K/q4_0-V is FASTER than q8_0/q8_0, not
+# slower. Measured on v0.4.1 + RCCL + the corrected FA_QUANTS, n=4 per arm:
+#   4x64K   decode 15.883 -> 16.587  = +4.44%   (q=0.0762)
+#   1x254K  decode 18.588 -> 20.132  = +8.30%   (q=0.0762)
+# Scaling Q8_SLOPE by the measured 254K gain gives the value below. It is a SCALED ESTIMATE, not a
+# directly fitted slope: a proper refit needs the campaign cells wired into data/benchmarks.json,
+# which is still owed. Flagged so nobody reads it as a measured fit.
+Q4V_SLOPE = 0.0794    # = Q8_SLOPE / 1.083, from the +8.30% decode gain at 1x254K (scaled estimate)
 Q4V_BASE_OFFSET = 2.3
 
 
