@@ -21,11 +21,13 @@ fi
 # compiled attention kernels as well as in whatever is under test. An uncompiled combination does NOT
 # fail loudly -- it silently takes a slower generic path (measured 2026-09-22: q5_1 ran 8% slow) -- so
 # a mismatch here is invisible at runtime and corrupts the comparison quietly.
-WANT='f16-f16;q8_0-q8_0;q8_0-q4_0'
+WANT='all'   # R3.11 (lead, 2026-09-22): compile every K/V combination. A missing kernel does not
+             # fail, it converts K and V to f16 and warns -- so an explicit subset is the fragile
+             # choice, not the careful one. Cost measured at 16 MiB of .so and a few ccache-warm minutes.
 if [ -f "$bd/CMakeCache.txt" ]; then
   fq=$(grep -E '^GGML_CUDA_FA_QUANTS:STRING=' "$bd/CMakeCache.txt" | cut -d= -f2-)
-  [ "$fq" = "$WANT" ] && say OK "FA_QUANTS matches the campaign value" \
-    || { say FAIL "FA_QUANTS='$fq' but campaign value is '$WANT'"; fail=1; }
+  if [ "$fq" = "$WANT" ]; then say OK "FA_QUANTS=all — every K/V combination compiled (R3.11)"
+  else say FAIL "FA_QUANTS='$fq' but R3.11 requires 'all' — an uncompiled combo silently converts to f16"; fail=1; fi
 fi
 a=$(strings "$bd"/bin/libggml-hip.so* 2>/dev/null | grep -cx 'GGML_TP_AR_MAX_NE')
 [ "${a:-0}" -gt 0 ] && say OK "AR size gate knob compiled in" || say WARN "GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing"

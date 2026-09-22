@@ -50,7 +50,7 @@ log "$tag: configuring and building (ccache)"
     -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx906 -DCMAKE_HIP_ARCHITECTURES=gfx906 \
     -DGGML_HIP_RCCL=ON `# R3.11: required; upstream default is OFF` \
     -DGGML_HIP_GRAPHS=ON -DGGML_NATIVE=ON \
-    "-DGGML_CUDA_FA_QUANTS=f16-f16;q8_0-q8_0;q8_0-q4_0" `# MUST match the comparison arm build-faq:
+    "-DGGML_CUDA_FA_QUANTS=all" `# MUST match the comparison arm build-faq:
        # otherwise a delta-minus unit differs from the bundle in TWO ways -- the removed commit AND the
        # compiled FA kernel set -- which breaks the one-variable discipline the whole algebra rests on` \
     -DLLAMA_BUILD_TESTS=OFF -DLLAMA_CURL=OFF \

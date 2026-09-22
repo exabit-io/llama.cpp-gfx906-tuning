@@ -63,3 +63,13 @@ RETRACTION 2026-09-22 (same day, before the ink dried):  My explanation for the 
                   types q8_0-q5_1, converting K and V to f16 instead (slow)". It is not silent, and it
                   was not what happened in 2026-09-07. Detection is mechanical now:
                   tools/assert-no-fa-fallback.sh scans run logs for that line.
+
+SCOPED 2026-09-22 (lead):  This verdict is for **Qwen3.8-27B-Q8_0 only**, and the record did not say so.
+                  The KV cache is 31.5% of the bytes moved per decode step on this model at 4x64K (16 of
+                  65 blocks hold attention, 4 KV heads, head_dim 256). On Qwen3.8-Flash-Next -- a
+                  supported model under R3.10 -- the same arithmetic gives 12.8 KiB/token against 103.7
+                  GiB of weights, so KV is **3.1%** of per-step bytes. The same 23.5% KV saving buys
+                  almost nothing there and the dequant cost could make it a net loss.
+                  A "bin: both" reads as universal. It is not: it is one model at three shapes. Flash-Next
+                  needs its own sweep before any KV type is chosen for it, and the choice belongs per
+                  model at launch (optimize.py), not as a global default in launch.sh.

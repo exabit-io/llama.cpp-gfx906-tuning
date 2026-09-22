@@ -96,4 +96,11 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   **Also invalidated:** gate 1's "substrate prefill machinery is worth ~+21% over stock" (633 vs 523)
   compared a butterfly substrate against a butterfly stock. Both were off the shipping collective, so the
   tile table's value is still unmeasured; the stock zero point is being rebuilt with RCCL to redo it.
+- **Every build is configured with `-DGGML_CUDA_FA_QUANTS=all` (REQUIREMENTS R3.11, lead 2026-09-22).** Upstream
+  compiles four K/V pairs; `all` compiles all 49. A combination that is not compiled **does not fail** -- it
+  converts K and V to f16 and logs `ggml_cuda_flash_attn_ext_vec: no FlashAttention vector kernel compiled for
+  K/V types <k>-<v>, converting K and V to f16 instead (slow)`. A reading taken that way is an f16 result
+  wearing a quantised label. Check builds with `tools/assert-build-config.sh` and run logs with
+  `tools/assert-no-fa-fallback.sh`. The KV type is a **per-model** choice, not a global default: KV is 31.5% of
+  per-step bytes on Qwen3.8-27B and 3.1% on Flash-Next, so the right V quantisation differs by model.
 - Never run a build from `/opt/llama.cpp-*` without `LD_LIBRARY_PATH=<that prefix>/lib`: the binaries have no rpath and the loader path is the stock `/opt/llama.cpp/lib`, so the production binary would load stock kernels. `settings/launch.sh` sets it; `llama-bench` needs `-dev rocm0/rocm1/rocm2/rocm3` (slashes) for one four-die test, commas mean separate tests.

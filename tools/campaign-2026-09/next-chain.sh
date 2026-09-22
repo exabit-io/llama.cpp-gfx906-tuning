@@ -15,7 +15,7 @@ CM=/root/llama.cpp-benchmarking/tools/cell-metrics.py
 M=/root/models/Qwen3.8-27B-Q8_0.gguf; R=/root/rocm-tests/bench
 log(){ echo "$(date -Is) [next] $*" | tee -a $W/next.progress; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
-FA='f16-f16;q8_0-q8_0;q8_0-q4_0'
+FA='all'   # R3.11: every K/V combination
 # ---- phase 1: rebuild the substrate arm with the campaign config
 log "rebuilding substrate with the campaign FA_QUANTS"
 git -C $WT checkout -qf gfx906-substrate-v041 && git -C $WT clean -qfd
@@ -23,7 +23,7 @@ bd=/root/build-substrate-campaign; rm -rf $bd && mkdir -p $bd
 {
   cmake -S $WT -B $bd -DCMAKE_BUILD_TYPE=Release -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx906 \
     -DCMAKE_HIP_ARCHITECTURES=gfx906 -DGGML_HIP_RCCL=ON -DGGML_HIP_GRAPHS=ON -DGGML_NATIVE=ON \
-    "-DGGML_CUDA_FA_QUANTS=$FA" -DLLAMA_BUILD_TESTS=OFF -DLLAMA_CURL=OFF \
+    "-DGGML_CUDA_FA_QUANTS=all" -DLLAMA_BUILD_TESTS=OFF -DLLAMA_CURL=OFF \
     -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_HIP_COMPILER_LAUNCHER=ccache
   cmake --build $bd -j 24
 } > $W/build-substrate-campaign.log 2>&1

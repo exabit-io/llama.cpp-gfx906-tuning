@@ -126,6 +126,22 @@ measurements that prove it against this specification.
     without auditing it against this requirement. With RCCL absent, `GGML_USE_NCCL` is undefined, nothing links
     `librccl`, and the collective falls back to the meta-backend **butterfly** path. Any AllReduce verdict measured
     that way is against the wrong baseline for a shipping build and must be re-based against RCCL.
+  - **Every build ships with `GGML_CUDA_FA_QUANTS=all` (lead, 2026-09-22).** Upstream's default compiles four
+    K/V combinations; `all` compiles the full 7x7 cross-product of `q4_0 q4_1 q5_0 q5_1 q8_0 bf16 f16`.
+    (`GGML_CUDA_FA_ALL_QUANTS` is deprecated in favour of it.) This is mandatory for the same reason RCCL is:
+    **a missing FlashAttention kernel does not fail.** llama.cpp converts K and V to f16 and warns, so a
+    reading can look like a quantised-cache result when it is an f16-conversion result. That has already
+    produced a wrong verdict in this project -- `/opt/llama.cpp`, `/opt/llama.cpp-prod` and
+    `/opt/llama.cpp-mxxm-fh` all lack the `q8_0-q4_0` kernel, and only 1 of 3 historical quantised-V raw
+    files even records which build produced it. Measured cost of `all`: 84 fattn objects instead of 38 and
+    a 75 MiB `libggml-hip.so` instead of 59 -- 16 MiB and a few minutes of ccache-warm compilation.
+    **The KV choice is per MODEL, not global.** KV bytes per token depend on how many blocks hold attention,
+    the KV head count and head_dim: for Qwen3.8-27B the KV cache is **31.5%** of the bytes moved per step at
+    4x64K, for Qwen3.8-Flash-Next only **3.1%**. So the same V quantisation that buys decode speed on one
+    model can be pointless or a net loss on the other. Compiling everything means the KV type is chosen per
+    model at launch (via `optimize.py`) without a rebuild, and every model needs its own sweep.
+    Note `iq4_nl` is **not** in the FA type list, so an `iq4_nl` cache has no kernel at any setting and
+    always converts.
   - **The RCCL AllReduce is retained, not replaced.** The fork's custom AllReduce is an intra-node PCIe/XGMI
     optimisation and is kept for the single-node case on its measured merits; RCCL remains the path that multi-node
     work will use. A survey verdict may never bin RCCL support away.
