@@ -1,0 +1,10 @@
+2026-09-19T21:17:01+00:00 [step7-svc125w] === start: runlist /root/night-20260919/svc125w.runlist, build llama.cpp-gfx906-rocm10, 125 W/die
+2026-09-19T21:17:01+00:00 [step7-svc125w] --- svc125-4x64K: 4 slots x 64K, 6 clients, server_extra='--cache-ram 49152'
+2026-09-19T21:17:12+00:00 [step7-svc125w] svc125-4x64K: ready — n_slots = 4, n_ctx_slot = 65536
+2026-09-19T21:17:12+00:00 [step7-svc125w] svc125-4x64K: nextn IGNORED (MTP off)
+2026-09-19T21:40:35+00:00 [step7-svc125w] svc125-4x64K: OK rc=0, 18 request records — | step7-svc125w-svc125-4x64K | 6 | 3 | 12 | 1403 | 40K/104s | 44373 | 6307 | 0.14:1 | 31.6 | 0.51 | 1.63 / 1.92 | 18.3 / 17.1 / 17.0 | 1/12 | 58796 |
+2026-09-19T21:40:54+00:00 [step7-svc125w] --- svc125-6x64K: 6 slots x 64K, 9 clients, server_extra='--cache-ram 49152'
+2026-09-19T21:41:06+00:00 [step7-svc125w] svc125-6x64K: ready — n_slots = 6, n_ctx_slot = 65536
+2026-09-19T21:41:06+00:00 [step7-svc125w] svc125-6x64K: nextn IGNORED (MTP off)
+2026-09-19T22:20:20+00:00 [step7-svc125w] svc125-6x64K: OK rc=0, 27 request records — | step7-svc125w-svc125-6x64K | 9 | 3 | 18 | 2354 | 40K/104s | 68197 | 10017 | 0.15:1 | 29.0 | 0.46 | 1.74 / 2.96 | 11.9 / 9.9 / 8.8 | 1/18 | 58796 |
+2026-09-19T22:20:41+00:00 [step7-svc125w] === ALLDONE

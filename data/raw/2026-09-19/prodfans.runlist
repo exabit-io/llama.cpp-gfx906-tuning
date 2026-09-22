@@ -1,0 +1,6 @@
+# Production-fan validation (lead, 2026-09-19): fans under t2fanrd PWM instead of pinned at max.
+# Same config, same cap, same shape as svc125-4x64K -> one variable. Answers two things the corpus
+# has never tested: does the design point hold its decode rate at production die temperatures, and
+# how much of the DC total was max-fan power that production will not spend.
+# tag | slots | depth | clients | server_extra | client_extra
+pf125-4x64K | 4 | 65536 | 6 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.05

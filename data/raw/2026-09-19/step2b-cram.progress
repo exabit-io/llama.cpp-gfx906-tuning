@@ -1,0 +1,14 @@
+2026-09-19T17:57:52+00:00 [step2b-cram] === start: runlist /root/night-20260919/step2b.runlist, build llama.cpp-gfx906-rocm10, 200 W/die
+2026-09-19T17:57:52+00:00 [step2b-cram] --- cram-8x48K: 8 slots x 48K, 12 clients, server_extra='--cache-ram 49152'
+2026-09-19T17:58:05+00:00 [step2b-cram] cram-8x48K: ready — n_slots = 8, n_ctx_slot = 49152
+2026-09-19T17:58:05+00:00 [step2b-cram] cram-8x48K: nextn IGNORED (MTP off)
+2026-09-19T18:36:39+00:00 [step2b-cram] cram-8x48K: OK rc=0, 36 request records — | step2b-cram-cram-8x48K | 12 | 3 | 24 | 2315 | 24K/50s | 97850 | 14168 | 0.14:1 | 42.3 | 0.62 | 1.36 / 2.84 | 12.1 / 7.1 / 6.5 | 0/24 | 43862 |
+2026-09-19T18:36:59+00:00 [step2b-cram] --- cram-4x128K: 4 slots x 128K, 6 clients, server_extra='--cache-ram 49152'
+2026-09-19T18:37:13+00:00 [step2b-cram] cram-4x128K: ready — n_slots = 4, n_ctx_slot = 131072
+2026-09-19T18:37:13+00:00 [step2b-cram] cram-4x128K: nextn IGNORED (MTP off)
+2026-09-19T19:14:17+00:00 [step2b-cram] cram-4x128K: OK rc=0, 18 request records — | step2b-cram-cram-4x128K | 6 | 3 | 12 | 2224 | 100K/268s | 46118 | 8859 | 0.19:1 | 20.7 | 0.32 | 2.53 / 5.54 | 12.3 / 11.6 / 11.6 | 1/12 | 123045 |
+2026-09-19T19:14:36+00:00 [step2b-cram] --- cram-6x64K: 6 slots x 64K, 9 clients, server_extra='--cache-ram 49152'
+2026-09-19T19:14:47+00:00 [step2b-cram] cram-6x64K: ready — n_slots = 6, n_ctx_slot = 65536
+2026-09-19T19:14:47+00:00 [step2b-cram] cram-6x64K: nextn IGNORED (MTP off)
+2026-09-19T19:50:12+00:00 [step2b-cram] cram-6x64K: OK rc=0, 27 request records — | step2b-cram-cram-6x64K | 9 | 3 | 18 | 2125 | 40K/91s | 68197 | 6456 | 0.09:1 | 32.1 | 0.51 | 1.48 / 1.75 | 13.2 / 10.1 / 9.0 | 0/18 | 58796 |
+2026-09-19T19:50:33+00:00 [step2b-cram] === ALLDONE

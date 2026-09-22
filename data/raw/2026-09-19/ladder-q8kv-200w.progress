@@ -1,0 +1,19 @@
+2026-09-19T12:00:03+00:00 [ladder-q8kv-200w] === start: 200 W/die, build llama.cpp-gfx906-rocm10 , ggml 08d7f8bded409dc4
+2026-09-19T12:00:03+00:00 [ladder-q8kv-200w] cells: 4:65536 8:196608 4:262144 8:65536 4:131072 8:98304 8:131072 4:196608
+2026-09-19T12:00:03+00:00 [ladder-q8kv-200w] --- cell 4 x 64K : ctx 263168, npp 65536, npl 4
+2026-09-19T12:05:12+00:00 [ladder-q8kv-200w] cell 4 x 64K: pp 954.95, tg 71.01 agg, 17.75 per slot -> PASS, , peak VRAM 12.8 12.8 12.8 12.8 GiB, 309s
+2026-09-19T12:05:12+00:00 [ladder-q8kv-200w] --- cell 8 x 192K : ctx 1574912, npp 196608, npl 8
+2026-09-19T12:50:02+00:00 [ladder-q8kv-200w] cell 8 x 192K: pp 593.43, tg 41.20 agg, 5.15 per slot -> FAIL, , peak VRAM 29.9 29.9 29.9 29.9 GiB, 2690s
+2026-09-19T12:50:02+00:00 [ladder-q8kv-200w] --- cell 4 x 256K : ctx 1049600, npp 262144, npl 4
+2026-09-19T13:25:33+00:00 [ladder-q8kv-200w] cell 4 x 256K: pp 499.20, tg 30.25 agg, 7.56 per slot -> FAIL, , peak VRAM 24.5 24.5 24.5 24.5 GiB, 2131s
+2026-09-19T13:25:33+00:00 [ladder-q8kv-200w] --- cell 8 x 64K : ctx 526336, npp 65536, npl 8
+2026-09-19T13:35:05+00:00 [ladder-q8kv-200w] cell 8 x 64K: pp 955.31, tg 84.69 agg, 10.59 per slot -> FAIL, , peak VRAM 15.4 15.5 15.4 15.4 GiB, 572s
+2026-09-19T13:35:05+00:00 [ladder-q8kv-200w] --- cell 4 x 128K : ctx 525312, npp 131072, npl 4
+2026-09-19T13:47:28+00:00 [ladder-q8kv-200w] cell 4 x 128K: pp 727.51, tg 49.59 agg, 12.40 per slot -> PASS, , peak VRAM 16.3 16.3 16.2 16.2 GiB, 743s
+2026-09-19T13:47:28+00:00 [ladder-q8kv-200w] --- cell 8 x 96K : ctx 788480, npp 98304, npl 8
+2026-09-19T14:03:46+00:00 [ladder-q8kv-200w] cell 8 x 96K: pp 826.40, tg 67.17 agg, 8.40 per slot -> FAIL, , peak VRAM 19.0 19.1 19.0 19.0 GiB, 978s
+2026-09-19T14:03:46+00:00 [ladder-q8kv-200w] --- cell 8 x 128K : ctx 1050624, npp 131072, npl 8
+2026-09-19T14:28:17+00:00 [ladder-q8kv-200w] cell 8 x 128K: pp 727.99, tg 55.39 agg, 6.92 per slot -> FAIL, , peak VRAM 22.7 22.7 22.7 22.7 GiB, 1471s
+2026-09-19T14:28:17+00:00 [ladder-q8kv-200w] --- cell 4 x 192K : ctx 787456, npp 196608, npl 4
+2026-09-19T14:50:48+00:00 [ladder-q8kv-200w] cell 4 x 192K: pp 593.26, tg 37.70 agg, 9.43 per slot -> FAIL, , peak VRAM 20.4 20.4 20.4 20.4 GiB, 1351s
+2026-09-19T14:50:49+00:00 [ladder-q8kv-200w] === ALLDONE

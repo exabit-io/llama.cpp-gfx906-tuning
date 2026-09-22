@@ -1,0 +1,16 @@
+# R3.9: MTP measured on/off, NOT assumed. The gfx906 branch FAILED the MTP gate on 2026-09-09 on
+# verify-step cost; that predates ROCm 10.0 and has never been retested.
+#
+# At 4x64K (the 125 W design point) with a sized cache (the compromise design point). Order ROTATED off/on/on/off per §5,
+# because this is a true A/B and thermal or ordering drift must cancel. turns 2 (not 3) to fit four
+# runs; the comparison is per-request decode rate, which two turns measure adequately.
+#
+# --spec-type draft-mtp uses the model's own blk.64.nextn.* head (qwen35 arch, nextn_predict_layers
+# = 1, both verified). serve.sh FAILS a run loudly if nextn is still reported unused while
+# --spec-type was requested, so an MTP number can never come from a server that ran without MTP.
+#
+# tag | slots | depth | clients | server_extra | client_extra
+mtp-off-r1 | 4 | 65536 | 6 | --cache-ram 49152                                   | --turns 2 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.05
+mtp-on-r1  | 4 | 65536 | 6 | --cache-ram 49152 --spec-type draft-mtp --spec-draft-ngl 99 | --turns 2 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.05
+mtp-on-r2  | 4 | 65536 | 6 | --cache-ram 49152 --spec-type draft-mtp --spec-draft-ngl 99 | --turns 2 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.05
+mtp-off-r2 | 4 | 65536 | 6 | --cache-ram 49152                                   | --turns 2 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.05

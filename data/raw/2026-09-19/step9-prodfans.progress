@@ -1,0 +1,6 @@
+2026-09-19T22:21:34+00:00 [step9-prodfans] === start: runlist /root/night-20260919/prodfans.runlist, build llama.cpp-gfx906-rocm10, 125 W/die
+2026-09-19T22:21:34+00:00 [step9-prodfans] --- pf125-4x64K: 4 slots x 64K, 6 clients, server_extra='--cache-ram 49152'
+2026-09-19T22:21:46+00:00 [step9-prodfans] pf125-4x64K: ready — n_slots = 4, n_ctx_slot = 65536
+2026-09-19T22:21:46+00:00 [step9-prodfans] pf125-4x64K: nextn IGNORED (MTP off)
+2026-09-19T22:45:17+00:00 [step9-prodfans] pf125-4x64K: OK rc=0, 18 request records — | step9-prodfans-pf125-4x64K | 6 | 3 | 12 | 1411 | 40K/105s | 44373 | 6307 | 0.14:1 | 31.5 | 0.51 | 1.75 / 1.97 | 18.2 / 17.0 / 17.0 | 1/12 | 58796 |
+2026-09-19T22:45:36+00:00 [step9-prodfans] === ALLDONE

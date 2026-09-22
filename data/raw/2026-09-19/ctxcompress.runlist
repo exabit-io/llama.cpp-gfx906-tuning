@@ -1,0 +1,19 @@
+# Context-compression cost — REQUIREMENTS R2.4's remaining TBC. Never measured before.
+#
+# 8 slots x 32K: 32K is R2.2's realistic floor, so this is in scope, and a small slot means a
+# session CROSSES its limit after two turns instead of after forty — the crossing is the thing
+# being measured, not the depth.  Sessions are seeded to 26K (81% of the slot), then run true
+# R2.4 turns; turn 1 lands near 31.6K and turn 2 crosses.
+#
+# Three policies:
+#   off        server default (--no-context-shift). A session that outgrows its slot is REFUSED;
+#              this measures the failure mode and exactly where it bites.
+#   on         --context-shift: oldest context discarded, generation continues. The cost of that
+#              is the number R2.4 needs.
+#   on-nockpt  --context-shift with checkpoints off, to separate checkpoint overhead (default 32
+#              per slot, min spacing 8192) from the shift itself.
+#
+# tag | slots | depth | clients | server_extra | client_extra
+ctxshift-off       | 8 | 32768 | 8 |                          | --turns 4 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 26624 --arrival-rate 0.1
+ctxshift-on        | 8 | 32768 | 8 | --context-shift          | --turns 4 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 26624 --arrival-rate 0.1
+ctxshift-on-nockpt | 8 | 32768 | 8 | --context-shift -ctxcp 0 | --turns 4 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 26624 --arrival-rate 0.1

@@ -1,0 +1,14 @@
+2026-09-19T19:51:07+00:00 [step4-ctxshift] === start: runlist /root/night-20260919/ctxcompress.runlist, build llama.cpp-gfx906-rocm10, 200 W/die
+2026-09-19T19:51:08+00:00 [step4-ctxshift] --- ctxshift-off: 8 slots x 32K, 8 clients, server_extra='none'
+2026-09-19T19:51:20+00:00 [step4-ctxshift] ctxshift-off: ready — n_slots = 8, n_ctx_slot = 32768
+2026-09-19T19:51:20+00:00 [step4-ctxshift] ctxshift-off: nextn IGNORED (MTP off)
+2026-09-19T20:04:08+00:00 [step4-ctxshift] ctxshift-off: OK rc=0, 20 request records — | step4-ctxshift-ctxshift-off | 8 | 4 | 4 | 768 | 26K/134s | 5951 | 9120 | 1.53:1 | 7.7 | 0.31 | 2.69 / 6.51 | 11.6 / 7.3 / 7.3 | 1/4 | 34884 |
+2026-09-19T20:04:26+00:00 [step4-ctxshift] --- ctxshift-on: 8 slots x 32K, 8 clients, server_extra='--context-shift'
+2026-09-19T20:04:37+00:00 [step4-ctxshift] ctxshift-on: ready — n_slots = 8, n_ctx_slot = 32768
+2026-09-19T20:04:37+00:00 [step4-ctxshift] ctxshift-on: nextn IGNORED (MTP off)
+2026-09-19T20:17:26+00:00 [step4-ctxshift] ctxshift-on: OK rc=0, 20 request records — | step4-ctxshift-ctxshift-on | 8 | 4 | 4 | 769 | 26K/132s | 5942 | 9129 | 1.54:1 | 7.7 | 0.31 | 2.69 / 6.54 | 11.5 / 7.2 / 7.2 | 1/4 | 34884 |
+2026-09-19T20:17:45+00:00 [step4-ctxshift] --- ctxshift-on-nockpt: 8 slots x 32K, 8 clients, server_extra='--context-shift -ctxcp 0'
+2026-09-19T20:17:57+00:00 [step4-ctxshift] ctxshift-on-nockpt: ready — n_slots = 8, n_ctx_slot = 32768
+2026-09-19T20:17:57+00:00 [step4-ctxshift] ctxshift-on-nockpt: nextn IGNORED (MTP off)
+2026-09-19T20:30:54+00:00 [step4-ctxshift] ctxshift-on-nockpt: OK rc=0, 20 request records — | step4-ctxshift-ctxshift-on-nockpt | 8 | 4 | 4 | 777 | 26K/131s | 6015 | 35843 | 5.96:1 | 7.7 | 0.31 | 2.16 / 31.03 | 11.6 / 6.3 / 6.3 | 1/4 | 34884 |
+2026-09-19T20:31:13+00:00 [step4-ctxshift] === ALLDONE

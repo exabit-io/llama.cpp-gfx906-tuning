@@ -75,6 +75,16 @@ chk t4-good      T4 0 <<'EOF'
 pkill -f '^/bin/bash /root/night-20260919/chain-final.sh'
 EOF
 
+echo "=== T4 in a COMBINED flag cluster (-cf), the hole found 2026-09-22"
+chk t4-combined-bad  T4 1 <<'EOF'
+#!/bin/bash
+busy=$(pgrep -cf 'bin/llama-batched-bench' || true)
+EOF
+chk t4-combined-good T4 0 <<'EOF'
+#!/bin/bash
+busy=$(pgrep -cf '^/root/build-[^ ]*/bin/llama-batched-bench' || true)
+EOF
+
 echo "=== T4b wait loop keyed on a pattern (chain-gate.sh never ran)"
 chk t4b-bad      T4b 1 <<'EOF'
 #!/bin/bash

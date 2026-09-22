@@ -1,0 +1,8 @@
+2026-09-22T17:23:24+00:00 [next] rebuilding substrate with the campaign FA_QUANTS
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS matches the campaign value
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T17:24:38+00:00 [next] substrate rebuild OK -> /root/build-substrate-campaign
+2026-09-22T17:24:53+00:00 [next] === E1b: substrate on the campaign config, 4 reps x 2 cells
+2026-09-22T17:28:05+00:00 [next] STOPPED (trap)

@@ -1,0 +1,18 @@
+2026-09-21T15:21:18+00:00 [ar] === does custom AR earn its place? both arms on the BUNDLE build, one variable
+2026-09-21T15:29:34+00:00 [ar] M-AR-on-gated 4x64K rep1: decode 15.8500 tok/s/slot, prefill 627.32 t/s
+2026-09-21T15:37:52+00:00 [ar] M-AR-off 4x64K rep1: decode 14.4625 tok/s/slot, prefill 628.59 t/s
+2026-09-21T15:46:07+00:00 [ar] M-AR-off 4x64K rep2: decode 14.4500 tok/s/slot, prefill 631.38 t/s
+2026-09-21T15:54:16+00:00 [ar] M-AR-on-gated 4x64K rep2: decode 15.9125 tok/s/slot, prefill 631.73 t/s
+2026-09-21T16:02:23+00:00 [ar] M-AR-on-gated 4x64K rep3: decode 15.8925 tok/s/slot, prefill 632.68 t/s
+2026-09-21T16:10:37+00:00 [ar] M-AR-off 4x64K rep3: decode 14.4550 tok/s/slot, prefill 633.11 t/s
+2026-09-21T16:18:51+00:00 [ar] M-AR-off 4x64K rep4: decode 14.4400 tok/s/slot, prefill 633.22 t/s
+2026-09-21T16:26:58+00:00 [ar] M-AR-on-gated 4x64K rep4: decode 15.9150 tok/s/slot, prefill 632.96 t/s
+2026-09-21T16:28:17+00:00 [ar] S-AR-on-gated 1x32K rep1: decode 40.1900 tok/s/slot, prefill 726.16 t/s
+2026-09-21T16:29:43+00:00 [ar] S-AR-off 1x32K rep1: decode 31.8600 tok/s/slot, prefill 725.93 t/s
+2026-09-21T16:31:08+00:00 [ar] S-AR-off 1x32K rep2: decode 31.8800 tok/s/slot, prefill 726.32 t/s
+2026-09-21T16:32:27+00:00 [ar] S-AR-on-gated 1x32K rep2: decode 40.1900 tok/s/slot, prefill 726.14 t/s
+2026-09-21T16:33:46+00:00 [ar] S-AR-on-gated 1x32K rep3: decode 40.1900 tok/s/slot, prefill 726.16 t/s
+2026-09-21T16:35:12+00:00 [ar] S-AR-off 1x32K rep3: decode 31.9400 tok/s/slot, prefill 726.42 t/s
+2026-09-21T16:36:37+00:00 [ar] S-AR-off 1x32K rep4: decode 31.9800 tok/s/slot, prefill 726.74 t/s
+2026-09-21T16:37:56+00:00 [ar] S-AR-on-gated 1x32K rep4: decode 40.2100 tok/s/slot, prefill 726.14 t/s
+2026-09-21T16:37:57+00:00 [ar] === AR-EARNS-ITS-PLACE DONE ===

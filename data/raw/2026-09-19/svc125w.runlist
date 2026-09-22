@@ -1,0 +1,6 @@
+# R3.6 / §5.4 "the service run at 125 W". Design point is now 4 x 64K: at the 125 W production cap
+# it is the ONLY cell of twelve that clears R3.1 (16.45 tok/s/req on the ladder). 6 x 64K included
+# to quantify how far under the floor the next config up actually lands in chat shape.
+# tag | slots | depth | clients | server_extra | client_extra
+svc125-4x64K | 4 | 65536 | 6 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.05
+svc125-6x64K | 6 | 65536 | 9 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.06

@@ -1,0 +1,14 @@
+2026-09-20T02:01:00+00:00 [variance] === start: interleaved proxy(4x32K) and design(4x64K) cells, 125 W, -ntg 1024
+2026-09-20T02:01:01+00:00 [variance] STOPPED (trap)
+2026-09-20T02:09:16+00:00 [variance] === start: interleaved proxy(4x32K) and design(4x64K) cells, 125 W, -ntg 1024
+2026-09-20T02:14:07+00:00 [variance] proxy rep1: per-slot decode 20.7325 tok/s, prefill 562.01 t/s
+2026-09-20T02:23:57+00:00 [variance] design rep1: per-slot decode 15.4225 tok/s, prefill 508.47 t/s
+2026-09-20T02:28:46+00:00 [variance] proxy rep2: per-slot decode 20.7325 tok/s, prefill 565.65 t/s
+2026-09-20T02:38:35+00:00 [variance] design rep2: per-slot decode 15.3950 tok/s, prefill 508.57 t/s
+2026-09-20T02:43:25+00:00 [variance] proxy rep3: per-slot decode 20.7775 tok/s, prefill 562.96 t/s
+2026-09-20T02:53:15+00:00 [variance] design rep3: per-slot decode 15.4275 tok/s, prefill 508.72 t/s
+2026-09-20T02:58:05+00:00 [variance] proxy rep4: per-slot decode 20.6950 tok/s, prefill 561.94 t/s
+2026-09-20T03:07:57+00:00 [variance] design rep4: per-slot decode 15.4850 tok/s, prefill 506.90 t/s
+2026-09-20T03:12:46+00:00 [variance] proxy rep5: per-slot decode 20.7375 tok/s, prefill 563.46 t/s
+2026-09-20T03:17:35+00:00 [variance] proxy rep6: per-slot decode 20.6650 tok/s, prefill 565.37 t/s
+2026-09-20T03:17:36+00:00 [variance] === ALLDONE

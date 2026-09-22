@@ -17,6 +17,16 @@ if [ -f "$bd/CMakeCache.txt" ]; then
   v=$(grep -E '^GGML_HIP_RCCL:BOOL=' "$bd/CMakeCache.txt" | cut -d= -f2)
   [ "${v:-}" = "ON" ] && say OK "CMakeCache GGML_HIP_RCCL=ON" || { say FAIL "CMakeCache GGML_HIP_RCCL=${v:-unset}"; fail=1; }
 fi
+# FA_QUANTS must match the campaign value, or a build differs from its comparison arm in the set of
+# compiled attention kernels as well as in whatever is under test. An uncompiled combination does NOT
+# fail loudly -- it silently takes a slower generic path (measured 2026-09-22: q5_1 ran 8% slow) -- so
+# a mismatch here is invisible at runtime and corrupts the comparison quietly.
+WANT='f16-f16;q8_0-q8_0;q8_0-q4_0'
+if [ -f "$bd/CMakeCache.txt" ]; then
+  fq=$(grep -E '^GGML_CUDA_FA_QUANTS:STRING=' "$bd/CMakeCache.txt" | cut -d= -f2-)
+  [ "$fq" = "$WANT" ] && say OK "FA_QUANTS matches the campaign value" \
+    || { say FAIL "FA_QUANTS='$fq' but campaign value is '$WANT'"; fail=1; }
+fi
 a=$(strings "$bd"/bin/libggml-hip.so* 2>/dev/null | grep -cx 'GGML_TP_AR_MAX_NE')
 [ "${a:-0}" -gt 0 ] && say OK "AR size gate knob compiled in" || say WARN "GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing"
 exit $fail

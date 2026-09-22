@@ -82,10 +82,10 @@ for f in "$@"; do
   # ---- T4: pkill/pgrep -f whose pattern is not anchored to ^ or an absolute path
   while IFS=: read -r ln txt; do
     [ -z "${ln:-}" ] && continue
-    printf '%s\n' "$txt" | grep -qE "p(kill|grep)[^|;]*-f[[:space:]]+['\"]?\^" && continue
-    printf '%s\n' "$txt" | grep -qE "p(kill|grep)[^|;]*-f[[:space:]]+['\"]?/" && continue
+    printf '%s\n' "$txt" | grep -qE "p(kill|grep)[^|;]*-[a-zA-Z]*f[[:space:]]+['\"]?\^" && continue
+    printf '%s\n' "$txt" | grep -qE "p(kill|grep)[^|;]*-[a-zA-Z]*f[[:space:]]+['\"]?/" && continue
     add "FATAL" "$ln" "T4" "unanchored 'p*grep -f' matches ANY shell quoting the pattern, including this tool's own. Anchor to ^/abs/path, or use a PID."
-  done <<< "$(nocomment "$f" | grep -nE 'p(kill|grep)[^|;]*-f[[:space:]]' || true)"
+  done <<< "$(nocomment "$f" | grep -nE 'p(kill|grep)[^|;]*-[a-zA-Z]*f[[:space:]]' || true)"
 
   # ---- T4b: a WAIT LOOP keyed on a pattern — blocks forever when the monitor matches itself
   while IFS=: read -r ln txt; do

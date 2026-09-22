@@ -1,0 +1,42 @@
+2026-09-22T14:31:35+00:00 [scr] === screening 6 separable units
+2026-09-22T14:31:35+00:00 [scr] building minus-6ff101baef50f695d6ad7f12ca9d35709942b438
+2026-09-22T14:31:35+00:00 [scr]   minus-6ff101baef50f695d6ad7f12ca9d35709942b438 deltaminus exit=3
+2026-09-22T14:31:35+00:00 [scr] building minus-b9a990b28424d1d14063a3195577b4a8f2a30459
+2026-09-22T14:31:35+00:00 [scr]   minus-b9a990b28424d1d14063a3195577b4a8f2a30459 deltaminus exit=3
+2026-09-22T14:31:35+00:00 [scr] building minus-b1e4814ce88b2add8271eebb882956ba03ef62e2
+2026-09-22T14:31:35+00:00 [scr]   minus-b1e4814ce88b2add8271eebb882956ba03ef62e2 deltaminus exit=3
+2026-09-22T14:31:35+00:00 [scr] building minus-e02d4fe6c393a8a91022e308d2ab682eb01985c5
+2026-09-22T14:31:35+00:00 [scr]   minus-e02d4fe6c393a8a91022e308d2ab682eb01985c5 deltaminus exit=3
+2026-09-22T14:31:35+00:00 [scr] building minus-ef7246cd9edd55c78b63528b358740ec8d91014d
+2026-09-22T14:31:35+00:00 [scr]   minus-ef7246cd9edd55c78b63528b358740ec8d91014d deltaminus exit=3
+2026-09-22T14:31:35+00:00 [scr] building minus-7e7685b548236ace4445185273b74fb22584bcc1
+2026-09-22T14:31:35+00:00 [scr]   minus-7e7685b548236ace4445185273b74fb22584bcc1 deltaminus exit=3
+2026-09-22T14:31:35+00:00 [scr] no units built; nothing to measure
+2026-09-22T14:33:08+00:00 [scr] === screening 6 separable units
+2026-09-22T14:33:08+00:00 [scr] building minus-6ff101baef50f695d6ad7f12ca9d35709942b438
+2026-09-22T14:34:13+00:00 [scr]   minus-6ff101baef50f695d6ad7f12ca9d35709942b438 ready
+2026-09-22T14:34:13+00:00 [scr] building minus-b9a990b28424d1d14063a3195577b4a8f2a30459
+2026-09-22T14:35:33+00:00 [scr]   minus-b9a990b28424d1d14063a3195577b4a8f2a30459 ready
+2026-09-22T14:35:33+00:00 [scr] building minus-b1e4814ce88b2add8271eebb882956ba03ef62e2
+2026-09-22T14:36:39+00:00 [scr]   minus-b1e4814ce88b2add8271eebb882956ba03ef62e2 ready
+2026-09-22T14:36:39+00:00 [scr] building minus-e02d4fe6c393a8a91022e308d2ab682eb01985c5
+2026-09-22T14:37:51+00:00 [scr]   minus-e02d4fe6c393a8a91022e308d2ab682eb01985c5 ready
+2026-09-22T14:37:51+00:00 [scr] building minus-ef7246cd9edd55c78b63528b358740ec8d91014d
+2026-09-22T14:39:03+00:00 [scr]   minus-ef7246cd9edd55c78b63528b358740ec8d91014d ready
+2026-09-22T14:39:03+00:00 [scr] building minus-7e7685b548236ace4445185273b74fb22584bcc1
+2026-09-22T14:40:15+00:00 [scr]   minus-7e7685b548236ace4445185273b74fb22584bcc1 ready
+2026-09-22T14:47:36+00:00 [scr] bundle rep1: decode 15.8730, prefill 750.8
+2026-09-22T14:54:44+00:00 [scr] minus-6ff101bae rep1: decode 15.4755, prefill 750.5
+2026-09-22T15:01:51+00:00 [scr] minus-b9a990b28 rep1: decode 15.5046, prefill 750.6
+2026-09-22T15:08:59+00:00 [scr] minus-b1e4814ce rep1: decode 15.4870, prefill 750.3
+2026-09-22T15:16:07+00:00 [scr] minus-e02d4fe6c rep1: decode 15.4501, prefill 750.7
+2026-09-22T15:23:14+00:00 [scr] minus-ef7246cd9 rep1: decode 15.4233, prefill 750.7
+2026-09-22T15:30:22+00:00 [scr] minus-7e7685b54 rep1: decode 15.4519, prefill 750.9
+2026-09-22T15:37:27+00:00 [scr] bundle rep2: decode 15.8708, prefill 752.1
+2026-09-22T15:44:34+00:00 [scr] minus-6ff101bae rep2: decode 15.4999, prefill 751.5
+2026-09-22T15:51:42+00:00 [scr] minus-b9a990b28 rep2: decode 15.4575, prefill 751.5
+2026-09-22T15:58:49+00:00 [scr] minus-b1e4814ce rep2: decode 15.4662, prefill 751.7
+2026-09-22T16:05:57+00:00 [scr] minus-e02d4fe6c rep2: decode 15.4389, prefill 751.2
+2026-09-22T16:13:04+00:00 [scr] minus-ef7246cd9 rep2: decode 15.4652, prefill 751.5
+2026-09-22T16:20:11+00:00 [scr] minus-7e7685b54 rep2: decode 15.4830, prefill 751.5
+2026-09-22T16:20:11+00:00 [scr] === SCREEN BATCH DONE ===

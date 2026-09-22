@@ -1,0 +1,11 @@
+2026-09-19T14:51:33+00:00 [ladder-q8kv-200w-p2] === start: 200 W/die, build llama.cpp-gfx906-rocm10 , ggml 08d7f8bded409dc4
+2026-09-19T14:51:33+00:00 [ladder-q8kv-200w-p2] cells: 6:65536 8:49152 10:32768 12:32768
+2026-09-19T14:51:33+00:00 [ladder-q8kv-200w-p2] --- cell 6 x 64K : ctx 394752, npp 65536, npl 6
+2026-09-19T14:58:45+00:00 [ladder-q8kv-200w-p2] cell 6 x 64K: pp 955.83, tg 79.21 agg, 13.20 per slot -> PASS, , peak VRAM 13.9 14.0 13.9 13.9 GiB, 432s
+2026-09-19T14:58:45+00:00 [ladder-q8kv-200w-p2] --- cell 8 x 48K : ctx 395264, npp 49152, npl 8
+2026-09-19T15:05:27+00:00 [ladder-q8kv-200w-p2] cell 8 x 48K: pp 1035.48, tg 97.46 agg, 12.18 per slot -> PASS, , peak VRAM 13.8 13.8 13.8 13.8 GiB, 402s
+2026-09-19T15:05:27+00:00 [ladder-q8kv-200w-p2] --- cell 10 x 32K : ctx 330240, npp 32768, npl 10
+2026-09-19T15:10:38+00:00 [ladder-q8kv-200w-p2] cell 10 x 32K: pp 1132.36, tg 117.94 agg, 11.79 per slot -> FAIL, , peak VRAM 13.1 13.1 13.1 13.1 GiB, 311s
+2026-09-19T15:10:38+00:00 [ladder-q8kv-200w-p2] --- cell 12 x 32K : ctx 396288, npp 32768, npl 12
+2026-09-19T15:16:49+00:00 [ladder-q8kv-200w-p2] cell 12 x 32K: pp 1132.20, tg 123.59 agg, 10.30 per slot -> FAIL, , peak VRAM 13.7 13.7 13.7 13.7 GiB, 371s
+2026-09-19T15:16:50+00:00 [ladder-q8kv-200w-p2] === ALLDONE
