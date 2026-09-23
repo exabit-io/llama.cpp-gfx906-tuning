@@ -6,6 +6,7 @@ to an `.html` is the same content as text. Raw tables: `data/raw/<day>/`.
 
 | Date | Report | What it settles | Published |
 |---|---|---|---|
+| [2026-09-23 KV cache quality gate](2026-09-23-kv-quality-gate.md) | perplexity for f16, q8_0/q8_0, q8_0/q4_1, q8_0/q4_0, q4_0/q4_0 — all quality-equivalent at 16K/6 resolution; quality is not the discriminator among KV types | `data/raw/2026-09-23/kvq.tsv` |
 | 2026-09-04 | `gfx906-xgmi-ring.html` | the four-die XGMI ring as wired (0b–0e–1e–1b), 33.5 GB/s per link per direction, 256 GB/s all-to-all, the firmware's mislabelled hop table, `rccl_topo_fixed.xml` | https://claude.ai/code/artifact/f811df1d-b2bb-4d95-9157-4726d0519194 |
 | 2026-09-07 | `qwen38-27b-q8_0-gfx906.html` | Qwen3.8-27B Q8_0 on stock b10288: placement, the slot staircase (8/16/24/32), servers, the 1000 MHz clamp, the 2026-09-07 update on the 16-column patch | https://claude.ai/code/artifact/e248ff49-e4e3-4a21-967e-927f21f5af71 |
 | 2026-09-07 | `qwen38-27b-ctx-gfx906.html` | the 27B at 256K: KV-cache types, ladders to 256K, pooled cache, MTP at depth, memory per slot | https://claude.ai/code/artifact/9908fc72-0bba-42df-a770-6408a6a55277 |
