@@ -1,0 +1,10 @@
+2026-09-23T11:53:52+00:00 [fnsw] === Flash-Next offload sweep at the 64K FLOOR, 1 slot, -lm mlock, f16 KV
+2026-09-23T11:55:04+00:00 [fnsw] FAILED: ncmoe=0 1x64K — first errors:
+      /root/exabit-llama.cpp/ggml/src/ggml-backend-meta.cpp:2104: GGML_ASSERT(bufs.back() != nullptr) failed
+      1.10.854.290 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 3769.90 MiB on device 1: cudaMalloc failed: out of memory
+      /root/build-faq-allquants/bin/libggml-base.so.0(ggml_abort+0x15b)[0x739ab56c774b]
+2026-09-23T12:02:33+00:00 [fnsw] ncmoe=12 1x64K rep1: decode 14.2900 tok/s/slot, prefill 184.06 t/s, peak VRAM 27.6GiB/die
+2026-09-23T12:12:35+00:00 [fnsw] ncmoe=24 1x64K rep1: decode 11.5400 tok/s/slot, prefill 129.67 t/s, peak VRAM 23.1GiB/die
+2026-09-23T12:24:17+00:00 [fnsw] ncmoe=32 1x64K rep1: decode 10.3200 tok/s/slot, prefill 108.13 t/s, peak VRAM 20.0GiB/die
+2026-09-23T12:37:55+00:00 [fnsw] ncmoe=41 1x64K rep1: decode 9.2200 tok/s/slot, prefill 91.35 t/s, peak VRAM 16.6GiB/die
+2026-09-23T12:37:56+00:00 [fnsw] === FN SWEEP DONE ===

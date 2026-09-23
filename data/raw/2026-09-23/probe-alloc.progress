@@ -1,0 +1,18 @@
+2026-09-19T20:32:01+00:00 [probe-alloc] === start; cells: 4:65536 8:196608 4:262144 8:65536 4:131072 8:98304 8:131072 4:196608
+2026-09-19T20:32:01+00:00 [probe-alloc] --- probe 4 x 64K (ctx 263168)
+2026-09-19T20:32:18+00:00 [probe-alloc] probe 4 x 64K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:32:18+00:00 [probe-alloc] --- probe 8 x 192K (ctx 1574912)
+2026-09-19T20:32:35+00:00 [probe-alloc] probe 8 x 192K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:32:35+00:00 [probe-alloc] --- probe 4 x 256K (ctx 1049600)
+2026-09-19T20:32:52+00:00 [probe-alloc] probe 4 x 256K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:32:52+00:00 [probe-alloc] --- probe 8 x 64K (ctx 526336)
+2026-09-19T20:33:06+00:00 [probe-alloc] probe 8 x 64K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:33:06+00:00 [probe-alloc] --- probe 4 x 128K (ctx 525312)
+2026-09-19T20:33:21+00:00 [probe-alloc] probe 4 x 128K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:33:21+00:00 [probe-alloc] --- probe 8 x 96K (ctx 788480)
+2026-09-19T20:33:38+00:00 [probe-alloc] probe 8 x 96K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:33:38+00:00 [probe-alloc] --- probe 8 x 128K (ctx 1050624)
+2026-09-19T20:33:54+00:00 [probe-alloc] probe 8 x 128K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:33:54+00:00 [probe-alloc] --- probe 4 x 192K (ctx 787456)
+2026-09-19T20:34:08+00:00 [probe-alloc] probe 4 x 192K: offloaded 66/66 layers to GPU; model  KV  compute  MiB/die = 0.00 GiB
+2026-09-19T20:34:08+00:00 [probe-alloc] === ALLDONE

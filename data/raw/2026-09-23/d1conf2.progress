@@ -1,0 +1,24 @@
+2026-09-21T14:04:59+00:00 [conf2] === finishing the multi-user arms (5 cells). First cell also checks state continuity vs 633.5 t/s
+2026-09-21T14:13:06+00:00 [conf2] C-gate-on 4x64K rep4: decode 15.8750 tok/s/slot, prefill 632.68 t/s
+2026-09-21T14:22:54+00:00 [conf2] C-gate-off 4x64K rep4: decode 15.9250 tok/s/slot, prefill 509.47 t/s
+2026-09-21T14:33:20+00:00 [conf2] C-repack-off 4x64K rep3: decode 14.6100 tok/s/slot, prefill 484.81 t/s
+2026-09-21T14:43:14+00:00 [conf2] C-repack-on 4x64K rep4: decode 15.4150 tok/s/slot, prefill 506.28 t/s
+2026-09-21T14:53:37+00:00 [conf2] C-repack-off 4x64K rep4: decode 14.6375 tok/s/slot, prefill 487.59 t/s
+2026-09-21T14:53:37+00:00 [conf2] === single-user axis, 1x32K, n=4, order rotated (summarised by MEDIAN: the stall fires ~1 run in 16)
+2026-09-21T14:54:56+00:00 [conf2] S-gate-on 1x32K rep1: decode 40.2500 tok/s/slot, prefill 724.61 t/s
+2026-09-21T14:56:29+00:00 [conf2] S-gate-off 1x32K rep1: decode 40.0700 tok/s/slot, prefill 561.61 t/s
+2026-09-21T14:58:02+00:00 [conf2] S-repack-on 1x32K rep1: decode 39.5900 tok/s/slot, prefill 560.87 t/s
+2026-09-21T14:59:45+00:00 [conf2] S-repack-off 1x32K rep1: decode 38.7600 tok/s/slot, prefill 533.79 t/s
+2026-09-21T15:01:28+00:00 [conf2] S-repack-off 1x32K rep2: decode 38.5800 tok/s/slot, prefill 529.04 t/s
+2026-09-21T15:03:06+00:00 [conf2] S-repack-on 1x32K rep2: decode 39.2500 tok/s/slot, prefill 552.51 t/s
+2026-09-21T15:04:40+00:00 [conf2] S-gate-off 1x32K rep2: decode 40.0500 tok/s/slot, prefill 555.49 t/s
+2026-09-21T15:06:02+00:00 [conf2] S-gate-on 1x32K rep2: decode 40.1000 tok/s/slot, prefill 709.05 t/s
+2026-09-21T15:07:25+00:00 [conf2] S-gate-on 1x32K rep3: decode 40.0100 tok/s/slot, prefill 692.99 t/s
+2026-09-21T15:09:06+00:00 [conf2] S-gate-off 1x32K rep3: decode 40.3400 tok/s/slot, prefill 536.73 t/s
+2026-09-21T15:10:45+00:00 [conf2] S-repack-on 1x32K rep3: decode 39.9200 tok/s/slot, prefill 543.67 t/s
+2026-09-21T15:12:29+00:00 [conf2] S-repack-off 1x32K rep3: decode 38.4200 tok/s/slot, prefill 532.61 t/s
+2026-09-21T15:14:12+00:00 [conf2] S-repack-off 1x32K rep4: decode 38.3500 tok/s/slot, prefill 536.55 t/s
+2026-09-21T15:15:59+00:00 [conf2] S-repack-on 1x32K rep4: decode 39.7800 tok/s/slot, prefill 534.31 t/s
+2026-09-21T15:17:42+00:00 [conf2] S-gate-off 1x32K rep4: decode 40.1300 tok/s/slot, prefill 536.76 t/s
+2026-09-21T15:19:13+00:00 [conf2] S-gate-on 1x32K rep4: decode 40.2500 tok/s/slot, prefill 671.88 t/s
+2026-09-21T15:19:14+00:00 [conf2] === D1 CONFIRMATION PART 2 DONE ===

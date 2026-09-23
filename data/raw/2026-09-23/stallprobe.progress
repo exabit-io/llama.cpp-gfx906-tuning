@@ -1,0 +1,26 @@
+2026-09-20T11:15:55+00:00 [stall] === single-stream stall-rate probe, n=12 per arm, interleaved
+2026-09-20T11:17:30+00:00 [stall] Rsu rep1: decode 39.58 tok/s, prefill 546.38 t/s, T_TG 25.869 s
+2026-09-20T11:18:52+00:00 [stall] RoursSU rep1: decode 40.16 tok/s, prefill 702.57 t/s, T_TG 25.496 s
+2026-09-20T11:20:14+00:00 [stall] RoursSU rep2: decode 40.16 tok/s, prefill 701.59 t/s, T_TG 25.498 s
+2026-09-20T11:21:49+00:00 [stall] Rsu rep2: decode 39.77 tok/s, prefill 547.80 t/s, T_TG 25.748 s
+2026-09-20T11:23:24+00:00 [stall] Rsu rep3: decode 39.77 tok/s, prefill 549.15 t/s, T_TG 25.748 s
+2026-09-20T11:24:47+00:00 [stall] RoursSU rep3: decode 40.23 tok/s, prefill 698.96 t/s, T_TG 25.454 s
+2026-09-20T11:26:08+00:00 [stall] RoursSU rep4: decode 40.32 tok/s, prefill 702.50 t/s, T_TG 25.399 s
+2026-09-20T11:27:43+00:00 [stall] Rsu rep4: decode 39.96 tok/s, prefill 552.68 t/s, T_TG 25.627 s
+2026-09-20T11:29:17+00:00 [stall] Rsu rep5: decode 39.96 tok/s, prefill 551.55 t/s, T_TG 25.624 s
+2026-09-20T11:30:36+00:00 [stall] RoursSU rep5: decode 40.28 tok/s, prefill 715.90 t/s, T_TG 25.425 s
+2026-09-20T11:31:55+00:00 [stall] RoursSU rep6: decode 40.20 tok/s, prefill 722.26 t/s, T_TG 25.475 s
+2026-09-20T11:33:27+00:00 [stall] Rsu rep6: decode 39.91 tok/s, prefill 558.24 t/s, T_TG 25.658 s
+2026-09-20T11:34:59+00:00 [stall] Rsu rep7: decode 39.91 tok/s, prefill 559.42 t/s, T_TG 25.655 s
+2026-09-20T11:36:18+00:00 [stall] RoursSU rep7: decode 40.28 tok/s, prefill 722.79 t/s, T_TG 25.420 s
+2026-09-20T11:37:37+00:00 [stall] RoursSU rep8: decode 40.34 tok/s, prefill 724.60 t/s, T_TG 25.382 s
+2026-09-20T11:39:09+00:00 [stall] Rsu rep8: decode 39.91 tok/s, prefill 558.61 t/s, T_TG 25.660 s
+2026-09-20T11:40:40+00:00 [stall] Rsu rep9: decode 39.95 tok/s, prefill 567.41 t/s, T_TG 25.630 s
+2026-09-20T11:41:58+00:00 [stall] RoursSU rep9: decode 40.27 tok/s, prefill 726.10 t/s, T_TG 25.426 s
+2026-09-20T11:43:16+00:00 [stall] RoursSU rep10: decode 40.31 tok/s, prefill 726.47 t/s, T_TG 25.402 s
+2026-09-20T11:44:48+00:00 [stall] Rsu rep10: decode 39.84 tok/s, prefill 562.90 t/s, T_TG 25.700 s
+2026-09-20T11:46:19+00:00 [stall] Rsu rep11: decode 39.95 tok/s, prefill 568.02 t/s, T_TG 25.630 s
+2026-09-20T11:47:37+00:00 [stall] RoursSU rep11: decode 40.26 tok/s, prefill 726.50 t/s, T_TG 25.433 s
+2026-09-20T11:48:56+00:00 [stall] RoursSU rep12: decode 40.28 tok/s, prefill 726.38 t/s, T_TG 25.422 s
+2026-09-20T11:50:28+00:00 [stall] Rsu rep12: decode 39.94 tok/s, prefill 559.26 t/s, T_TG 25.635 s
+2026-09-20T11:50:28+00:00 [stall] === STALLPROBE DONE ===

@@ -1,0 +1,14 @@
+2026-09-19T15:17:51+00:00 [step2-chat] === start: runlist /root/night-20260919/step2.runlist, build llama.cpp-gfx906-rocm10, 200 W/die
+2026-09-19T15:17:51+00:00 [step2-chat] --- chat-8x48K: 8 slots x 48K, 12 clients, server_extra='none'
+2026-09-19T15:18:02+00:00 [step2-chat] chat-8x48K: ready — n_slots = 8, n_ctx_slot = 49152
+2026-09-19T15:18:02+00:00 [step2-chat] chat-8x48K: nextn IGNORED (MTP off)
+2026-09-19T16:04:37+00:00 [step2-chat] chat-8x48K: OK rc=0, 36 request records — | step2-chat-chat-8x48K | 12 | 3 | 24 | 2795 | 24K/50s | 97850 | 510305 | 5.22:1 | 35.0 | 0.52 | 32.55 / 37.92 | 7.4 / 6.0 / 5.0 | 15/24 | 43862 |
+2026-09-19T16:04:56+00:00 [step2-chat] --- chat-4x128K: 4 slots x 128K, 6 clients, server_extra='none'
+2026-09-19T16:05:08+00:00 [step2-chat] chat-4x128K: ready — n_slots = 4, n_ctx_slot = 131072
+2026-09-19T16:05:08+00:00 [step2-chat] chat-4x128K: nextn IGNORED (MTP off)
+2026-09-19T17:11:10+00:00 [step2-chat] chat-4x128K: OK rc=0, 18 request records — | step2-chat-chat-4x128K | 6 | 3 | 12 | 3963 | 100K/267s | 46118 | 1317296 | 28.56:1 | 11.6 | 0.18 | 151.02 / 157.60 | 5.5 / 3.7 / 3.6 | 12/12 | 123045 |
+2026-09-19T17:11:28+00:00 [step2-chat] --- chat-6x64K: 6 slots x 64K, 9 clients, server_extra='none'
+2026-09-19T17:11:39+00:00 [step2-chat] chat-6x64K: ready — n_slots = 6, n_ctx_slot = 65536
+2026-09-19T17:11:39+00:00 [step2-chat] chat-6x64K: nextn IGNORED (MTP off)
+2026-09-19T17:56:34+00:00 [step2-chat] chat-6x64K: OK rc=0, 27 request records — | step2-chat-chat-6x64K | 9 | 3 | 18 | 2695 | 40K/85s | 68197 | 477236 | 7.00:1 | 25.3 | 0.40 | 48.97 / 55.05 | 9.3 / 6.9 / 6.8 | 10/18 | 58796 |
+2026-09-19T17:56:53+00:00 [step2-chat] === ALLDONE
