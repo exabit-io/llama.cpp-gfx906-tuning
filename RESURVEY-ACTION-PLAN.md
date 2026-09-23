@@ -1795,76 +1795,55 @@ Resolved items are kept with their resolution so a future reader does not reopen
 | Stage ordering (Stage B last) | Moot — Stage B completed 2026-09-19 |
 | mxxm's status | **D14.** Substrate, not third-party history; all 148 commits get binned |
 
-## Part 9 — Action plan for the three open blocks (written 2026-09-22, costed from measured pace)
+## Part 9 REVISED — 2026-09-23, after two assumptions in the original were invalidated
 
-Measured cell cost on this box, from the sweep in flight: **4x64K 7.1 min, 8x32K 6.5 min,
-1x254K 12.1 min**, delta-minus build ~3 min ccache-warm. Everything below is derived from those, not
-estimated.
+**What broke in the plan written this morning:**
 
-### The mistake to avoid: screening 52 commits individually is the wrong shape
+1. **It assumed one instrument sees everything.** Five of the first six screened units touch code
+   `llama-batched-bench` on the 27B never executes (top-k, MoE routing, server code, qwen4exp). A flat
+   delta-minus reading is only evidence of neutrality if the instrument runs the reverted code.
+2. **It optimised the wrong model.** Production is **Qwen3.8-Flash-Next with `-ncmoe 41 -lm mlock`**
+   (lead, 2026-09-23), not Qwen3.8-27B. And `-ctk f16 -ctv f16` is the KV configuration, which the
+   launch profiles were already using by default while every benchmark cell used q8_0.
 
-Screening all 52 separable commits at n=2 on one cell is 52 x (3 + 14.2) = **15 GPU h**, and the 12
-feature groups add 3.5 h -- before any confirmation. Confirming even 8 survivors at n=4 on both axes
-(2 arms x 2 cells x 4 reps = 16 cells, ~9.6 min avg) is another **20 h**. Total ~39 h against the ~21 h
-approved, and most of it spent proving that documentation commits and refactors do nothing.
+**Instrument-visibility triage of all 138 code commits (static, no GPU):**
 
-### Instead: hierarchical screening — groups first, decompose only what moves
+| bucket | separable | entangled | total |
+|---|---:|---:|---:|
+| 27B-visible via batched-bench | 39 | 66 | **105** |
+| Flash-Next only (qwen4exp/PLE) | 7 | 5 | 12 |
+| needs MoE routing or a sampler | 3 | 5 | 8 |
+| needs the server harness | 1 | 5 | 6 |
+| needs MTP (R3.9, out of scope) | 2 | 4 | 6 |
+| unclear | 1 | 0 | 1 |
 
-**Stage S1 — screen the 12 FEATURE groups** (12 units x ~17 min) = **3.5 GPU h**
-The substrate's +14.2% decode / +24.9% prefill has to live somewhere. Feature groups are the
-granularity at which it plausibly lives: `q8_repack` (26 commits), `meta backend` (26),
-`model/arch plumbing` (18), `alloc/sched` (8), `TOP_K` (6), `MMQ/MMVQ` (6), `get_rows quants` (4),
-`tp-allreduce` (4), `FA tiles` (2), plus the three small ones. Screen at n=2, 4x64K only.
-Expected outcome: 2-4 groups carry nearly all of it, the rest are neutral.
-
-**Stage S2 — decompose only the groups that moved** (~20 member commits x ~17 min) = **5.7 GPU h**
-A neutral group's member commits need no individual test: that is the whole economy of doing S1 first.
-Only groups whose screen effect exceeds the 2% floor get their members screened.
-
-**Stage S3 — fresh confirmation of survivors** (est. 5 units x 16 cells) = **13 GPU h**
-n=4 per arm per axis, 4x64K + 1x254K, on a fresh run. Screen data never becomes confirmation data.
-
-**S1+S2+S3 = ~22 GPU h**, which fits the approved budget, versus ~39 h flat. If S1 shows the gain is
-diffuse rather than concentrated, that is itself a finding and S2 gets re-costed before it runs.
-
-### Flash-Next (R3.10) — ~5 GPU h, but it has a prerequisite
-
-1. **Load test first, ~0.5 h.** Qwen3.8-Flash-Next needs upstream `qwen4exp` support plus the fork's
-   PLE-table sharding (`LLAMA_PLE_SHARD=1`). Whether it loads at all on the v0.4.1 substrate is
-   **unknown** -- the 2026-09-07/08 binaries could not load it. If it does not, that is a build/port
-   task before any measurement.
-2. **Reduced KV sweep, ~4.5 h.** 3 V widths x 2 cells x n=2 on a 103.7 GiB model. NOT the 27B's answer
-   transplanted: KV is **3.1%** of per-step bytes there against **31.5%** on the 27B, so q4_0-V is
-   expected to be near-neutral and could be a net loss. That expectation is exactly what needs testing.
-
-### The 19 prose verdicts — ~4 GPU h for a first pass, and 2 need no GPU at all
-
-- **2 are already resolved on paper**: the 4-bit V cache (now +4.4%/+8.3%, quality-neutral) and
-  `GGML_CUDA_ALLREDUCE=internal` (requires `n_devices == 2`, so on four dies it never ran -- an
-  unsupported configuration recorded as a performance result). Write the records; no GPU.
-- **~10 are runtime flags needing NO build**: `-sm layer`, `-sm row`, `GGML_CUDA_DISABLE_GRAPHS=1`,
-  `--kv-unified`, `-np 32`, `-b 1024/512`, the nineteen environment knobs as one bundle. At n=2 on
-  4x64K that is ~10 x 14.2 min = **2.4 h**. Highest value per hour of anything on this page, because
-  they are the rules that decide what work gets attempted.
-- **~7 need builds**: the six MMVQ losers, DPP in the attention kernels, alex4300's tile rows,
-  six-head GQA packing. ~7 x 17 min = **2 h**, and DPP goes first because the ISA review ranks it last
-  while the old measurement calls it a loser -- agreement either way is informative.
-
-### Recommended order, and what it costs
+### The revised order
 
 | | work | GPU h | why here |
 |---|---|---:|---|
-| 0 | finish the KV sweep + first 6-unit batch (running) | 6 | already committed; settles q4_0-V at 8 slots |
-| 1 | prose verdicts: runtime flags (2.4 h) + the 2 paper records | 2.4 | cheapest information, and these rules gate future work |
-| 2 | **S1: 12 feature groups** | 3.5 | the only thing that attributes the substrate's +14/+25% |
-| 3 | Flash-Next load test | 0.5 | a requirement (R3.10) and it may be a build task, not a measurement |
-| 4 | S2: decompose the groups that moved | 5.7 | scoped by S1's result |
-| 5 | prose verdicts needing builds (DPP first) | 2.0 | |
-| 6 | Flash-Next KV sweep | 4.5 | |
-| 7 | S3: fresh confirmation of survivors | 13.0 | last, because it is only worth spending on what survived |
-| | **total** | **~37.6** | |
+| **1** | **Bin the 20 units that need another instrument** — naming the required harness in each record | **0** | free, honest, and removes them from the screening budget instead of spending GPU proving an instrument is blind |
+| **2** | **Flash-Next load test** with `-ncmoe 41 -lm mlock` | 0.5 | it is the PRODUCTION model and I have never run it; it also gates the 12 qwen4exp units. If it does not load on the v0.4.1 substrate that is a port task, and better to know now than after more 27B work |
+| **3** | **12 feature groups at f16 KV**, against the substrate baseline | 3.5 | the only thing that attributes the substrate's +14.2%/+24.9%, and it now measures the shipping KV type |
+| **4** | Flash-Next KV + config sweep at the production shape | 4.5 | the numbers that actually decide production |
+| **5** | decompose the feature groups that moved | 5.7 | scoped by 3 |
+| **6** | prose verdicts: the ~10 runtime flags | 2.4 | cheap, and two are already known wrong |
+| **7** | confirmation of survivors at n=4 | 13 | last; only worth spending on what survived |
 
-**Budget decision for the lead:** stages 0-5 are **20.1 GPU h** and produce every screen-level answer.
-Stage 7's 13 h is what turns screens into binned verdicts. If the budget stays ~21 h, the honest stopping
-point is after stage 5, with the survivors recorded as `screened-only` rather than binned -- which the
-linter already enforces and will refuse to call `improves`.
+**1-4 is 8.5 GPU h** and answers the questions that bear on production. 5-7 is another 21 h and is
+what turns screens into binned verdicts on the 27B — a model that is not being shipped.
+
+### What I am dropping from the original plan, and why
+
+- **Screening the 46 remaining separable commits individually.** The 12 feature groups subsume 66 of the
+  entangled commits, and the separable ones that matter will surface through them. Spending 13 GPU h to
+  put individual verdicts on commits in a model we are not shipping is not a good trade.
+- **The full 19-verdict prose re-measurement.** The ~10 runtime flags are cheap and stay (item 6); the
+  7 needing builds are parked until something depends on them.
+- **8-slot work as a priority.** R3.1 compliance at 8 slots is now a KV-type question, and f16 answers
+  it (14.13 tok/s against the floor of 12). It does not need its own campaign.
+
+### The standing recommendation
+
+Do 1 now, then 2, then stop and look. If Flash-Next does not load on the v0.4.1 substrate, items 3-7
+are all secondary to fixing that, because none of them is measured on the model that will run in
+production.
