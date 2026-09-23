@@ -52,7 +52,7 @@ sleep 6
 cell(){ local arm=$1 bld=$2 s=$3 d=$4 rep=$5; local out=$W/nx-$arm-$s-$d-$rep.md
   LD_LIBRARY_PATH=$bld/bin:$bld/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 5400 \
     $bld/bin/llama-batched-bench -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
-    -fa on -ctk q8_0 -ctv q8_0 -b 2048 -ub 2048 -c $(( s*(d+1280) )) -npp $d -ntg 1024 -npl $s \
+    -fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` -b 2048 -ub 2048 -c $(( s*(d+1280) )) -npp $d -ntg 1024 -npl $s \
     > $out 2>$W/nx-$arm-$s-$d-$rep.log
   local m
   if ! m=$(python3 $CM "$out" "$d" "$s" 2>>$W/next.progress); then

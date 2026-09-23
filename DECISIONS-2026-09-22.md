@@ -47,3 +47,34 @@ R3.1 (>= 12 tok/s per request): PASS at both design points.
 - Which of the 20 Exabit terms earn their place: the bundle adds only +2.79% decode over the substrate.
 - Which substrate commits carry its +14.2% / +24.9%: 53 separable units + 12 feature groups unscreened.
 - A V-cache type sweep (`q4_1`, `q5_0`, `q5_1`): does the trend continue below 4.5 bits per value?
+
+## AMENDED 2026-09-23 — f16 KV, by the lead's direction
+
+`settings/launch.sh` now sets `-ctk f16 -ctv f16` **explicitly** in `COMMON`.
+
+It was already f16 in effect: **no profile ever set `-ctk`/`-ctv`**, so every profile has always run
+llama.cpp's f16 default. The q8_0 KV appeared only in the benchmark cells — which means the campaign was
+measuring a configuration production does not use. That is a real error in how the cells were specified,
+not a change of mind.
+
+Now it is also measured rather than inherited. Full 7x7 FA sweep, 2026-09-23, n=2 per cell:
+
+| | 4x64K | 8x32K | 1x254K |
+|---|---:|---:|---:|
+| f16 vs q8_0/q8_0 decode | **+27.5%** | **+18.8%** | **+39.2%** |
+
+And at 8 slots it decides requirement compliance, not just speed: f16 gives **14.13 tok/s** against R3.1's
+floor of 12, while q8_0/q8_0 gives **11.89** and fails.
+
+Every launch profile fits with f16, verified against the 31 GiB/die budget (R3.2) with 6.8 GiB/die of
+weights:
+
+    single 1x256K 10.8 | team/busy 16x32K 14.8 | pairs 8x64K 22.8 (2 dies) | long 2x256K 14.8
+    long8 8x128K 22.8  | ceiling 8x160K 26.8   | ingest 12x32K 12.8
+
+Only 8x192K does not fit (30.8 GiB/die before compute buffers) and no profile uses it.
+
+**Standing caveat:** this rests on an n=2 screen, not an n=4 confirmation. The effect is large and
+consistent in direction across three independent cells, and the alternative was already the default, so
+the risk of acting now is low — but it is not a confirmed verdict and `survey-lint.py` will not let it be
+recorded as one until it is.

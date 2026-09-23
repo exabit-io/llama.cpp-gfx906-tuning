@@ -54,7 +54,15 @@ if [ "$(strings "$(dirname "$BIN")/lib/libggml-hip.so.0" 2>/dev/null | grep -c G
   echo "launch.sh: $BIN has no GGML_TP_AR_MAX_NE knob; custom allreduce left off" >&2
 fi
 
-COMMON=(-m "$MODEL" -fa on -b 2048 -cb --host "$HOST")
+# KV cache: f16, EXPLICIT (lead, 2026-09-23). It was implicit before -- no profile set -ctk/-ctv, so
+# every profile has always run llama.cpp's f16 default. Made explicit so it cannot drift silently, and
+# because it is now measured rather than inherited: the full 7x7 FA sweep of 2026-09-23 puts f16 fastest
+# at every cell -- +27.5% at 4x64K, +18.8% at 8x32K, +39.2% at 1x254K against q8_0/q8_0 -- and at 8 slots
+# it is the difference between meeting R3.1 (14.13 tok/s) and missing it (q8_0 at 11.89, floor is 12).
+# Memory is not the constraint at these profiles: 10.8 GiB/die of a 31 GiB budget at 4x64K, and every
+# profile below fits. Only 8x192K does not (30.8 GiB/die before compute buffers), and no profile uses it.
+# NOTE the benchmark cells in tools/campaign-2026-09 measured q8_0 KV, i.e. NOT this configuration.
+COMMON=(-m "$MODEL" -fa on -ctk f16 -ctv f16 -b 2048 -cb --host "$HOST")
 TP4=(--device rocm0,rocm1,rocm2,rocm3 -sm tensor)
 
 case "${1:-}" in

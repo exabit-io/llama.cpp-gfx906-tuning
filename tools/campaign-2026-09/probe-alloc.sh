@@ -42,7 +42,7 @@ log "=== start; cells: $CELLS"
 for c in $CELLS; do IFS=: read slots depth <<< "$c"
   ctx=$(( slots * (depth + 256) )); base=$LOGD/$slots-$depth
   log "--- probe $slots x $((depth/1024))K (ctx $ctx)"
-  timeout 1800 $P/bin/llama-batched-bench -m $M $D4 -fa on -ctk q8_0 -ctv q8_0 \
+  timeout 1800 $P/bin/llama-batched-bench -m $M $D4 -fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` \
      -b 2048 -ub 2048 -c $ctx -npp 64 -ntg 8 -npl $slots -v > $base.md 2>$base.log
   rc=$?
   offl=$(grep -oE 'offloaded [0-9]+/[0-9]+ layers to GPU' $base.log | head -1)

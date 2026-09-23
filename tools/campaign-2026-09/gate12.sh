@@ -47,7 +47,7 @@ cell(){ # cell ARM BUILD SLOTS DEPTH REP
   local arm=$1; local bld=$2; local s=$3; local d=$4; local rep=$5
   local out=$W/g12-$arm-$s-$d-$rep.md
   LD_LIBRARY_PATH=$bld/bin:$bld/lib:/opt/rocm/core-10.0/lib timeout 3600 $bld/bin/llama-batched-bench \
-    -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -ctk q8_0 -ctv q8_0 \
+    -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` \
     -b 2048 -ub 2048 -c $(( s*(d+1280) )) -npp $d -ntg 1024 -npl $s > $out 2>$W/g12-$arm-$s-$d-$rep.log
   local row per pp
   row=$(grep -E "^\| *$d " $out | tail -1)

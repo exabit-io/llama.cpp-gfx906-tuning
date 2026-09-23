@@ -65,7 +65,7 @@ sleep 6
 log "=== start: runlist $RUNLIST, build $(basename $P), $GPU_CAP W/die"
 
 { echo "# $TAG   $(date -Is)"; echo
-  echo "Build \`$P\`, ROCm 10.0, tp4, \`-fa on -ctk q8_0 -ctv q8_0 -ngl all -b 2048 -ub 2048\`, $GPU_CAP W/die."
+  echo "Build \`$P\`, ROCm 10.0, tp4, \`-fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` -ngl all -b 2048 -ub 2048\`, $GPU_CAP W/die."
   echo "Sessions per **R2.4**: short user turn, 2K-8K generated, 30% of turns carry a tool result,"
   echo "context grows from the model's own output. Poisson arrivals (§5.1). \`bench/chat-client.py\`."
   echo "\`$(state_line)\`"; echo; } > $OUT
@@ -91,7 +91,7 @@ while IFS='|' read -r tag slots depth clients sx cx; do
   SL=$LOGD/$tag-srv.log; CL=$LOGD/$tag-client.log
   log "--- $tag: $slots slots x $((depth/1024))K, $clients clients, server_extra='${sx:-none}'"
   peak_vram $LOGD/$tag.vram
-  env LD_LIBRARY_PATH=$P/lib:$RT $P/bin/llama-server -m $M $D4 -fa on -ctk q8_0 -ctv q8_0 \
+  env LD_LIBRARY_PATH=$P/lib:$RT $P/bin/llama-server -m $M $D4 -fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` \
       -np $slots -cb -c $(( slots * depth )) -b 2048 -ub 2048 $sx \
       --host 127.0.0.1 --port $PORT > $SL 2>&1 &
   SRV=$!

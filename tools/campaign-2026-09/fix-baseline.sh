@@ -45,7 +45,7 @@ for rep in 1 2; do
   out=$W/fb-substrate-$rep.md
   LD_LIBRARY_PATH=$BD/bin:$BD/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 3600 \
     $BD/bin/llama-batched-bench -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
-    -fa on -ctk q8_0 -ctv q8_0 -b 2048 -ub 2048 -c $(( 4*(65536+1280) )) -npp 65536 -ntg 1024 -npl 4 \
+    -fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` -b 2048 -ub 2048 -c $(( 4*(65536+1280) )) -npp 65536 -ntg 1024 -npl 4 \
     > $out 2>$W/fb-substrate-$rep.log
   m=$(python3 $CM "$out" 65536 4 2>>$W/fixbase.progress) && {
     printf "substrate-allquants\t%s\t%s\n" "$rep" "$m" >> $W/screen.tsv

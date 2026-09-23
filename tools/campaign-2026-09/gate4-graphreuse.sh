@@ -46,7 +46,7 @@ run_arm() { # run_arm NAME SLOTS ENVSET
   local out=$W/gate4-$name
   log "arm $name: slots=$slots LLAMA_GRAPH_REUSE_DISABLE=$disable"
   LLAMA_GRAPH_REUSE_DISABLE=$disable $B/bin/llama-server -m $M \
-    --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -ctk q8_0 -ctv q8_0 \
+    --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` \
     -np $slots -c $(( slots * 33792 )) -b 2048 -ub 2048 --cache-ram 49152 \
     --host 127.0.0.1 --port 8099 > $out-server.log 2>&1 &
   SRV=$!

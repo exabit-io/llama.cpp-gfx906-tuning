@@ -42,7 +42,7 @@ cell(){ # cell ARM BUILD REP
   local arm=$1; local bld=$2; local rep=$3
   local out=$W/stall-$arm-$rep.md
   LD_LIBRARY_PATH=$bld/bin:$bld/lib:/opt/rocm/core-10.0/lib timeout 1200 $bld/bin/llama-batched-bench \
-    -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -ctk q8_0 -ctv q8_0 \
+    -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -ctk f16 -ctv f16   `# production KV (lead 2026-09-23); q8_0 cells are superseded` \
     -b 2048 -ub 2048 -c 33792 -npp 32768 -ntg 1024 -npl 1 > $out 2>$W/stall-$arm-$rep.log
   local row tg dec pp
   row=$(grep -E "^\| *32768 " $out | tail -1)
