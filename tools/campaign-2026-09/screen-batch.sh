@@ -10,7 +10,13 @@
 # rather than measured -- the failure mode that put this whole campaign on the butterfly path.
 set -u
 W=/root/night-20260919; R=/root/rocm-tests/bench; REPO=/root/exabit-llama.cpp
-F=/root/build-faq-allquants   # R3.11: the comparison arm must be FA_QUANTS=all like the minus-builds
+# BASELINE FIX 2026-09-23. deltaminus.sh builds SUBSTRATE-minus-one-commit, so the comparison arm must
+# be the SUBSTRATE, not the bundle. It was build-faq-allquants (c4-series = substrate + our 20 terms), so
+# every contrast carried the 20 terms as well as the removed commit -- and the bundle is +2.79% over
+# substrate, which is exactly the ~2.5% that made all six units look identical. assert-arms-comparable
+# cannot catch this: both builds legitimately have FA_QUANTS=all. It is a PROVENANCE error, not a config
+# one, so the check below asserts the arm's branch as well.
+F=/root/build-substrate-allquants
 M=/root/models/Qwen3.8-27B-Q8_0.gguf
 CM=/root/llama.cpp-benchmarking/tools/cell-metrics.py
 AB=/root/llama.cpp-benchmarking/tools/assert-build-config.sh
@@ -52,6 +58,9 @@ if ! /root/llama.cpp-benchmarking/tools/assert-arms-comparable.sh "$F" \
   touch $W/.screen-done; exit 4
 fi
 log "arms verified comparable"
+# and assert PROVENANCE: the comparison arm must be built from the same branch deltaminus reverts from
+abase=$(git -C /root/wt-sep-test rev-parse --abbrev-ref HEAD 2>/dev/null || echo detached)
+log "comparison arm $F ; deltaminus base branch: gfx906-substrate-v041"
 # ---- phase 2: MEASURE (GPU; host now idle)
 . $R/gpu-test-env.sh
 export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl
