@@ -18,6 +18,13 @@ measurements that prove it against this specification.
 - **R2.1** Many independent clients, arriving continuously; the server batches them (continuous batching) into **4 to 12 slots**
   and **queues the rest** at the HTTP layer. Agreed 2026-09-04 (8 slots; more slots only slow every request). **TBC:** the exact
   slot count is chosen by measurement inside 4..12; it is never above 12.
+- **R2.2 — FLOOR RAISED TO 64K (lead, 2026-09-23): "64k is absolute floor."** Nothing below 64K is measured,
+  gated, optimised or recommended, for any model or profile. The reasoning the lead gave: a thinking model can
+  spend 2K tokens reasoning to itself before it answers even a single-sentence request, so a 2K cell does not
+  represent this service at all, and 32K was already generous. The earlier ~~16K minimum / 32K realistic floor~~
+  is superseded. Load tests and functional smoke tests may use any depth; their numbers may never be quoted as
+  results. (A 2K-depth Flash-Next load test on 2026-09-23 produced decode figures that were then used for an
+  R3.1 comparison -- that comparison is void, and this clause exists because of it.)
 - **R2.2** Requests are long-context: prompts and conversations well above 16K tokens; **32K is the realistic floor** of what a
   request holds, and the service must accept requests **as large as the memory allows** (Qwen3.8's own thinking exceeds 4K on its
   own). ~~**TBC:** the design target per slot~~ — **narrowed 2026-09-19 (lead).** The preferred design points are

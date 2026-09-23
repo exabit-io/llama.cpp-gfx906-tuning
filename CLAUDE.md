@@ -7,6 +7,10 @@ A tuning guide for llama.cpp on macpro2019-01 (2 × Radeon Pro Vega II Duo = 4 �
 
 ## Conventions
 - **Every number in the docs traces to a report cell or to `optimize.py` output.** Extrapolations are labelled "model"; do not present them as measurements. The run-to-run spread on this box is ±2% (report 1 s.6), so differences below that are noise.
+- **Context floor RAISED TO 64K (lead, 2026-09-23): "64k is absolute floor."** Nothing below 64K is measured,
+  gated or recommended, for any model or profile. A thinking model can spend 2K tokens reasoning before it
+  answers, so 2K cells represent nothing. Load and smoke tests may use any depth; their numbers are never
+  results. Supersedes the 16K/32K rule below.
 - **Context floor (user rule, 2026-09-09): nothing below 16K matters and 32K is the realistic floor.** Measure, gate and recommend at 32K depth first (a 128K row where it applies); 2K cells are sanity rows only, and where the guide still quotes a 2K-only number say so. `optimize.py` and `launch.sh` default to 32K per slot.
 - Units as llama.cpp reports them: tok/s, ms per decode step, GiB as reported at load, GB/s = 10⁹ bytes/s.
 - Die naming: HIP devices 0–3 = PCI 0b, 0e, 1b, 1e. Physical ring 0b–0e–1e–1b (HIP 0-1-3-2); the firmware reports the bridge pairs crossed. RCCL needs `/root/rccl_topo_fixed.xml`.
