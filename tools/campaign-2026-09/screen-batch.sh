@@ -10,7 +10,8 @@
 # rather than measured -- the failure mode that put this whole campaign on the butterfly path.
 set -u
 W=/root/night-20260919; R=/root/rocm-tests/bench; REPO=/root/exabit-llama.cpp
-F=/root/build-faq; M=/root/models/Qwen3.8-27B-Q8_0.gguf
+F=/root/build-faq-allquants   # R3.11: the comparison arm must be FA_QUANTS=all like the minus-builds
+M=/root/models/Qwen3.8-27B-Q8_0.gguf
 CM=/root/llama.cpp-benchmarking/tools/cell-metrics.py
 AB=/root/llama.cpp-benchmarking/tools/assert-build-config.sh
 N=${1:-6}

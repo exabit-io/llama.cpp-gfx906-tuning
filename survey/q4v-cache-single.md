@@ -9,7 +9,7 @@ stats:            decode p=0.0571 q=0.0762 PASS | BH over m=8 | n=4 fresh per ar
 evidence:         confirmed-fresh
 structural:       standalone
 verdict:          improves
-bin:              both
+bin:              multi-user-only
 would change if:  a longer-context or higher-slot cell shows the dequant cost overtaking the bandwidth saved, or a KL-divergence check (stricter than perplexity) finds a loss the 16K/6 ppl cannot see
 notes:            TWO THINGS WERE WRONG ABOUT THIS BEFORE TODAY, and they compounded.
                   1. It was absent by BUILD CONFIG. GGML_CUDA_FA_QUANTS is a string list and ours omitted
@@ -53,3 +53,17 @@ SCOPED 2026-09-22 (lead):  This verdict is for **Qwen3.8-27B-Q8_0 only**, and th
                   A "bin: both" reads as universal. It is not: it is one model at three shapes. Flash-Next
                   needs its own sweep before any KV type is chosen for it, and the choice belongs per
                   model at launch (optimize.py), not as a global default in launch.sh.
+
+NARROWED 2026-09-23 by the full FA sweep:  The 7x7 sweep places this verdict in context and narrows it.
+                  - At **8 slots** q8_0-q4_0 is **-0.69%** -- the win is gone, close to the 2026-09-07
+                    figure of -3%. The effect is shape-dependent and 8 slots is where it fails, so the
+                    bin moves from `both` to `multi-user-only` and even that holds only at <= 4 slots.
+                  - **q8_0-q4_1 beats it** (+5.9% / +2.3% / +12.5% against +4.4% / -0.7% / +8.2%) while
+                    carrying MORE bits (5.0 vs 4.5). The V-width curve is non-monotonic -- q5_0 is -4.8%
+                    and q5_1 -1.2% against q8_0 -- so my bandwidth explanation was too simple: this is
+                    dequant kernel efficiency per type.
+                  - **f16 beats every quantised option** (+27.5% / +18.8% / +39.2%) and fits in 10.8 of
+                    31 GiB/die at 4x64K. At these design points capacity is not binding, so the premise
+                    that a quantised V cache is worth having needs re-examining entirely.
+                  Superseded as a recommendation by the README row dated 2026-09-23. Retained because the
+                  quality evidence (PPL 5.6216 vs 5.6219) and the measurement stand.

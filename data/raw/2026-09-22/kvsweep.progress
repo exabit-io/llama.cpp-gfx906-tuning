@@ -1,0 +1,47 @@
+2026-09-22T18:01:42+00:00 [kv] building with GGML_CUDA_FA_QUANTS=all (49 combinations)
+2026-09-22T18:03:08+00:00 [kv] BUILD OK -> /root/build-faq-allquants  (49 fattn vec objects compiled)
+2026-09-22T18:03:10+00:00 [kv] RCCL linked
+2026-09-22T18:03:25+00:00 [kv] === sweeping 7 KV combinations x 3 cells x n=2
+2026-09-22T18:10:31+00:00 [kv] q8_0-q8_0 4x64K rep1: decode 15.8792, prefill 750.5
+2026-09-22T18:17:38+00:00 [kv] q8_0-q5_1 4x64K rep1: decode 15.6952, prefill 751.5
+2026-09-22T18:24:47+00:00 [kv] q8_0-q5_0 4x64K rep1: decode 15.1220, prefill 751.4
+2026-09-22T18:31:49+00:00 [kv] q8_0-q4_1 4x64K rep1: decode 16.8109, prefill 751.8
+2026-09-22T18:38:52+00:00 [kv] q8_0-q4_0 4x64K rep1: decode 16.5760, prefill 750.6
+2026-09-22T18:45:44+00:00 [kv] f16-f16 4x64K rep1: decode 20.2272, prefill 751.1
+2026-09-22T18:52:39+00:00 [kv] q4_0-q4_0 4x64K rep1: decode 19.2235, prefill 750.1
+2026-09-22T19:04:48+00:00 [kv] q8_0-q8_0 1x254K rep1: decode 18.6060, prefill 395.4
+2026-09-22T19:16:56+00:00 [kv] q8_0-q5_1 1x254K rep1: decode 18.8798, prefill 395.4
+2026-09-22T19:29:06+00:00 [kv] q8_0-q5_0 1x254K rep1: decode 17.9959, prefill 395.2
+2026-09-22T19:41:09+00:00 [kv] q8_0-q4_1 1x254K rep1: decode 20.9022, prefill 395.4
+2026-09-22T19:53:14+00:00 [kv] q8_0-q4_0 1x254K rep1: decode 20.1274, prefill 395.0
+2026-09-22T20:05:07+00:00 [kv] f16-f16 1x254K rep1: decode 25.9188, prefill 395.6
+2026-09-22T20:17:04+00:00 [kv] q4_0-q4_0 1x254K rep1: decode 23.7996, prefill 395.2
+2026-09-22T20:23:37+00:00 [kv] q8_0-q8_0 8x32K rep1: decode 11.8760, prefill 888.3
+2026-09-22T20:30:14+00:00 [kv] q8_0-q5_1 8x32K rep1: decode 11.3758, prefill 888.0
+2026-09-22T20:36:55+00:00 [kv] q8_0-q5_0 8x32K rep1: decode 10.9742, prefill 888.3
+2026-09-22T20:43:26+00:00 [kv] q8_0-q4_1 8x32K rep1: decode 12.1767, prefill 889.3
+2026-09-22T20:49:59+00:00 [kv] q8_0-q4_0 8x32K rep1: decode 11.8142, prefill 888.8
+2026-09-22T20:56:18+00:00 [kv] f16-f16 8x32K rep1: decode 14.1474, prefill 889.4
+2026-09-22T21:02:42+00:00 [kv] q4_0-q4_0 8x32K rep1: decode 13.3586, prefill 888.0
+2026-09-22T21:09:49+00:00 [kv] q8_0-q8_0 4x64K rep2: decode 15.8806, prefill 750.9
+2026-09-22T21:16:55+00:00 [kv] q8_0-q5_1 4x64K rep2: decode 15.6805, prefill 750.6
+2026-09-22T21:24:04+00:00 [kv] q8_0-q5_0 4x64K rep2: decode 15.1213, prefill 751.0
+2026-09-22T21:31:06+00:00 [kv] q8_0-q4_1 4x64K rep2: decode 16.8283, prefill 750.6
+2026-09-22T21:38:10+00:00 [kv] q8_0-q4_0 4x64K rep2: decode 16.5921, prefill 750.9
+2026-09-22T21:45:01+00:00 [kv] f16-f16 4x64K rep2: decode 20.2740, prefill 752.2
+2026-09-22T21:51:55+00:00 [kv] q4_0-q4_0 4x64K rep2: decode 19.2384, prefill 751.5
+2026-09-22T22:04:03+00:00 [kv] q8_0-q8_0 1x254K rep2: decode 18.5945, prefill 395.3
+2026-09-22T22:16:11+00:00 [kv] q8_0-q5_1 1x254K rep2: decode 18.8951, prefill 395.1
+2026-09-22T22:28:22+00:00 [kv] q8_0-q5_0 1x254K rep2: decode 18.0082, prefill 395.2
+2026-09-22T22:40:24+00:00 [kv] q8_0-q4_1 1x254K rep2: decode 20.9317, prefill 395.4
+2026-09-22T22:52:29+00:00 [kv] q8_0-q4_0 1x254K rep2: decode 20.1290, prefill 395.2
+2026-09-22T23:04:21+00:00 [kv] f16-f16 1x254K rep2: decode 25.8795, prefill 395.7
+2026-09-22T23:16:19+00:00 [kv] q4_0-q4_0 1x254K rep2: decode 23.7515, prefill 394.6
+2026-09-22T23:22:53+00:00 [kv] q8_0-q8_0 8x32K rep2: decode 11.9048, prefill 887.4
+2026-09-22T23:29:30+00:00 [kv] q8_0-q5_1 8x32K rep2: decode 11.3723, prefill 887.0
+2026-09-22T23:36:11+00:00 [kv] q8_0-q5_0 8x32K rep2: decode 10.9546, prefill 887.1
+2026-09-22T23:42:43+00:00 [kv] q8_0-q4_1 8x32K rep2: decode 12.1399, prefill 887.6
+2026-09-22T23:49:17+00:00 [kv] q8_0-q4_0 8x32K rep2: decode 11.8021, prefill 887.7
+2026-09-22T23:55:37+00:00 [kv] f16-f16 8x32K rep2: decode 14.1033, prefill 888.6
+2026-09-23T00:02:01+00:00 [kv] q4_0-q4_0 8x32K rep2: decode 13.3158, prefill 887.1
+2026-09-23T00:02:02+00:00 [kv] === KV SWEEP DONE ===
