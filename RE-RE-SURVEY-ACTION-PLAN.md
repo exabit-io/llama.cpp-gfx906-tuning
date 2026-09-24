@@ -59,8 +59,8 @@ builds ROCm for gfx906 and publishes Docker presets; it has no llama.cpp source.
 `-mllvm -amdgpu-sched-strategy=max-ilp` are **not** in master; both are candidate patchsets to bin.
 
 **Retired:** `exabit-io/llama.cpp` (our older fork of ggml-org) holds the history before 2026-09-24 — 27 branches and all
-the `gfx906/v0.4.1/*`, `gfx906/v0.5.0/*`, `import/*` tags. Nothing new goes there; it is to be archived (read-only,
-everything kept) on the lead's OK.
+the `gfx906/v0.4.1/*`, `gfx906/v0.5.0/*`, `import/*` tags. **Archived 2026-09-24** (read-only, everything kept, README
+and description point here). Unarchiving is possible if it is ever needed.
 
 ## 3. Fixed test conditions — identical for every patchset, never varied
 
@@ -219,7 +219,7 @@ GitHub releases mark milestones only.
 | **code (the only repo)** | `github.com/exabit-io/mx-llama.cpp` — `master` (substrate), `gfx906-both/-single/-multi`, `gfx906-candidates`; local clone `/root/exabit-llama.cpp`, remote `exabit-mx` |
 | PR to mxxm-t | https://github.com/mxxm-t/mx-llama.cpp/pull/17 |
 | plans, docs, data, records | `github.com/exabit-io/llama.cpp-gfx906-tuning` (this repo) |
-| retired code history | `github.com/exabit-io/llama.cpp` |
+| retired code history | `github.com/exabit-io/llama.cpp` (archived 2026-09-24, read-only) |
 | run scripts | `/root/night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`, `gate-v050.sh`, `pr-test.sh` (copies in `tools/binrun/`) |
 | records | `survey/*.md`, lint `survey/survey-lint.py`; records carry the base they were measured on |
 | requirements | `REQUIREMENTS.md` |
