@@ -1,0 +1,4 @@
+Mirror of the box-side campaign directory /root/night-20260919 (2026-09-19 .. 2026-09-24): every cell
+table (*.md), result table (*.tsv), progress log, run log, clock/SMC/watchdog trace and the scripts that
+produced them, including runs later judged invalid (kept so the reasons can be re-checked). Re-synced
+after each round with: rsync -a --exclude '.*' --exclude '*.pid' /root/night-20260919/ data/raw/night-20260919/

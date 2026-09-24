@@ -1,0 +1,14 @@
+2026-09-23T02:23:38+00:00 [fn] === Flash-Next, production flags: --n-cpu-moe 41 --no-mmap --mlock, 4 dies tensor-split
+2026-09-23T02:23:38+00:00 [fn] starting f16 1x32K rep1 (103.7 GiB model, --no-mmap --mlock: load takes minutes)
+2026-09-23T02:23:38+00:00 [fn] FAILED (exit 1): f16 1x32K — first errors:
+      error: invalid argument: --no-mmap
+2026-09-23T02:23:38+00:00 [fn] starting q8_0 1x32K rep1 (103.7 GiB model, --no-mmap --mlock: load takes minutes)
+2026-09-23T02:23:38+00:00 [fn] FAILED (exit 1): q8_0 1x32K — first errors:
+      error: invalid argument: --no-mmap
+2026-09-23T02:23:38+00:00 [fn] starting f16 4x32K rep1 (103.7 GiB model, --no-mmap --mlock: load takes minutes)
+2026-09-23T02:23:39+00:00 [fn] FAILED (exit 1): f16 4x32K — first errors:
+      error: invalid argument: --no-mmap
+2026-09-23T02:23:39+00:00 [fn] starting q8_0 4x32K rep1 (103.7 GiB model, --no-mmap --mlock: load takes minutes)
+2026-09-23T02:23:39+00:00 [fn] FAILED (exit 1): q8_0 4x32K — first errors:
+      error: invalid argument: --no-mmap
+2026-09-23T02:23:39+00:00 [fn] === FLASH-NEXT DONE ===

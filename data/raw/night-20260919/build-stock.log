@@ -1,0 +1,5 @@
+Preparing worktree (detached HEAD b29c606e2)
+HEAD is now at b29c606e2 llama.cpp : bump version to 0.4.1 (#28900)
+2026-09-20T09:39:48+00:00 [stock] worktree at b29c606e2 (tag v0.4.1); gfx906 commits present: b29c606e2
+2026-09-20T09:42:26+00:00 [stock] STOCK BUILD OK (b29c606e2)
+2026-09-20T09:42:26+00:00 [stock] === BUILD-STOCK DONE rc=0 ===

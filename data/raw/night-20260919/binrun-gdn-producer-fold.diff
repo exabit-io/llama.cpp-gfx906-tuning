@@ -1,0 +1,976 @@
+diff --git a/ggml/src/ggml-cuda/common.cuh b/ggml/src/ggml-cuda/common.cuh
+index 5ed78a50e..1b7b581e8 100644
+--- a/ggml/src/ggml-cuda/common.cuh
++++ b/ggml/src/ggml-cuda/common.cuh
+@@ -29,6 +29,7 @@
+ #include <cstdio>
+ #include <string>
+ #include <unordered_map>
++#include <unordered_set>
+ #include <utility>
+ #include <vector>
+ 
+@@ -1621,6 +1622,29 @@ struct ggml_backend_cuda_context {
+         q8_1_cache.clear();
+     }
+ 
++    // gfx906 fusion 2026-09-08, S3 step 3: producers folded into a later GATED_DELTA_NET (q/k L2 norms, the beta
++    // sigmoid, the softplus gate with its bias and A scale). Filled while walking the graph, keyed by the GDN node;
++    // the producer nodes in gdn_prefuse_skip are not computed. Reset per graph evaluation.
++    struct gdn_prefuse_info {
++        const ggml_tensor * q_raw     = nullptr;
++        const ggml_tensor * k_raw     = nullptr;
++        float               eps_q     = 0.0f;
++        float               eps_k     = 0.0f;
++        int                 norm_kind = 0;      // 0 L2_NORM, 1 RMS_NORM(eps/n) + SCALE(1/sqrt n)
++        float               scale_q   = 1.0f;
++        float               scale_k   = 1.0f;
++        const ggml_tensor * beta_raw  = nullptr;
++        const ggml_tensor * alpha_raw = nullptr;
++        const ggml_tensor * dt_bias   = nullptr;
++        const ggml_tensor * ssm_a     = nullptr;
++    };
++    std::unordered_map<const ggml_tensor *, gdn_prefuse_info> gdn_prefuse;
++    std::unordered_set<const ggml_tensor *>                   gdn_prefuse_skip;
++    void gdn_prefuse_reset() {
++        gdn_prefuse.clear();
++        gdn_prefuse_skip.clear();
++    }
++
+     ~ggml_backend_cuda_context();
+ 
+     cudaStream_t stream(int device, int stream) {
+diff --git a/ggml/src/ggml-cuda/gated_delta_net.cu b/ggml/src/ggml-cuda/gated_delta_net.cu
+index c6af50a27..2a6b773fd 100644
+--- a/ggml/src/ggml-cuda/gated_delta_net.cu
++++ b/ggml/src/ggml-cuda/gated_delta_net.cu
+@@ -2,6 +2,32 @@
+ #include "gated_delta_net_chunk.cuh"
+ #include "ggml-cuda/common.cuh"
+ 
++// Sum of squares of the head vector this warp holds (rows_per_lane values per lane), reproducing the standalone
++// l2_norm_f32<32> bit for bit where the shapes allow it: that kernel runs 32 threads per row, thread t accumulating
++// x[t], x[t+32], x[t+64], x[t+96] in that order (fused multiply-adds), then a 32-wide xor tree. With a 64-lane warp holding
++// x[lane] and x[lane+64], lane t < 32 fetches x[t+32] and x[t+96] from lane t+32 and repeats that order; lanes 32-63 then
++// take the result from lane t-32. Other shapes fall back to a plain reduction (same values up to rounding order).
++template <int warp_size, int rows_per_lane>
++static __device__ __forceinline__ float gdn_l2_sumsq(const float * v, const int lane) {
++    if constexpr (warp_size == 64 && rows_per_lane == 2) {
++        const float x32 = __shfl_xor_sync(0xffffffff, v[0], 32, 64);
++        const float x96 = __shfl_xor_sync(0xffffffff, v[1], 32, 64);
++        float tmp = fmaf(v[0], v[0], 0.0f);
++        tmp = fmaf(x32, x32, tmp);
++        tmp = fmaf(v[1], v[1], tmp);
++        tmp = fmaf(x96, x96, tmp);
++        tmp = warp_reduce_sum<32>(tmp);
++        return __shfl_sync(0xffffffff, tmp, lane & 31, 64);
++    } else {
++        float ss = 0.0f;
++#pragma unroll
++        for (int r = 0; r < rows_per_lane; r++) {
++            ss += v[r] * v[r];
++        }
++        return warp_reduce_sum<warp_size>(ss);
++    }
++}
++
+ template <int S_v, bool KDA, bool keep_rs_t>
+ __global__ void __launch_bounds__((ggml_cuda_get_physical_warp_size() < S_v ? ggml_cuda_get_physical_warp_size() : S_v) * 4, 2)
+ gated_delta_net_cuda(const float * q,
+@@ -28,7 +54,8 @@ gated_delta_net_cuda(const float * q,
+                                      const uint3   rq3_magic,
+                                      float         scale,
+                                      int64_t       state_slot_stride,
+-                                     int           K) {
++                                     int           K,
++                                     const ggml_cuda_gdn_prefuse_dev pf) {
+     const uint32_t h_idx    = blockIdx.x;
+     const uint32_t sequence = blockIdx.y;
+     // each warp owns one column, using warp-level primitives to reduce across rows
+@@ -70,7 +97,7 @@ gated_delta_net_cuda(const float * q,
+         const float * beta_t = beta + gb_offset;
+         const float * g_t    = g    + gb_offset * (KDA ? S_v : 1);
+ 
+-        const float beta_val = *beta_t;
++        const float beta_val = pf.sig_b ? 1.0f / (1.0f + expf(-*beta_t)) : *beta_t;
+ 
+         // Cache k and q in registers
+         float k_reg[rows_per_lane];
+@@ -81,9 +108,36 @@ gated_delta_net_cuda(const float * q,
+             k_reg[r] = k_t[i];
+             q_reg[r] = q_t[i];
+         }
++        // folded L2 norms (same arithmetic as l2_norm_f32: x * rsqrt(max(sum x^2, eps^2)) over the head vector, which
++        // this warp holds in full across its lanes)
++        if (pf.norm_k) {
++            const float ssk = gdn_l2_sumsq<warp_size, rows_per_lane>(k_reg, lane);
++            const float sc  = pf.norm_kind == 0 ? rsqrtf(fmaxf(ssk, pf.eps_k * pf.eps_k))
++                                                : rsqrtf(ssk * (1.0f / S_v) + pf.eps_k) * pf.scale_k;
++#pragma unroll
++            for (int r = 0; r < rows_per_lane; r++) {
++                k_reg[r] *= sc;
++            }
++        }
++        if (pf.norm_q) {
++            const float ssq = gdn_l2_sumsq<warp_size, rows_per_lane>(q_reg, lane);
++            const float sc  = pf.norm_kind == 0 ? rsqrtf(fmaxf(ssq, pf.eps_q * pf.eps_q))
++                                                : rsqrtf(ssq * (1.0f / S_v) + pf.eps_q) * pf.scale_q;
++#pragma unroll
++            for (int r = 0; r < rows_per_lane; r++) {
++                q_reg[r] *= sc;
++            }
++        }
+ 
+         if constexpr (!KDA) {
+-            const float g_val = expf(*g_t);
++            float gv = *g_t;
++            if (pf.gate_alpha) {
++                // folded ADD(dt_bias) -> softplus -> MUL(ssm_a), same formulas as the unary kernels
++                gv = gv + pf.dt_bias[h_idx];
++                gv = (gv > 20.0f) ? gv : logf(1.0f + expf(gv));
++                gv = gv * pf.ssm_a[h_idx];
++            }
++            const float g_val = expf(gv);
+ 
+             // kv[col] = (S^T @ k)[col] = sum_i S[i][col] * k[i]
+             float kv_shard = 0.0f;
+@@ -177,7 +231,7 @@ static void launch_gated_delta_net(
+         int64_t sv1,   int64_t sv2, int64_t sv3,
+         int64_t sb1,   int64_t sb2, int64_t sb3,
+         int64_t neqk1, int64_t rq3,
+-        float scale, int64_t state_slot_stride, int K, cudaStream_t stream) {
++        float scale, int64_t state_slot_stride, int K, const ggml_cuda_gdn_prefuse_dev & pf, cudaStream_t stream) {
+     const int CS = KDA ? 16 : 64;
+ 
+     // The chunked kernel emits per-token snapshots, so retained-state prefill no longer needs serial arithmetic.
+@@ -223,26 +277,26 @@ static void launch_gated_delta_net(
+             ggml_cuda_kernel_launch(gated_delta_net_cuda<16, KDA, keep_rs_t>, launch_params,
+                 q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d, H,
+                 n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K);
++                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K, pf);
+             break;
+         case 32:
+             ggml_cuda_kernel_launch(gated_delta_net_cuda<32, KDA, keep_rs_t>, launch_params,
+                 q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d, H,
+                 n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K);
++                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K, pf);
+             break;
+         case 64: {
+             ggml_cuda_kernel_launch(gated_delta_net_cuda<64, KDA, keep_rs_t>, launch_params,
+                 q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d, H,
+                 n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K);
++                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K, pf);
+             break;
+         }
+         case 128: {
+             ggml_cuda_kernel_launch(gated_delta_net_cuda<128, KDA, keep_rs_t>, launch_params,
+                 q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d, H,
+                 n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K);
++                sb1, sb2, sb3, neqk1_magic, rq3_magic, scale, state_slot_stride, K, pf);
+             break;
+         }
+         default:
+@@ -280,28 +334,57 @@ static void ggml_cuda_op_gated_delta_net_impl(
+ 
+     const int64_t rq3 = nev3 / neq3;
+ 
+-    const float * q_d = (const float *) src_q->data;
+-    const float * k_d = (const float *) src_k->data;
++    // S3 step 3: producers folded into this kernel (recorded by ggml_cuda_gdn_prefuse_producer while walking the graph)
++    ggml_cuda_gdn_prefuse_dev pf;
++    const ggml_tensor * q_eff = src_q;
++    const ggml_tensor * k_eff = src_k;
++    const ggml_tensor * g_eff = src_g;
++    const ggml_tensor * b_eff = src_beta;
++    {
++        const auto it = ctx.gdn_prefuse.find(dst);
++        if (it != ctx.gdn_prefuse.end()) {
++            const ggml_backend_cuda_context::gdn_prefuse_info & info = it->second;
++            GGML_ASSERT((info.q_raw == nullptr) == (info.k_raw == nullptr));
++            if (info.q_raw) {
++                q_eff = info.q_raw; k_eff = info.k_raw;
++                pf.norm_q = true; pf.norm_k = true; pf.eps_q = info.eps_q; pf.eps_k = info.eps_k;
++                pf.norm_kind = info.norm_kind; pf.scale_q = info.scale_q; pf.scale_k = info.scale_k;
++            }
++            if (info.beta_raw) {
++                b_eff = info.beta_raw; pf.sig_b = true;
++            }
++            if (info.alpha_raw) {
++                GGML_ASSERT(!kda);
++                g_eff = info.alpha_raw; pf.gate_alpha = true;
++                pf.dt_bias = (const float *) info.dt_bias->data;
++                pf.ssm_a   = (const float *) info.ssm_a->data;
++            }
++        }
++    }
++    const float * q_d = (const float *) q_eff->data;
++    const float * k_d = (const float *) k_eff->data;
+     const float * v_d = (const float *) src_v->data;
+-    const float * g_d = (const float *) src_g->data;
+-    const float * b_d = (const float *) src_beta->data;
++    const float * g_d = (const float *) g_eff->data;
++    const float * b_d = (const float *) b_eff->data;
+ 
+     const float * s_d   = (const float *) src_state->data;
+     float *       dst_d = (float *) dst->data;
+ 
+-    GGML_ASSERT(ggml_is_contiguous_rows(src_q));
+-    GGML_ASSERT(ggml_is_contiguous_rows(src_k));
++    GGML_ASSERT(ggml_is_contiguous_rows(q_eff));
++    GGML_ASSERT(ggml_is_contiguous_rows(k_eff));
+     GGML_ASSERT(ggml_is_contiguous_rows(src_v));
+-    GGML_ASSERT(ggml_are_same_stride(src_q, src_k));
++    GGML_ASSERT(ggml_are_same_stride(q_eff, k_eff));
++    GGML_ASSERT(ggml_is_contiguous(g_eff) && ggml_is_contiguous(b_eff));
+     GGML_ASSERT(src_g->ne[0] == 1 || kda);
+     GGML_ASSERT(ggml_is_contiguous(src_g));
+     GGML_ASSERT(ggml_is_contiguous(src_beta));
+     GGML_ASSERT(ggml_is_contiguous(src_state));
+ 
+     // strides in floats (beta strides used for both g and beta offset computation)
+-    const int64_t sq1 = nbq1 / sizeof(float);
+-    const int64_t sq2 = nbq2 / sizeof(float);
+-    const int64_t sq3 = nbq3 / sizeof(float);
++    const int64_t sq1 = q_eff->nb[1] / sizeof(float);
++    const int64_t sq2 = q_eff->nb[2] / sizeof(float);
++    const int64_t sq3 = q_eff->nb[3] / sizeof(float);
++    GGML_UNUSED(nbq1); GGML_UNUSED(nbq2); GGML_UNUSED(nbq3);
+     const int64_t sv1 = nbv1 / sizeof(float);
+     const int64_t sv2 = nbv2 / sizeof(float);
+     const int64_t sv3 = nbv3 / sizeof(float);
+@@ -329,21 +412,21 @@ static void ggml_cuda_op_gated_delta_net_impl(
+         if (keep_rs) {
+             launch_gated_delta_net<true, true>(q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d,
+                 S_v, H, n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, stream);
++                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, pf, stream);
+         } else {
+             launch_gated_delta_net<true, false>(q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d,
+                 S_v, H, n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, stream);
++                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, pf, stream);
+         }
+     } else {
+         if (keep_rs) {
+             launch_gated_delta_net<false, true>(q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d,
+                 S_v, H, n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, stream);
++                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, pf, stream);
+         } else {
+             launch_gated_delta_net<false, false>(q_d, k_d, v_d, g_d, b_d, s_d, dst_d, state_d,
+                 S_v, H, n_tokens, n_seqs, sq1, sq2, sq3, sv1, sv2, sv3,
+-                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, stream);
++                sb1, sb2, sb3, neqk1, rq3, scale, state_slot_stride, K, pf, stream);
+         }
+     }
+ }
+diff --git a/ggml/src/ggml-cuda/gated_delta_net.cuh b/ggml/src/ggml-cuda/gated_delta_net.cuh
+index f9bf43706..f9c0ff653 100644
+--- a/ggml/src/ggml-cuda/gated_delta_net.cuh
++++ b/ggml/src/ggml-cuda/gated_delta_net.cuh
+@@ -12,3 +12,20 @@ void ggml_cuda_op_gated_delta_net(ggml_backend_cuda_context & ctx, ggml_tensor *
+ // same op, but writes the snapshot(s) into the cache instead of dst (see ggml_cuda_try_gdn_cache_fusion)
+ void ggml_cuda_op_gated_delta_net_fused_cache(ggml_backend_cuda_context & ctx, ggml_tensor * dst,
+                                               ggml_cuda_gated_delta_net_fused_cache cache);
++
++// Device-side view of ggml_backend_cuda_context::gdn_prefuse_info (S3 step 3): work folded into the GDN kernel.
++struct ggml_cuda_gdn_prefuse_dev {
++    bool          norm_q     = false; // q = q / max(||q||, eps_q)   (L2_NORM folded)
++    bool          norm_k     = false;
++    bool          sig_b      = false; // beta = sigmoid(beta_raw)
++    bool          gate_alpha = false; // g = softplus(alpha + dt_bias[h]) * ssm_a[h]
++    float         eps_q      = 0.0f;
++    float         eps_k      = 0.0f;
++    // kind 0: ggml_l2_norm semantics  x * rsqrt(max(sum x^2, eps^2));  kind 1 (upstream build_gdn_l2_norm since #28068):
++    // scale(rms_norm(x, eps/n), 1/sqrt(n)) = x * rsqrt(sum x^2 / n + eps') * s
++    int           norm_kind  = 0;
++    float         scale_q    = 1.0f;
++    float         scale_k    = 1.0f;
++    const float * dt_bias    = nullptr;
++    const float * ssm_a      = nullptr;
++};
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index abcbae599..85394c447 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -4469,6 +4469,281 @@ static bool ggml_cuda_moe_weighted_reduction_enabled() {
+     return enabled;
+ }
+ 
++// gfx906 fusion 2026-09-08: when a fused RMS_NORM(+MUL[+ADD]) feeds quantised matrix-vector products (decode), let the norm
++// kernel also emit the Q8_1 copy of its output into the per-graph q8_1 cache, so every consumer's quantize launch becomes a
++// cache hit. The M1 kernel trace counted 257 quantize launches per decode token (1.0 ms of a 21.5 ms token on the split).
++// Returns the cache buffer to fill, or nullptr when the pattern does not apply. GGML_CUDA_NORM_Q8=0 disables it.
++static void * ggml_cuda_rms_norm_q8_target(ggml_backend_cuda_context & ctx, const ggml_cgraph * cgraph, const int i_out) {
++    static const bool enabled = [] {
++        const char * e = getenv("GGML_CUDA_NORM_Q8");
++        return e == nullptr || atoi(e) != 0;
++    }();
++    if (!enabled) {
++        return nullptr;
++    }
++    const ggml_tensor * out = cgraph->nodes[i_out];
++    if (out->type != GGML_TYPE_F32 || !ggml_is_contiguous(out) ||
++        out->ne[0] % MATRIX_ROW_PADDING != 0 || out->ne[1] > MMVQ_MAX_BATCH_SIZE || out->ne[2] != 1 || out->ne[3] != 1) {
++        return nullptr;
++    }
++    bool has_mmvq_consumer = false;
++    const int i_end = std::min(cgraph->n_nodes, i_out + 1 + 64);
++    for (int j = i_out + 1; j < i_end; ++j) {
++        const ggml_tensor * n = cgraph->nodes[j];
++        if (n->op == GGML_OP_MUL_MAT && n->src[1] == out && n->type == GGML_TYPE_F32 &&
++            ggml_is_quantized(n->src[0]->type) && n->src[0]->type != GGML_TYPE_NVFP4 && n->src[0]->type != GGML_TYPE_MXFP4) {
++            has_mmvq_consumer = true;
++            break;
++        }
++    }
++    if (!has_mmvq_consumer) {
++        return nullptr;
++    }
++    // Same key as ggml_cuda_mul_mat_vec_q builds for src1 == out.
++    const size_t  ts          = ggml_type_size(out->type);
++    const int64_t ne10_padded = GGML_PAD(out->ne[0], MATRIX_ROW_PADDING);
++    const size_t  nbytes      = out->ne[3]*out->ne[2] * out->ne[1]*ne10_padded * sizeof(block_q8_1)/QK8_1;
++    bool hit = false;
++    char * buf = ggml_cuda_q8_1_cache_acquire(ctx, out, /*variant =*/ 0, ne10_padded,
++                                              out->nb[1] / ts, out->nb[2] / ts, out->nb[3] / ts, nbytes, hit);
++    static bool logged = false;
++    if (buf != nullptr && !logged) {
++        logged = true;
++        GGML_LOG_INFO("%s: rms_norm + q8_1 fusion active (ncols %" PRId64 ", rows %" PRId64 ")\n", __func__, out->ne[0], out->ne[1]);
++    }
++    return buf;
++}
++
++// gfx906 fusion 2026-09-08, S3 step 2: the residual ADD that feeds a fused RMS_NORM+MUL[+ADD] is computed inside the norm
++// kernel (its output is still written: the residual stream is used again). The ADD keeps its second use, so this is not
++// expressible with ggml_can_fuse; the norm/mul part is checked with the regular predicate. GGML_CUDA_ADD_NORM=0 disables.
++static bool ggml_cuda_add_rms_norm_fusable(const ggml_cgraph * cgraph, const int i) {
++    static const bool enabled = [] {
++        const char * e = getenv("GGML_CUDA_ADD_NORM");
++        return e == nullptr || atoi(e) != 0;
++    }();
++    if (!enabled || i + 2 >= cgraph->n_nodes) {
++        return false;
++    }
++    const ggml_tensor * add  = cgraph->nodes[i];
++    const ggml_tensor * norm = cgraph->nodes[i + 1];
++    if (add->op != GGML_OP_ADD || norm->op != GGML_OP_RMS_NORM || norm->src[0] != add) {
++        return false;
++    }
++    if ((add->flags & GGML_TENSOR_FLAG_COMPUTE) == 0 || add->type != GGML_TYPE_F32 ||
++        add->src[0]->type != GGML_TYPE_F32 || add->src[1]->type != GGML_TYPE_F32) {
++        return false;
++    }
++    // decode-sized batches only: the fusion saves a launch, which is nothing at prefill, and the fused kernel re-reads
++    // the sum it just wrote (L2-resident for a few rows, an extra HBM pass at 2048)
++    if (ggml_nrows(add) > 64) {
++        return false;
++    }
++    if (!ggml_is_contiguous(add) || !ggml_is_contiguous(add->src[0]) || !ggml_is_contiguous(add->src[1]) ||
++        !ggml_are_same_shape(add, add->src[0]) || !ggml_are_same_shape(add, add->src[1])) {
++        return false;
++    }
++    return true;
++}
++
++static void ggml_cuda_add_rms_norm_log_once(const ggml_tensor * add) {
++    static bool logged = false;
++    if (!logged) {
++        logged = true;
++        GGML_LOG_INFO("%s: add + rms_norm fusion active (ncols %" PRId64 ", rows %" PRId64 ")\n", __func__, add->ne[0], add->ne[1]);
++    }
++}
++
++// gfx906 fusion 2026-09-08, S3 step 3: fold the GATED_DELTA_NET's small producers into the GDN kernel. At a producer
++// node (L2_NORM of q or k, the beta SIGMOID, or the ADD(dt_bias) -> SOFTPLUS -> MUL(ssm_a) gate chain) walk its single-use
++// chain forward through view ops to a GATED_DELTA_NET; when it lands, record the raw inputs under the GDN node and skip
++// the producer(s). M1 trace: 96 l2_norm + 48 sigmoid + 48 add + 48 gated-softplus launches per token. GGML_CUDA_GDN_PREFUSE=0
++// disables. Returns true when node i must not be computed.
++static bool ggml_cuda_gdn_prefuse_producer(ggml_backend_cuda_context & ctx, const ggml_cgraph * cgraph, const int i) {
++    // GGML_CUDA_GDN_PREFUSE: unset = all folds; 0 = off; else a bitmask: 1 = q/k L2 norms, 2 = beta sigmoid, 4 = gate chain
++    static const int mask = [] {
++        const char * e = getenv("GGML_CUDA_GDN_PREFUSE");
++        return (e == nullptr || e[0] == '\0') ? 7 : atoi(e);
++    }();
++    const bool enabled = mask != 0;
++    const ggml_tensor * node = cgraph->nodes[i];
++    if (ctx.gdn_prefuse_skip.count(node)) {
++        return true;
++    }
++    if (!enabled || node->type != GGML_TYPE_F32) {
++        return false;
++    }
++    enum { NONE, L2, SIG, ALPHA } kind = NONE;
++    if (node->op == GGML_OP_L2_NORM && (mask & 1)) {
++        kind = L2;
++    } else if (node->op == GGML_OP_RMS_NORM && (mask & 1) && i + 1 < cgraph->n_nodes && cgraph->nodes[i + 1]->op == GGML_OP_SCALE &&
++               cgraph->nodes[i + 1]->src[0] == node) {
++        kind = L2;      // upstream build_gdn_l2_norm: scale(rms_norm(x, eps/n), 1/sqrt(n)); handled as an L2 fold of kind 1
++    } else if (node->op == GGML_OP_UNARY && ggml_get_unary_op(node) == GGML_UNARY_OP_SIGMOID && (mask & 2)) {
++        kind = SIG;
++    } else if (node->op == GGML_OP_ADD && (mask & 4)) {
++        kind = ALPHA;
++    } else {
++        return false;
++    }
++    auto is_view_like = [](const ggml_tensor * t) {
++        return t->op == GGML_OP_RESHAPE || t->op == GGML_OP_VIEW || t->op == GGML_OP_PERMUTE || t->op == GGML_OP_TRANSPOSE;
++    };
++    auto find_consumer = [&](int idx, int & src_idx) -> int {
++        const ggml_tensor * t = cgraph->nodes[idx];
++        for (int j = idx + 1; j < cgraph->n_nodes && j <= idx + 32; ++j) {
++            for (int k = 0; k < GGML_MAX_SRC; ++k) {
++                if (cgraph->nodes[j]->src[k] == t) {
++                    src_idx = k;
++                    return j;
++                }
++            }
++        }
++        return -1;
++    };
++    // walk forward
++    std::vector<const ggml_tensor *> chain;   // compute nodes (beyond node i) that the fold replaces
++    const ggml_tensor * mul_a = nullptr;
++    const ggml_tensor * gdn   = nullptr;
++    int role = -1;
++    int idx  = i;
++    for (int hop = 0; hop < 6 && gdn == nullptr; ++hop) {
++        if (!ggml_node_has_n_uses(cgraph, idx, 1)) {
++            return false;
++        }
++        int src_idx = -1;
++        const int j = find_consumer(idx, src_idx);
++        if (j < 0) {
++            return false;
++        }
++        const ggml_tensor * cons = cgraph->nodes[j];
++        if (cons->op == GGML_OP_GATED_DELTA_NET) {
++            gdn  = cons;
++            role = src_idx;
++            break;
++        }
++        if (is_view_like(cons)) {
++            idx = j;
++            continue;
++        }
++        if (kind == L2 && node->op == GGML_OP_RMS_NORM && chain.empty() && cons->op == GGML_OP_SCALE && cons->src[0] == cgraph->nodes[idx]) {
++            chain.push_back(cons);
++            idx = j;
++            continue;
++        }
++        if (kind == ALPHA && chain.empty() && cons->op == GGML_OP_UNARY &&
++            ggml_get_unary_op(cons) == GGML_UNARY_OP_SOFTPLUS && cons->src[0] == cgraph->nodes[idx] && cons->type == GGML_TYPE_F32) {
++            chain.push_back(cons);
++            idx = j;
++            continue;
++        }
++        if (kind == ALPHA && chain.size() == 1 && cons->op == GGML_OP_MUL && cons->type == GGML_TYPE_F32 &&
++            (cons->src[0] == cgraph->nodes[idx] || cons->src[1] == cgraph->nodes[idx])) {
++            mul_a = cons->src[0] == cgraph->nodes[idx] ? cons->src[1] : cons->src[0];
++            chain.push_back(cons);
++            idx = j;
++            continue;
++        }
++        return false;
++    }
++    if (gdn == nullptr || (gdn->flags & GGML_TENSOR_FLAG_COMPUTE) == 0) {
++        return false;
++    }
++    // decode only (the fold saves launches; at prefill the standalone kernels run once per ubatch anyway, and the
++    // strided raw q/k views would be walked token by token inside the GDN kernel)
++    if (gdn->src[2]->ne[2] > 64) {   // v: [S_v, H_v, n_tokens, n_seqs]
++        return false;
++    }
++    ggml_backend_cuda_context::gdn_prefuse_info & info = ctx.gdn_prefuse[gdn];
++    const ggml_tensor * raw = node->src[0];
++    if (kind == L2) {
++        if (role != 0 && role != 1) {
++            return false;
++        }
++        // q and k are folded together or not at all (the kernel needs identical strides for both).
++        // Two shapes: L2_NORM directly (fork / older upstream), or RMS_NORM -> SCALE (upstream build_gdn_l2_norm).
++        const bool rmsn = node->op == GGML_OP_RMS_NORM;
++        const ggml_tensor * mine  = rmsn ? chain[0] : node;          // the node the GDN consumes
++        const ggml_tensor * other = gdn->src[1 - role];              // the sibling's consumed node
++        auto norm_of = [&](const ggml_tensor * consumed) -> const ggml_tensor * {
++            if (!rmsn) { return consumed->op == GGML_OP_L2_NORM ? consumed : nullptr; }
++            return (consumed->op == GGML_OP_SCALE && consumed->src[0]->op == GGML_OP_RMS_NORM && consumed->src[0]->src[1] == nullptr) ? consumed->src[0] : nullptr;
++        };
++        auto l2_ok = [&](const ggml_tensor * n) {
++            return n != nullptr && n->type == GGML_TYPE_F32 && n->src[0]->type == GGML_TYPE_F32 &&
++                   n->src[0]->nb[0] == sizeof(float) && ggml_are_same_shape(n, n->src[0]);
++        };
++        const ggml_tensor * other_norm = norm_of(other);
++        if (!l2_ok(node) || !l2_ok(other_norm) || other == mine || gdn->src[role] != mine) {
++            return false;
++        }
++        if (rmsn) {
++            float b0 = 0.0f, b1 = 0.0f;
++            memcpy(&b0, (const char *) mine->op_params + sizeof(float), sizeof(float));
++            memcpy(&b1, (const char *) other->op_params + sizeof(float), sizeof(float));
++            if (b0 != 0.0f || b1 != 0.0f) {   // SCALE with a bias is not this pattern
++                return false;
++            }
++        }
++        // the sibling's norm (and its scale) must be used only on the way to the GDN
++        int other_idx = -1, other_norm_idx = -1;
++        for (int j = i + 1; j < cgraph->n_nodes && j <= i + 32; ++j) {
++            if (cgraph->nodes[j] == other) { other_idx = j; }
++            if (cgraph->nodes[j] == other_norm) { other_norm_idx = j; }
++        }
++        if (other_idx < 0 || !ggml_node_has_n_uses(cgraph, other_idx, 1) || (other->flags & GGML_TENSOR_FLAG_COMPUTE) == 0 ||
++            (rmsn && (other_norm_idx < 0 || !ggml_node_has_n_uses(cgraph, other_norm_idx, 1))) ||
++            !ggml_are_same_stride(node->src[0], other_norm->src[0])) {
++            return false;
++        }
++        const ggml_tensor * qn = role == 0 ? node : other_norm;
++        const ggml_tensor * kn = role == 0 ? other_norm : node;
++        info.q_raw = qn->src[0]; memcpy(&info.eps_q, qn->op_params, sizeof(float));
++        info.k_raw = kn->src[0]; memcpy(&info.eps_k, kn->op_params, sizeof(float));
++        info.norm_kind = rmsn ? 1 : 0;
++        if (rmsn) {
++            const ggml_tensor * qs = role == 0 ? mine : other;
++            const ggml_tensor * ks = role == 0 ? other : mine;
++            memcpy(&info.scale_q, qs->op_params, sizeof(float));
++            memcpy(&info.scale_k, ks->op_params, sizeof(float));
++            ctx.gdn_prefuse_skip.insert(mine);
++            ctx.gdn_prefuse_skip.insert(other);
++        }
++        ctx.gdn_prefuse_skip.insert(node);
++        ctx.gdn_prefuse_skip.insert(other_norm);
++    } else if (kind == SIG) {
++        if (role != 4 || raw->type != GGML_TYPE_F32 || !ggml_is_contiguous(raw) || !ggml_is_contiguous(node) ||
++            !ggml_are_same_shape(node, raw)) {
++            return false;
++        }
++        info.beta_raw = raw;
++        ctx.gdn_prefuse_skip.insert(node);
++    } else { // ALPHA
++        const ggml_tensor * bias = node->src[1];
++        const int64_t H = node->ne[0];
++        if (role != 3 || chain.size() != 2 || gdn->src[3]->ne[0] != 1 ||    // non-KDA gate only
++            raw->type != GGML_TYPE_F32 || !ggml_is_contiguous(raw) || !ggml_is_contiguous(node) || !ggml_are_same_shape(node, raw) ||
++            bias->type != GGML_TYPE_F32 || !ggml_is_contiguous(bias) || ggml_nelements(bias) != H ||
++            mul_a == nullptr || mul_a->type != GGML_TYPE_F32 || !ggml_is_contiguous(mul_a) || ggml_nelements(mul_a) != H ||
++            !ggml_are_same_shape(chain[0], node) || !ggml_are_same_shape(chain[1], node)) {
++            return false;
++        }
++        info.alpha_raw = raw;
++        info.dt_bias   = bias;
++        info.ssm_a     = mul_a;
++        ctx.gdn_prefuse_skip.insert(node);
++        for (const ggml_tensor * c : chain) {
++            ctx.gdn_prefuse_skip.insert(c);
++        }
++    }
++    static bool logged = false;
++    if (!logged) {
++        logged = true;
++        GGML_LOG_INFO("%s: gated_delta_net producer fusion active (first: %s)\n", __func__, ggml_op_name(node->op));
++    }
++    return true;
++}
++
+ // try and fuse nodes and return the number of nodes to skip
+ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph * cgraph, int i) {
+ 
+@@ -5243,13 +5518,30 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph
+         return 2;
+     }
+ 
++    if (ggml_cuda_add_rms_norm_fusable(cgraph, i)) {
++        if (ggml_cuda_can_fuse(cgraph, i + 1, { GGML_OP_RMS_NORM, GGML_OP_MUL, GGML_OP_ADD }, {})) {
++            void * q8_out = ggml_cuda_rms_norm_q8_target(*cuda_ctx, cgraph, i + 3);
++            ggml_cuda_op_rms_norm_fused_add(*cuda_ctx, cgraph->nodes[i + 1], cgraph->nodes[i + 2], cgraph->nodes[i + 3], q8_out, node);
++            ggml_cuda_add_rms_norm_log_once(node);
++            return 3;
++        }
++        if (ggml_cuda_can_fuse(cgraph, i + 1, { GGML_OP_RMS_NORM, GGML_OP_MUL }, {})) {
++            void * q8_out = ggml_cuda_rms_norm_q8_target(*cuda_ctx, cgraph, i + 2);
++            ggml_cuda_op_rms_norm_fused(*cuda_ctx, cgraph->nodes[i + 1], cgraph->nodes[i + 2], q8_out, node);
++            ggml_cuda_add_rms_norm_log_once(node);
++            return 2;
++        }
++    }
++
+     if (ggml_cuda_can_fuse(cgraph, i, { GGML_OP_RMS_NORM, GGML_OP_MUL, GGML_OP_ADD }, {})) {
+-        ggml_cuda_op_rms_norm_fused_add(*cuda_ctx, node, cgraph->nodes[i + 1], cgraph->nodes[i + 2]);
++        void * q8_out = ggml_cuda_rms_norm_q8_target(*cuda_ctx, cgraph, i + 2);
++        ggml_cuda_op_rms_norm_fused_add(*cuda_ctx, node, cgraph->nodes[i + 1], cgraph->nodes[i + 2], q8_out);
+         return 2;
+     }
+ 
+     if (ggml_cuda_can_fuse(cgraph, i, { GGML_OP_RMS_NORM, GGML_OP_MUL }, {})) {
+-        ggml_cuda_op_rms_norm_fused(*cuda_ctx, node, cgraph->nodes[i + 1]);
++        void * q8_out = ggml_cuda_rms_norm_q8_target(*cuda_ctx, cgraph, i + 1);
++        ggml_cuda_op_rms_norm_fused(*cuda_ctx, node, cgraph->nodes[i + 1], q8_out);
+         return 1;
+     }
+ 
+@@ -5423,6 +5715,10 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+                     continue;
+                 }
+ 
++                if (ggml_cuda_gdn_prefuse_producer(*cuda_ctx, cgraph, i)) {
++                    continue;
++                }
++
+                 int nodes_to_skip = ggml_cuda_try_fuse(cuda_ctx, cgraph, i);
+ 
+                 if (nodes_to_skip != 0) {
+@@ -5577,6 +5873,7 @@ static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend,
+ 
+     // entries are only valid within one graph evaluation
+     cuda_ctx->q8_1_cache_reset();
++    cuda_ctx->gdn_prefuse_reset();
+ 
+     bool use_cuda_graph             = false;
+     bool cuda_graph_update_required = false;
+@@ -5769,12 +6066,15 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
+     GGML_UNUSED(cgraph);
+ #endif
+ 
+-    static bool enable_graph_optimization = [] {
++    // GGML_CUDA_GRAPH_OPT=1: multi-stream execution of independent nodes, single device only (upstream);
++    // =2: also on the tensor-split lanes, where every lane has its own context and streams (gfx906 2026-09-08 experiment:
++    // on the split the small kernels are latency-bound and serialised in one stream).
++    static int enable_graph_optimization = [] {
+         const char * env     = getenv("GGML_CUDA_GRAPH_OPT");
+-        return env != nullptr && atoi(env) == 1;
++        return env != nullptr ? atoi(env) : 0;
+     }();
+ 
+-    if (!enable_graph_optimization) {
++    if (enable_graph_optimization <= 0) {
+         return;
+     }
+ 
+diff --git a/ggml/src/ggml-cuda/norm.cu b/ggml/src/ggml-cuda/norm.cu
+index c3758cd50..f8a680e0e 100644
+--- a/ggml/src/ggml-cuda/norm.cu
++++ b/ggml/src/ggml-cuda/norm.cu
+@@ -73,7 +73,12 @@ static __global__ void group_norm_f32(const float * x, float * dst, const int gr
+     }
+ }
+ 
+-template <int block_size, bool do_multiply = false, bool do_add = false>
++// do_q8: also write the (normalised, scaled) row as Q8_1 blocks in the MMVQ row-wise layout (one block per 32 columns,
++// ncols == padded row length), so the quantised matrix-vector consumers of this norm skip their quantize launch.
++// gfx906 fusion 2026-09-08 (M1 trace: 257 quantize launches per decode token).
++// do_preadd: the norm input is x + preadd_in (the residual add that precedes every pre-norm); the sum is written to
++// preadd_out (the residual stream, still needed downstream) and normalised from L2 in the same launch.
++template <int block_size, bool do_multiply = false, bool do_add = false, bool do_q8 = false, bool do_preadd = false>
+ static __global__ void rms_norm_f32(const float * x,
+                                     float *       dst,
+                                     const int     ncols,
+@@ -96,7 +101,11 @@ static __global__ void rms_norm_f32(const float * x,
+                                     const uint3   add_ncols_packed     = make_uint3(0, 0, 0),
+                                     const uint3   add_nrows_packed     = make_uint3(0, 0, 0),
+                                     const uint3   add_nchannels_packed = make_uint3(0, 0, 0),
+-                                    const uint3   add_nsamples_packed  = make_uint3(0, 0, 0)) {
++                                    const uint3   add_nsamples_packed  = make_uint3(0, 0, 0),
++                                    block_q8_1 *  q8_dst               = nullptr,
++                                    const int64_t q8_stride_row        = 0,
++                                    const float * preadd_in            = nullptr,
++                                    float *       preadd_out           = nullptr) {
+     ggml_cuda_pdl_lc();
+     const int nrows     = gridDim.x;
+     const int nchannels = gridDim.y;
+@@ -128,9 +137,22 @@ static __global__ void rms_norm_f32(const float * x,
+     float tmp = 0.0f; // partial sum for thread in warp
+ 
+     ggml_cuda_pdl_sync();
+-    for (int col = tid; col < ncols; col += block_size) {
+-        const float xi = x[col];
+-        tmp += xi * xi;
++    if constexpr (do_preadd) {
++        // x, preadd_in and preadd_out share the (contiguous) layout of the add; each thread writes only the columns it
++        // read, so an in-place add (preadd_out aliasing x or preadd_in) is safe.
++        preadd_in  += sample*stride_sample + channel*stride_channel + row*stride_row;
++        preadd_out += sample*stride_sample + channel*stride_channel + row*stride_row;
++        for (int col = tid; col < ncols; col += block_size) {
++            const float xi = x[col] + preadd_in[col];
++            preadd_out[col] = xi;
++            tmp += xi * xi;
++        }
++        x = preadd_out; // the normalisation pass below re-reads the sum (L2-resident)
++    } else {
++        for (int col = tid; col < ncols; col += block_size) {
++            const float xi = x[col];
++            tmp += xi * xi;
++        }
+     }
+ 
+     // sum up partial sums
+@@ -140,16 +162,38 @@ static __global__ void rms_norm_f32(const float * x,
+     const float mean = tmp / ncols;
+     const float scale = rsqrtf(mean + eps);
+ 
++    static_assert(!do_q8 || do_multiply, "q8 output is only wired through the fused multiply path");
++    static_assert(!do_q8 || block_size % QK8_1 == 0, "q8 output needs whole 32-lane groups per block");
++    if constexpr (do_q8) {
++        // ncols % QK8_1 == 0 (checked by the caller): every 32-lane group is either fully inside or fully outside
++        // the row on each loop trip, so the width-32 shuffles below never see a diverged group.
++        q8_dst += ((int64_t) (sample*nchannels + channel)*nrows + row) * q8_stride_row;
++    }
++
+     for (int col = tid; col < ncols; col += block_size) {
++        float v;
+         if constexpr (do_multiply && do_add) {
+             const int mul_col = fastmodulo(col, mul_ncols_packed);
+             const int add_col = fastmodulo(col, add_ncols_packed);
+-            dst[col]          = scale * x[col] * mul[mul_col] + add[add_col];
++            v                 = scale * x[col] * mul[mul_col] + add[add_col];
+         } else if constexpr (do_multiply) {
+             const int mul_col = fastmodulo(col, mul_ncols_packed);
+-            dst[col]          = scale * x[col] * mul[mul_col];
++            v                 = scale * x[col] * mul[mul_col];
+         } else {
+-            dst[col] = scale * x[col];
++            v = scale * x[col];
++        }
++        dst[col] = v;
++        if constexpr (do_q8) {
++            // Same arithmetic as quantize_q8_1: d = amax/127, q = round(v/d), ds = (d, sum of the fp32 values).
++            const float  amax = warp_reduce_max<QK8_1>(fabsf(v));
++            const float  sum  = warp_reduce_sum<QK8_1>(v);
++            const float  d    = amax / 127.0f;
++            const int8_t q    = amax == 0.0f ? 0 : roundf(v / d);
++            block_q8_1 * y    = q8_dst + col / QK8_1;
++            y->qs[col % QK8_1] = q;
++            if (col % QK8_1 == 0) {
++                y->ds = make_half2(d, sum);
++            }
+         }
+     }
+ }
+@@ -312,15 +356,63 @@ static void rms_norm_f32_cuda(
+             x, dst, ncols, stride_row, stride_channel, stride_sample, eps,
+         // underlying cudaLaunchKernelEx does not support default params
+         nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0),
+-        nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0));
++        nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), (block_q8_1 *) nullptr, (int64_t) 0, (const float *) nullptr, (float *) nullptr);
+     } else {
+         const dim3 block_dims(1024, 1, 1);
+         const ggml_cuda_kernel_launch_params launch_params = ggml_cuda_kernel_launch_params{blocks_num, block_dims, block_dims.x > WARP_SIZE ? 32 * sizeof(float): 0, stream};
+         ggml_cuda_kernel_launch(rms_norm_f32<1024, false>, launch_params, x, dst, ncols, stride_row, stride_channel, stride_sample, eps,
+         // underlying cudaLaunchKernelEx does not support default params
+         nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0),
+-        nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0));
++        nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), (block_q8_1 *) nullptr, (int64_t) 0, (const float *) nullptr, (float *) nullptr);
++    }
++}
++
++template <int block_size, bool do_add, bool do_q8, bool do_preadd>
++static void rms_norm_mul_ext_launch(const float * x, const float * mul, const float * add, float * dst, const int ncols,
++                                   const dim3 & blocks_num, const int64_t stride_row, const int64_t stride_channel,
++                                   const int64_t stride_sample, const float eps,
++                                   const int64_t mul_stride_row, const int64_t mul_stride_channel, const int64_t mul_stride_sample,
++                                   const uint3 mul_ncols_packed, const uint3 mul_nrows_packed, const uint3 mul_nchannels_packed, const uint3 mul_nsamples_packed,
++                                   const int64_t add_stride_row, const int64_t add_stride_channel, const int64_t add_stride_sample,
++                                   const uint3 add_ncols_packed, const uint3 add_nrows_packed, const uint3 add_nchannels_packed, const uint3 add_nsamples_packed,
++                                   block_q8_1 * q8_dst, const int64_t q8_stride_row,
++                                   const float * preadd_in, float * preadd_out, cudaStream_t stream) {
++    const dim3 block_dims(block_size, 1, 1);
++    const ggml_cuda_kernel_launch_params launch_params = ggml_cuda_kernel_launch_params{blocks_num, block_dims, block_dims.x > WARP_SIZE ? 32 * sizeof(float): 0, stream};
++    ggml_cuda_kernel_launch(rms_norm_f32<block_size, true, do_add, do_q8, do_preadd>, launch_params,
++        x, dst, ncols, stride_row, stride_channel, stride_sample, eps, mul, mul_stride_row, mul_stride_channel,
++        mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed, add,
++        add_stride_row, add_stride_channel, add_stride_sample, add_ncols_packed, add_nrows_packed,
++        add_nchannels_packed, add_nsamples_packed, q8_dst, q8_stride_row, preadd_in, preadd_out);
++}
++
++// Dispatch over the run-time flags (bias add, q8 output, pre-add) for one block size.
++template <int block_size>
++static void rms_norm_mul_ext_dispatch(const bool has_add, const bool has_q8, const bool has_preadd,
++                                      const float * x, const float * mul, const float * add, float * dst, const int ncols,
++                                      const dim3 & blocks_num, const int64_t stride_row, const int64_t stride_channel,
++                                      const int64_t stride_sample, const float eps,
++                                      const int64_t mul_stride_row, const int64_t mul_stride_channel, const int64_t mul_stride_sample,
++                                      const uint3 mul_ncols_packed, const uint3 mul_nrows_packed, const uint3 mul_nchannels_packed, const uint3 mul_nsamples_packed,
++                                      const int64_t add_stride_row, const int64_t add_stride_channel, const int64_t add_stride_sample,
++                                      const uint3 add_ncols_packed, const uint3 add_nrows_packed, const uint3 add_nchannels_packed, const uint3 add_nsamples_packed,
++                                      block_q8_1 * q8_dst, const int64_t q8_stride_row, const float * preadd_in, float * preadd_out, cudaStream_t stream) {
++#define RMS_NORM_EXT_CASE(A, Q, P) \
++    if (has_add == A && has_q8 == Q && has_preadd == P) { \
++        rms_norm_mul_ext_launch<block_size, A, Q, P>(x, mul, add, dst, ncols, blocks_num, stride_row, stride_channel, stride_sample, eps, \
++            mul_stride_row, mul_stride_channel, mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed, \
++            add_stride_row, add_stride_channel, add_stride_sample, add_ncols_packed, add_nrows_packed, add_nchannels_packed, add_nsamples_packed, \
++            q8_dst, q8_stride_row, preadd_in, preadd_out, stream); \
++        return; \
+     }
++    RMS_NORM_EXT_CASE(false, true,  false)
++    RMS_NORM_EXT_CASE(false, false, true)
++    RMS_NORM_EXT_CASE(false, true,  true)
++    RMS_NORM_EXT_CASE(true,  true,  false)
++    RMS_NORM_EXT_CASE(true,  false, true)
++    RMS_NORM_EXT_CASE(true,  true,  true)
++#undef RMS_NORM_EXT_CASE
++    GGML_ABORT("rms_norm_mul_ext_dispatch: no extended variant requested");
+ }
+ 
+ static void rms_norm_mul_f32_cuda(const float *  x,
+@@ -349,12 +441,41 @@ static void rms_norm_mul_f32_cuda(const float *  x,
+                                   const uint32_t add_nchannels,
+                                   const uint32_t add_nsamples,
+                                   const float    eps,
+-                                  cudaStream_t   stream) {
++                                  cudaStream_t   stream,
++                                  block_q8_1 *   q8_dst        = nullptr,
++                                  const int64_t  q8_stride_row = 0,
++                                  const float *  preadd_in     = nullptr,
++                                  float *        preadd_out    = nullptr) {
+     const dim3 blocks_num(nrows, nchannels, nsamples);
+     if (mul == nullptr) {
++        GGML_ASSERT(q8_dst == nullptr && preadd_in == nullptr);
+         rms_norm_f32_cuda(x, dst, ncols, nrows, nchannels, nsamples, stride_row, stride_channel, stride_sample, eps, stream);
+         return;
+     }
++    if (q8_dst != nullptr || preadd_in != nullptr) {
++        GGML_ASSERT(q8_dst == nullptr || ncols % QK8_1 == 0);
++        GGML_ASSERT((preadd_in == nullptr) == (preadd_out == nullptr));
++        const uint3 mul_ncols_packed     = init_fastdiv_values(mul_ncols);
++        const uint3 mul_nrows_packed     = init_fastdiv_values(mul_nrows);
++        const uint3 mul_nchannels_packed = init_fastdiv_values(mul_nchannels);
++        const uint3 mul_nsamples_packed  = init_fastdiv_values(mul_nsamples);
++        const uint3 add_ncols_packed     = init_fastdiv_values(add ? add_ncols     : 1);
++        const uint3 add_nrows_packed     = init_fastdiv_values(add ? add_nrows     : 1);
++        const uint3 add_nchannels_packed = init_fastdiv_values(add ? add_nchannels : 1);
++        const uint3 add_nsamples_packed  = init_fastdiv_values(add ? add_nsamples  : 1);
++        if (ncols < 1024) {
++            rms_norm_mul_ext_dispatch<256>(add != nullptr, q8_dst != nullptr, preadd_in != nullptr, x, mul, add, dst, ncols, blocks_num, stride_row, stride_channel, stride_sample, eps,
++                mul_stride_row, mul_stride_channel, mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed,
++                add_stride_row, add_stride_channel, add_stride_sample, add_ncols_packed, add_nrows_packed, add_nchannels_packed, add_nsamples_packed,
++                q8_dst, q8_stride_row, preadd_in, preadd_out, stream);
++        } else {
++            rms_norm_mul_ext_dispatch<1024>(add != nullptr, q8_dst != nullptr, preadd_in != nullptr, x, mul, add, dst, ncols, blocks_num, stride_row, stride_channel, stride_sample, eps,
++                mul_stride_row, mul_stride_channel, mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed,
++                add_stride_row, add_stride_channel, add_stride_sample, add_ncols_packed, add_nrows_packed, add_nchannels_packed, add_nsamples_packed,
++                q8_dst, q8_stride_row, preadd_in, preadd_out, stream);
++        }
++        return;
++    }
+     if (add == nullptr) {
+         const uint3 mul_ncols_packed     = init_fastdiv_values(mul_ncols);
+         const uint3 mul_nrows_packed     = init_fastdiv_values(mul_nrows);
+@@ -367,7 +488,7 @@ static void rms_norm_mul_f32_cuda(const float *  x,
+                 x, dst, ncols, stride_row, stride_channel, stride_sample, eps, mul, mul_stride_row, mul_stride_channel,
+                 mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed,
+                 // underlying cudaLaunchKernelEx does not support default params
+-            nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0));
++            nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), (block_q8_1 *) nullptr, (int64_t) 0, (const float *) nullptr, (float *) nullptr);
+         } else {
+             const dim3 block_dims(1024, 1, 1);
+             const ggml_cuda_kernel_launch_params launch_params = ggml_cuda_kernel_launch_params{blocks_num, block_dims, block_dims.x > WARP_SIZE ? 32 * sizeof(float): 0, stream};
+@@ -375,7 +496,7 @@ static void rms_norm_mul_f32_cuda(const float *  x,
+                 x, dst, ncols, stride_row, stride_channel, stride_sample, eps, mul, mul_stride_row, mul_stride_channel,
+                 mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed,
+                 // underlying cudaLaunchKernelEx does not support default params
+-            nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0));
++            nullptr, 0, 0, 0, make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), make_uint3(0, 0, 0), (block_q8_1 *) nullptr, (int64_t) 0, (const float *) nullptr, (float *) nullptr);
+         }
+     } else {
+         const uint3 mul_ncols_packed     = init_fastdiv_values(mul_ncols);
+@@ -394,7 +515,7 @@ static void rms_norm_mul_f32_cuda(const float *  x,
+                 x, dst, ncols, stride_row, stride_channel, stride_sample, eps, mul, mul_stride_row, mul_stride_channel,
+                 mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed, add,
+                 add_stride_row, add_stride_channel, add_stride_sample, add_ncols_packed, add_nrows_packed,
+-                add_nchannels_packed, add_nsamples_packed);
++                add_nchannels_packed, add_nsamples_packed, (block_q8_1 *) nullptr, (int64_t) 0, (const float *) nullptr, (float *) nullptr);
+         } else {
+             const dim3 block_dims(1024, 1, 1);
+             const ggml_cuda_kernel_launch_params launch_params = ggml_cuda_kernel_launch_params{blocks_num, block_dims, block_dims.x > WARP_SIZE ? 32 * sizeof(float): 0, stream};
+@@ -402,7 +523,7 @@ static void rms_norm_mul_f32_cuda(const float *  x,
+                 x, dst, ncols, stride_row, stride_channel, stride_sample, eps, mul, mul_stride_row, mul_stride_channel,
+                 mul_stride_sample, mul_ncols_packed, mul_nrows_packed, mul_nchannels_packed, mul_nsamples_packed, add,
+                 add_stride_row, add_stride_channel, add_stride_sample, add_ncols_packed, add_nrows_packed,
+-                add_nchannels_packed, add_nsamples_packed);
++                add_nchannels_packed, add_nsamples_packed, (block_q8_1 *) nullptr, (int64_t) 0, (const float *) nullptr, (float *) nullptr);
+         }
+     }
+ }
+@@ -499,13 +620,16 @@ void ggml_cuda_op_rms_norm(ggml_backend_cuda_context & ctx, ggml_tensor * dst) {
+     rms_norm_f32_cuda(src0_d, dst_d, ne00, ne01, ne02, ne03, s01, s02, s03, eps, stream);
+ }
+ 
+-void ggml_cuda_op_rms_norm_fused(ggml_backend_cuda_context & ctx, ggml_tensor * dst, ggml_tensor * mul_tensor) {
++// preadd: when non-null, the norm input dst->src[0] is the output of this ADD node, which the fused kernel computes
++// (src[0] + src[1], both contiguous and same-shaped) and writes on the way in.
++void ggml_cuda_op_rms_norm_fused(ggml_backend_cuda_context & ctx, ggml_tensor * dst, ggml_tensor * mul_tensor, void * q8_out, const ggml_tensor * preadd) {
+     const ggml_tensor * rms_norm_src = (ggml_tensor *) dst->src[0];
+     float eps = 0.0f;
+ 
+     memcpy(&eps, dst->op_params, sizeof(float));
+ 
+-    const float * src0_d = (const float *) rms_norm_src->data;
++    GGML_ASSERT(preadd == nullptr || (preadd == rms_norm_src && preadd->op == GGML_OP_ADD));
++    const float * src0_d = (const float *) (preadd ? preadd->src[0]->data : rms_norm_src->data);
+     const float * mul_d = nullptr;
+     const ggml_tensor * mul_src = nullptr;
+ 
+@@ -556,19 +680,23 @@ void ggml_cuda_op_rms_norm_fused(ggml_backend_cuda_context & ctx, ggml_tensor *
+                           mul_ncols, mul_nrows, mul_nchannels, mul_nsamples,
+                           /*add_s00*/ 0, 0, 0,
+                           0, 0, 0, 0,
+-                          eps, stream);
++                          eps, stream, (block_q8_1 *) q8_out, ne00 / QK8_1,
++                          preadd ? (const float *) preadd->src[1]->data : nullptr, preadd ? (float *) preadd->data : nullptr);
+ }
+ 
+ void ggml_cuda_op_rms_norm_fused_add(ggml_backend_cuda_context & ctx,
+                                      ggml_tensor *               dst,
+                                      ggml_tensor *               mul_tensor,
+-                                     ggml_tensor *               add_tensor) {
++                                     ggml_tensor *               add_tensor,
++                                     void *                      q8_out,
++                                     const ggml_tensor *         preadd) {
+     const ggml_tensor * rms_norm_src = (ggml_tensor *) dst->src[0];
+     float               eps          = 0.0f;
+ 
+     memcpy(&eps, dst->op_params, sizeof(float));
+ 
+-    const float *       src0_d  = (const float *) rms_norm_src->data;
++    GGML_ASSERT(preadd == nullptr || (preadd == rms_norm_src && preadd->op == GGML_OP_ADD));
++    const float *       src0_d  = (const float *) (preadd ? preadd->src[0]->data : rms_norm_src->data);
+     const float *       mul_d   = nullptr;
+     const ggml_tensor * mul_src = nullptr;
+ 
+@@ -644,7 +772,8 @@ void ggml_cuda_op_rms_norm_fused_add(ggml_backend_cuda_context & ctx,
+                           mul_ncols, mul_nrows, mul_nchannels, mul_nsamples,
+                           /*add_s00*/ add_s01, add_s02, add_s03,
+                           add_ncols, add_nrows, add_nchannels, add_nsamples,
+-                          eps, stream);
++                          eps, stream, (block_q8_1 *) q8_out, ne00 / QK8_1,
++                          preadd ? (const float *) preadd->src[1]->data : nullptr, preadd ? (float *) preadd->data : nullptr);
+ }
+ 
+ void ggml_cuda_op_rms_norm_back(ggml_backend_cuda_context & ctx, ggml_tensor * dst) {
+diff --git a/ggml/src/ggml-cuda/norm.cuh b/ggml/src/ggml-cuda/norm.cuh
+index a74f63767..388b34748 100644
+--- a/ggml/src/ggml-cuda/norm.cuh
++++ b/ggml/src/ggml-cuda/norm.cuh
+@@ -6,12 +6,17 @@ void ggml_cuda_op_group_norm(ggml_backend_cuda_context & ctx, ggml_tensor * dst)
+ 
+ void ggml_cuda_op_rms_norm(ggml_backend_cuda_context & ctx, ggml_tensor * dst);
+ 
+-void ggml_cuda_op_rms_norm_fused(ggml_backend_cuda_context & ctx, ggml_tensor * dst, ggml_tensor * mul_tensor);
++// q8_out: optional MMVQ-layout Q8_1 buffer (from ggml_cuda_q8_1_cache_acquire) that the fused kernel also fills with the
++// quantised output row(s), so the matrix-vector consumers skip their quantize launch. nullptr = plain fused norm.
++// preadd: optional ADD node that is the norm's input (residual add), computed and written by the fused kernel.
++void ggml_cuda_op_rms_norm_fused(ggml_backend_cuda_context & ctx, ggml_tensor * dst, ggml_tensor * mul_tensor, void * q8_out = nullptr, const ggml_tensor * preadd = nullptr);
+ 
+ void ggml_cuda_op_rms_norm_fused_add(ggml_backend_cuda_context & ctx,
+                                      ggml_tensor *               dst,
+                                      ggml_tensor *               mul_tensor,
+-                                     ggml_tensor *               add_tensor);
++                                     ggml_tensor *               add_tensor,
++                                     void *                      q8_out = nullptr,
++                                     const ggml_tensor *         preadd = nullptr);
+ 
+ void ggml_cuda_op_rms_norm_back(ggml_backend_cuda_context & ctx, ggml_tensor * dst);
+ 

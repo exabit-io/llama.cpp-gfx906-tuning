@@ -1,0 +1,2 @@
+  - `svc125-4x64K`: nextn IGNORED (MTP off); peak VRAM 12.3 12.4 12.3 12.3  GiB/die
+  - `svc125-6x64K`: nextn IGNORED (MTP off); peak VRAM 14.1 14.0 14.0 13.9  GiB/die

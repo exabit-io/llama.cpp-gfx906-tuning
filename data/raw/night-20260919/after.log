@@ -1,0 +1,4 @@
+2026-09-23T00:02:28+00:00 [after] sweep done; starting the delta-minus screen batch
+2026-09-23T01:50:05+00:00 [after] screen batch exit=0
+2026-09-23T01:50:15+00:00 [after2] screen done; starting the KV quality gate
+2026-09-23T02:12:18+00:00 [after2] kv quality exit=0

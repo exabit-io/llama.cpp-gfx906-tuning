@@ -1,0 +1,25 @@
+2026-09-20T11:02:35+00:00 [gate4] arm reuse-on: slots=4 LLAMA_GRAPH_REUSE_DISABLE=0
+2026-09-20T11:13:16+00:00 [gate4] STOPPED (trap)
+2026-09-20T11:14:28+00:00 [gate4] arm reuse-on: slots=4 LLAMA_GRAPH_REUSE_DISABLE=0
+2026-09-20T11:14:51+00:00 [gate4] arm reuse-on: graphs reused = 191
+  reuse-on: 1 distinct completion(s) across 4 slots -> IDENTICAL
+    slot1 46e0e1803a12 len=792
+    slot2 46e0e1803a12 len=792
+    slot3 46e0e1803a12 len=792
+    slot4 46e0e1803a12 len=792
+2026-09-20T11:14:51+00:00 [gate4] arm reuse-off: slots=4 LLAMA_GRAPH_REUSE_DISABLE=1
+2026-09-20T11:15:20+00:00 [gate4] arm reuse-off: graphs reused = 0
+  reuse-off: 1 distinct completion(s) across 4 slots -> IDENTICAL
+    slot1 46e0e1803a12 len=792
+    slot2 46e0e1803a12 len=792
+    slot3 46e0e1803a12 len=792
+    slot4 46e0e1803a12 len=792
+2026-09-20T11:15:20+00:00 [gate4] arm single: slots=1 LLAMA_GRAPH_REUSE_DISABLE=0
+2026-09-20T11:15:39+00:00 [gate4] arm single: graphs reused = 191
+  single: 1 distinct completion(s) across 1 slots -> IDENTICAL
+    slot1 2070fac26968 len=802
+2026-09-20T11:15:39+00:00 [gate4] === comparing arms: reuse-on must match reuse-off and the 1-slot reference
+  reuse-on : ['46e0e1803a12', '46e0e1803a12', '46e0e1803a12', '46e0e1803a12']
+  reuse-off: ['46e0e1803a12', '46e0e1803a12', '46e0e1803a12', '46e0e1803a12']
+  1-slot reference: 2070fac26968
+  GATE 4 VERDICT: FAIL — reuse-ON 4-slot output differs from the 1-slot reference

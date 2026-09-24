@@ -1,0 +1,7 @@
+base|
+norm-add-fusion|53b068a3e 481b20bbb
+gdn-producer-fold|53b068a3e 481b20bbb 1dfc37ba0 d3db60faa e67a3f9d1 e0aea2b77 35316fa8b
+mmvq-batch1-knobs|e422bca49 489b57b71 97dda78ec 3e8a52b4c
+s1b-repacked-matvec|f87ba74c9 7592afac4 97ad7e399
+fa-head256-rows|0a0388ab8 1ae7d1beb
+dpp-warp-reductions|5d76f2b51 dd5dd6304

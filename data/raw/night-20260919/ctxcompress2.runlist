@@ -1,0 +1,15 @@
+# Step 4b — context-compression cost with a SIZED cache, so the rate numbers are quotable.
+# Step 4's first pass logged 10 cache evictions at the 8 GiB default (8 x 32K needs ~13.7 GiB),
+# contaminating its rates. Its refusal finding stands regardless: with --no-context-shift every
+# session dies with HTTP 400 exceed_context_size_error at the slot boundary.
+#
+#   off        default policy, with the cache sized: confirms the refusal is a policy effect,
+#              not a cache effect.
+#   on         --context-shift: the cost of discarding oldest context and continuing.
+#   on-nockpt  --context-shift with checkpoints off, isolating checkpoint overhead
+#              (default 32/slot, min spacing 8192).
+#
+# tag | slots | depth | clients | server_extra | client_extra
+c2-ctxshift-off       | 8 | 32768 | 8 | --cache-ram 49152 | --turns 4 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 26624 --arrival-rate 0.1
+c2-ctxshift-on        | 8 | 32768 | 8 | --cache-ram 49152 --context-shift | --turns 4 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 26624 --arrival-rate 0.1
+c2-ctxshift-on-nockpt | 8 | 32768 | 8 | --cache-ram 49152 --context-shift -ctxcp 0 | --turns 4 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 26624 --arrival-rate 0.1

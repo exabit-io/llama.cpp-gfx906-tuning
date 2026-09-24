@@ -1,0 +1,7 @@
+2026-09-23T02:25:31+00:00 [fix] building substrate with FA_QUANTS=all
+2026-09-23T02:26:34+00:00 [fix] build OK; arms comparable check:
+2026-09-23T02:33:57+00:00 [fix] substrate rep1: decode 15.5088, prefill 750.0
+2026-09-23T02:41:05+00:00 [fix] substrate rep2: decode 15.4992, prefill 749.5
+./fix-baseline.sh: line 54: syntax error near unexpected token `)'
+./fix-baseline.sh: line 54: ` -F'\t' '{printf "decode %.4f, prefill %.1f",$1,$2}')"; }'
+2026-09-23T02:41:06+00:00 [fix] STOPPED (trap)

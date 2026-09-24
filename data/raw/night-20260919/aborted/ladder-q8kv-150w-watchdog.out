@@ -1,0 +1,10 @@
+2026-09-19T21:14:11+00:00 watchdog v2 start pid 760243 guarding ^/bin/bash /root/night-20260919/ladder[.]sh (sclk guard 1; DC envelope guard: >= 1228 W once or >= 1200 W twice, from /root/night-20260919/ladder-q8kv-150w-smc.log)
+2026-09-19T21:14:11+00:00 card0:1730MHz/0%/0 card1:1730MHz/0%/0 card2:1730MHz/0%/0 card3:1730MHz/0%/0
+2026-09-19T21:14:17+00:00 card0:1730MHz/0%/0 card1:1730MHz/0%/0 card2:1730MHz/0%/0 card3:1730MHz/0%/0
+2026-09-19T21:14:22+00:00 card0:1730MHz/53%/0 card1:1730MHz/48%/0 card2:1000MHz/66%/1 card3:1000MHz/62%/1
+2026-09-19T21:14:27+00:00 card0:1000MHz/0%/0 card1:1000MHz/0%/0 card2:1000MHz/0%/0 card3:1000MHz/0%/0
+2026-09-19T21:14:32+00:00 card0:1445MHz/100%/0 card1:1445MHz/100%/0 card2:1336MHz/100%/0 card3:1204MHz/100%/0
+2026-09-19T21:14:37+00:00 card0:1674MHz/100%/0 card1:1336MHz/100%/0 card2:1336MHz/100%/0 card3:1336MHz/100%/0
+2026-09-19T21:14:42+00:00 card0:1336MHz/100%/0 card1:1336MHz/100%/0 card2:1445MHz/100%/0 card3:1445MHz/100%/0
+2026-09-19T21:14:47+00:00 card0:1674MHz/100%/0 card1:1540MHz/100%/0 card2:1336MHz/100%/0 card3:1336MHz/100%/0
+2026-09-19T21:14:52+00:00 card0:1445MHz/100%/0 card1:1540MHz/100%/0 card2:1336MHz/100%/0 card3:1336MHz/100%/0

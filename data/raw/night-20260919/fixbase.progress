@@ -1,0 +1,10 @@
+2026-09-23T02:25:31+00:00 [fix] building substrate with FA_QUANTS=all
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-23T02:26:34+00:00 [fix] build OK; arms comparable check:
+OK    2 arms share every code-affecting build option
+2026-09-23T02:33:57+00:00 [fix] substrate rep1: decode 15.5088, prefill 750.0
+2026-09-23T02:41:05+00:00 [fix] substrate rep2: decode 15.4992, prefill 749.5
+2026-09-23T02:41:06+00:00 [fix] STOPPED (trap)

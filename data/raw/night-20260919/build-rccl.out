@@ -1,0 +1,5 @@
+2026-09-21T19:15:46+00:00 [rccl] substrate-v041: checking out gfx906-substrate-v041 in /root/wt-sep-test
+2026-09-21T19:18:04+00:00 [rccl] substrate-v041: BUILD OK -> /root/build-substrate-v041-rccl  (RCCL symbols in libggml-hip: 18)
+2026-09-21T19:18:04+00:00 [rccl] c4series: checking out c4-series in /root/exabit-llama.cpp
+2026-09-21T19:21:16+00:00 [rccl] c4series: BUILD OK -> /root/build-c4series-rccl  (RCCL symbols in libggml-hip: 18)
+2026-09-21T19:21:16+00:00 [rccl] === BUILD-RCCL DONE rc=0 ===

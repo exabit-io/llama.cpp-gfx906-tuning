@@ -1,0 +1,292 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- llama.cpp version: 0.4.1-dev
+CMAKE_BUILD_TYPE=Release
+-- Found Git: /usr/bin/git (found version "2.43.0") 
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- CMAKE_SYSTEM_PROCESSOR: x86_64
+-- GGML_SYSTEM_ARCH: x86
+-- Found OpenMP_C: -fopenmp (found version "4.5") 
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5")  
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- The HIP compiler identification is Clang 23.0.0
+-- Detecting HIP compiler ABI info
+-- Detecting HIP compiler ABI info - done
+-- Check for working HIP compiler: /opt/rocm/lib/llvm/bin/clang++ - skipped
+-- Detecting HIP compile features
+-- Detecting HIP compile features - done
+-- HIP: Using hipcc from relative path: /opt/rocm/bin/hipcc
+-- HIP_PLATFORM using hip_HIPCONFIG_EXECUTABLE: amd
+-- HIP: Using hipcc from relative path: /opt/rocm/bin/hipcc
+-- HIP and hipBLAS found
+-- FlashAttention K-V type combinations: f16-f16;q4_0-q4_0;q8_0-q8_0;bf16-bf16
+-- Including HIP backend
+-- ggml version: 0.24.0
+-- ggml commit:  c32067abf
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+-- Performing Test OPENSSL_VERSION_SUPPORTED
+-- Performing Test OPENSSL_VERSION_SUPPORTED - Success
+-- OpenSSL found: 3.0.13
+-- Generating embedded license file for target: llama-app
+-- Configuring done (2.6s)
+-- Generating done (0.2s)
+-- Build files have been written to: /root/build-gfx906-multi
+[  1%] Building CXX object vendor/cpp-httplib/CMakeFiles/cpp-httplib.dir/httplib.cpp.o
+[  1%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[  1%] Building CXX object vendor/hash/CMakeFiles/vendor-hash.dir/hash.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[  2%] Building CXX object common/CMakeFiles/llama-common-base.dir/build-info.cpp.o
+[  2%] Provisioning UI assets
+[  2%] Building C object vendor/hash/CMakeFiles/vendor-hash.dir/xxhash/xxhash.c.o
+[  2%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[  2%] Building CXX object vendor/hash/CMakeFiles/vendor-hash.dir/sha1/sha1.c.o
+[  2%] Building C object vendor/hash/CMakeFiles/vendor-hash.dir/sha256/sha256.c.o
+[  2%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[  2%] Building CXX object tools/mtmd/CMakeFiles/llama-llava-cli.dir/deprecation-warning.cpp.o
+[  2%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[  3%] Building CXX object tools/mtmd/CMakeFiles/llama-gemma3-cli.dir/deprecation-warning.cpp.o
+[  4%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[  4%] Building CXX object tools/mtmd/CMakeFiles/llama-minicpmv-cli.dir/deprecation-warning.cpp.o
+[  4%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[  4%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[  4%] Building CXX object tools/mtmd/CMakeFiles/llama-qwen2vl-cli.dir/deprecation-warning.cpp.o
+[  4%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+-- UI: downloading from b10983: https://huggingface.co/buckets/ggml-org/llama-ui/resolve/b10983/dist.tar.gz
+[  4%] Linking CXX executable ../../bin/llama-minicpmv-cli
+[  5%] Linking CXX executable ../../bin/llama-qwen2vl-cli
+[  5%] Linking CXX executable ../../bin/llama-llava-cli
+[  5%] Linking CXX executable ../../bin/llama-gemma3-cli
+[  5%] Linking CXX static library libllama-common-base.a
+[  5%] Built target llama-minicpmv-cli
+[  5%] Built target llama-llava-cli
+[  5%] Built target llama-qwen2vl-cli
+[  5%] Built target llama-gemma3-cli
+[  5%] Built target llama-common-base
+[  6%] Linking CXX static library libvendor-hash.a
+[  6%] Built target vendor-hash
+-- UI: archive verified and extracted
+-- UI: HF download succeeded, stamp updated (ggml-org/llama-ui|b10983, resolved: b10983)
+-- UI: gzip compression applied (/root/build-gfx906-multi/tools/ui/ui-gzip/_gzip)
+-- UI: embedded 70 assets
+[  6%] Built target llama-ui-assets
+[  6%] Building CXX object tools/ui/CMakeFiles/llama-ui.dir/ui.cpp.o
+[  6%] Linking CXX shared library ../../bin/libggml-base.so
+[  6%] Built target ggml-base
+[  6%] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[  6%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/iqp.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[  7%] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+[  8%] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/quants.c.o
+[  9%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/llamafile/sgemm.cpp.o
+[  9%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/repack.cpp.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/acc.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/allreduce.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/add-id.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/arange.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argmax.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argsort.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/binbcast.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/clamp.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/col2im-1d.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/concat.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv-transpose-1d.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-dw.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-transpose.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d.cu.o
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/convert.cu.o
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/count-equal.cu.o
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/arange.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/arange.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:114: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/arange.cu.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/acc.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/acc.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/argmax.cu:4:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/argmax.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:75: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/acc.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:127: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argmax.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/argsort.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/argsort.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:140: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argsort.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/add-id.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/add-id.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:88: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/add-id.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/allreduce.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/allreduce.cuh:3:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:101: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/allreduce.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/binbcast.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/binbcast.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:153: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/binbcast.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/clamp.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/clamp.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:166: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/clamp.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/col2im-1d.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/col2im-1d.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:179: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/col2im-1d.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/concat.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/concat.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:192: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/concat.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv-transpose-1d.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv-transpose-1d.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:205: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv-transpose-1d.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv2d-dw.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv2d-dw.cuh:2:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:218: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-dw.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv2d-transpose.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv2d-transpose.cuh:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:231: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-transpose.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv2d.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/conv2d.cuh:2:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:244: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/convert.cu:1:
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/convert.cuh:2:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:257: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/convert.cu.o] Error 1
+In file included from /root/wt-gfx906-multi/ggml/src/ggml-cuda/count-equal.cu:1:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:270: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/count-equal.cu.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:2052: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+[ 12%] Linking CXX static library libllama-ui.a
+[ 12%] Built target llama-ui
+[ 12%] Linking CXX shared library ../../bin/libggml-cpu.so
+[ 12%] Built target ggml-cpu
+[ 12%] Linking CXX static library libcpp-httplib.a
+[ 12%] Built target cpp-httplib
+gmake: *** [Makefile:146: all] Error 2

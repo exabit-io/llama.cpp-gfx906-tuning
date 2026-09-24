@@ -1,0 +1,14 @@
+2026-09-20T12:31:54+00:00 [d1] === D-1 runtime screen, n=2 at the 4x64K design point, 125 W, env stated per arm
+2026-09-20T12:41:41+00:00 [d1] E1-AR-on 4x64K rep1: decode 15.4650 tok/s/slot, prefill 511.62 t/s
+2026-09-20T12:49:55+00:00 [d1] E1-AR-off 4x64K rep1: decode 14.2175 tok/s/slot, prefill 633.10 t/s
+2026-09-20T12:59:43+00:00 [d1] E2-repack-on 4x64K rep1: decode 15.4850 tok/s/slot, prefill 510.20 t/s
+2026-09-20T13:10:05+00:00 [d1] E2-repack-off 4x64K rep1: decode 14.6525 tok/s/slot, prefill 487.71 t/s
+2026-09-20T13:18:11+00:00 [d1] E3-gate-on 4x64K rep1: decode 15.9000 tok/s/slot, prefill 633.18 t/s
+2026-09-20T13:27:59+00:00 [d1] E3-gate-off 4x64K rep1: decode 15.9000 tok/s/slot, prefill 509.05 t/s
+2026-09-20T13:37:44+00:00 [d1] E1-AR-on 4x64K rep2: decode 15.4425 tok/s/slot, prefill 513.59 t/s
+2026-09-20T13:45:58+00:00 [d1] E1-AR-off 4x64K rep2: decode 14.1850 tok/s/slot, prefill 633.11 t/s
+2026-09-20T13:55:44+00:00 [d1] E2-repack-on 4x64K rep2: decode 15.4575 tok/s/slot, prefill 512.35 t/s
+2026-09-20T14:06:03+00:00 [d1] E2-repack-off 4x64K rep2: decode 14.6300 tok/s/slot, prefill 490.26 t/s
+2026-09-20T14:14:11+00:00 [d1] E3-gate-on 4x64K rep2: decode 15.8275 tok/s/slot, prefill 632.66 t/s
+2026-09-20T14:23:55+00:00 [d1] E3-gate-off 4x64K rep2: decode 15.8950 tok/s/slot, prefill 512.59 t/s
+2026-09-20T14:23:56+00:00 [d1] === D1 RUNTIME SCREEN DONE ===

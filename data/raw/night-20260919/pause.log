@@ -1,0 +1,4 @@
+2026-09-20T16:15:43+00:00 [pause] suspending the run script (pid 711238) — the cell in flight will finish first
+2026-09-20T16:15:43+00:00 [pause] suspended guard pid 711257
+2026-09-20T16:15:43+00:00 [pause] waiting for the in-flight cell to finish (up to ~7 min)
+2026-09-20T16:21:00+00:00 [pause] pid 711238 is not running — nothing to pause

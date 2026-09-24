@@ -1,0 +1,21 @@
+0.00.460.953 W model has unused tensor blk.64.attn_norm.weight (size = 20480 bytes) -- ignoring
+0.00.460.960 W model has unused tensor blk.64.post_attention_norm.weight (size = 20480 bytes) -- ignoring
+0.00.460.970 W model has unused tensor blk.64.attn_q.weight (size = 66846720 bytes) -- ignoring
+0.00.460.974 W model has unused tensor blk.64.attn_k.weight (size = 5570560 bytes) -- ignoring
+0.00.460.977 W model has unused tensor blk.64.attn_v.weight (size = 5570560 bytes) -- ignoring
+0.00.460.989 W model has unused tensor blk.64.attn_output.weight (size = 33423360 bytes) -- ignoring
+0.00.460.993 W model has unused tensor blk.64.attn_q_norm.weight (size = 1024 bytes) -- ignoring
+0.00.460.996 W model has unused tensor blk.64.attn_k_norm.weight (size = 1024 bytes) -- ignoring
+0.00.461.000 W model has unused tensor blk.64.ffn_gate.weight (size = 94699520 bytes) -- ignoring
+0.00.461.004 W model has unused tensor blk.64.ffn_down.weight (size = 94699520 bytes) -- ignoring
+0.00.461.007 W model has unused tensor blk.64.ffn_up.weight (size = 94699520 bytes) -- ignoring
+0.00.461.012 W model has unused tensor blk.64.nextn.eh_proj.weight (size = 55705600 bytes) -- ignoring
+0.00.461.017 W model has unused tensor blk.64.nextn.enorm.weight (size = 20480 bytes) -- ignoring
+0.00.461.021 W model has unused tensor blk.64.nextn.hnorm.weight (size = 20480 bytes) -- ignoring
+0.00.461.038 W model has unused tensor blk.64.nextn.shared_head_norm.weight (size = 20480 bytes) -- ignoring
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+0.01.281.251 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.01.285.513 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.01.289.923 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.01.294.166 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.06.338.489 W llama_context: n_ctx_seq (262400) > n_ctx_train (262144) -- possible training context overflow

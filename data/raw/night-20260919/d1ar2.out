@@ -1,0 +1,10 @@
+2026-09-21T16:40:07+00:00 [ar2] === does custom AR earn its place? both arms on the BUNDLE build, one variable
+2026-09-21T16:48:14+00:00 [ar2] M-AR-on-gated 4x64K rep5: decode 15.9100 tok/s/slot, prefill 632.73 t/s
+2026-09-21T16:56:28+00:00 [ar2] M-AR-off 4x64K rep5: decode 14.4250 tok/s/slot, prefill 632.90 t/s
+2026-09-21T17:04:42+00:00 [ar2] M-AR-off 4x64K rep6: decode 14.4350 tok/s/slot, prefill 633.18 t/s
+2026-09-21T17:12:49+00:00 [ar2] M-AR-on-gated 4x64K rep6: decode 15.9050 tok/s/slot, prefill 632.96 t/s
+2026-09-21T17:14:08+00:00 [ar2] S-AR-on-gated 1x32K rep5: decode 40.1800 tok/s/slot, prefill 726.14 t/s
+2026-09-21T17:15:34+00:00 [ar2] S-AR-off 1x32K rep5: decode 32.0000 tok/s/slot, prefill 726.29 t/s
+2026-09-21T17:17:00+00:00 [ar2] S-AR-off 1x32K rep6: decode 32.0000 tok/s/slot, prefill 726.28 t/s
+2026-09-21T17:18:19+00:00 [ar2] S-AR-on-gated 1x32K rep6: decode 40.2600 tok/s/slot, prefill 726.12 t/s
+2026-09-21T17:18:19+00:00 [ar2] === AR-EARNS-ITS-PLACE DONE ===

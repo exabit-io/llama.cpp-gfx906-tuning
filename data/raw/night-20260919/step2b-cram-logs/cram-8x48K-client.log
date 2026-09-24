@@ -1,0 +1,3 @@
+| tag | clients | turns | reqs | wall s | seed | gen tok | prefill tok | pre:dec | gen tok/s | req/min | TTFT med / p90 s | decode med / p10 / min tok/s | cache miss | max ctx |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|
+| step2b-cram-cram-8x48K | 12 | 3 | 24 | 2315 | 24K/50s | 97850 | 14168 | 0.14:1 | 42.3 | 0.62 | 1.36 / 2.84 | 12.1 / 7.1 / 6.5 | 0/24 | 43862 |

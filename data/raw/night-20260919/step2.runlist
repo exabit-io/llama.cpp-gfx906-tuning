@@ -1,0 +1,13 @@
+# Step 2 — chat-shape validation (R2.4) at the three PASSING ladder configurations.
+# clients = 1.5 x slots (§5.1). Poisson arrivals, never t=0 (§5.1: that artifact alone cost 4 tok/s).
+# Contexts SEEDED to leave headroom for 3 turns at gen 4096 +/-40% (decision N3): seed + p99 of the
+# turn budget must stay under the slot, or a session overflows and the server refuses the turn.
+#   8x48K  seed 24K + ~21K p99 = 45K  < 48K
+#   6x64K  seed 40K + ~21K p99 = 62K  < 64K
+#   4x128K seed 100K + ~21K p99 = 123K < 128K
+# Order runs the throughput end first, so the most decision-relevant number lands earliest.
+#
+# tag | slots | depth | clients | server_extra | client_extra
+chat-8x48K  |  8 |  49152 | 12 |  | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 24576 --arrival-rate 0.08
+chat-4x128K |  4 | 131072 |  6 |  | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 102400 --arrival-rate 0.05
+chat-6x64K  |  6 |  65536 |  9 |  | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.06

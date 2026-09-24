@@ -1,0 +1,20 @@
+0.00.431.982 W operator(): LLAMA_PLE_SHARD=1, sharding the PLE gather table across the TP group
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+1.04.521.104 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.0.hc_attn_down.weight, 3481600 bytes)
+1.04.528.013 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.0.hc_attn_down.weight, 3481600 bytes)
+1.04.535.061 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.0.hc_attn_down.weight, 3481600 bytes)
+1.04.541.751 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.0.hc_attn_down.weight, 3481600 bytes)
+1.04.596.097 W q8_repack: repacking q5_1 tensors on device 0 (first: blk.0.ffn_down_exps.weight, 125829120 bytes)
+1.04.822.686 W q8_repack: repacking q5_1 tensors on device 1 (first: blk.0.ffn_down_exps.weight, 125829120 bytes)
+1.05.045.522 W q8_repack: repacking q5_1 tensors on device 2 (first: blk.0.ffn_down_exps.weight, 125829120 bytes)
+1.05.265.305 W q8_repack: repacking q5_1 tensors on device 3 (first: blk.0.ffn_down_exps.weight, 251658240 bytes)
+1.05.513.235 W q8_repack: repacking q4_K tensors on device 0 (first: blk.0.ffn_gate_exps.weight, 94371840 bytes)
+1.05.553.743 W q8_repack: repacking q4_K tensors on device 1 (first: blk.0.ffn_gate_exps.weight, 94371840 bytes)
+1.05.595.281 W q8_repack: repacking q4_K tensors on device 2 (first: blk.0.ffn_gate_exps.weight, 94371840 bytes)
+1.05.636.399 W q8_repack: repacking q4_K tensors on device 3 (first: blk.0.ffn_gate_exps.weight, 188743680 bytes)
+1.08.013.364 W q8_repack: repacking q5_K tensors on device 0 (first: blk.2.ffn_gate_exps.weight, 115343360 bytes)
+1.08.027.118 W q8_repack: repacking q5_K tensors on device 1 (first: blk.2.ffn_gate_exps.weight, 230686720 bytes)
+1.08.131.763 W q8_repack: repacking q5_K tensors on device 2 (first: blk.2.ffn_gate_exps.weight, 115343360 bytes)
+1.08.145.501 W q8_repack: repacking q5_K tensors on device 3 (first: blk.2.ffn_gate_exps.weight, 115343360 bytes)
+1.55.193.903 W [repack-moe-fusion] type=q4_K cols=1 fused up/gate mat-vec engaged
+1.59.966.506 W [repack-moe-fusion] type=q5_K cols=1 fused up/gate mat-vec engaged

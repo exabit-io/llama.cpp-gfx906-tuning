@@ -1,0 +1,31 @@
+0.00.044.993 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPLIT_MODE_TENSOR, abort
+0.00.430.939 W model has unused tensor blk.64.attn_norm.weight (size = 20480 bytes) -- ignoring
+0.00.430.946 W model has unused tensor blk.64.post_attention_norm.weight (size = 20480 bytes) -- ignoring
+0.00.430.955 W model has unused tensor blk.64.attn_q.weight (size = 66846720 bytes) -- ignoring
+0.00.430.958 W model has unused tensor blk.64.attn_k.weight (size = 5570560 bytes) -- ignoring
+0.00.430.961 W model has unused tensor blk.64.attn_v.weight (size = 5570560 bytes) -- ignoring
+0.00.430.972 W model has unused tensor blk.64.attn_output.weight (size = 33423360 bytes) -- ignoring
+0.00.430.976 W model has unused tensor blk.64.attn_q_norm.weight (size = 1024 bytes) -- ignoring
+0.00.430.979 W model has unused tensor blk.64.attn_k_norm.weight (size = 1024 bytes) -- ignoring
+0.00.430.982 W model has unused tensor blk.64.ffn_gate.weight (size = 94699520 bytes) -- ignoring
+0.00.430.985 W model has unused tensor blk.64.ffn_down.weight (size = 94699520 bytes) -- ignoring
+0.00.430.988 W model has unused tensor blk.64.ffn_up.weight (size = 94699520 bytes) -- ignoring
+0.00.430.993 W model has unused tensor blk.64.nextn.eh_proj.weight (size = 55705600 bytes) -- ignoring
+0.00.430.996 W model has unused tensor blk.64.nextn.enorm.weight (size = 20480 bytes) -- ignoring
+0.00.430.999 W model has unused tensor blk.64.nextn.hnorm.weight (size = 20480 bytes) -- ignoring
+0.00.431.009 W model has unused tensor blk.64.nextn.shared_head_norm.weight (size = 20480 bytes) -- ignoring
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+0.01.663.638 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.01.669.104 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.01.674.377 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.01.679.206 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.0.attn_qkv.weight, 13926400 bytes)
+0.10.461.455 I cmn          init: llama threadpool init, n_threads = 28
+0.10.845.638 I 
+0.10.845.776 I system_info: n_threads = 28 (n_threads_batch = 28) / 56 | ROCm : NO_VMM = 1 | FA_QUANTS = all | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VNNI = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.10.845.790 I perplexity: tokenizing the input ..
+0.11.371.228 I perplexity: tokenization took 525.431 ms
+0.11.371.442 I perplexity: calculating perplexity over 6 chunks, n_ctx=16384, batch_size=2048, n_seq=1
+0.33.169.130 I perplexity: 21.80 seconds per pass - ETA 2.17 minutes
+[1]3.5334,[2]5.6802,[3]5.7894,[4]5.6706,[5]5.4638,[6]5.6344,
+2.09.111.033 I Final estimate: PPL = 5.6344 +/- 0.06274
+

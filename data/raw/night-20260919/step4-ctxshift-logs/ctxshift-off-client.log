@@ -1,0 +1,4 @@
+| tag | clients | turns | reqs | wall s | seed | gen tok | prefill tok | pre:dec | gen tok/s | req/min | TTFT med / p90 s | decode med / p10 / min tok/s | cache miss | max ctx |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|
+| step4-ctxshift-ctxshift-off | 8 | 4 | 4 | 768 | 26K/134s | 5951 | 9120 | 1.53:1 | 7.7 | 0.31 | 2.69 / 6.51 | 11.6 / 7.3 / 7.3 | 1/4 | 34884 |
+| step4-ctxshift-ctxshift-off — **8 turn(s) REFUSED by the server** at ctx ~32886: `HTTP 400: {"error":{"code":400,"message":"request (32885 tokens) exceeds the available context size (32768 tokens), try increasing it","type":"exceed_` |

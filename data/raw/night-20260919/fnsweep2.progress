@@ -1,0 +1,14 @@
+2026-09-23T14:04:08+00:00 [fnsw2] === Flash-Next: offload x SLOTS at the 64K floor. 1 slot found ncmoe=12 the knee (14.29 tok/s,
+2026-09-23T14:04:08+00:00 [fnsw2] === 27.6 GiB/die) and ncmoe=0 does not fit. KV grows with slots, so the viable level must rise.
+2026-09-23T14:16:01+00:00 [fnsw2] ncmoe=8 2x64K rep1: decode 10.3250 tok/s/slot, prefill 214.24 t/s, peak VRAM 29.6GiB/die
+2026-09-23T14:29:27+00:00 [fnsw2] ncmoe=12 2x64K rep1: decode 9.8000 tok/s/slot, prefill 185.26 t/s, peak VRAM 28.2GiB/die
+2026-09-23T14:44:38+00:00 [fnsw2] ncmoe=16 2x64K rep1: decode 9.3050 tok/s/slot, prefill 162.42 t/s, peak VRAM 26.7GiB/die
+2026-09-23T15:03:05+00:00 [fnsw2] ncmoe=24 2x64K rep1: decode 8.5400 tok/s/slot, prefill 130.18 t/s, peak VRAM 23.7GiB/die
+2026-09-23T15:31:53+00:00 [fnsw2] ncmoe=16 4x64K rep1: decode 5.9050 tok/s/slot, prefill 162.55 t/s, peak VRAM 27.9GiB/die
+2026-09-23T16:07:31+00:00 [fnsw2] ncmoe=24 4x64K rep1: decode 5.4200 tok/s/slot, prefill 129.93 t/s, peak VRAM 24.9GiB/die
+2026-09-23T16:49:39+00:00 [fnsw2] ncmoe=32 4x64K rep1: decode 5.0575 tok/s/slot, prefill 108.83 t/s, peak VRAM 21.8GiB/die
+2026-09-23T17:39:32+00:00 [fnsw2] ncmoe=41 4x64K rep1: decode 4.6600 tok/s/slot, prefill 91.35 t/s, peak VRAM 18.5GiB/die
+2026-09-23T19:02:23+00:00 [fnsw2] ncmoe=32 8x64K rep1: decode 2.9362 tok/s/slot, prefill 108.95 t/s, peak VRAM 24.2GiB/die
+2026-09-23T20:32:32+00:00 [fnsw2] FAILED: ncmoe=41 8x64K — first errors:
+2026-09-23T22:02:41+00:00 [fnsw2] FAILED: ncmoe=48 8x64K — first errors:
+2026-09-23T22:02:42+00:00 [fnsw2] === FN SWEEP DONE ===

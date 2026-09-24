@@ -1,0 +1,2 @@
+2026-09-19T22:21:28+00:00 watchdog v2 start pid 848396 guarding ^/bin/bash /root/night-20260919/serve[.]sh (sclk guard 1; DC envelope guard: >= 1228 W once or >= 1200 W twice, from /root/night-20260919/step9-prodfans-smc.log)
+2026-09-19T22:21:28+00:00 queue not running, watchdog exit

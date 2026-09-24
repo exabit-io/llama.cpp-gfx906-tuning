@@ -1,0 +1,6 @@
+2026-09-22T01:37:33+00:00 [stockrccl] host free; building stock v0.4.1 with RCCL
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T01:39:32+00:00 [stockrccl] STOCK+RCCL BUILD OK -> /root/build-stock-v041-rccl
+2026-09-22T01:39:32+00:00 [stockrccl] === DONE rc=0 ===

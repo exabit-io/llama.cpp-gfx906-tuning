@@ -1,0 +1,3 @@
+2026-09-23T02:23:32+00:00 watchdog v2 start pid 3847313 guarding pid 3847294 (sclk guard 1; DC envelope guard: >= 1228 W once or >= 1200 W twice, from /root/night-20260919/flashnext-smc.log)
+2026-09-23T02:23:32+00:00 card0:1730MHz/0%/0 card1:1730MHz/0%/0 card2:1730MHz/0%/0 card3:1730MHz/0%/0
+2026-09-23T02:23:37+00:00 card0:1730MHz/0%/0 card1:1730MHz/0%/0 card2:1730MHz/0%/0 card3:1730MHz/0%/0 DC:310W

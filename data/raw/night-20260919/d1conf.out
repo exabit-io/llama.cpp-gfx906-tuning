@@ -1,0 +1,13 @@
+2026-09-20T14:25:40+00:00 [conf] === D-5 confirmation, n=4, multi-user 4x64K then single-user 1x32K, order rotated per rep
+2026-09-20T14:33:47+00:00 [conf] C-gate-on 4x64K rep1: decode 15.8625 tok/s/slot, prefill 633.11 t/s
+2026-09-20T14:43:30+00:00 [conf] C-gate-off 4x64K rep1: decode 15.9125 tok/s/slot, prefill 512.71 t/s
+2026-09-20T14:53:12+00:00 [conf] C-repack-on 4x64K rep1: decode 15.4675 tok/s/slot, prefill 515.93 t/s
+2026-09-20T15:03:33+00:00 [conf] C-repack-off 4x64K rep1: decode 14.6625 tok/s/slot, prefill 488.96 t/s
+2026-09-20T15:13:16+00:00 [conf] C-gate-off 4x64K rep2: decode 15.8250 tok/s/slot, prefill 513.38 t/s
+2026-09-20T15:21:23+00:00 [conf] C-gate-on 4x64K rep2: decode 15.8325 tok/s/slot, prefill 633.68 t/s
+2026-09-20T15:31:04+00:00 [conf] C-repack-on 4x64K rep2: decode 15.4275 tok/s/slot, prefill 517.04 t/s
+2026-09-20T15:41:25+00:00 [conf] C-repack-off 4x64K rep2: decode 14.6500 tok/s/slot, prefill 488.71 t/s
+2026-09-20T15:49:32+00:00 [conf] C-gate-on 4x64K rep3: decode 15.8775 tok/s/slot, prefill 633.63 t/s
+2026-09-20T15:59:19+00:00 [conf] C-gate-off 4x64K rep3: decode 15.8075 tok/s/slot, prefill 509.88 t/s
+2026-09-20T16:09:04+00:00 [conf] C-repack-on 4x64K rep3: decode 15.4200 tok/s/slot, prefill 513.10 t/s
+2026-09-20T16:19:30+00:00 [conf] STOPPED (trap)

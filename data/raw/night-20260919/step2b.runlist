@@ -1,0 +1,14 @@
+# Step 2b — the SAME three configs with a correctly sized prompt cache.
+#
+# Step 2 found the collapse: --cache-ram defaults to 8192 MiB, but one displaced slot's parked
+# context at 32-44K is 1.5-2.1 GiB (= 53.4 KiB/token, matching the ladder's KV measurement), so
+# 12 clients thrash an 8 GiB cache. 18 evictions in one run; 11 of 12 turn-2 requests re-prefilled
+# ~32K instead of ~300 tokens; TTFT 30-41 s; decode 12.2 -> 7.4.
+#
+# clients x depth x 53.4 KiB: 8x48K/12cl = 30 GiB, 4x128K/6cl = 40 GiB, 6x64K/9cl = 30 GiB.
+# 49152 MiB covers all three with margin. Host has 365 GiB available.
+#
+# tag | slots | depth | clients | server_extra | client_extra
+cram-8x48K  |  8 |  49152 | 12 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 24576 --arrival-rate 0.08
+cram-4x128K |  4 | 131072 |  6 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 102400 --arrival-rate 0.05
+cram-6x64K  |  6 |  65536 |  9 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.06

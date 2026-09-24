@@ -1,0 +1,6 @@
+0.00.440.288 W operator(): LLAMA_PLE_SHARD=1, sharding the PLE gather table across the TP group
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+0.42.713.549 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.3.attn_q.weight, 16711680 bytes)
+0.42.929.912 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.3.attn_q.weight, 16711680 bytes)
+0.42.943.164 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.7.attn_q.weight, 16711680 bytes)
+0.42.955.876 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.7.attn_q.weight, 16711680 bytes)

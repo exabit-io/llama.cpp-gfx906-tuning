@@ -1,0 +1,28 @@
+Preparing worktree (checking out 'gfx906-multi')
+HEAD is now at c32067abf gfx906: record the common-base rebase state (gfx906-base, gfx906-multi)
+2026-09-20T09:35:20+00:00 [build] worktree created: /root/wt-gfx906-multi -> gfx906-multi
+2026-09-20T09:35:20+00:00 [build] gfx906-multi at c32067abf, 18 commit(s) over substrate — configuring
+2026-09-20T09:35:42+00:00 [build] gfx906-multi BUILD FAILED exit=2 — first errors:
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-multi/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+Preparing worktree (checking out 'gfx906-single')
+HEAD is now at 312ba391f gfx906: note that the profile branches hold pre-survey, not binned, contents
+2026-09-20T09:35:43+00:00 [build] worktree created: /root/wt-gfx906-single -> gfx906-single
+2026-09-20T09:35:43+00:00 [build] gfx906-single at 312ba391f, 5 commit(s) over substrate — configuring
+2026-09-20T09:36:05+00:00 [build] gfx906-single BUILD FAILED exit=2 — first errors:
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/wt-gfx906-single/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+2026-09-20T09:36:05+00:00 [build] === BUILD-PROFILES DONE rc=1 ===
+=== BUILD-PROFILES DONE ===

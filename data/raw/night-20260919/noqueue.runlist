@@ -1,0 +1,12 @@
+# Does R3.1's "EVERY request >= 12 tok/s" survive §5.1's 1.5x oversubscription?
+#
+# Step 2b showed decode is bimodal with clients = 1.5 x slots and a sized cache: a request in a
+# quiet window reaches ~13 tok/s, one overlapping another slot's prefill drops to ~6.5, so
+# median 12.10 PASSES and p10 7.14 FAILS. With clients = slots there is no queue and therefore far
+# less prefill overlap. If p10 >= 12 appears here and only here, then §5.1's client ratio is itself
+# in tension with R3.1's "every request", and the lead needs to know that before setting the floor.
+#
+# Same configs, same sized cache, same shape — only the client count changes.
+# tag | slots | depth | clients | server_extra | client_extra
+noq-8x48K | 8 | 49152 | 8 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 24576 --arrival-rate 0.08
+noq-6x64K | 6 | 65536 | 6 | --cache-ram 49152 | --turns 3 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 40960 --arrival-rate 0.06

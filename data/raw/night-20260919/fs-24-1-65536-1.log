@@ -1,0 +1,15 @@
+0.00.423.081 W operator(): LLAMA_PLE_SHARD=1, sharding the PLE gather table across the TP group
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+0.29.726.386 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.30.ffn_down_exps.weight, 178257920 bytes)
+0.30.163.349 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.30.ffn_down_exps.weight, 178257920 bytes)
+0.30.417.457 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.30.ffn_down_exps.weight, 356515840 bytes)
+0.30.700.484 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.30.ffn_down_exps.weight, 178257920 bytes)
+0.32.826.830 W q8_repack: repacking q5_1 tensors on device 0 (first: blk.24.ffn_down_exps.weight, 125829120 bytes)
+0.33.020.962 W q8_repack: repacking q5_1 tensors on device 1 (first: blk.24.ffn_down_exps.weight, 251658240 bytes)
+0.33.273.689 W q8_repack: repacking q5_1 tensors on device 2 (first: blk.24.ffn_down_exps.weight, 125829120 bytes)
+0.33.457.549 W q8_repack: repacking q5_1 tensors on device 3 (first: blk.24.ffn_down_exps.weight, 125829120 bytes)
+0.48.753.140 W q8_repack: repacking q4_K tensors on device 0 (first: blk.24.ffn_gate_exps.weight, 94371840 bytes)
+0.48.764.640 W q8_repack: repacking q4_K tensors on device 1 (first: blk.24.ffn_gate_exps.weight, 188743680 bytes)
+0.48.787.048 W q8_repack: repacking q4_K tensors on device 2 (first: blk.24.ffn_gate_exps.weight, 94371840 bytes)
+0.48.798.420 W q8_repack: repacking q4_K tensors on device 3 (first: blk.24.ffn_gate_exps.weight, 94371840 bytes)
+9.25.984.092 W [repack-moe-fusion] type=q4_K cols=1 fused up/gate mat-vec engaged

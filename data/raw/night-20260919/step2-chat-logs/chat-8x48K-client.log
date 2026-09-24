@@ -1,0 +1,3 @@
+| tag | clients | turns | reqs | wall s | seed | gen tok | prefill tok | pre:dec | gen tok/s | req/min | TTFT med / p90 s | decode med / p10 / min tok/s | cache miss | max ctx |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|
+| step2-chat-chat-8x48K | 12 | 3 | 24 | 2795 | 24K/50s | 97850 | 510305 | 5.22:1 | 35.0 | 0.52 | 32.55 / 37.92 | 7.4 / 6.0 / 5.0 | 15/24 | 43862 |

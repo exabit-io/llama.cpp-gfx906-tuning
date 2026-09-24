@@ -1,0 +1,3 @@
+  - `chat-8x48K`: nextn IGNORED (MTP off); peak VRAM 13.9 13.8 13.8 13.8  GiB/die
+  - `chat-4x128K`: nextn IGNORED (MTP off); peak VRAM 16.5 16.5 16.5 16.5  GiB/die
+  - `chat-6x64K`: nextn IGNORED (MTP off); peak VRAM 14.1 14.0 14.0 14.0  GiB/die

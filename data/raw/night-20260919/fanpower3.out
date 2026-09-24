@@ -1,0 +1,4 @@
+2026-09-20T00:46:51+00:00 [fanpower] === start (GPUs idle)
+2026-09-20T00:48:46+00:00 [fanpower] max fans: maxfans|255.1|1200/2509/2510/2499
+2026-09-20T00:51:02+00:00 [fanpower] pwm fans: pwmfans|233.9|496/486/486/493
+2026-09-20T00:51:02+00:00 [fanpower] === done: /root/night-20260919/fanpower.md

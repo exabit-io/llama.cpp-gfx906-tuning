@@ -1,0 +1,2 @@
+2026-09-24T00:38:18+00:00 watchdog v2 start pid 2941566 guarding pid 419853 (sclk guard 1; DC envelope guard: >= 1228 W once or >= 1200 W twice, from /root/night-20260919/binrun-smc.log)
+2026-09-24T00:38:18+00:00 card0:1730MHz/0%/0 card1:1730MHz/0%/0 card2:1730MHz/0%/0 card3:1730MHz/0%/0

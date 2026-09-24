@@ -1,0 +1,14 @@
+2026-09-21T19:40:38+00:00 [opts] waiting for the measurement to finish (.rebase-done)
+2026-09-22T01:34:38+00:00 [opts] host is free; building
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        AR size gate knob compiled in
+2026-09-22T01:35:52+00:00 [opts] faq: BUILD OK -> /root/build-faq   FA combos: q8_0-q4_0 q8_0-q8_0 
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        AR size gate knob compiled in
+2026-09-22T01:37:04+00:00 [opts] faq-forcemmq: BUILD OK -> /root/build-faq-forcemmq   FA combos: q8_0-q4_0 q8_0-q8_0 
+2026-09-22T01:37:13+00:00 [opts] faq-vmm: BUILD FAILED exit=2
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/ggml-cuda.cu:652:19: error: unknown type name 'CUresult'
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/ggml-cuda.cu:653:47: error: use of undeclared identifier 'CUresult'
+2026-09-22T01:37:13+00:00 [opts] === BUILD-OPTIONS DONE rc=1 ===

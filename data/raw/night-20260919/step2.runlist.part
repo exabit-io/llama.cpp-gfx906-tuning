@@ -1,0 +1,4 @@
+# Step 2 — chat-shape validation (R2.4) at the best MEASURED ladder points.
+# clients = 1.5 x slots (§5.1); Poisson arrivals; contexts SEEDED to ~80% of the slot (decision N3).
+# tag | slots | depth | clients | server_extra | client_extra
+chat-4x128K | 4 | 131072 | 6 |  | --turns 4 --user 300 --gen 4096 --tool-rate 0.3 --seed-ctx 102400 --arrival-rate 0.05

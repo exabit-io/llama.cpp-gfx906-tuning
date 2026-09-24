@@ -1,0 +1,4 @@
+2026-09-19T21:14:18+00:00 [ladder-q8kv-150w] === start: 150 W/die, build llama.cpp-gfx906-rocm10 , ggml 08d7f8bded409dc4
+2026-09-19T21:14:18+00:00 [ladder-q8kv-150w] cells: 4:65536 6:65536 8:49152 4:131072
+2026-09-19T21:14:18+00:00 [ladder-q8kv-150w] --- cell 4 x 64K : ctx 263168, npp 65536, npl 4
+2026-09-19T21:14:56+00:00 [ladder-q8kv-150w] STOPPED (trap)

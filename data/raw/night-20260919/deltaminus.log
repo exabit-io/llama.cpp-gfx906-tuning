@@ -1,0 +1,85 @@
+2026-09-20T14:26:05+00:00 [dm] REFUSING: a measurement is running; host load would perturb it
+2026-09-22T14:31:35+00:00 [dm] REFUSING: a measurement is running; host load would perturb it
+2026-09-22T14:31:35+00:00 [dm] REFUSING: a measurement is running; host load would perturb it
+2026-09-22T14:31:35+00:00 [dm] REFUSING: a measurement is running; host load would perturb it
+2026-09-22T14:31:35+00:00 [dm] REFUSING: a measurement is running; host load would perturb it
+2026-09-22T14:31:35+00:00 [dm] REFUSING: a measurement is running; host load would perturb it
+2026-09-22T14:31:35+00:00 [dm] REFUSING: a measurement is running; host load would perturb it
+2026-09-22T14:33:08+00:00 [dm] minus-6ff101bae: reverse-applying 6ff101baef50f695d6ad7f12ca9d35709942b438 — llama: opt-in prefault for the per-layer embedding table
+2026-09-22T14:33:08+00:00 [dm] minus-6ff101bae: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T14:34:10+00:00 [dm] minus-6ff101bae: BUILD OK -> /root/build-minus-6ff101bae
+2026-09-22T14:34:13+00:00 [dm] minus-b9a990b28: reverse-applying b9a990b28424d1d14063a3195577b4a8f2a30459 — cuda/q8_repack: Q5_1 on the gfx906 repack path
+2026-09-22T14:34:13+00:00 [dm] minus-b9a990b28: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T14:35:31+00:00 [dm] minus-b9a990b28: BUILD OK -> /root/build-minus-b9a990b28
+2026-09-22T14:35:33+00:00 [dm] minus-b1e4814ce: reverse-applying b1e4814ce88b2add8271eebb882956ba03ef62e2 — model: read the MiMo2 sliding-window pattern over all layers
+2026-09-22T14:35:33+00:00 [dm] minus-b1e4814ce: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T14:36:36+00:00 [dm] minus-b1e4814ce: BUILD OK -> /root/build-minus-b1e4814ce
+2026-09-22T14:36:39+00:00 [dm] minus-e02d4fe6c: reverse-applying e02d4fe6c393a8a91022e308d2ab682eb01985c5 — cuda: bound the top-k router matcher at the end of the graph
+2026-09-22T14:36:39+00:00 [dm] minus-e02d4fe6c: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T14:37:48+00:00 [dm] minus-e02d4fe6c: BUILD OK -> /root/build-minus-e02d4fe6c
+2026-09-22T14:37:51+00:00 [dm] minus-ef7246cd9: reverse-applying ef7246cd9edd55c78b63528b358740ec8d91014d — cuda: keep the MoE weighted reduction allocation dependencies on zero-token graphs (layer prefill 3x)
+2026-09-22T14:37:51+00:00 [dm] minus-ef7246cd9: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T14:39:00+00:00 [dm] minus-ef7246cd9: BUILD OK -> /root/build-minus-ef7246cd9
+2026-09-22T14:39:03+00:00 [dm] minus-7e7685b54: reverse-applying 7e7685b548236ace4445185273b74fb22584bcc1 — cuda: honor GGML_CUDA_MOE_WEIGHTED_REDUCTION
+2026-09-22T14:39:03+00:00 [dm] minus-7e7685b54: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-22T14:40:13+00:00 [dm] minus-7e7685b54: BUILD OK -> /root/build-minus-7e7685b54
+2026-09-23T00:02:28+00:00 [dm] minus-481f684d3: reverse-applying 481f684d381717c211ced06fc01c12d47a6a9fb2 — cuda: admit only the GLU ops the repack fused epilogue implements
+2026-09-23T00:02:28+00:00 [dm] minus-481f684d3: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-23T00:03:58+00:00 [dm] minus-481f684d3: BUILD OK -> /root/build-minus-481f684d3
+2026-09-23T00:04:01+00:00 [dm] minus-4b9524188: reverse-applying 4b95241883b040ca8d5a04ae72876bd1d863cc6d — meta: fold a reshaped split into dim 0 only for the gather output
+2026-09-23T00:04:01+00:00 [dm] minus-4b9524188: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-23T00:05:16+00:00 [dm] minus-4b9524188: BUILD OK -> /root/build-minus-4b9524188
+2026-09-23T00:05:20+00:00 [dm] minus-1b7d76ffc: reverse-applying 1b7d76ffc06bfe1ce2d1c47198748faa4491b8d3 — cuda: deterministic gather in the HIP radix top-k
+2026-09-23T00:05:20+00:00 [dm] minus-1b7d76ffc: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-23T00:06:26+00:00 [dm] minus-1b7d76ffc: BUILD OK -> /root/build-minus-1b7d76ffc
+2026-09-23T00:06:29+00:00 [dm] minus-b549a9862: reverse-applying b549a98629e9d8d05180d12879b5bc066f312da0 — cuda: fused top-k MoE router sums in the unfused order
+2026-09-23T00:06:29+00:00 [dm] minus-b549a9862: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-23T00:07:37+00:00 [dm] minus-b549a9862: BUILD OK -> /root/build-minus-b549a9862
+2026-09-23T00:07:40+00:00 [dm] minus-31e3d2c5e: reverse-applying 31e3d2c5ec7686ce5326b616d46d599db7cd4507 — meta: do not broadcast the qwen4exp indexer top-k across TP lanes
+2026-09-23T00:07:40+00:00 [dm] minus-31e3d2c5e: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-23T00:08:48+00:00 [dm] minus-31e3d2c5e: BUILD OK -> /root/build-minus-31e3d2c5e
+2026-09-23T00:08:51+00:00 [dm] minus-240ec1b7d: reverse-applying 240ec1b7d669bcedce93af09fd7c4475defee159 — server: token probabilities for speculative verify results
+2026-09-23T00:08:51+00:00 [dm] minus-240ec1b7d: configuring and building (ccache)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  WARN      GGML_TP_AR_MAX_NE not compiled in — setting it in env will do nothing
+2026-09-23T00:09:55+00:00 [dm] minus-240ec1b7d: BUILD OK -> /root/build-minus-240ec1b7d

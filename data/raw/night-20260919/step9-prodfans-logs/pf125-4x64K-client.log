@@ -1,0 +1,3 @@
+| tag | clients | turns | reqs | wall s | seed | gen tok | prefill tok | pre:dec | gen tok/s | req/min | TTFT med / p90 s | decode med / p10 / min tok/s | cache miss | max ctx |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|---:|---:|
+| step9-prodfans-pf125-4x64K | 6 | 3 | 12 | 1411 | 40K/105s | 44373 | 6307 | 0.14:1 | 31.5 | 0.51 | 1.75 / 1.97 | 18.2 / 17.0 / 17.0 | 1/12 | 58796 |

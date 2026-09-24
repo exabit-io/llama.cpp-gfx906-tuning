@@ -1,0 +1,791 @@
+-- llama.cpp version: 0.4.1-dev
+CMAKE_BUILD_TYPE=Release
+-- CMAKE_SYSTEM_PROCESSOR: x86_64
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- HIP: Using hipcc from relative path: /opt/rocm/bin/hipcc
+-- HIP_PLATFORM using hip_HIPCONFIG_EXECUTABLE: amd
+-- HIP: Using hipcc from relative path: /opt/rocm/bin/hipcc
+-- HIP and hipBLAS found
+-- FlashAttention K-V type combinations: f16-f16;q4_0-q4_0;q8_0-q8_0;bf16-bf16
+-- Including HIP backend
+-- ggml version: 0.24.0
+-- ggml commit:  4eb68e6fd
+-- OpenSSL found: 3.0.13
+-- Generating embedded license file for target: llama-app
+-- Configuring done (0.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: /root/build-substrate-v041
+[  0%] Provisioning UI assets
+[  1%] Building CXX object common/CMakeFiles/llama-common-base.dir/build-info.cpp.o
+[  1%] Built target llama-llava-cli
+[  2%] Built target vendor-hash
+[  2%] Built target llama-minicpmv-cli
+[  3%] Built target llama-gemma3-cli
+[  4%] Built target llama-qwen2vl-cli
+[  4%] Built target cpp-httplib
+[  5%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+-- UI: downloading from b10968: https://huggingface.co/buckets/ggml-org/llama-ui/resolve/b10968/dist.tar.gz
+-- UI: download dist.tar.gz.sha256 from b10968 failed: "HTTP response code said error"
+-- UI: downloading from latest: https://huggingface.co/buckets/ggml-org/llama-ui/resolve/latest/dist.tar.gz
+[  5%] Linking CXX static library libllama-common-base.a
+[  5%] Built target llama-common-base
+-- UI: archive verified and extracted
+-- UI: HF download succeeded, stamp updated (ggml-org/llama-ui|b10968, resolved: latest)
+-- UI: gzip compression applied (/root/build-substrate-v041/tools/ui/ui-gzip/_gzip)
+[  5%] Linking CXX shared library ../../bin/libggml-base.so
+[  6%] Built target ggml-base
+[  6%] Linking CXX shared library ../../bin/libggml-cpu.so
+[  6%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmq.cu.o
+[  6%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pool1d.cu.o
+[  6%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pool2d.cu.o
+[  7%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/buffer.cu.o
+[  7%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/mul-mat-id.cu.o
+[  7%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/mul-mat.cu.o
+[  7%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/repack-common.cu.o
+[  7%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/quantize.cu.o
+[  7%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/roll.cu.o
+[  8%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/rope.cu.o
+[  8%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/scale.cu.o
+[  8%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/set-rows.cu.o
+[  8%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/set.cu.o
+[  8%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/snake.cu.o
+[  8%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/softcap.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/softmax.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/solve_tri.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ssm-conv.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ssm-scan.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/sum.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/sumrows.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/top-k.cu.o
+[ 13%] Built target ggml-cpu
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/topk-moe.cu.o
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tri.cu.o
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tp-allreduce.cu.o
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tsembd.cu.o
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/unary.cu.o
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/upscale.cu.o
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/wkv.cu.o
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq112-dv112.cu.o
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq128-dv128.cu.o
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq192-dv128.cu.o
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq256-dv256.cu.o
+-- UI: embedded 70 assets
+[ 15%] Built target llama-ui-assets
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq320-dv256.cu.o
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq40-dv40.cu.o
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq512-dv512.cu.o
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq576-dv512.cu.o
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq64-dv64.cu.o
+[ 15%] Building CXX object tools/ui/CMakeFiles/llama-ui.dir/ui.cpp.o
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq72-dv72.cu.o
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq80-dv80.cu.o
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq96-dv96.cu.o
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_16.cu.o
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_32.cu.o
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_8.cu.o
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_1.cu.o
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_2.cu.o
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_4.cu.o
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_16.cu.o
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_32.cu.o
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_4.cu.o
+In file included from /root/exabit-llama.cpp/ggml/src/ggml-cuda/q8_repack/mul-mat-id.cu:5:
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh:946:55: warning: failed to meet occupancy target given by 'amdgpu-waves-per-eu' in '_ZL17mmq_gemm_repackedILb1ELi2ELi4EL9ggml_type7EEvPKhPK10block_q8_1PfjjjPKiS8_S8_S8_PK16repack_tile_metajmj': desired occupancy was 2, final occupancy is 1 [-Wpass-failed]
+  946 | static __global__ void __launch_bounds__(64 * NRL, 2) mmq_gemm_repacked(
+      |                                                       ^
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh:946:55: warning: failed to meet occupancy target given by 'amdgpu-waves-per-eu' in '_ZL17mmq_gemm_repackedILb1ELi2ELi4EL9ggml_type13EEvPKhPK10block_q8_1PfjjjPKiS8_S8_S8_PK16repack_tile_metajmj': desired occupancy was 2, final occupancy is 1 [-Wpass-failed]
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh:946:55: warning: failed to meet occupancy target given by 'amdgpu-waves-per-eu' in '_ZL17mmq_gemm_repackedILb1ELi2ELi4EL9ggml_type12EEvPKhPK10block_q8_1PfjjjPKiS8_S8_S8_PK16repack_tile_metajmj': desired occupancy was 2, final occupancy is 1 [-Wpass-failed]
+3 warnings generated when compiling for gfx906.
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_8.cu.o
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_1.cu.o
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_2.cu.o
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_16.cu.o
+[ 18%] Linking CXX static library libllama-ui.a
+[ 18%] Built target llama-ui
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_2.cu.o
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_4.cu.o
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_8.cu.o
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_64-ncols2_1.cu.o
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_1.cu.o
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_2.cu.o
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_4.cu.o
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_8.cu.o
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq1_s.cu.o
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_s.cu.o
+In file included from /root/exabit-llama.cpp/ggml/src/ggml-cuda/q8_repack/mul-mat.cu:5:
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh:946:55: warning: failed to meet occupancy target given by 'amdgpu-waves-per-eu' in '_ZL17mmq_gemm_repackedILb0ELi2ELi4EL9ggml_type13EEvPKhPK10block_q8_1PfjjjPKiS8_S8_S8_PK16repack_tile_metajmj': desired occupancy was 2, final occupancy is 1 [-Wpass-failed]
+  946 | static __global__ void __launch_bounds__(64 * NRL, 2) mmq_gemm_repacked(
+      |                                                       ^
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh:946:55: warning: failed to meet occupancy target given by 'amdgpu-waves-per-eu' in '_ZL17mmq_gemm_repackedILb0ELi2ELi4EL9ggml_type12EEvPKhPK10block_q8_1PfjjjPKiS8_S8_S8_PK16repack_tile_metajmj': desired occupancy was 2, final occupancy is 1 [-Wpass-failed]
+2 warnings generated when compiling for gfx906.
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_xs.cu.o
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_xxs.cu.o
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq3_s.cu.o
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq3_xxs.cu.o
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq4_nl.cu.o
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq4_xs.cu.o
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-mxfp4.cu.o
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-nvfp4.cu.o
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q1_0.cu.o
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q2_0.cu.o
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q2_k.cu.o
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q3_k.cu.o
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_0.cu.o
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_1.cu.o
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_k.cu.o
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_0.cu.o
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_1.cu.o
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_k.cu.o
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q6_k.cu.o
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q8_0.cu.o
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_1.cu.o
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_10.cu.o
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_11.cu.o
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_12.cu.o
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_13.cu.o
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_14.cu.o
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_15.cu.o
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_16.cu.o
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_2.cu.o
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_3.cu.o
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_4.cu.o
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_5.cu.o
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_6.cu.o
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_7.cu.o
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_8.cu.o
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_9.cu.o
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-f16.cu.o
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_0.cu.o
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q8_0.cu.o
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-bf16.cu.o
+[ 27%] Linking HIP shared library ../../../bin/libggml-hip.so
+[ 35%] Built target ggml-hip
+[ 35%] Building CXX object ggml/src/CMakeFiles/ggml.dir/ggml-backend-dl.cpp.o
+[ 35%] Building CXX object ggml/src/CMakeFiles/ggml.dir/ggml-backend-reg.cpp.o
+[ 35%] Linking CXX shared library ../../bin/libggml.so
+[ 35%] Built target ggml
+[ 35%] Building CXX object examples/gguf/CMakeFiles/llama-gguf.dir/gguf.cpp.o
+[ 36%] Building CXX object examples/gguf-hash/CMakeFiles/llama-gguf-hash.dir/gguf-hash.cpp.o
+[ 37%] Building CXX object src/CMakeFiles/llama.dir/cmake_pch.hxx.gch
+[ 37%] Linking CXX executable ../../bin/llama-gguf
+[ 37%] Built target llama-gguf
+[ 37%] Linking CXX executable ../../bin/llama-gguf-hash
+[ 37%] Built target llama-gguf-hash
+[ 37%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_7_cxx.cxx.o
+[ 37%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_8_cxx.cxx.o
+[ 37%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_9_cxx.cxx.o
+[ 37%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_6_cxx.cxx.o
+[ 37%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_3_cxx.cxx.o
+[ 37%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_5_cxx.cxx.o
+[ 38%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_1_cxx.cxx.o
+[ 38%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_4_cxx.cxx.o
+[ 38%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_2_cxx.cxx.o
+[ 38%] Building CXX object src/CMakeFiles/llama.dir/Unity/unity_0_cxx.cxx.o
+[ 38%] Building CXX object src/CMakeFiles/llama.dir/llama.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/llama.dir/llama-adapter.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/llama.dir/llama-arch.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/llama.dir/llama-batch.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/llama.dir/llama-chat.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/llama.dir/llama-context.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/llama.dir/llama-cparams.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/llama.dir/llama-grammar.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/llama.dir/llama-graph.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/llama.dir/llama-hparams.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/llama.dir/llama-impl.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/llama.dir/llama-io.cpp.o
+[ 41%] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache.cpp.o
+[ 41%] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-iswa.cpp.o
+/root/exabit-llama.cpp/src/llama-context.cpp: In destructor ‘llama_context::~llama_context()’:
+/root/exabit-llama.cpp/src/llama-context.cpp:555:38: error: qualified-id in declaration before ‘(’ token
+  555 | void llama_context::resolve_fused_ops(const llama_memory_context_i * mctx, uint32_t n_seqs) {
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:644:34: error: qualified-id in declaration before ‘(’ token
+  644 | void llama_context::sched_reserve() {
+      |                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:842:32: error: qualified-id in declaration before ‘(’ token
+  842 | void llama_context::synchronize() {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:876:45: error: qualified-id in declaration before ‘(’ token
+  876 | const llama_model & llama_context::get_model() const {
+      |                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:880:49: error: qualified-id in declaration before ‘(’ token
+  880 | const llama_cparams & llama_context::get_cparams() const {
+      |                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:884:46: error: qualified-id in declaration before ‘(’ token
+  884 | ggml_backend_sched_t llama_context::get_sched() const {
+      |                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:888:30: error: qualified-id in declaration before ‘(’ token
+  888 | uint32_t llama_context::n_ctx() const {
+      |                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:892:34: error: qualified-id in declaration before ‘(’ token
+  892 | uint32_t llama_context::n_ctx_seq() const {
+      |                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:896:32: error: qualified-id in declaration before ‘(’ token
+  896 | uint32_t llama_context::n_batch() const {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:900:33: error: qualified-id in declaration before ‘(’ token
+  900 | uint32_t llama_context::n_ubatch() const {
+      |                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:904:34: error: qualified-id in declaration before ‘(’ token
+  904 | uint32_t llama_context::n_seq_max() const {
+      |                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:908:34: error: qualified-id in declaration before ‘(’ token
+  908 | uint32_t llama_context::n_threads() const {
+      |                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:912:40: error: qualified-id in declaration before ‘(’ token
+  912 | uint32_t llama_context::n_threads_batch() const {
+      |                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:916:41: error: qualified-id in declaration before ‘(’ token
+  916 | llama_memory_t llama_context::get_memory() const {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:920:34: error: qualified-id in declaration before ‘(’ token
+  920 | bool llama_context::memory_update(bool optimize) {
+      |                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:976:52: error: qualified-id in declaration before ‘(’ token
+  976 | enum llama_pooling_type llama_context::pooling_type() const {
+      |                                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:980:34: error: qualified-id in declaration before ‘(’ token
+  980 | float * llama_context::get_logits() {
+      |                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:986:42: error: qualified-id in declaration before ‘(’ token
+  986 | int64_t llama_context::output_resolve_row(int32_t i) const {
+      |                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1015:38: error: qualified-id in declaration before ‘(’ token
+ 1015 | float * llama_context::get_logits_ith(int32_t i) {
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1035:38: error: qualified-id in declaration before ‘(’ token
+ 1035 | float * llama_context::get_embeddings() {
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1041:48: error: qualified-id in declaration before ‘(’ token
+ 1041 | llama_token * llama_context::get_sampled_tokens()  const{
+      |                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1045:42: error: qualified-id in declaration before ‘(’ token
+ 1045 | float * llama_context::get_embeddings_ith(int32_t i) {
+      |                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1066:42: error: qualified-id in declaration before ‘(’ token
+ 1066 | float * llama_context::get_embeddings_seq(llama_seq_id seq_id) {
+      |                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1075:44: error: qualified-id in declaration before ‘(’ token
+ 1075 | float * llama_context::get_embeddings_nextn() {
+      |                                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1081:48: error: qualified-id in declaration before ‘(’ token
+ 1081 | float * llama_context::get_embeddings_nextn_ith(int32_t i) {
+      |                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1111:48: error: qualified-id in declaration before ‘(’ token
+ 1111 | float * llama_context::get_embeddings_layer_inp(uint32_t lid) {
+      |                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1119:49: error: qualified-id in declaration before ‘(’ token
+ 1119 | llama_token llama_context::get_sampled_token_ith(int32_t idx) {
+      |                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1136:45: error: qualified-id in declaration before ‘(’ token
+ 1136 | float * llama_context::get_sampled_probs_ith(int32_t idx) {
+      |                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1155:46: error: qualified-id in declaration before ‘(’ token
+ 1155 | float * llama_context::get_sampled_logits_ith(int32_t idx) {
+      |                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1174:62: error: qualified-id in declaration before ‘(’ token
+ 1174 | const llama_token * llama_context::get_sampled_candidates_ith(int32_t idx) {
+      |                                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1192:51: error: qualified-id in declaration before ‘(’ token
+ 1192 | size_t llama_context::get_sampled_candidates_count(int32_t idx) {
+      |                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1211:47: error: qualified-id in declaration before ‘(’ token
+ 1211 | size_t llama_context::get_sampled_logits_count(int32_t idx) {
+      |                                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1230:46: error: qualified-id in declaration before ‘(’ token
+ 1230 | size_t llama_context::get_sampled_probs_count(int32_t idx) {
+      |                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1250:38: error: qualified-id in declaration before ‘(’ token
+ 1250 | void llama_context::attach_threadpool(
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1259:38: error: qualified-id in declaration before ‘(’ token
+ 1259 | void llama_context::detach_threadpool() {
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1266:34: error: qualified-id in declaration before ‘(’ token
+ 1266 | void llama_context::set_n_threads(int32_t n_threads, int32_t n_threads_batch) {
+      |                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1273:39: error: qualified-id in declaration before ‘(’ token
+ 1273 | void llama_context::set_abort_callback(bool (*abort_callback)(void * data), void * abort_callback_data) {
+      |                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1290:35: error: qualified-id in declaration before ‘(’ token
+ 1290 | void llama_context::set_embeddings(bool value) {
+      |                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1299:41: error: qualified-id in declaration before ‘(’ token
+ 1299 | void llama_context::set_embeddings_nextn(bool value, bool masked) {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1306:45: error: qualified-id in declaration before ‘(’ token
+ 1306 | void llama_context::set_embeddings_layer_inp(uint32_t lid, bool enable) {
+      |                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1317:43: error: qualified-id in declaration before ‘(’ token
+ 1317 | void llama_context::set_nextn_layer_offset(int32_t offset) {
+      |                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1321:53: error: qualified-id in declaration before ‘(’ token
+ 1321 | float * llama_context::set_embeddings_pre_norm_accum(int32_t n_tokens_cap) {
+      |                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1362:53: error: qualified-id in declaration before ‘(’ token
+ 1362 | float * llama_context::get_embeddings_pre_norm_accum() {
+      |                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1367:54: error: qualified-id in declaration before ‘(’ token
+ 1367 | float * llama_context::set_embeddings_layer_inp_accum(int32_t n_tokens_cap) {
+      |                                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1428:60: error: qualified-id in declaration before ‘(’ token
+ 1428 | const float * llama_context::get_embeddings_layer_inp_accum(uint32_t lid) {
+      |                                                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1432:64: error: qualified-id in declaration before ‘(’ token
+ 1432 | const float * llama_context::get_embeddings_layer_inp_accum_seq(uint32_t lid, llama_seq_id seq_id) {
+      |                                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1444:51: error: qualified-id in declaration before ‘(’ token
+ 1444 | uint64_t llama_context::layer_inp_accum_span_epoch(
+      |                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1463:48: error: qualified-id in declaration before ‘(’ token
+ 1463 | void llama_context::layer_inp_accum_events_free() {
+      |                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1476:41: error: qualified-id in declaration before ‘(’ token
+ 1476 | bool llama_context::layer_inp_accum_wait(llama_pos p_end) {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1494:42: error: qualified-id in declaration before ‘(’ token
+ 1494 | bool llama_context::layer_inp_accum_ready(llama_pos p_end) {
+      |                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1514:47: error: qualified-id in declaration before ‘(’ token
+ 1514 | bool llama_context::layer_inp_accum_wait_epoch(uint64_t epoch) {
+      |                                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1533:48: error: qualified-id in declaration before ‘(’ token
+ 1533 | bool llama_context::layer_inp_accum_ready_epoch(uint64_t epoch) {
+      |                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1552:36: error: qualified-id in declaration before ‘(’ token
+ 1552 | void llama_context::set_causal_attn(bool value) {
+      |                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1564:31: error: qualified-id in declaration before ‘(’ token
+ 1564 | void llama_context::set_warmup(bool value) {
+      |                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1577:32: error: qualified-id in declaration before ‘(’ token
+ 1577 | bool llama_context::set_sampler(llama_seq_id seq_id, llama_sampler * sampler) {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1634:38: error: qualified-id in declaration before ‘(’ token
+ 1634 | void llama_context::set_adapters_lora(llama_adapter_lora ** adapters, size_t n_adapters, float * scales) {
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1652:43: error: qualified-id in declaration before ‘(’ token
+ 1652 | bool llama_context::adapters_lora_are_same(llama_adapter_lora ** adapters, size_t n_adapters, float * scales) {
+      |                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1678:37: error: qualified-id in declaration before ‘(’ token
+ 1678 | bool llama_context::set_adapter_cvec(
+      |                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1693:49: error: qualified-id in declaration before ‘(’ token
+ 1693 | llm_graph_result * llama_context::process_ubatch(const llama_ubatch & ubatch, llm_graph_type gtype, llama_memory_context_i * mctx, ggml_status & ret) {
+      |                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1801:26: error: qualified-id in declaration before ‘(’ token
+ 1801 | int llama_context::encode(const llama_batch & batch_inp) {
+      |                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:1987:1: error: a template declaration cannot appear at block scope
+ 1987 | template<typename T>
+      | ^~~~~~~~
+/root/exabit-llama.cpp/src/llama-context.cpp:2039:26: error: qualified-id in declaration before ‘(’ token
+ 2039 | int llama_context::decode(const llama_batch & batch_inp) {
+      |                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:2486:39: error: qualified-id in declaration before ‘(’ token
+ 2486 | uint32_t llama_context::output_reserve(int32_t n_outputs) {
+      |                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:2648:41: error: qualified-id in declaration before ‘(’ token
+ 2648 | void llama_context::extract_layer_inputs(const llm_graph_result * res, size_t token_offset, const llama_ubatch & ubatch) {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:2839:35: error: qualified-id in declaration before ‘(’ token
+ 2839 | void llama_context::output_reorder() {
+      |                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:2911:40: error: qualified-id in declaration before ‘(’ token
+ 2911 | uint32_t llama_context::graph_max_nodes(uint32_t n_tokens) const {
+      |                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:2961:53: error: qualified-id in declaration before ‘(’ token
+ 2961 | llm_graph_result * llama_context::get_gf_res_reserve() const {
+      |                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:2970:80: error: a function-definition is not allowed here before ‘{’ token
+ 2970 |               uint32_t                                  n_outputs_max_per_seq) {
+      |                                                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3022:43: error: qualified-id in declaration before ‘(’ token
+ 3022 | ggml_cgraph * llama_context::graph_reserve(
+      |                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3074:45: error: qualified-id in declaration before ‘(’ token
+ 3074 | llm_graph_params llama_context::graph_params(
+      |                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3099:41: error: qualified-id in declaration before ‘(’ token
+ 3099 | ggml_status llama_context::graph_compute(
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3137:41: error: qualified-id in declaration before ‘(’ token
+ 3137 | llm_graph_cb llama_context::graph_get_cb() const {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3651:37: error: qualified-id in declaration before ‘(’ token
+ 3651 | size_t llama_context::state_get_size() {
+      |                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3661:37: error: qualified-id in declaration before ‘(’ token
+ 3661 | size_t llama_context::state_get_data(uint8_t * dst, size_t size) {
+      |                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3671:37: error: qualified-id in declaration before ‘(’ token
+ 3671 | size_t llama_context::state_set_data(const uint8_t * src, size_t size) {
+      |                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3683:41: error: qualified-id in declaration before ‘(’ token
+ 3683 | size_t llama_context::state_seq_get_size(llama_seq_id seq_id, llama_state_seq_flags flags) {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3696:41: error: qualified-id in declaration before ‘(’ token
+ 3696 | size_t llama_context::state_seq_get_data(llama_seq_id seq_id, uint8_t * dst, size_t size, llama_state_seq_flags flags) {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3715:41: error: qualified-id in declaration before ‘(’ token
+ 3715 | size_t llama_context::state_seq_set_data(llama_seq_id seq_id, const uint8_t * src, size_t size, llama_state_seq_flags flags) {
+      |                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3754:36: error: qualified-id in declaration before ‘(’ token
+ 3754 | bool llama_context::state_load_file(const char * filepath, llama_token * tokens_out, size_t n_token_capacity, size_t * n_token_count_out) {
+      |                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3797:36: error: qualified-id in declaration before ‘(’ token
+ 3797 | bool llama_context::state_save_file(const char * filepath, const llama_token * tokens, size_t n_token_count) {
+      |                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3814:42: error: qualified-id in declaration before ‘(’ token
+ 3814 | size_t llama_context::state_seq_load_file(llama_seq_id seq_id, const char * filepath, llama_token * tokens_out, size_t n_token_capacity, size_t * n_token_count_out) {
+      |                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3868:42: error: qualified-id in declaration before ‘(’ token
+ 3868 | size_t llama_context::state_seq_save_file(llama_seq_id seq_id, const char * filepath, const llama_token * tokens, size_t n_token_count) {
+      |                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3888:39: error: qualified-id in declaration before ‘(’ token
+ 3888 | size_t llama_context::state_write_data(llama_io_write_i & io) {
+      |                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3908:38: error: qualified-id in declaration before ‘(’ token
+ 3908 | size_t llama_context::state_read_data(llama_io_read_i & io) {
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3934:43: error: qualified-id in declaration before ‘(’ token
+ 3934 | size_t llama_context::state_seq_write_data(llama_io_write_i & io, llama_seq_id seq_id, llama_state_seq_flags flags) {
+      |                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3942:42: error: qualified-id in declaration before ‘(’ token
+ 3942 | size_t llama_context::state_seq_read_data(llama_io_read_i & io, llama_seq_id seq_id, llama_state_seq_flags flags) {
+      |                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3954:53: error: qualified-id in declaration before ‘(’ token
+ 3954 | llama_perf_context_data llama_context::perf_get_data() const {
+      |                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3968:31: error: qualified-id in declaration before ‘(’ token
+ 3968 | void llama_context::perf_reset() {
+      |                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3975:55: error: qualified-id in declaration before ‘(’ token
+ 3975 | llama_memory_breakdown llama_context::memory_breakdown() const {
+      |                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4005:112: error: a function-definition is not allowed here before ‘{’ token
+ 4005 | static void llama_set_param(struct ggml_tensor * tensor, llama_opt_param_filter param_filter, void * userdata) {
+      |                                                                                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4021:29: error: qualified-id in declaration before ‘(’ token
+ 4021 | void llama_context::opt_init(struct llama_model * model, struct llama_opt_params lopt_params) {
+      |                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4071:35: error: qualified-id in declaration before ‘(’ token
+ 4071 | void llama_context::opt_epoch_iter(
+      |                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4180:30: error: qualified-id in declaration before ‘(’ token
+ 4180 | void llama_context::opt_epoch(
+      |                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4232:50: warning: empty parentheses were disambiguated as a function declaration [-Wvexing-parse]
+ 4232 | llama_context_params llama_context_default_params() {
+      |                                                  ^~
+/root/exabit-llama.cpp/src/llama-context.cpp:4232:50: note: remove parentheses to default-initialize a variable
+ 4232 | llama_context_params llama_context_default_params() {
+      |                                                  ^~
+      |                                                  --
+/root/exabit-llama.cpp/src/llama-context.cpp:4232:50: note: or replace parentheses with braces to aggregate-initialize a variable
+/root/exabit-llama.cpp/src/llama-context.cpp:4232:53: error: a function-definition is not allowed here before ‘{’ token
+ 4232 | llama_context_params llama_context_default_params() {
+      |                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4278:40: error: a function-definition is not allowed here before ‘{’ token
+ 4278 |         llama_context_params   params) {
+      |                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4386:40: error: a function-definition is not allowed here before ‘{’ token
+ 4386 |         llama_context_params   params) {
+      |                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4390:38: error: a function-definition is not allowed here before ‘{’ token
+ 4390 | void llama_free(llama_context * ctx) {
+      |                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4394:49: error: a function-definition is not allowed here before ‘{’ token
+ 4394 | uint32_t llama_n_ctx(const llama_context * ctx) {
+      |                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4398:53: error: a function-definition is not allowed here before ‘{’ token
+ 4398 | uint32_t llama_n_ctx_seq(const llama_context * ctx) {
+      |                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4402:51: error: a function-definition is not allowed here before ‘{’ token
+ 4402 | uint32_t llama_n_batch(const llama_context * ctx) {
+      |                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4406:52: error: a function-definition is not allowed here before ‘{’ token
+ 4406 | uint32_t llama_n_ubatch(const llama_context * ctx) {
+      |                                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4410:53: error: a function-definition is not allowed here before ‘{’ token
+ 4410 | uint32_t llama_n_seq_max(const llama_context * ctx) {
+      |                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4414:52: error: a function-definition is not allowed here before ‘{’ token
+ 4414 | uint32_t llama_n_rs_seq(const llama_context * ctx) {
+      |                                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4418:64: error: a function-definition is not allowed here before ‘{’ token
+ 4418 | const llama_model * llama_get_model(const llama_context * ctx) {
+      |                                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4422:71: error: a function-definition is not allowed here before ‘{’ token
+ 4422 | enum llama_pooling_type llama_pooling_type(const llama_context * ctx) {
+      |                                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4429:47: error: a function-definition is not allowed here before ‘{’ token
+ 4429 |         ggml_threadpool_t   threadpool_batch) {
+      |                                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4433:51: error: a function-definition is not allowed here before ‘{’ token
+ 4433 | void llama_detach_threadpool(llama_context * ctx) {
+      |                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4437:91: error: a function-definition is not allowed here before ‘{’ token
+ 4437 | void llama_set_n_threads(llama_context * ctx, int32_t n_threads, int32_t n_threads_batch) {
+      |                                                                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4441:46: error: a function-definition is not allowed here before ‘{’ token
+ 4441 | int32_t llama_n_threads(llama_context * ctx) {
+      |                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4445:52: error: a function-definition is not allowed here before ‘{’ token
+ 4445 | int32_t llama_n_threads_batch(llama_context * ctx) {
+      |                                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4449:117: error: a function-definition is not allowed here before ‘{’ token
+ 4449 | void llama_set_abort_callback(llama_context * ctx, bool (*abort_callback)(void * data), void * abort_callback_data) {
+      |                                                                                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4453:65: error: a function-definition is not allowed here before ‘{’ token
+ 4453 | void llama_set_embeddings(llama_context * ctx, bool embeddings) {
+      |                                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4457:67: error: a function-definition is not allowed here before ‘{’ token
+ 4457 | void llama_set_causal_attn(llama_context * ctx, bool causal_attn) {
+      |                                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4461:57: error: a function-definition is not allowed here before ‘{’ token
+ 4461 | void llama_set_warmup(llama_context * ctx, bool warmup) {
+      |                                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4465:45: error: a function-definition is not allowed here before ‘{’ token
+ 4465 | void llama_synchronize(llama_context * ctx) {
+      |                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4469:47: error: a function-definition is not allowed here before ‘{’ token
+ 4469 | float * llama_get_logits(llama_context * ctx) {
+      |                                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4475:62: error: a function-definition is not allowed here before ‘{’ token
+ 4475 | float * llama_get_logits_ith(llama_context * ctx, int32_t i) {
+      |                                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4489:51: error: a function-definition is not allowed here before ‘{’ token
+ 4489 | float * llama_get_embeddings(llama_context * ctx) {
+      |                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4495:66: error: a function-definition is not allowed here before ‘{’ token
+ 4495 | float * llama_get_embeddings_ith(llama_context * ctx, int32_t i) {
+      |                                                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4501:76: error: a function-definition is not allowed here before ‘{’ token
+ 4501 | float * llama_get_embeddings_seq(llama_context * ctx, llama_seq_id seq_id) {
+      |                                                                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4507:79: error: a function-definition is not allowed here before ‘{’ token
+ 4507 | void llama_set_embeddings_nextn(llama_context * ctx, bool value, bool masked) {
+      |                                                                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4511:84: error: a function-definition is not allowed here before ‘{’ token
+ 4511 | void llama_set_embeddings_layer_inp(llama_context * ctx, uint32_t lid, bool value) {
+      |                                                                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4515:47: error: a function-definition is not allowed here before ‘{’ token
+ 4515 | void llama_sched_reserve(llama_context * ctx) {
+      |                                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4519:89: error: a function-definition is not allowed here before ‘{’ token
+ 4519 | float * llama_set_embeddings_layer_inp_accum(llama_context * ctx, int32_t n_tokens_cap) {
+      |                                                                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4523:87: error: a function-definition is not allowed here before ‘{’ token
+ 4523 | const float * llama_get_embeddings_layer_inp_accum(llama_context * ctx, uint32_t lid) {
+      |                                                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4528:65: error: a function-definition is not allowed here before ‘{’ token
+ 4528 |         llama_context * ctx, uint32_t lid, llama_seq_id seq_id) {
+      |                                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4533:83: error: a function-definition is not allowed here before ‘{’ token
+ 4533 |         llama_context * ctx, llama_seq_id seq_id, llama_pos p0, int32_t n_tokens) {
+      |                                                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4537:76: error: a function-definition is not allowed here before ‘{’ token
+ 4537 | bool llama_layer_inp_accum_wait_epoch(llama_context * ctx, uint64_t epoch) {
+      |                                                                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4541:77: error: a function-definition is not allowed here before ‘{’ token
+ 4541 | bool llama_layer_inp_accum_ready_epoch(llama_context * ctx, uint64_t epoch) {
+      |                                                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4545:71: error: a function-definition is not allowed here before ‘{’ token
+ 4545 | bool llama_layer_inp_accum_wait(llama_context * ctx, llama_pos p_end) {
+      |                                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4549:72: error: a function-definition is not allowed here before ‘{’ token
+ 4549 | bool llama_layer_inp_accum_ready(llama_context * ctx, llama_pos p_end) {
+      |                                                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4553:69: error: a function-definition is not allowed here before ‘{’ token
+ 4553 | void llama_set_mtp_prefill_kv_only(llama_context * ctx, bool value) {
+      |                                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4557:88: error: a function-definition is not allowed here before ‘{’ token
+ 4557 | float * llama_set_embeddings_pre_norm_accum(llama_context * ctx, int32_t n_tokens_cap) {
+      |                                                                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4561:66: error: a function-definition is not allowed here before ‘{’ token
+ 4561 | float * llama_get_embeddings_pre_norm_accum(llama_context * ctx) {
+      |                                                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4565:72: error: a function-definition is not allowed here before ‘{’ token
+ 4565 | void llama_set_nextn_layer_offset(llama_context * ctx, int32_t offset) {
+      |                                                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4569:67: error: a function-definition is not allowed here before ‘{’ token
+ 4569 | llama_memory_t llama_get_memory(const struct llama_context * ctx) {
+      |                                                                   ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4577:57: error: a function-definition is not allowed here before ‘{’ token
+ 4577 | float * llama_get_embeddings_nextn(llama_context * ctx) {
+      |                                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4583:72: error: a function-definition is not allowed here before ‘{’ token
+ 4583 | float * llama_get_embeddings_nextn_ith(llama_context * ctx, int32_t i) {
+      |                                                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4589:75: error: a function-definition is not allowed here before ‘{’ token
+ 4589 | float * llama_get_embeddings_layer_inp(llama_context * ctx, uint32_t lid) {
+      |                                                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4595:88: error: a function-definition is not allowed here before ‘{’ token
+ 4595 | bool llama_set_sampler(llama_context * ctx, llama_seq_id seq_id, llama_sampler * smpl) {
+      |                                                                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4599:73: error: a function-definition is not allowed here before ‘{’ token
+ 4599 | llama_token llama_get_sampled_token_ith(llama_context * ctx, int32_t i) {
+      |                                                                         ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4605:69: error: a function-definition is not allowed here before ‘{’ token
+ 4605 | float * llama_get_sampled_probs_ith(llama_context * ctx, int32_t i) {
+      |                                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4611:70: error: a function-definition is not allowed here before ‘{’ token
+ 4611 | float * llama_get_sampled_logits_ith(llama_context * ctx, int32_t i) {
+      |                                                                      ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4617:80: error: a function-definition is not allowed here before ‘{’ token
+ 4617 | llama_token * llama_get_sampled_candidates_ith(llama_context * ctx, int32_t i) {
+      |                                                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4623:81: error: a function-definition is not allowed here before ‘{’ token
+ 4623 | uint32_t llama_get_sampled_candidates_count_ith(llama_context * ctx, int32_t i) {
+      |                                                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4629:77: error: a function-definition is not allowed here before ‘{’ token
+ 4629 | uint32_t llama_get_sampled_logits_count_ith(llama_context * ctx, int32_t i) {
+      |                                                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4635:76: error: a function-definition is not allowed here before ‘{’ token
+ 4635 | uint32_t llama_get_sampled_probs_count_ith(llama_context * ctx, int32_t i) {
+      |                                                                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4645:29: error: a function-definition is not allowed here before ‘{’ token
+ 4645 |         uint32_t n_outputs) {
+      |                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4660:29: error: a function-definition is not allowed here before ‘{’ token
+ 4660 |             float * scales) {
+      |                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4676:33: error: a function-definition is not allowed here before ‘{’ token
+ 4676 |               int32_t   il_end) {
+      |                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4686:56: error: a function-definition is not allowed here before ‘{’ token
+ 4686 | void llama_memory_clear(llama_memory_t mem, bool data) {
+      |                                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4698:28: error: a function-definition is not allowed here before ‘{’ token
+ 4698 |              llama_pos p1) {
+      |                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4711:28: error: a function-definition is not allowed here before ‘{’ token
+ 4711 |              llama_pos p1) {
+      |                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4721:32: error: a function-definition is not allowed here before ‘{’ token
+ 4721 |           llama_seq_id seq_id) {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4734:31: error: a function-definition is not allowed here before ‘{’ token
+ 4734 |              llama_pos delta) {
+      |                               ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4747:27: error: a function-definition is not allowed here before ‘{’ token
+ 4747 |                    int d) {
+      |                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4757:32: error: a function-definition is not allowed here before ‘{’ token
+ 4757 |           llama_seq_id seq_id) {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4767:32: error: a function-definition is not allowed here before ‘{’ token
+ 4767 |           llama_seq_id seq_id) {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4775:49: error: a function-definition is not allowed here before ‘{’ token
+ 4775 | bool llama_memory_can_shift(llama_memory_t mem) {
+      |                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4786:50: error: a function-definition is not allowed here before ‘{’ token
+ 4786 | size_t llama_get_state_size(llama_context * ctx) {
+      |                                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4791:66: error: a function-definition is not allowed here before ‘{’ token
+ 4791 | size_t llama_copy_state_data(llama_context * ctx, uint8_t * dst) {
+      |                                                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4796:71: error: a function-definition is not allowed here before ‘{’ token
+ 4796 | size_t llama_set_state_data(llama_context * ctx, const uint8_t * src) {
+      |                                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4801:157: error: a function-definition is not allowed here before ‘{’ token
+ 4801 | bool llama_load_session_file(llama_context * ctx, const char * path_session, llama_token * tokens_out, size_t n_token_capacity, size_t * n_token_count_out) {
+      |                                                                                                                                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4806:128: error: a function-definition is not allowed here before ‘{’ token
+ 4806 | bool llama_save_session_file(llama_context * ctx, const char * path_session, const llama_token * tokens, size_t n_token_count) {
+      |                                                                                                                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4812:50: error: a function-definition is not allowed here before ‘{’ token
+ 4812 | size_t llama_state_get_size(llama_context * ctx) {
+      |                                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4816:78: error: a function-definition is not allowed here before ‘{’ token
+ 4816 | size_t llama_state_get_data(llama_context * ctx, uint8_t * dst, size_t size) {
+      |                                                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4823:84: error: a function-definition is not allowed here before ‘{’ token
+ 4823 | size_t llama_state_set_data(llama_context * ctx, const uint8_t * src, size_t size) {
+      |                                                                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4829:155: error: a function-definition is not allowed here before ‘{’ token
+ 4829 | bool llama_state_load_file(llama_context * ctx, const char * path_session, llama_token * tokens_out, size_t n_token_capacity, size_t * n_token_count_out) {
+      |                                                                                                                                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4840:126: error: a function-definition is not allowed here before ‘{’ token
+ 4840 | bool llama_state_save_file(llama_context * ctx, const char * path_session, const llama_token * tokens, size_t n_token_count) {
+      |                                                                                                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4851:75: error: a function-definition is not allowed here before ‘{’ token
+ 4851 | size_t llama_state_seq_get_size(llama_context * ctx, llama_seq_id seq_id) {
+      |                                                                           ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4855:103: error: a function-definition is not allowed here before ‘{’ token
+ 4855 | size_t llama_state_seq_get_data(llama_context * ctx, uint8_t * dst, size_t size, llama_seq_id seq_id) {
+      |                                                                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4859:109: error: a function-definition is not allowed here before ‘{’ token
+ 4859 | size_t llama_state_seq_set_data(llama_context * ctx, const uint8_t * src, size_t size, llama_seq_id seq_id) {
+      |                                                                                                             ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4863:108: error: a function-definition is not allowed here before ‘{’ token
+ 4863 | size_t llama_state_seq_get_size_ext(llama_context * ctx, llama_seq_id seq_id, llama_state_seq_flags flags) {
+      |                                                                                                            ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4867:136: error: a function-definition is not allowed here before ‘{’ token
+ 4867 | size_t llama_state_seq_get_data_ext(llama_context * ctx, uint8_t * dst, size_t size, llama_seq_id seq_id, llama_state_seq_flags flags) {
+      |                                                                                                                                        ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4872:142: error: a function-definition is not allowed here before ‘{’ token
+ 4872 | size_t llama_state_seq_set_data_ext(llama_context * ctx, const uint8_t * src, size_t size, llama_seq_id seq_id, llama_state_seq_flags flags) {
+      |                                                                                                                                              ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4878:149: error: a function-definition is not allowed here before ‘{’ token
+ 4878 | size_t llama_state_seq_save_file(llama_context * ctx, const char * filepath, llama_seq_id seq_id, const llama_token * tokens, size_t n_token_count) {
+      |                                                                                                                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4889:183: error: a function-definition is not allowed here before ‘{’ token
+ 4889 | size_t llama_state_seq_load_file(llama_context * ctx, const char * filepath, llama_seq_id dest_seq_id, llama_token * tokens_out, size_t n_token_capacity, size_t * n_token_count_out) {
+      |                                                                                                                                                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4904:32: error: a function-definition is not allowed here before ‘{’ token
+ 4904 |           llama_batch   batch) {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4915:32: error: a function-definition is not allowed here before ‘{’ token
+ 4915 |           llama_batch   batch) {
+      |                                ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4928:71: error: a function-definition is not allowed here before ‘{’ token
+ 4928 | llama_perf_context_data llama_perf_context(const llama_context * ctx) {
+      |                                                                       ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4940:58: error: a function-definition is not allowed here before ‘{’ token
+ 4940 | void llama_perf_context_print(const llama_context * ctx) {
+      |                                                          ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4954:52: error: a function-definition is not allowed here before ‘{’ token
+ 4954 | void llama_perf_context_reset(llama_context * ctx) {
+      |                                                    ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4962:85: error: a function-definition is not allowed here before ‘{’ token
+ 4962 | bool llama_opt_param_filter_all(const struct ggml_tensor * tensor, void * userdata) {
+      |                                                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4968:114: error: a function-definition is not allowed here before ‘{’ token
+ 4968 | void llama_opt_init(struct llama_context * ctx, struct llama_model * model, struct llama_opt_params lopt_params) {
+      |                                                                                                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4979:50: error: a function-definition is not allowed here before ‘{’ token
+ 4979 |         ggml_opt_epoch_callback   callback_eval) {
+      |                                                  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4993:85: error: a function-definition is not allowed here before ‘{’ token
+ 4993 | llama_memory_breakdown llama_get_memory_breakdown(const struct llama_context * ctx) {
+      |                                                                                     ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4997:65: error: a function-definition is not allowed here before ‘{’ token
+ 4997 | llama_context * llama_get_ctx_other(struct llama_context * ctx) {
+      |                                                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:4999:2: error: expected ‘}’ at end of input
+ 4999 | }
+      |  ^
+/root/exabit-llama.cpp/src/llama-context.cpp:528:33: note: to match this ‘{’
+  528 | llama_context::~llama_context() {
+      |                                 ^
+/root/exabit-llama.cpp/src/llama-context.cpp:3681:27: warning: unused variable ‘io_magic’ [-Wunused-variable]
+ 3681 | static constexpr uint32_t io_magic = 0xaf143cd8;
+      |                           ^~~~~~~~
+[ 41%] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-dsa.cpp.o
+[ 41%] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-dsa-iswa.cpp.o
+[ 41%] Building CXX object src/CMakeFiles/llama.dir/llama-kv-cache-msa.cpp.o
+In file included from /root/build-substrate-v041/src/CMakeFiles/llama.dir/Unity/unity_1_cxx.cxx:37:
+/root/exabit-llama.cpp/src/models/delta-net-base.cpp: In member function ‘ggml_tensor* llm_build_delta_net_base::build_conv_state(llm_graph_input_rs*, ggml_tensor*, ggml_tensor*, int64_t, int64_t, int)’:
+/root/exabit-llama.cpp/src/models/delta-net-base.cpp:462:19: warning: unused variable ‘n_seq_tokens’ [-Wunused-variable]
+  462 |     const int64_t n_seq_tokens = ubatch.n_seq_tokens;
+      |                   ^~~~~~~~~~~~
+gmake[2]: *** [src/CMakeFiles/llama.dir/build.make:333: src/CMakeFiles/llama.dir/llama-context.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:2081: src/CMakeFiles/llama.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

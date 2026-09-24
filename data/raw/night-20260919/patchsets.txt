@@ -1,0 +1,8 @@
+mmvq-16col|01
+norm-add-fusion|02 03 07
+gdn-producer-fold|04 08 10 12
+mmvq-batch1-knobs|05 09
+mmid-sync-fix|15
+s1b-repacked-matvec|17 18 19
+fa-head256-rows|22 27
+dpp-warp-reductions|23 28

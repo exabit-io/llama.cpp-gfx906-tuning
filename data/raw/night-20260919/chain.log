@@ -1,0 +1,73 @@
+2026-09-19T14:50:57+00:00 pass 1 complete; starting pass 2 (frontier cells)
+2026-09-19T15:16:50+00:00 pass 2 exited rc=0
+2026-09-19T15:17:16+00:00 pass 2 complete; starting step 2 (chat shape at 3 passing configs)
+2026-09-19T17:56:53+00:00 step 2 exited rc=0
+2026-09-19T17:57:18+00:00 step 2 complete; starting step 2b (sized prompt cache)
+2026-09-19T19:50:33+00:00 step 2b exited rc=0
+2026-09-19T19:50:33+00:00 starting step 4 (context compression)
+2026-09-19T20:31:13+00:00 step 4 exited rc=0
+2026-09-19T20:31:27+00:00 step 4 complete; starting probe-alloc (§5.2 buffer itemisation)
+2026-09-19T20:34:08+00:00 probe-alloc exited rc=0
+2026-09-19T20:34:08+00:00 starting 125 W ladder over the four PASSING cells (R3.6)
+2026-09-19T21:13:33+00:00 125 W ladder exited rc=0
+2026-09-19T21:13:43+00:00 starting 150 W ladder over the four passing cells
+2026-09-19T21:16:26+00:00 starting 125 W service runs (R3.6), 4x64K design point + 6x64K
+2026-09-19T22:21:00+00:00 starting production-fan validation at 125 W (PWM curve)
+2026-09-19T22:45:36+00:00   prodfans -> rc=0
+2026-09-19T22:45:36+00:00 starting fan power delta at idle
+2026-09-19T22:47:07+00:00   fanpower -> rc=0
+2026-09-19T22:47:07+00:00 === CAMPAIGN CLOSED — ready for the patch survey ===
+2026-09-19T22:49:12+00:00 fanpower finished; starting build of gfx906-substrate-v041
+2026-09-19T22:49:34+00:00 build gfx906-substrate-v041 exit=2
+2026-09-19T22:49:34+00:00 BUILD FAILED — first errors:
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:114: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/arange.cu.o] Error 1
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:101: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/allreduce.cu.o] Error 1
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:127: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argmax.cu.o] Error 1
+2026-09-19T22:49:34+00:00 === BUILD PHASE DONE ===
+2026-09-19T23:00:08+00:00 rebuild after bf16 fix exit=2
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/mmq.cu:190:30: error: use of undeclared identifier 's12'
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/mmq.cu:191:30: error: use of undeclared identifier 's13'
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/mmq.cu:348:21: error: use of undeclared identifier 'ne_get_rows'
+/root/exabit-llama.cpp/ggml/src/ggml-cuda/mmq.cu:348:39: error: use of undeclared identifier 'ne_get_rows'
+2026-09-19T23:00:08+00:00 === REBUILD DONE ===
+2026-09-20T00:51:02+00:00 fanpower re-run exit=0
+2026-09-20T00:52:03+00:00 build#3 exit=2
+/root/exabit-llama.cpp/src/llama-context.cpp:555:38: error: qualified-id in declaration before ‘(’ token
+/root/exabit-llama.cpp/src/llama-context.cpp:644:34: error: qualified-id in declaration before ‘(’ token
+/root/exabit-llama.cpp/src/llama-context.cpp:842:32: error: qualified-id in declaration before ‘(’ token
+/root/exabit-llama.cpp/src/llama-context.cpp:876:45: error: qualified-id in declaration before ‘(’ token
+/root/exabit-llama.cpp/src/llama-context.cpp:880:49: error: qualified-id in declaration before ‘(’ token
+/root/exabit-llama.cpp/src/llama-context.cpp:884:46: error: qualified-id in declaration before ‘(’ token
+2026-09-20T00:52:03+00:00 === PASS 3 DONE ===
+2026-09-20T00:54:01+00:00 build#4 exit=2
+/root/exabit-llama.cpp/tools/server/server-context.cpp:566:53: error: ‘common_speculative_reset’ was not declared in this scope; did you mean ‘common_speculative_free’?
+2026-09-20T00:54:01+00:00 === PASS 4 DONE ===
+2026-09-20T00:55:27+00:00 build#5 exit=0
+2026-09-20T00:55:27+00:00 === PASS 5 DONE ===
+2026-09-20T01:22:58+00:00 test-backend-ops all-dies exit=0 
+Backend 1/5: ROCm0  ->    16198/16198 tests passed
+Backend 2/5: ROCm1  ->    16198/16198 tests passed
+Backend 3/5: ROCm2  ->    16198/16198 tests passed
+Backend 4/5: ROCm3  ->    16198/16198 tests passed
+2026-09-20T01:22:58+00:00 === TBO ALL4 DONE ===
+2026-09-20T01:57:33+00:00 starting C5 perplexity gate 16K/6
+2026-09-20T02:00:46+00:00 perplexity exit=0 
+Final estimate: PPL = 5.6122 +/- 0.06226
+2026-09-20T02:00:46+00:00 starting Part 6 gate 3: variance
+2026-09-20T02:01:01+00:00 variance exit=0 
+2026-09-20T02:01:01+00:00 === GATES DONE ===
+2026-09-20T02:07:56+00:00 gates done; building c4-series
+2026-09-20T02:11:30+00:00 c4-series build exit=0
+2026-09-20T02:11:30+00:00 === C4 BUILD DONE ===
+2026-09-20T03:17:36+00:00 variance retry exit=0
+2026-09-20T03:17:36+00:00 === GATES DONE ===
+2026-09-20T09:33:27+00:00 cmp exit=0
+2026-09-20T09:33:27+00:00 === CMP DONE ===
+2026-09-20T11:02:09+00:00 gates 1+2 finished; starting gate 4 (graph reuse under -sm tensor)
+2026-09-20T11:13:16+00:00 gate 4 exit=0 
+=== GATES 1-2-4 ALL DONE ===

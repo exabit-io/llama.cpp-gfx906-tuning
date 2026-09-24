@@ -1,0 +1,5 @@
+2026-09-22T17:23:24+00:00 [next] rebuilding substrate with the campaign FA_QUANTS
+2026-09-22T17:24:38+00:00 [next] substrate rebuild OK -> /root/build-substrate-campaign
+2026-09-22T17:24:53+00:00 [next] === E1b: substrate on the campaign config, 4 reps x 2 cells
+Terminated
+2026-09-22T17:28:05+00:00 [next] STOPPED (trap)

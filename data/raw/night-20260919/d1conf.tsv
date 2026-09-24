@@ -1,0 +1,11 @@
+C-gate-on	4x64K	1	15.8625	633.11
+C-gate-off	4x64K	1	15.9125	512.71
+C-repack-on	4x64K	1	15.4675	515.93
+C-repack-off	4x64K	1	14.6625	488.96
+C-gate-off	4x64K	2	15.8250	513.38
+C-gate-on	4x64K	2	15.8325	633.68
+C-repack-on	4x64K	2	15.4275	517.04
+C-repack-off	4x64K	2	14.6500	488.71
+C-gate-on	4x64K	3	15.8775	633.63
+C-gate-off	4x64K	3	15.8075	509.88
+C-repack-on	4x64K	3	15.4200	513.10
