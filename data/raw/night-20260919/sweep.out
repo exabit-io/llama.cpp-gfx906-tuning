@@ -1,0 +1,18 @@
+2026-09-24T06:40:32+00:00 [sweep] builds checked: master /opt/llama.cpp-mx-a23e12438 (from /root/build-mx-both), substrate /root/build-mx-sync (528384980), stock /root/build-stock-v050-rccl (7fe450e) — RCCL + FA_QUANTS=all in all three
+2026-09-24T06:40:46+00:00 [sweep] === sweeping 6 models (of 6 /root/models/*Q8*.gguf) x 2 cells x 3 builds
+2026-09-24T06:49:13+00:00 [sweep] Qwen3.8-27B-Q8_0 4x64K stock: ok decode=18.207034 prefill=606.7376
+2026-09-24T06:55:55+00:00 [sweep] Qwen3.8-27B-Q8_0 4x64K substrate: ok decode=22.450232 prefill=760.4196
+2026-09-24T07:02:37+00:00 [sweep] Qwen3.8-27B-Q8_0 4x64K master: ok decode=22.444819 prefill=760.6645
+2026-09-24T07:16:10+00:00 [sweep] Qwen3.8-27B-Q8_0 1x254K stock: ok decode=27.295021 prefill=344.2777
+2026-09-24T07:27:51+00:00 [sweep] Qwen3.8-27B-Q8_0 1x254K substrate: ok decode=30.912274 prefill=398.3818
+2026-09-24T07:39:38+00:00 [sweep] Qwen3.8-27B-Q8_0 1x254K master: ok decode=30.932818 prefill=396.7206
+2026-09-24T07:40:40+00:00 [sweep] Qwen3.5-0.8B-Q8_0 4x64K substrate: ok decode=130.862620 prefill=5497.6407
+2026-09-24T07:41:41+00:00 [sweep] Qwen3.5-0.8B-Q8_0 4x64K master: ok decode=130.645573 prefill=5520.7969
+2026-09-24T07:42:52+00:00 [sweep] Qwen3.5-0.8B-Q8_0 4x64K stock: ok decode=99.119156 prefill=4786.8817
+2026-09-24T07:45:16+00:00 [sweep] Qwen3.5-0.8B-Q8_0 1x254K substrate: ok decode=164.550860 prefill=1987.7927
+2026-09-24T07:47:40+00:00 [sweep] Qwen3.5-0.8B-Q8_0 1x254K master: ok decode=164.049984 prefill=1991.6019
+2026-09-24T07:50:30+00:00 [sweep] Qwen3.5-0.8B-Q8_0 1x254K stock: ok decode=119.626168 prefill=1681.0414
+2026-09-24T07:51:43+00:00 [sweep] Qwen3.5-2B-Q8_0 4x64K master: ok decode=115.942029 prefill=4617.9755
+2026-09-24T07:53:13+00:00 [sweep] Qwen3.5-2B-Q8_0 4x64K stock: ok decode=59.496833 prefill=3905.3110
+2026-09-24T07:54:45+00:00 [sweep] Qwen3.5-2B-Q8_0 4x64K substrate: ok decode=86.093829 prefill=3541.3858
+2026-09-24T07:57:13+00:00 [sweep] STOPPED (trap)

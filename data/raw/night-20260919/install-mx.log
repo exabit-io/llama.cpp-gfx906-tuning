@@ -1,0 +1,244 @@
+-- Install configuration: "Release"
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-cpu.so.0.25.1
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-cpu.so.0
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libggml-cpu.so.0.25.1" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-cpu.so
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-hip.so.0.25.1
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-hip.so.0
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libggml-hip.so.0.25.1" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-hip.so
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml.so.0.25.1
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml.so.0
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libggml.so.0.25.1" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml.so
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-cpu.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-alloc.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-backend.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-blas.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-cann.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-cpp.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-cuda.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-opt.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-metal.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-rpc.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-virtgpu.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-sycl.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-vulkan.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-webgpu.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-zendnn.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/ggml-openvino.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/gguf.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-base.so.0.25.1
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-base.so.0
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libggml-base.so
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/cmake/ggml/ggml-config.cmake
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/cmake/ggml/ggml-config-version.cmake
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-tokenizer-0
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-tokenizer-0" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-recurrent-state-rollback
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-recurrent-state-rollback" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-save-load-state
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-save-load-state" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-unicode
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-unicode" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-sampling
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-sampling" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-reasoning-budget
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-reasoning-budget" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-grammar-parser
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-grammar-parser" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-grammar-integration
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-grammar-integration" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-llama-grammar
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-llama-grammar" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-batch-alloc
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-batch-alloc" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-chat
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-chat" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-json-schema-to-grammar
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-json-schema-to-grammar" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-quantize-stats
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-quantize-stats" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-gbnf-validator
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-gbnf-validator" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-tokenizer-1-bpe
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-tokenizer-1-bpe" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-tokenizer-1-spm
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-tokenizer-1-spm" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-llama-archs
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-llama-archs" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-fusion
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-fusion" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-chat-peg-parser
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-chat-peg-parser" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-jinja
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-jinja" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-json-schema
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-json-schema" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-chat-auto-parser
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-chat-auto-parser" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-chat-template
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-chat-template" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-chat-analysis
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-chat-analysis" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-log
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-log" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-peg-parser
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-peg-parser" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-thread-safety
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-thread-safety" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-arg-parser
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-arg-parser" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-model-resolution
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-model-resolution" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-opt
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-opt" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-backend-ops
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-backend-ops" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-model-load-cancel
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-model-load-cancel" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-autorelease
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-autorelease" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-backend-sampler
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-backend-sampler" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-state-restore-fragmented
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-state-restore-fragmented" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-barrier
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-barrier" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-quantize-fns
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-quantize-fns" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-quantize-perf
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-quantize-perf" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-rope
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-rope" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-col2im-1d
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-col2im-1d" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-mtmd-c-api
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-mtmd-c-api" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-mtmd-impl
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-mtmd-impl" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-quant-type-selection
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-quant-type-selection" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-gguf
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-gguf" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-alloc
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-alloc" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/test-export-graph-ops
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/test-export-graph-ops" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-batched
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-batched" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-debug
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-debug" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-embedding
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-embedding" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-eval-callback
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-eval-callback" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-gguf-hash
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-gguf-hash" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-gguf
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-gguf" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-idle
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-idle" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-lookahead
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-lookahead" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-lookup
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-lookup" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-lookup-create
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-lookup-create" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-lookup-merge
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-lookup-merge" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-lookup-stats
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-lookup-stats" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-parallel
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-parallel" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-passkey
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-passkey" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-retrieval
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-retrieval" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-simple
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-simple" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-simple-chat
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-simple-chat" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-speculative
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-speculative" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-speculative-simple
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-speculative-simple" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-gen-docs
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-gen-docs" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-finetune
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-finetune" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-diffusion-cli
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-diffusion-cli" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-convert-llama2c-to-ggml
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-convert-llama2c-to-ggml" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-batched-bench-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-batched-bench-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-batched-bench
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-batched-bench" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-gguf-split
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-gguf-split" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-imatrix
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-imatrix" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-bench-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-bench-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-bench
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-bench" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-completion-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-completion-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-completion
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-completion" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-perplexity-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-perplexity-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-perplexity
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-perplexity" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-quantize-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-quantize-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-quantize
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-quantize" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-cli-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-cli-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-cli
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-cli" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-server-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-server-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-server
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-server" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-tokenize
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-tokenize" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-tts
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-tts" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libmtmd.so.0.5.0
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libmtmd.so.0
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libmtmd.so.0.5.0" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libmtmd.so
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/mtmd-debug.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/mtmd.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/mtmd-helper.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-mtmd-cli
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-mtmd-cli" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-cvector-generator
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-cvector-generator" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-export-lora
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-export-lora" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-fit-params-impl.so
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-fit-params-impl.so" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-fit-params
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-fit-params" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama-results
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama-results" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/bin/llama
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/bin/llama" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama.so.0.5.0
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama.so.0
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama.so.0.5.0" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama.so
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/llama.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/include/llama-cpp.h
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-common.so.0.5.0
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-common.so.0
+-- Set non-toolchain portion of runtime path of "/opt/llama.cpp-mx-a23e12438/lib/libllama-common.so.0.5.0" to ""
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/libllama-common.so
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/cmake/llama/llama-config.cmake
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/cmake/llama/llama-config-version.cmake
+-- Installing: /opt/llama.cpp-mx-a23e12438/lib/pkgconfig/llama.pc
