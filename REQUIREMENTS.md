@@ -107,9 +107,12 @@ measurements that prove it against this specification.
   or their KL against the reference is measured and reported.
 - **R3.6 Power.** The node stays inside the chassis envelope (1228 W DC) with the host uncapped; on the hyperconverged fleet the
   dies run at a **125 W cap** (fleet economics 2026-09-08); every result at the design point is reported at 200 W and at 125 W.
-- **R3.7 Currency.** The build tracks upstream `ggml-org/llama.cpp` master; the gfx906 changes live as a maintained series on
-  the `gfx906` branch of exabit-io/llama.cpp, rebased or merged on every upstream move, validated by the acceptance chain (R5)
-  before promotion.
+- **R3.7 Currency.** The build tracks upstream `ggml-org/llama.cpp` releases. **Substrate (lead, 2026-09-24):**
+  `exabit-io/mx-llama.cpp` branch `merge-v0.5.0` — mxxm-t's gfx906 fork merged with llama.cpp v0.5.0 (`7fe450e`) — until
+  mxxm-t merges it upstream (mxxm-t/mx-llama.cpp#17), after which mxxm-t's `master` is the substrate. The Exabit changes
+  live as the bin branches `gfx906-required` / `-both` / `-single` / `-multi` of exabit-io/llama.cpp on that substrate,
+  updated on every upstream move, validated by the acceptance chain (R5) before promotion.
+  ~~the `gfx906` branch of exabit-io/llama.cpp~~ — superseded 2026-09-24.
 - **R3.9 Speculative decoding / MTP (lead, 2026-09-19).** The service uses the model's own multi-token-
   prediction weights where they exist — Qwen3.8-27B ships `blk.N.nextn.*`, and a server that loads and
   discards them is leaving performance unclaimed. MTP is **in scope for BOTH profiles** (R2.7), as draft-1
@@ -206,6 +209,7 @@ per-request floor · R3.4 TTFT bound · R5 the first design point.
 
 ## Change log
 
+- 2026-09-24 (lead): **R3.7 — the substrate is `exabit-io/mx-llama.cpp` `merge-v0.5.0`** (mxxm-t's fork merged with llama.cpp v0.5.0, offered upstream as mxxm-t/mx-llama.cpp#17) until mxxm-t accepts it; the bin branches of exabit-io/llama.cpp sit on it. Same day, R2.2: the context floor is 64K.
 - 2026-09-19 (lead, on the harness): **R2.4 rewritten — the session shape was wrong, and with it every
   service-axis measurement in the corpus.** The lead's point: a real chat session has the user saying little and
   the model generating a lot, with context accumulating from the model's own output turn after turn, plus tool

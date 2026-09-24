@@ -33,7 +33,8 @@ Ordered roughly by depth of gfx906-specific work. Read these first.
 - https://github.com/renlililoli/hygon-z100-qwen38-llamacpp — [KERNELS][FIX] Tested llama.cpp HIP patch + config for Hygon Z100 (gfx906 derivative) on DTK 26.04.
 - https://github.com/bowmanjd/franken-llama — [BUILD][KERNELS] llama.cpp flake.nix supporting MI50 + CUDA, includes TurboQuant.
 - https://github.com/FreesoSaiFared/llama.cpp-gfx906-semantic — [KERNELS] Attempt to derive "semantic (prompt) patches" from the iacopPBK diff so the changes can be re-applied to newer upstream.
-- https://github.com/exabit-io/llama.cpp/tree/gfx906 — [KERNELS] (your own) upstream master + mx-llama.cpp + Exabit kernel series; companion guide https://github.com/exabit-io/llama.cpp-gfx906-tuning (4× Vega 20 tuning guide, 31 benchmark tables, LP optimiser, kernel patches: +20% single-stream, +33% prefill vs b10288/b10912 baselines).
+- https://github.com/exabit-io/mx-llama.cpp/tree/merge-v0.5.0 — [KERNELS] (your own, 2026-09-24) mxxm-t/mx-llama.cpp merged with llama.cpp v0.5.0 + RCCL default; **the current substrate**; offered upstream as https://github.com/mxxm-t/mx-llama.cpp/pull/17
+- https://github.com/exabit-io/llama.cpp — [KERNELS] (your own) bin branches `gfx906-required/-both/-single/-multi` on that substrate; upstream master + mx-llama.cpp + Exabit kernel series; companion guide https://github.com/exabit-io/llama.cpp-gfx906-tuning (4× Vega 20 tuning guide, 31 benchmark tables, LP optimiser, kernel patches: +20% single-stream, +33% prefill vs b10288/b10912 baselines). (the `gfx906` branch is the 2026-09-09 state)
 - (dead) https://github.com/skyne98/llama-labs-gfx906 — referenced by iacopPBK README as the kernel-experiments lab; now 404 (private or renamed). The published results live in the skyne98 wiki studies (§3).
 
 ### 1a. Narrow bug-fix forks [FIX] — mostly the SOLVE_TRI / rocblas_strsm segfault on ROCm 7.x with Qwen3.5/3.6/Qwen3-Next Gated-DeltaNet models

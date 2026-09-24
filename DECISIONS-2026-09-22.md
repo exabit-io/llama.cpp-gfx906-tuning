@@ -1,5 +1,8 @@
 # Promotion decision, 2026-09-22 — what ships
 
+> **History (2026-09-22). Superseded:** the substrate is now `exabit-io/mx-llama.cpp` `merge-v0.5.0` on llama.cpp v0.5.0 (REQUIREMENTS R3.7) and the working plan is `RE-RE-SURVEY-ACTION-PLAN.md`. Numbers here were measured on the v0.4.1 base.
+
+
 Decided by the technical lead on confirmed measurements (n=4 per arm, exact permutation, BH FDR
 q<0.10, full-precision metrics, at the R2.7 design points 4x64K multi-user and 1x254K single-user,
 125 W/die, `--cache-ram 49152`, `-ngl all`). Every item below is CONFIRMED, not screened.

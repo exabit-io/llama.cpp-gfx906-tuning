@@ -1,5 +1,8 @@
 # Verdicts that exist only as prose — the binning backlog
 
+> **History (2026-09-22). Superseded:** the substrate is now `exabit-io/mx-llama.cpp` `merge-v0.5.0` on llama.cpp v0.5.0 (REQUIREMENTS R3.7) and the working plan is `RE-RE-SURVEY-ACTION-PLAN.md`. Numbers here were measured on the v0.4.1 base.
+
+
 D12 says a candidate is not surveyed until a verdict record exists. By that rule the following are
 **unbinned**, and they are not obscure: they are the "do not re-test" rules in `CLAUDE.md` that steer
 what gets worked on. Each was measured, but only on a baseline this campaign has shown to be

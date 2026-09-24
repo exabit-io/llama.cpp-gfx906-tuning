@@ -1,7 +1,7 @@
 #!/bin/bash
 # binrun.sh — bin the Exabit patchsets. For each patchset x: compile x, test x, bin x.
 #
-# Base: gfx906-both = llama.cpp v0.5.0 7fe450e + mxxm-t's fork @eefc4e732 + mixa3607/ML-gfx906's kcase patch + AR gate.
+# Base: gfx906-both on the substrate exabit-io/mx-llama.cpp merge-v0.5.0 (mxxm-t's fork merged with llama.cpp v0.5.0).
 # max-ilp is a BUILD-FLAG patchset: base code, compiled with mixa3607/ML-gfx906's -mllvm -amdgpu-sched-strategy=max-ilp. Each arm = base + one
 # patchset, cherry-picked from c4-series-v050m (our terms with their conflicts already resolved on the substrate). Two patchsets need an
 # earlier one to apply, so their arm includes it and they are binned on the INCREMENT over that arm:
@@ -27,12 +27,12 @@ rm -f $DONE; echo $$ > $W/binrun.pid
 ARMS_FILE=$W/binrun-arms.txt
 cat > $ARMS_FILE <<'EOF'
 base|
-norm-add-fusion|a206e0264 4e95d4636
-gdn-producer-fold|a206e0264 4e95d4636 39d1678d6 28bca430c 13b6369dd cbd857b28 34f2ca869
-mmvq-batch1-knobs|64ba61f7f 8753f5e8f 6fd5667d0 90650509b
-s1b-repacked-matvec|ee3c02922 4c72a10db 09801edf3
-fa-head256-rows|f7fd04fb6 c27df9023
-dpp-warp-reductions|6cd756113 b9e07ad91
+norm-add-fusion|1d5918cce 91fdc0277
+gdn-producer-fold|1d5918cce 91fdc0277 8a4a9b616 8c99f4af7 c7ee50145 bf65d955c d35a9c793
+mmvq-batch1-knobs|4d6246ad7 7af0ac291 df4c199b2 3a49b322e
+s1b-repacked-matvec|fd1c2e743 cc46c2333 f9d9662c4
+fa-head256-rows|bf4bf4f19 60cad6022
+dpp-warp-reductions|49c6ca3b3 c339a4087
 max-ilp||-DCMAKE_HIP_FLAGS=-mllvm -amdgpu-sched-strategy=max-ilp
 EOF
 
@@ -83,7 +83,10 @@ if [ -n "$GATE_PID" ]; then
   log "waiting for the correctness gate (pid $GATE_PID) before measuring"
   WAIT_MAX=86400 $W/waitproc.sh "$GATE_PID" >> $P 2>&1
 fi
-GP=$W/gate-v050.progress
+GP=$W/gate-build-mx-both.progress
+GATE_COMMIT=$(grep -m1 -oE "source commit [0-9a-f]+" $GP 2>/dev/null | awk '{print $3}')
+BASE_COMMIT=$(git -C $WT rev-parse $BASEREF)
+if [ "$GATE_COMMIT" != "$BASE_COMMIT" ]; then log "GATE IS FOR ${GATE_COMMIT:-nothing}, BASE IS $BASE_COMMIT — not measuring"; touch $DONE; exit 6; fi
 tbo=$(grep -c 'test-backend-ops: PASS' $GP 2>/dev/null)
 ppl=$(grep -oE 'PPL = [0-9.]+' $GP 2>/dev/null | tail -1 | awk '{print $3}')
 fnok=$(grep -cE 'flash-next rc=0, [0-9]{3,} bytes' $GP 2>/dev/null)

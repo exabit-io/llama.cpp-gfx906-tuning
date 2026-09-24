@@ -1,3 +1,5 @@
+> **2026-09-24:** the code substrate is `exabit-io/mx-llama.cpp` `merge-v0.5.0` (REQUIREMENTS R3.7) and the Exabit terms live on `c4-series` of exabit-io/llama.cpp. Everything below describes the 2026-09-07..09 patch files and is kept as history.
+
 # patches/ — the gfx906 kernel changes behind the production build
 
 > **2026-09-09:** production is `/opt/llama.cpp-prod` → `/opt/llama.cpp-mxxm-fh-nq` (the fork + both MMVQ patches + the 0001–0009 series below); the `gfx906` branch of https://github.com/exabit-io/llama.cpp carries the same series on current upstream (`gfx906-branch/`), and `upstream-S1/` is the tile-table patch prepared for upstream. The first section below is the 2026-09-07 state, kept as written.

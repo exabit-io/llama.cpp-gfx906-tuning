@@ -21,7 +21,11 @@ Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) 
 | `reference/` | section maps of the AMD Vega 7nm ISA, Infinity Fabric Link and Instinct tuning guides, and the LLVM AMDGPU backend guide (`reference/README.md`) |
 | `CLAUDE.md` | conventions for future sessions in this folder |
 
-The code is a separate repository: **https://github.com/exabit-io/llama.cpp** (branch `gfx906` = upstream master merged into the mx-llama.cpp fork + the Exabit series; `GFX906.md` there is the code-side guide). This guide is **https://github.com/exabit-io/llama.cpp-gfx906-tuning**.
+The code is a separate repository: **https://github.com/exabit-io/llama.cpp** (bin branches `gfx906-required` / `-both` / `-single` / `-multi`). **Substrate (2026-09-24): [`exabit-io/mx-llama.cpp` branch `merge-v0.5.0`](https://github.com/exabit-io/mx-llama.cpp/tree/merge-v0.5.0) (`528384980`)** = mxxm-t's fork (`mxxm-t/mx-llama.cpp` @ `eefc4e732`, its 182 commits kept individually) merged with llama.cpp v0.5.0 (`7fe450e`) + RCCL on by default. It is the substrate for every gfx906 build until mxxm-t merges [PR #17](https://github.com/mxxm-t/mx-llama.cpp/pull/17); then mxxm-t's `master` is. The bin branches on `exabit-io/llama.cpp` sit on it: `gfx906-required` (= substrate), `gfx906-both` (+ AR size gate, FA_QUANTS=all), `gfx906-single`/`-multi` (+ per-profile winners), `c4-series` (our unbinned terms). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`. This guide is **https://github.com/exabit-io/llama.cpp-gfx906-tuning**.
+
+## Status — 2026-09-24
+
+Substrate and branches as above; the patchset binning (`RE-RE-SURVEY-ACTION-PLAN.md`) runs on them. ROCm is 10.0 (7.14 purged 2026-09-19), so the `/opt` builds named in the 2026-09-09 status below no longer run; that section is kept as the record of that date.
 
 ## Status — 2026-09-09, evening
 
