@@ -105,7 +105,7 @@ Already in the base, not re-tested: term 06 (AR size gate). Not patchsets for th
 Timing: multi-user 7 arms x 5 x 6.9 min = 4.0 h, single-user 7 x 5 x 11.9 = 6.9 h, compat ~15 min.
 Scripts: `night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh` (commit SHAs updated to `c4-series-v050`).
 
-## 6. Round 2 — the substrate's patchsets (~11 arms + base, ~17 GPU h)
+## 6. Round 2 — the substrate's patchsets + the AR size gate (~12 arms + base, ~18.5 GPU h)
 
 The substrate is the fork `mxxm-t/mx-llama.cpp` @ `0c81bd502` (148 commits over b10760), squashed. Its
 commits cannot be removed one by one (most were rewritten by later ones), so its patchsets are **feature
@@ -119,6 +119,7 @@ by reverting the feature's code. Classified from the 148 commit subjects and the
 | q8-repack | fcb857560 + ~25 `q8_repack` commits | `--no-repack` |
 | q8_1-activation-cache | 775a8051f, cfea4a1f6, 0a694d8ad | `GGML_CUDA_Q8_1_CACHE=0` |
 | custom-allreduce | 04f89ab03 (part), 6d82eb5f8, cb501dcb8, 5f65f9fa3, 743037eae | `GGML_ENABLE_CUSTOM_AR` unset |
+| tp-ar-size-gate (ours, term 06) | 5e8c77273 | `GGML_TP_AR_MAX_NE` unset, custom AR on — re-confirms the v0.4.1 `both` bin on v0.5.0 at f16; its single-user half was only ever measured at 1x32K |
 | meta-token-graph | 751b6114c, 8051f5f2a, a3ab67c89, 693375a1f | `GGML_META_TG_LIMIT=0` |
 | meta-xfer-rccl | 04f89ab03 (part) | `GGML_META_XFER_RCCL=0` |
 | alloc-layout-cache | 6d2012d8a, 42b3cfb63, 687ef0194, d5047d6aa | `GGML_GALLOC_LAYOUT_CACHE=0` |
