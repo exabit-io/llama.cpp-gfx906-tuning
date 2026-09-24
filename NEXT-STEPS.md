@@ -1,5 +1,7 @@
 # Next steps: measurements, then the software stack for the Vega 7nm ISA
 
+> **History (software roadmap as of 2026-09-09).** Current work: `RE-RE-SURVEY-ACTION-PLAN.md` (code: `exabit-io/mx-llama.cpp`, `master` = substrate + both-profile patches). Kept as the record of that date. Item **S7** (multi-node collectives, REQUIREMENTS R3.11) remains the tracked future task.
+
 Written after the 2026-09-07 run-through (`reports/2026-09-07-todo-runthrough.html`). It closed the first TODO list: nineteen environment knobs (none move single-stream decode), two tensor-split pairs (adopted for mixed traffic), the pooled cache (fixed upstream), MTP at depth (settled), quant quality (measured), rocBLAS prefill (tie, retired), the 4-bit value cache (runs, 8 × 256K fits), the 16-column MMVQ patch, the MMVQ rewrite (+62% at 12 slots), the ML-gfx906 tile table (+33% prefill), and the power study (the clamp is the 1228 W supply). The production build serves at 82–83 tok/s aggregate on 16 slots against 64 on stock, and every measurement so far agrees on how this chip wants to be programmed: fewer instructions per dot product, no barriers, no long dependent chains, about 64 VGPRs — and, after the M1 trace (2026-09-08, `reports/2026-09-08-m1-kernel-trace.md`), fewer kernels per token: the die is busy 95% of a single-stream token, so what is left is kernel time, not launch gaps.
 
 What follows is ordered by expected tokens per second per week of work, with the diagnostic that decides each item placed before the code.

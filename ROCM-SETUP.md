@@ -1,5 +1,7 @@
 # ROCm 7.14 (TheRock) + PyTorch + llama.cpp on the Mac Pro 7,1 gfx906 dies
 
+> **Written for ROCm 7.14.** The box runs **ROCm 10.0** since 2026-09-19 (`/opt/rocm/core-10.0`; 7.14 purged; migration record `/root/rocm10-migration-20260919/`). The steps below are the 7.14 record.
+
 Set up 2026-09-03. Ubuntu 24.04.4, kernel 7.0.0-30-generic, 4x Vega 20
 (2x Radeon Pro Vega II Duo MPX, PCI 0b/0e/1b/1e:00.0), every die BAR0 = 32 GiB
 via resize-amdgpu-bars.service. All links Gen3 x16 (the box's ceiling).

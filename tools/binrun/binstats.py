@@ -19,7 +19,7 @@ usage: binstats.py binrun.tsv
 import sys, itertools, statistics as st
 
 # AMENDED 2026-09-24 00:05, BEFORE any cell was measured: term 01 does not compile without term 05 (its
-# c4-series resolution uses q8_fast, which 05 declares), so mmvq-16col cannot exist as an arm. The arm
+# resolved form uses q8_fast, which 05 declares), so mmvq-16col cannot exist as an arm. The arm
 # 'mmvq-batch1-knobs' (01 15 05 09) is the whole inseparable mmvq patchset and is binned against base.
 # Family: 6 patchsets x 2 axes x 2 metrics = 24; + max-ilp (build flag, added 2026-09-24 before any data) = 28.
 LABEL = {'mmvq-batch1-knobs': 'mmvq-q8-fastpath(01,05,09,15)'}

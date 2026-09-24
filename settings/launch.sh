@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# WARNING (2026-09-24): the BIN / LLAMA_PROD* defaults below point at ROCm 7.14 builds purged on 2026-09-19; they no longer run.
+# Set BIN to a build of exabit-io/mx-llama.cpp master (gfx906-single / gfx906-multi per profile) until a ROCm 10.0 build is installed.
 # launch.sh - the LP-chosen llama-server configurations for Qwen3.8-27B Q8_0 on 4 x gfx906.
 #
 #   settings/launch.sh <profile> [extra llama-server args]

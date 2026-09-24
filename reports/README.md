@@ -1,5 +1,7 @@
 # reports/ — the measurement reports, in order
 
+> Dated reports, each the record of its day. Current work: `RE-RE-SURVEY-ACTION-PLAN.md` (code: `exabit-io/mx-llama.cpp`, `master` = substrate + both-profile patches).
+
 The HTML files are the primary sources every number in the guide traces to; do not rename them (external notes
 link to them by name). Where a report was also published as a Claude artifact the link is given; the `.md` next
 to an `.html` is the same content as text. Raw tables: `data/raw/<day>/`.

@@ -1,5 +1,7 @@
 # Benchmarks that would settle the remaining decisions
 
+> **History (measurement list as of 2026-09-09).** Current work: `RE-RE-SURVEY-ACTION-PLAN.md` (code: `exabit-io/mx-llama.cpp`, `master` = substrate + both-profile patches). Kept as the record of that date.
+
 Ordered by decision value per hour of die time. Conventions as in the reports: fresh (cold-cycled) boot, perf level high, fans max, host CPU RAPL-capped at 150 W, no host work beside GPU jobs, the XGMI probe run twice first, the 5 s clock/power sampler and the DC-total watchdog running, `-r 2` or better, production build with `-b 2048 -ub 2048 -fa on` unless the item says otherwise. Add results to `data/benchmarks.json` and re-run `optimize/optimize.py`. The roadmap these feed is `NEXT-STEPS.md`.
 
 ## Open

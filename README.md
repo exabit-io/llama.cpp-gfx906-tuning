@@ -1,6 +1,6 @@
 # llama.cpp on AMD Vega 20 (gfx906) — tuning guide
 
-Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) in a 2019 Mac Pro under Ubuntu 24.04 / ROCm 7.14, serving Qwen3.8-27B Q8_0 with llama.cpp. This folder turns four measurement reports and four AMD reference documents into a settings guide, a machine-readable dataset, an optimiser that picks a launch configuration for a stated workload, and a roadmap for the software stack.
+Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) in a 2019 Mac Pro under Ubuntu 24.04 / ROCm 10.0 (7.14 until 2026-09-19), serving Qwen3.8-27B Q8_0 with llama.cpp. This folder turns four measurement reports and four AMD reference documents into a settings guide, a machine-readable dataset, an optimiser that picks a launch configuration for a stated workload, and a roadmap for the software stack.
 
 | Where | What |
 |---|---|
@@ -17,7 +17,7 @@ Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) 
 | `tools/` | the box-side scripts the reports and BENCHMARKS-TODO refer to: test environment (`gpu-test-env.sh`), clamp watchdog, SMC power log/reader, the server clients (`server-bench.py`, `mtp-depth-client.py`, `cold-start-client.py`), power-cap and HBM probes, the M1 trace, the queue and `post*` runners, the bisect tooling, the report generators |
 | `review/2026-09-08/` | an external contributor's review of the guide with its evidence and optimizer patches; `RESPONSE.md` records what was applied |
 | `ISA-NOTES.md` | what the Vega 7nm ISA and LLVM AMDGPU docs say gfx906 can do, what llama.cpp uses, what the kernel work found, what is left |
-| `ROCM-SETUP.md` | how ROCm 7.14 (TheRock, ML-gfx906), PyTorch and the stock llama.cpp were installed on the box |
+| `ROCM-SETUP.md` | how ROCm (TheRock builds from mixa3607's ML-gfx906: 7.14, then 10.0 since 2026-09-19), PyTorch and the stock llama.cpp were installed on the box |
 | `reference/` | section maps of the AMD Vega 7nm ISA, Infinity Fabric Link and Instinct tuning guides, and the LLVM AMDGPU backend guide (`reference/README.md`) |
 | `CLAUDE.md` | conventions for future sessions in this folder |
 
@@ -46,6 +46,9 @@ The chassis has a 1228 W DC envelope. Four dies at 200 W with the host idle draw
 The model: 27.04 GiB of Q8_0, 64 blocks of which 16 are full attention (4 KV heads × 256) and 48 are linear attention with a fixed 150 MiB state per sequence. In tensor split each die holds 6.3 GiB of weights (the 1.3 GiB token embedding stays in host RAM) and 16 KiB of f16 KV cache per token; a single-die instance holds 25.4 GiB and 64 KiB per token.
 
 ## 2. Builds and settings
+
+> **History (2026-09-07..09, ROCm 7.14).** The binaries below were purged with ROCm 7.14 on 2026-09-19 and no longer run; their numbers
+> are the measured record. Current code: `RE-RE-SURVEY-ACTION-PLAN.md` (code: `exabit-io/mx-llama.cpp`, `master` = substrate + both-profile patches).
 
 Two binaries matter. **Stock** is upstream b10288 built for `gfx906`; every number in the first three reports is measured on it. **Production** (`/opt/llama.cpp-prod`, since 2026-09-08) is the ML-gfx906 fork at b10254, whose gfx906 tile table for the integer matrix kernels reads prompts a third faster, plus two patches to the matrix-vector kernel and the nine-patch 2026-09-08 series (`patches/`): the 16-column extension that removes the 9–16 slot cliff on the tensor split, and a Q8_0 fast path that loads each weight block once per row and each activation block once per column. Perplexity is identical to stock to four digits. It wins on single dies too (+31% at 8 slots); only the plain 16-column patch loses there on register pressure, which the hybrid launch table (rows 4 up to 8 columns, rows 2 above) avoids.
 

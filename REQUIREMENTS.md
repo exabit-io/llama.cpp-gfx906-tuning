@@ -25,10 +25,12 @@ measurements that prove it against this specification.
   is superseded. Load tests and functional smoke tests may use any depth; their numbers may never be quoted as
   results. (A 2K-depth Flash-Next load test on 2026-09-23 produced decode figures that were then used for an
   R3.1 comparison -- that comparison is void, and this clause exists because of it.)
-- **R2.2** Requests are long-context: prompts and conversations well above 16K tokens; **32K is the realistic floor** of what a
+- **R2.2** Requests are long-context: prompts and conversations well above 16K tokens; ~~**32K is the realistic floor**~~ (superseded:
+  the floor is **64K**, bullet above) of what a
   request holds, and the service must accept requests **as large as the memory allows** (Qwen3.8's own thinking exceeds 4K on its
   own). ~~**TBC:** the design target per slot~~ — **narrowed 2026-09-19 (lead).** The preferred design points are
-  **8 slots × 192K with q8_0 KV** and **4 slots × 256K with q8_0 KV**. f16 KV at 8 × 128K was measured on
+  **8 slots × 192K with q8_0 KV** and **4 slots × 256K with q8_0 KV**. **Measured 2026-09-19/20: both FAIL R3.1; in use since 2026-09-24 (lead): 4 x 64K multi-user,
+  1 x 255K single-user, f16/f16 KV.** f16 KV at 8 × 128K was measured on
   2026-09-19 and is NOT the design point: it was proposed by Claude for comparability with the 7.14 corpus
   rather than derived from this requirement, and early in the run per-request decode sat around 1.6 tok/s,
   far under the R3.1 floor. q8_0 KV halves the dominant memory consumer at these depths, buying depth at
@@ -70,7 +72,8 @@ measurements that prove it against this specification.
 - **R2.7 Two build profiles (lead, 2026-09-19).** The gfx906 changes are maintained as **two separate builds**, because the
   optimisations are mutually exclusive between the modes — a patch set that wins in one loses in the other:
   - **multi-user / service build** — batched `llama-server` and `llama-batched-bench`. Judged on §3 and the §5 chain.
-    Currently the `gfx906` branch (tag `gfx906-20260909`), installed at `/opt/llama.cpp-gfx906`.
+    Currently `master` + `gfx906-multi` of `exabit-io/mx-llama.cpp` (R3.7); measured at **4 x 64K**, f16/f16 KV (lead, 2026-09-24).
+    ~~the `gfx906` branch (tag `gfx906-20260909`), installed at `/opt/llama.cpp-gfx906`~~ — a ROCm 7.14 build, purged 2026-09-19.
   - **single-user build** - batch-1 / single-stream, MTP. ~~Judged on single-stream decode at the R2.2 context floor.~~
     **CORRECTED 2026-09-21 (lead): a floor is not a design point.** Judging single-user at 32K against a multi-user
     design point of 4 x 64K is not an apples-to-apples comparison. The single-user design points are:
@@ -82,7 +85,8 @@ measurements that prove it against this specification.
     The 32K floor of R2.2 remains a floor: a minimum below which nothing is measured, gated or recommended. It is never
     a comparison depth. Any single-user verdict recorded against a 1 x 32K cell is **provisional** until it reproduces
     at 1 x 255K.
-    Currently the fork tile table + Q8_0 MMVQ fast path, installed at `/opt/llama.cpp-mxxm-fh`.
+    Currently `master` + `gfx906-single` of `exabit-io/mx-llama.cpp` (R3.7); measured at **1 x 255K**, f16/f16 KV (lead, 2026-09-24).
+    ~~the fork tile table + Q8_0 MMVQ fast path, installed at `/opt/llama.cpp-mxxm-fh`~~ — a ROCm 7.14 build, purged 2026-09-19.
 
   Each profile is measured, gated and promoted **independently, on its own axis**. A change is never rejected for regressing the
   other profile's axis — it goes to the other build, or to neither. Both builds track upstream per R3.7 and both ship per R3.8.
@@ -175,7 +179,9 @@ not out of scope. They are still never gates or headline numbers for the *multi-
 ## 5. Acceptance: how a build or setting is judged
 
 The acceptance chain runs on the production build candidate and on the current production build, interleaved, at the design point
-(**TBC:** 8 slots × 128K per slot as the first design point; then the largest context R3.2 allows):
+(**TBC:** 8 slots × 128K per slot as the first design point; then the largest context R3.2 allows). **In use since 2026-09-24
+(lead): 4 x 64K for the multi-user profile and 1 x 255K for the single-user profile, f16/f16 KV, RCCL and
+`GGML_CUDA_FA_QUANTS=all` builds; no 8-slot cells:**
 
 1. **Service run:** `llama-server -cb` with the slot count of R2.1, clients = 1.5 × slots, **sessions shaped per R2.4**
    (short user turn, 2K-8K generated, tool calls, context grown by generation) using `bench/chat-client.py`, with a

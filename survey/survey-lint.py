@@ -82,7 +82,7 @@ for f in files:
     stc = vals.get("structural", "")
     if stc.startswith("required-by") and vals.get("bin") == "neutral-drop":
         errs.append("a term other patches require cannot be binned neutral-drop; "
-                    "it belongs in gfx906-required on structural grounds")
+                    "it belongs in the substrate / master on structural grounds")
     name = os.path.basename(f)
     # INVARIANT: unresolved <-> unbinned-pending. A record cannot claim a real bin while its
     # confirmation is still running, and cannot sit as pending once a verdict is in.

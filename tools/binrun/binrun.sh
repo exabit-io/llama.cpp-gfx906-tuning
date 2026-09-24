@@ -41,7 +41,7 @@ declare -a READY=()
 while IFS='|' read -r name commits extra; do
   [ -z "$name" ] && continue
   bd=/root/build-ps-$name
-  log "compile $name (${commits:-gfx906-both head})"
+  log "compile $name (${commits:-master head})"
   git -C $WT checkout -qf --detach $BASEREF && git -C $WT clean -qfd
   ok=1
   for c in $commits; do
