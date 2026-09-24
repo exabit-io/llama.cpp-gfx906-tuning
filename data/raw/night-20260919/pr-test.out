@@ -1,0 +1,14 @@
+2026-09-24T02:22:05+00:00 [pr] 1. test-backend-ops, every op, one process per device
+2026-09-24T02:28:59+00:00 [pr]   ROCm0 rc=1:   16272/16273 tests passed
+2026-09-24T02:28:59+00:00 [pr]   ROCm1 rc=0:   16273/16273 tests passed
+2026-09-24T02:28:59+00:00 [pr]   ROCm2 rc=0:   16273/16273 tests passed
+2026-09-24T02:28:59+00:00 [pr]   ROCm3 rc=1:   16272/16273 tests passed
+2026-09-24T02:28:59+00:00 [pr] 2. perplexity, Qwen3.8-27B Q8_0, 16K x 6 chunks, -sm tensor (reference 5.6171 +/- 0.0624)
+2026-09-24T02:31:07+00:00 [pr]   rc=0 Final estimate: PPL = 5.6153 +/- 0.06235
+2026-09-24T02:31:07+00:00 [pr] 3. Qwen3.8-27B greedy 64 tokens, -sm layer
+2026-09-24T02:31:18+00:00 [pr]   rc=0 406 bytes: Explain in two sentences why the sky is blue.  The sky appears blue because the molecules in Earth's atmosphere scatter shorter wavelengths of sunlight, such as blue and violet, more effectively than 
+2026-09-24T02:31:18+00:00 [pr] 4. Qwen3.8-27B MTP speculative decode (--spec-type draft-mtp, n_max 2), llama-server, -sm tensor
+2026-09-24T02:31:37+00:00 [pr]   response: tokens 256 tok/s 70.33 draft_n 197 accepted 156 | text:   <think> The user wants a short paragraph about the history of the transistor. Let me think about the key points to inc
+2026-09-24T02:31:41+00:00 [pr] 5. Qwen3.8-Flash-Next (qwen4exp) greedy 64 tokens, -sm tensor, --n-cpu-moe 41, mlock
+2026-09-24T02:32:53+00:00 [pr]   rc=0 365 bytes: Explain in two sentences why the sky is blue.  <think> The user wants a concise two-sentence explanation of why the sky is blue. I need to cover Rayleigh scattering and why blue specifically dominates
+2026-09-24T02:32:54+00:00 [pr] === PR TEST DONE ===

@@ -1,0 +1,2251 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- llama.cpp version: 0.5.0-dev
+CMAKE_BUILD_TYPE=Release
+-- Found Git: /usr/bin/git (found version "2.43.0") 
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- CMAKE_SYSTEM_PROCESSOR: x86_64
+-- GGML_SYSTEM_ARCH: x86
+-- Found OpenMP_C: -fopenmp (found version "4.5") 
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5")  
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- The HIP compiler identification is Clang 23.0.0
+-- Detecting HIP compiler ABI info
+-- Detecting HIP compiler ABI info - done
+-- Check for working HIP compiler: /opt/rocm/lib/llvm/bin/clang++ - skipped
+-- Detecting HIP compile features
+-- Detecting HIP compile features - done
+-- HIP: Using hipcc from relative path: /opt/rocm/bin/hipcc
+-- HIP_PLATFORM using hip_HIPCONFIG_EXECUTABLE: amd
+-- HIP: Using hipcc from relative path: /opt/rocm/bin/hipcc
+-- HIP and hipBLAS found
+-- FlashAttention K-V type combinations: q4_0-q4_0;q4_1-q4_0;q5_0-q4_0;q5_1-q4_0;q8_0-q4_0;bf16-q4_0;f16-q4_0;q4_0-q4_1;q4_1-q4_1;q5_0-q4_1;q5_1-q4_1;q8_0-q4_1;bf16-q4_1;f16-q4_1;q4_0-q5_0;q4_1-q5_0;q5_0-q5_0;q5_1-q5_0;q8_0-q5_0;bf16-q5_0;f16-q5_0;q4_0-q5_1;q4_1-q5_1;q5_0-q5_1;q5_1-q5_1;q8_0-q5_1;bf16-q5_1;f16-q5_1;q4_0-q8_0;q4_1-q8_0;q5_0-q8_0;q5_1-q8_0;q8_0-q8_0;bf16-q8_0;f16-q8_0;q4_0-bf16;q4_1-bf16;q5_0-bf16;q5_1-bf16;q8_0-bf16;bf16-bf16;f16-bf16;q4_0-f16;q4_1-f16;q5_0-f16;q5_1-f16;q8_0-f16;bf16-f16;f16-f16
+-- Including HIP backend
+-- ggml version: 0.25.1
+-- ggml commit:  eefc4e732-dirty
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+-- Performing Test OPENSSL_VERSION_SUPPORTED
+-- Performing Test OPENSSL_VERSION_SUPPORTED - Success
+-- OpenSSL found: 3.0.13
+-- Generating embedded license file for target: llama-app
+-- Configuring done (2.5s)
+-- Generating done (0.2s)
+-- Build files have been written to: /root/build-mx-sync
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[  0%] Building CXX object vendor/cpp-httplib/CMakeFiles/cpp-httplib.dir/httplib.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[  1%] Building CXX object vendor/hash/CMakeFiles/vendor-hash.dir/hash.cpp.o
+[  1%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[  1%] Building CXX object common/CMakeFiles/llama-common-base.dir/build-info.cpp.o
+[  1%] Building C object vendor/hash/CMakeFiles/vendor-hash.dir/xxhash/xxhash.c.o
+[  2%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[  2%] Provisioning UI assets
+[  2%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[  2%] Building C object vendor/hash/CMakeFiles/vendor-hash.dir/sha256/sha256.c.o
+[  2%] Building CXX object vendor/hash/CMakeFiles/vendor-hash.dir/sha1/sha1.c.o
+[  2%] Building CXX object tools/mtmd/CMakeFiles/llama-llava-cli.dir/deprecation-warning.cpp.o
+[  2%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[  2%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[  2%] Building CXX object tools/mtmd/CMakeFiles/llama-gemma3-cli.dir/deprecation-warning.cpp.o
+[  3%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[  3%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[  3%] Building CXX object tools/mtmd/CMakeFiles/llama-qwen2vl-cli.dir/deprecation-warning.cpp.o
+[  3%] Building CXX object tools/mtmd/CMakeFiles/llama-minicpmv-cli.dir/deprecation-warning.cpp.o
+-- UI: downloading from b10951: https://huggingface.co/buckets/ggml-org/llama-ui/resolve/b10951/dist.tar.gz
+[  3%] Linking CXX executable ../../bin/llama-llava-cli
+[  3%] Linking CXX executable ../../bin/llama-gemma3-cli
+[  3%] Linking CXX executable ../../bin/llama-minicpmv-cli
+[  4%] Linking CXX executable ../../bin/llama-qwen2vl-cli
+[  5%] Linking CXX static library libllama-common-base.a
+[  5%] Built target llama-llava-cli
+[  5%] Built target llama-gemma3-cli
+[  5%] Built target llama-minicpmv-cli
+[  5%] Built target llama-qwen2vl-cli
+[  5%] Built target llama-common-base
+[  6%] Linking CXX static library libvendor-hash.a
+[  6%] Built target vendor-hash
+-- UI: archive verified and extracted
+-- UI: HF download succeeded, stamp updated (ggml-org/llama-ui|b10951, resolved: b10951)
+-- UI: gzip compression applied (/root/build-mx-sync/tools/ui/ui-gzip/_gzip)
+-- UI: embedded 70 assets
+[  6%] Built target llama-ui-assets
+[  6%] Building CXX object tools/ui/CMakeFiles/llama-ui.dir/ui.cpp.o
+[  6%] Linking CXX shared library ../../bin/libggml-base.so
+[  6%] Built target ggml-base
+[  6%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[  6%] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[  6%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/iqp.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[  7%] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[  7%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/llamafile/sgemm.cpp.o
+[  8%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[  8%] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/quants.c.o
+[  9%] Building CXX object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/repack.cpp.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/allreduce.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argmax.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/acc.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/arange.cu.o
+[  9%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/add-id.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argsort.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/binbcast.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/clamp.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/col2im-1d.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/concat.cu.o
+[ 10%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv-transpose-1d.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-dw.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-transpose.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/convert.cu.o
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/count-equal.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/arange.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/arange.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:114: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/arange.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/argsort.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/argsort.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:140: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argsort.cu.o] Error 1
+[ 11%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/cpy.cu.o
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/cross-entropy-loss.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/argmax.cu:4:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/argmax.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:127: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/argmax.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/add-id.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/add-id.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:88: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/add-id.cu.o] Error 1
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/cumsum.cu.o
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/diag.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/acc.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/acc.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:75: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/acc.cu.o] Error 1
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/diagmask.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/allreduce.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/allreduce.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:101: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/allreduce.cu.o] Error 1
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/dsv4-hc.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/binbcast.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/binbcast.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:153: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/binbcast.cu.o] Error 1
+[ 12%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fattn-tile.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/clamp.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/clamp.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:166: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/clamp.cu.o] Error 1
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fattn.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/col2im-1d.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/col2im-1d.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:179: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/col2im-1d.cu.o] Error 1
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fill.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/concat.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/concat.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:192: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/concat.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv-transpose-1d.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv-transpose-1d.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:205: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv-transpose-1d.cu.o] Error 1
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fwht.cu.o
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/gated_delta_net.cu.o
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/gated_delta_net_chunk.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv2d-dw.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv2d-dw.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:218: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-dw.cu.o] Error 1
+[ 13%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/getrows.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv2d-transpose.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv2d-transpose.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:231: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d-transpose.cu.o] Error 1
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ggml-cuda.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv2d.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/conv2d.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:244: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/conv2d.cu.o] Error 1
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/gla.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/convert.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/convert.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:257: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/convert.cu.o] Error 1
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/im2col.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/count-equal.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:270: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/count-equal.cu.o] Error 1
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/lightning-indexer.cu.o
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mean.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/diag.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/convert.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:322: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/diag.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/cross-entropy-loss.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:296: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/cross-entropy-loss.cu.o] Error 1
+[ 14%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmf.cu.o
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmid.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/cumsum.cu:2:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/cumsum.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:309: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/cumsum.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/diagmask.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/diagmask.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:335: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/diagmask.cu.o] Error 1
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmq.cu.o
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmvf.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/dsv4-hc.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:348: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/dsv4-hc.cu.o] Error 1
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmvq.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/cpy.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/cpy.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:283: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/cpy.cu.o] Error 1
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/moe-weighted-reduction.cu.o
+[ 15%] Linking CXX static library libllama-ui.a
+[ 15%] Built target llama-ui
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/norm.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/fattn-tile.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:361: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fattn-tile.cu.o] Error 1
+[ 15%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/opt-step-adamw.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/fill.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/fill.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:387: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fill.cu.o] Error 1
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/opt-step-sgd.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/fwht.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:400: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fwht.cu.o] Error 1
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/out-prod.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/gated_delta_net.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/gated_delta_net.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:413: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/gated_delta_net.cu.o] Error 1
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pad.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/gated_delta_net_chunk.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/gated_delta_net_chunk.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:426: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/gated_delta_net_chunk.cu.o] Error 1
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pad_reflect_1d.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/fattn.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:374: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/fattn.cu.o] Error 1
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pool1d.cu.o
+[ 16%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pool2d.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/gla.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:465: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/gla.cu.o] Error 1
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/buffer.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/getrows.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/getrows.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:439: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/getrows.cu.o] Error 1
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/mul-mat-id.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/im2col.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/im2col.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:478: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/im2col.cu.o] Error 1
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/mul-mat.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mean.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mean.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:504: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mean.cu.o] Error 1
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/repack-common.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/lightning-indexer.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:491: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/lightning-indexer.cu.o] Error 1
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/quantize.cu.o
+[ 17%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/roll.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mmid.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:530: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmid.cu.o] Error 1
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/rope.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mmf.cu:2:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:517: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmf.cu.o] Error 1
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/scale.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/moe-weighted-reduction.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/moe-weighted-reduction.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:582: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/moe-weighted-reduction.cu.o] Error 1
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/set-rows.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/ggml-cuda.cu:5:
+In file included from /root/wt-mx-sync/ggml/src/ggml-hip/../ggml-cuda/allreduce.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-hip/../ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-hip/../ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:452: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ggml-cuda.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/norm.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/norm.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/set.cu.o
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:595: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/norm.cu.o] Error 1
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/snake.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mmq.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:543: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmq.cu.o] Error 1
+[ 18%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/softcap.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/opt-step-adamw.cu:2:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/opt-step-adamw.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:608: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/opt-step-adamw.cu.o] Error 1
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/softmax.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/opt-step-sgd.cu:2:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/opt-step-sgd.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:621: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/opt-step-sgd.cu.o] Error 1
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/solve_tri.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/out-prod.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/out-prod.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:634: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/out-prod.cu.o] Error 1
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ssm-conv.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pad.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pad.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:647: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pad.cu.o] Error 1
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ssm-scan.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pad_reflect_1d.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pad_reflect_1d.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:660: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pad_reflect_1d.cu.o] Error 1
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/sum.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pool1d.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pool1d.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:673: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pool1d.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mmvf.cu:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+[ 19%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/sumrows.cu.o
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:556: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmvf.cu.o] Error 1
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/top-k.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pool2d.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/pool2d.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:686: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/pool2d.cu.o] Error 1
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/topk-moe.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mmvq.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/mmvq.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:569: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/mmvq.cu.o] Error 1
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tp-allreduce.cu.o
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tri.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/roll.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-hip/../ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-hip/../ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:764: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/roll.cu.o] Error 1
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tsembd.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/scale.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/scale.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:790: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/scale.cu.o] Error 1
+[ 20%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/unary.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/buffer.cu:5:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/repack.cuh:4:
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:699: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/buffer.cu.o] Error 1
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/upscale.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/rope.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/convert.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:777: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/rope.cu.o] Error 1
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/wkv.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/set-rows.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/set-rows.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:803: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/set-rows.cu.o] Error 1
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq112-dv112.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/mul-mat-id.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/repack.cuh:4:
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:712: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/mul-mat-id.cu.o] Error 1
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq128-dv128.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/repack-common.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/repack.cuh:4:
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:738: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/repack-common.cu.o] Error 1
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq192-dv128.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/quantize.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/quantize.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:751: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/quantize.cu.o] Error 1
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq256-dv256.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/mul-mat.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/repack.cuh:4:
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/q8_repack/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:725: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/q8_repack/mul-mat.cu.o] Error 1
+[ 21%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq320-dv256.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/set.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/set.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:816: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/set.cu.o] Error 1
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq40-dv40.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/snake.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/snake.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:829: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/snake.cu.o] Error 1
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq512-dv512.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/softcap.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/softcap.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:842: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/softcap.cu.o] Error 1
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq576-dv512.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/softmax.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:855: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/softmax.cu.o] Error 1
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq64-dv64.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/solve_tri.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:868: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/solve_tri.cu.o] Error 1
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq72-dv72.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/ssm-conv.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:881: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ssm-conv.cu.o] Error 1
+[ 22%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq80-dv80.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/ssm-scan.cu:10:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/ssm-scan.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:894: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/ssm-scan.cu.o] Error 1
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq96-dv96.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/sum.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/sum.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:907: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/sum.cu.o] Error 1
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/top-k.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/argsort.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:933: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/top-k.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/sumrows.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/reduce_rows.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:920: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/sumrows.cu.o] Error 1
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_32.cu.o
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_8.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/topk-moe.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-hip/../ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-hip/../ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:946: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/topk-moe.cu.o] Error 1
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/tp-allreduce.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/tp-allreduce.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:959: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tp-allreduce.cu.o] Error 1
+[ 23%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_2.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/tri.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:972: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tri.cu.o] Error 1
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_4.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/tsembd.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/tsembd.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:985: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/tsembd.cu.o] Error 1
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/upscale.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/upscale.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1011: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/upscale.cu.o] Error 1
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_32.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/unary.cu:1:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/unary.cuh:2:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:998: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/unary.cu.o] Error 1
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_4.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/wkv.cu:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1024: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/wkv.cu.o] Error 1
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_8.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq320-dv256.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1089: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq320-dv256.cu.o] Error 1
+[ 24%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq192-dv128.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1063: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq192-dv128.cu.o] Error 1
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_2.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq576-dv512.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1128: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq576-dv512.cu.o] Error 1
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1193: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_16.cu.o] Error 1
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_2.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq112-dv112.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1037: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq112-dv112.cu.o] Error 1
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_4.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq256-dv256.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1076: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq256-dv256.cu.o] Error 1
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_8.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq128-dv128.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1050: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq128-dv128.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq512-dv512.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1115: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq512-dv512.cu.o] Error 1
+[ 25%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_64-ncols2_1.cu.o
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_32.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1206: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_32.cu.o] Error 1
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_2.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_8.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1219: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_1-ncols2_8.cu.o] Error 1
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_4.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1232: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_1.cu.o] Error 1
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_8.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq40-dv40.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1102: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq40-dv40.cu.o] Error 1
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq1_s.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq64-dv64.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1141: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq64-dv64.cu.o] Error 1
+[ 26%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_s.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_2.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq72-dv72.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1245: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_2.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1154: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq72-dv72.cu.o] Error 1
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_xxs.cu.o
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_xs.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq80-dv80.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1167: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq80-dv80.cu.o] Error 1
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq3_s.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1271: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_16.cu.o] Error 1
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq3_xxs.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-tile-instance-dkq96-dv96.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1180: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-tile-instance-dkq96-dv96.cu.o] Error 1
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq4_nl.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_4.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1258: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_16-ncols2_4.cu.o] Error 1
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq4_xs.cu.o
+[ 27%] Linking CXX shared library ../../bin/libggml-cpu.so
+[ 27%] Built target ggml-cpu
+[ 27%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-mxfp4.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_32.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1284: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_32.cu.o] Error 1
+[ 28%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-nvfp4.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_4.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1297: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_4.cu.o] Error 1
+[ 28%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q1_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_8.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1310: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_2-ncols2_8.cu.o] Error 1
+[ 28%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q2_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1323: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_1.cu.o] Error 1
+[ 28%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q2_k.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_2.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1336: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_32-ncols2_2.cu.o] Error 1
+[ 28%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q3_k.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1349: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_16.cu.o] Error 1
+[ 28%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_2.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1362: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_2.cu.o] Error 1
+[ 29%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_4.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1375: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_4.cu.o] Error 1
+[ 29%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_k.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_8.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1388: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_4-ncols2_8.cu.o] Error 1
+[ 29%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_64-ncols2_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1401: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_64-ncols2_1.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1414: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_1.cu.o] Error 1
+[ 29%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_1.cu.o
+[ 29%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_k.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_2.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1427: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_2.cu.o] Error 1
+[ 29%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q6_k.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_4.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1440: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_4.cu.o] Error 1
+[ 30%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q8_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_8.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-mma-f16.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1453: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-mma-f16-instance-ncols1_8-ncols2_8.cu.o] Error 1
+[ 30%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_1.cu.o
+[ 30%] Linking CXX static library libcpp-httplib.a
+[ 30%] Built target cpp-httplib
+[ 30%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_10.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1752: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_1.cu.o] Error 1
+[ 30%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_11.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq1_s.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1466: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq1_s.cu.o] Error 1
+[ 30%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_12.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq2_xxs.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1505: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_xxs.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq2_s.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1479: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_s.cu.o] Error 1
+[ 30%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_13.cu.o
+[ 31%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_14.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq2_xs.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1492: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq2_xs.cu.o] Error 1
+[ 31%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_15.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq3_xxs.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1531: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq3_xxs.cu.o] Error 1
+[ 31%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq3_s.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1518: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq3_s.cu.o] Error 1
+[ 31%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_2.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq4_nl.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1544: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq4_nl.cu.o] Error 1
+[ 31%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_3.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-iq4_xs.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1557: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-iq4_xs.cu.o] Error 1
+[ 31%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_4.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-mxfp4.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1570: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-mxfp4.cu.o] Error 1
+[ 32%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_5.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q1_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1596: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q1_0.cu.o] Error 1
+[ 32%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_6.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q2_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1609: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q2_0.cu.o] Error 1
+[ 32%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_7.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-nvfp4.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1583: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-nvfp4.cu.o] Error 1
+[ 32%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_8.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_10.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1765: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_10.cu.o] Error 1
+[ 32%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_9.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q2_k.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1622: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q2_k.cu.o] Error 1
+[ 32%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q3_k.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1635: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q3_k.cu.o] Error 1
+[ 33%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q4_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1648: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_0.cu.o] Error 1
+[ 33%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q4_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1661: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_1.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_11.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1778: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_11.cu.o] Error 1
+[ 33%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q4_0.cu.o
+[ 33%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q4_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q4_k.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1674: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q4_k.cu.o] Error 1
+[ 33%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q4_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1687: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_0.cu.o] Error 1
+[ 33%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q4_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1700: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_1.cu.o] Error 1
+[ 33%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1739: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q8_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q5_k.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1713: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q5_k.cu.o] Error 1
+[ 34%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q4_1.cu.o
+[ 34%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q4_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmq-instance-q6_k.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmq.cuh:3:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1726: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmq-instance-q6_k.cu.o] Error 1
+[ 34%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q4_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_12.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1791: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_12.cu.o] Error 1
+[ 34%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q4_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_13.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_14.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1804: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_13.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1817: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_14.cu.o] Error 1
+[ 34%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q4_1.cu.o
+[ 34%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q4_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_15.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1830: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_15.cu.o] Error 1
+[ 35%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1843: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_16.cu.o] Error 1
+[ 35%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_2.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1856: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_2.cu.o] Error 1
+[ 35%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_3.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1869: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_3.cu.o] Error 1
+[ 35%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_4.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1882: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_4.cu.o] Error 1
+[ 35%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_5.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1895: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_5.cu.o] Error 1
+[ 35%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_6.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1908: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_6.cu.o] Error 1
+[ 36%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q5_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_7.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1921: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_7.cu.o] Error 1
+[ 36%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q5_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_8.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1934: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_8.cu.o] Error 1
+[ 36%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q5_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/mmf-instance-ncols_9.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mmf.cuh:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../mma.cuh:19:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1947: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/mmf-instance-ncols_9.cu.o] Error 1
+[ 36%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q5_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1960: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_0.cu.o] Error 1
+[ 36%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q5_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1973: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q4_0.cu.o] Error 1
+[ 36%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q5_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1986: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q4_0.cu.o] Error 1
+[ 37%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q5_1.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:1999: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q4_0.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2012: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q4_0.cu.o] Error 1
+[ 37%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q5_1.cu.o
+[ 37%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q8_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2038: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q4_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-q4_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2025: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q4_0.cu.o] Error 1
+[ 37%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q8_0.cu.o
+[ 37%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q8_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2051: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q4_1.cu.o] Error 1
+[ 37%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q8_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2077: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q4_1.cu.o] Error 1
+[ 38%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q8_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2064: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q4_1.cu.o] Error 1
+[ 38%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q8_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2090: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q4_1.cu.o] Error 1
+[ 38%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q8_0.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2103: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q4_1.cu.o] Error 1
+[ 38%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-bf16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-q4_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2129: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q4_1.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2116: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q4_1.cu.o] Error 1
+[ 38%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-bf16.cu.o
+[ 38%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-bf16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2142: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q5_0.cu.o] Error 1
+[ 39%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-bf16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2155: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q5_0.cu.o] Error 1
+[ 39%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-bf16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2181: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q5_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2168: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q5_0.cu.o] Error 1
+[ 39%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-bf16.cu.o
+[ 39%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-bf16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2194: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q5_0.cu.o] Error 1
+[ 39%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-f16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2207: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q5_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-q5_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2220: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q5_0.cu.o] Error 1
+[ 39%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-f16.cu.o
+[ 39%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-f16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2233: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q5_1.cu.o] Error 1
+[ 40%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-f16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2246: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q5_1.cu.o] Error 1
+[ 40%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-f16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2259: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q5_1.cu.o] Error 1
+[ 40%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-f16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2272: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q5_1.cu.o] Error 1
+[ 40%] Building HIP object ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-f16.cu.o
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2285: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q5_1.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2298: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q5_1.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-q5_1.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2311: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q5_1.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2324: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-q8_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2337: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-q8_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2350: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-q8_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2363: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-q8_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2376: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-q8_0.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2402: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-q8_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-q8_0.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2389: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-q8_0.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-bf16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2415: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-bf16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_0-bf16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_1-bf16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2441: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-bf16.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2428: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-bf16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_1-bf16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2454: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-bf16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-bf16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2467: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-bf16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-bf16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-bf16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2480: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-bf16.cu.o] Error 1
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2493: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-bf16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_0-f16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2506: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_0-f16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q4_1-f16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2519: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q4_1-f16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_0-f16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2532: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_0-f16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q5_1-f16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2545: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q5_1-f16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-q8_0-f16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2558: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-q8_0-f16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-bf16-f16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2571: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-bf16-f16.cu.o] Error 1
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/fattn-vec-instance-f16-f16.cu:3:
+In file included from /root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../fattn-vec.cuh:1:
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:345:13: error: redefinition of 'fast_bf16_hardware_available'
+  345 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+/root/wt-mx-sync/ggml/src/ggml-cuda/template-instances/../common.cuh:330:13: note: previous definition is here
+  330 | static bool fast_bf16_hardware_available(const int cc) {
+      |             ^
+1 error generated when compiling for gfx906.
+gmake[2]: *** [ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build.make:2584: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/__/ggml-cuda/template-instances/fattn-vec-instance-f16-f16.cu.o] Error 1
+gmake[2]: Target 'ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/build' not remade because of errors.
+gmake[1]: *** [CMakeFiles/Makefile2:2052: ggml/src/ggml-hip/CMakeFiles/ggml-hip.dir/all] Error 2
+gmake[1]: Target 'all' not remade because of errors.
+gmake: *** [Makefile:146: all] Error 2
+gmake: Target 'default_target' not remade because of errors.
