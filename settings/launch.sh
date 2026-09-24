@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# WARNING (2026-09-24): the BIN / LLAMA_PROD* defaults below point at ROCm 7.14 builds purged on 2026-09-19; they no longer run.
-# Set BIN to a build of exabit-io/mx-llama.cpp master (gfx906-single / gfx906-multi per profile) until a ROCm 10.0 build is installed.
+# 2026-09-24: BIN defaults to /opt/llama.cpp-mx = exabit-io/mx-llama.cpp master (a23e12438), ROCm 10.0, RCCL + FA_QUANTS=all.
+# The LLAMA_PROD* / LLAMA_STOCK defaults are ROCm 7.14 builds purged on 2026-09-19 and no longer run. The profiles below date
+# from 2026-09-08/09 (32K cells, 7.14 builds); they have not been re-derived for the current conditions (4x64K multi-user,
+# 1x255K single-user, f16/f16 KV) — treat their figures as history and the launch lines as templates.
 # launch.sh - the LP-chosen llama-server configurations for Qwen3.8-27B Q8_0 on 4 x gfx906.
 #
 #   settings/launch.sh <profile> [extra llama-server args]
@@ -41,7 +43,7 @@ LLAMA_STOCK=${LLAMA_STOCK:-/opt/llama.cpp/bin}
 # at 8/16 slots x 32K and wins every prefill cell (reports/2026-09-09-night-report.md). The b10254 build stays reachable as
 # LLAMA_PROD_B10254 for report comparisons only.
 LLAMA_PROD_B10254=${LLAMA_PROD_B10254:-/opt/llama.cpp-prod/bin}
-BIN=${BIN:-/opt/llama.cpp-gfx906/bin}
+BIN=${BIN:-/opt/llama.cpp-mx/bin}
 # The /opt builds carry no rpath and /etc/ld.so.conf.d/llama.cpp.conf points at the stock /opt/llama.cpp/lib, so without this
 # line the production binary silently loads the STOCK libggml-hip (verified with ldd, 2026-09-08). Every report number was
 # measured with LD_LIBRARY_PATH set to the build's own lib/.

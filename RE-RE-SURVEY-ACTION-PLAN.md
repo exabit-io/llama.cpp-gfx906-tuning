@@ -221,6 +221,7 @@ GitHub releases mark milestones only.
 |---|---|
 | **code (the only repo)** | `github.com/exabit-io/mx-llama.cpp` — `master` (the build), `gfx906-single/-multi`, `gfx906-candidates`, `merge-v0.5.0` (pure substrate, PR #17); local clone `/root/exabit-llama.cpp`, remote `exabit-mx` |
 | PR to mxxm-t | https://github.com/mxxm-t/mx-llama.cpp/pull/17 |
+| installed build | `/opt/llama.cpp-mx` -> `/opt/llama.cpp-mx-a23e12438` (master, ROCm 10.0, RCCL + FA_QUANTS=all, installed 2026-09-24); `settings/launch.sh` defaults to it |
 | plans, docs, data, records | `github.com/exabit-io/llama.cpp-gfx906-tuning` (this repo) |
 | retired code history | `github.com/exabit-io/llama.cpp` (archived 2026-09-24, read-only) |
 | run scripts | `/root/night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`, `gate-v050.sh`, `pr-test.sh` (copies in `tools/binrun/`) |
