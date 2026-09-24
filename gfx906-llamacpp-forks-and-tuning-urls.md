@@ -33,7 +33,7 @@ Ordered roughly by depth of gfx906-specific work. Read these first.
 - https://github.com/renlililoli/hygon-z100-qwen38-llamacpp — [KERNELS][FIX] Tested llama.cpp HIP patch + config for Hygon Z100 (gfx906 derivative) on DTK 26.04.
 - https://github.com/bowmanjd/franken-llama — [BUILD][KERNELS] llama.cpp flake.nix supporting MI50 + CUDA, includes TurboQuant.
 - https://github.com/FreesoSaiFared/llama.cpp-gfx906-semantic — [KERNELS] Attempt to derive "semantic (prompt) patches" from the iacopPBK diff so the changes can be re-applied to newer upstream.
-- https://github.com/exabit-io/mx-llama.cpp — [KERNELS] (your own, 2026-09-24) **the code repository**: `master` = mxxm-t/mx-llama.cpp merged with llama.cpp v0.5.0 + RCCL default (the substrate, offered upstream as https://github.com/mxxm-t/mx-llama.cpp/pull/17); `gfx906-both/-single/-multi` binned Exabit patches, `gfx906-candidates` unbinned
+- https://github.com/exabit-io/mx-llama.cpp — [KERNELS] (your own, 2026-09-24) **the code repository**: substrate = mxxm-t/mx-llama.cpp merged with llama.cpp v0.5.0 + RCCL default (branch `merge-v0.5.0`, offered upstream as https://github.com/mxxm-t/mx-llama.cpp/pull/17); `master` = substrate + the patches binned for both profiles, `gfx906-single/-multi` per-profile, `gfx906-candidates` unbinned
 - https://github.com/exabit-io/llama.cpp — (your own, retired 2026-09-24) history: the `gfx906` branch (2026-09-09 state), the v0.4.1 campaign, tags; companion guide https://github.com/exabit-io/llama.cpp-gfx906-tuning
 - (dead) https://github.com/skyne98/llama-labs-gfx906 — referenced by iacopPBK README as the kernel-experiments lab; now 404 (private or renamed). The published results live in the skyne98 wiki studies (§3).
 

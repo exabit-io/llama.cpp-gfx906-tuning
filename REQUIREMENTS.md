@@ -108,10 +108,10 @@ measurements that prove it against this specification.
 - **R3.6 Power.** The node stays inside the chassis envelope (1228 W DC) with the host uncapped; on the hyperconverged fleet the
   dies run at a **125 W cap** (fleet economics 2026-09-08); every result at the design point is reported at 200 W and at 125 W.
 - **R3.7 Currency.** The build tracks upstream `ggml-org/llama.cpp` releases. **Code and substrate (lead, 2026-09-24):**
-  all gfx906 code lives in `exabit-io/mx-llama.cpp`; its `master` is the substrate — mxxm-t's gfx906 fork merged with the
-  latest llama.cpp release (v0.5.0, `7fe450e`), offered to mxxm-t as mxxm-t/mx-llama.cpp#17; once merged, `master` tracks
-  mxxm-t's master. The Exabit changes are that repository's branches `gfx906-both` / `-single` / `-multi` (binned) and
-  `gfx906-candidates` (not yet binned), moved onto `master` on every upstream release and validated by the acceptance
+  all gfx906 code lives in `exabit-io/mx-llama.cpp`. The substrate is mxxm-t's gfx906 fork merged with the latest llama.cpp
+  release (v0.5.0, `7fe450e`), offered to mxxm-t as mxxm-t/mx-llama.cpp#17 (after it merges, mxxm-t's master is the substrate).
+  `master` = the substrate + the Exabit patches binned for both profiles; `gfx906-single` / `-multi` add the profile-only
+  patches; `gfx906-candidates` holds the ones not yet binned; all move onto each new substrate on every upstream release and validated by the acceptance
   chain (R5) before promotion. ~~the `gfx906` branch of exabit-io/llama.cpp~~ — retired 2026-09-24.
 - **R3.9 Speculative decoding / MTP (lead, 2026-09-19).** The service uses the model's own multi-token-
   prediction weights where they exist — Qwen3.8-27B ships `blk.N.nextn.*`, and a server that loads and
@@ -209,7 +209,7 @@ per-request floor · R3.4 TTFT bound · R5 the first design point.
 
 ## Change log
 
-- 2026-09-24 (lead): **R3.7 — all gfx906 code in `exabit-io/mx-llama.cpp`, substrate = its `master`** (mxxm-t's fork merged with llama.cpp v0.5.0, offered upstream as mxxm-t/mx-llama.cpp#17); the bin branches live there; `exabit-io/llama.cpp` retired. Same day, R2.2: the context floor is 64K.
+- 2026-09-24 (lead): **R3.7 — all gfx906 code in `exabit-io/mx-llama.cpp`; `master` = substrate + both-profile patches** (mxxm-t's fork merged with llama.cpp v0.5.0, offered upstream as mxxm-t/mx-llama.cpp#17); the bin branches live there; `exabit-io/llama.cpp` retired. Same day, R2.2: the context floor is 64K.
 - 2026-09-19 (lead, on the harness): **R2.4 rewritten — the session shape was wrong, and with it every
   service-axis measurement in the corpus.** The lead's point: a real chat session has the user saying little and
   the model generating a lot, with context accumulating from the model's own output turn after turn, plus tool

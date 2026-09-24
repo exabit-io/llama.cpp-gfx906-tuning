@@ -16,11 +16,11 @@ substrate (section 2).
 Not in scope, and not to be started without an explicit ask: KV-type tests of any kind, 8-slot or any other
 cell, offload/config sweeps, Flash-Next performance numbers, new tooling, report rewrites.
 
-## 2. The code — one repository, `exabit-io/mx-llama.cpp`; substrate = its `master` (lead, 2026-09-24)
+## 2. The code — one repository, `exabit-io/mx-llama.cpp` (lead, 2026-09-24)
 
 **All gfx906 code lives in [`exabit-io/mx-llama.cpp`](https://github.com/exabit-io/mx-llama.cpp)**, our fork of
-mxxm-t's fork. **Its `master` is the substrate** for every build, branch and measurement. Today `master` =
-`528384980`:
+mxxm-t's fork. **The substrate** under every build, branch and measurement is `528384980` (branch `merge-v0.5.0`,
+tag `gfx906/v0.5.0/r0/master`):
 
 - **mxxm-t's fork** (`mxxm-t/mx-llama.cpp`, Marko Tombak) at its master `eefc4e732` (2026-09-21): 182 commits over
   upstream b10760, **kept as individual commits** (a merge, not a squash — any one can be named, reverted and binned);
@@ -29,29 +29,32 @@ mxxm-t's fork. **Its `master` is the substrate** for every build, branch and mea
 - plus `528384980`, `GGML_HIP_RCCL=ON` by default.
 
 It is offered to mxxm-t as [mxxm-t/mx-llama.cpp#17](https://github.com/mxxm-t/mx-llama.cpp/pull/17), opened from
-branch `merge-v0.5.0` (same commit as `master`; deleted once merged). When mxxm-t merges it, `master` tracks mxxm-t's
-master. **Every upstream release, one procedure:** merge it into `master`, offer that to mxxm-t as a PR, move the four
-`gfx906-*` branches onto the new `master`.
+branch `merge-v0.5.0`.
 
 Verified before the PR (`night-20260919/pr-test.sh`): build 0 warnings; `test-backend-ops` 16273/16273 on two dies,
 16272/16273 on two (upstream's `ADD_ADD` f16 test at its 1e-7 edge — 0/352 on re-run, 4/352 without the merge: an upstream
 flake); perplexity 16K/6 **5.6153**; `-sm layer` generates; MTP `draft-mtp` 156/197 accepted; Flash-Next loads and
 generates at production flags.
 
-### Branches of `exabit-io/mx-llama.cpp` — six, nothing else
+### Branches of `exabit-io/mx-llama.cpp` — five, nothing else
 
 | branch | commit | contents |
 |---|---|---|
-| `master` | `528384980` | **the substrate** |
-| `merge-v0.5.0` | `528384980` | PR #17's branch; deleted when merged |
-| `gfx906-both` | `a23e12438` | master + AR size gate (term 06) + `GGML_TP_AR_MAX_NE` default 20481 + `GGML_CUDA_FA_QUANTS=all` default |
-| `gfx906-single`, `gfx906-multi` | `a23e12438` | = gfx906-both until single-/multi-only winners are binned |
-| `gfx906-candidates` | `d19af19e8` | master + our 20 code patches (+ docs, `BRANCHES.md`), not yet binned — the source of round-1 arms |
+| `master` | `a23e12438` | **the build**: the substrate + the patches binned as improving **both** profiles (today: AR size gate with default 20481, `GGML_CUDA_FA_QUANTS=all` default) |
+| `gfx906-single`, `gfx906-multi` | `a23e12438` | = master until single-/multi-only winners are binned |
+| `gfx906-candidates` | `5e39f29b9` | the substrate + our 20 code patches (+ docs, `BRANCHES.md`), not yet binned — the source of round-1 arms |
+| `merge-v0.5.0` | `528384980` | **the pure substrate** (what PR #17 offers mxxm-t); deleted once merged, after which the pure substrate is mxxm-t's own `master` |
 
-Each branch's own commits are its bin (`git log gfx906-both ^master` is the `both` set). Binned `both` and in
-`gfx906-both`, not re-tested (lead, 2026-09-24): `tp-ar-size-gate` (own commit; default 20481 because mxxm-t
-`41c46cedb` turned custom AR on by default and the fork's 262144 threshold is the configuration measured at -19% prefill),
-`custom-allreduce` and `q8-repack` (in master), `rccl-collective` (master's own default).
+The substrate itself is pinned by tag `gfx906/v0.5.0/r0/master` (`528384980`). The `both` bin is `git log master ^merge-v0.5.0`;
+each profile bin is `git log gfx906-single ^master` / `gfx906-multi ^master`. Binned `both` and in `master`, not re-tested
+(lead, 2026-09-24): `tp-ar-size-gate` (own commit; default 20481 because mxxm-t `41c46cedb` turned custom AR on by default and
+the fork's 262144 threshold is the configuration measured at -19% prefill), `custom-allreduce` and `q8-repack` (substrate code),
+`rccl-collective` (the substrate's own default). `gfx906-both` was folded into `master` on 2026-09-24 (lead: in a repo that is
+only gfx906, the both-profile patches are what `master` is).
+
+**Every upstream release, one procedure:** merge the release into mxxm-t's master on a `merge-vX` branch and offer it to
+mxxm-t as a PR; merge that branch into `master`; move `gfx906-single`, `gfx906-multi` and `gfx906-candidates` onto the new
+`master`.
 
 **Two separate upstreams — never conflate them.** mxxm-t's fork is the kernel substrate. **mixa3607's `ML-gfx906`**
 builds ROCm for gfx906 and publishes Docker presets; it has no llama.cpp source. Its one llama.cpp patch
@@ -66,7 +69,7 @@ and description point here). Unarchiving is possible if it is ever needed.
 
 | item | value |
 |---|---|
-| base | `gfx906-both` of `exabit-io/mx-llama.cpp` (section 2) |
+| base | `master` of `exabit-io/mx-llama.cpp` (section 2) |
 | build | `-DGGML_HIP=ON -DAMDGPU_TARGETS=gfx906 -DGGML_HIP_RCCL=ON -DGGML_CUDA_FA_QUANTS=all -DGGML_HIP_GRAPHS=ON -DGGML_NATIVE=ON`, Release, ccache — same for every arm, checked by `assert-arms-comparable.sh` |
 | model (perf) | Qwen3.8-27B Q8_0, four dies, `-sm tensor -ngl all -fa on` |
 | KV | **f16 / f16** |
@@ -102,12 +105,12 @@ Found on synthetic data 2026-09-24 before any GPU time was spent.
 ## 5. Round 0 — the substrate is verified
 
 Done: the PR verification of section 2 is the substrate's correctness gate. Before round 1 measures, the same
-gate runs once on the `gfx906-both` build (AR gate + FA_QUANTS defaults on top); `binrun.sh` refuses to
+gate runs once on the `master` build (AR gate + FA_QUANTS defaults on top of the substrate); `binrun.sh` refuses to
 measure without it.
 
 ## 6. Round 1 — our patchsets + mixa3607's build flag (7 arms + base, ~11 GPU h)
 
-Arms built on `gfx906-both`, commits cherry-picked from `gfx906-candidates` (term numbers as in `terms/`):
+Arms built on `master`, commits cherry-picked from `gfx906-candidates` (term numbers as in `terms/`):
 
 | patchset | terms | measured against | note |
 |---|---|---|---|
@@ -126,7 +129,7 @@ lost the fork's MTP code; `master` has it back, so both are to be ported to `gfx
 ## 7. Round 2 — the substrate's patchsets (~8 arms + base, ~14 GPU h)
 
 The substrate now keeps mxxm-t's 182 commits individually, so a feature can be removed by reverting its own
-commits on top of `gfx906-both` (or switched off at runtime where the fork provides a switch). Classified from
+commits on top of `master` (or switched off at runtime where the fork provides a switch). Classified from
 commit subjects and switch code, 0 GPU; each group's commits are re-checked against the substrate before it is
 built:
 
@@ -162,14 +165,14 @@ mixa3607's kcase patch and the 34 later mxxm-t commits' Flash-Next/K-quant items
 (`de27e7509`, `20af9a480`, `62d4be47d`, `be8ff98aa`, `a355590d2`, `cf6a98f73`, `54702a718`, `27f755681`) join group A
 after the per-group check.
 
-How a substrate bin lands: the substrate stays whole in `master`. A patchset that regresses on a
+How a substrate bin lands: the substrate stays whole under `master`. A patchset that regresses on a
 profile is switched off in that profile's launch settings (runtime switch) or reverted on that profile's branch.
 
 ## 8. Timeline — starts on the lead's go (nothing is queued)
 
 | step | GPU h |
 |---|---:|
-| gate on `gfx906-both` | ~0.3 |
+| gate on `master` | ~0.3 |
 | round 1 multi-user bins | 4.6 |
 | round 1 single-user bins + compat | 8.2 |
 | round 2 multi-user bins | 5.2 |
@@ -183,7 +186,7 @@ The branches move; every state is pinned by an **annotated tag**:
 
 | where | tag | state |
 |---|---|---|
-| `exabit-io/mx-llama.cpp` | `gfx906/v0.5.0/r0/{master,both,candidates}` | **current**: round 0 on v0.5.0 |
+| `exabit-io/mx-llama.cpp` | `gfx906/v0.5.0/r0/master` (pure substrate), `…/r0/both` (today's `master`), `…/r0/candidates` | **current**: round 0 on v0.5.0 |
 | `exabit-io/mx-llama.cpp` | `gfx906/v0.5.0/r<N>/…` | after round N's bins are committed |
 | `exabit-io/llama.cpp` (retired) | `gfx906/mx-merge-v0.5.0/*`, `gfx906/v0.5.0+mxxm-t-eefc4e732/*`, `gfx906/v0.5.0/*`, `gfx906/v0.4.1/*`, `import/*`, `gfx906-20260909`, `gfx906-b11067-1d1361e`, `gfx906-pre-v041-20260920` | history |
 
@@ -216,7 +219,7 @@ GitHub releases mark milestones only.
 
 | what | where |
 |---|---|
-| **code (the only repo)** | `github.com/exabit-io/mx-llama.cpp` — `master` (substrate), `gfx906-both/-single/-multi`, `gfx906-candidates`; local clone `/root/exabit-llama.cpp`, remote `exabit-mx` |
+| **code (the only repo)** | `github.com/exabit-io/mx-llama.cpp` — `master` (the build), `gfx906-single/-multi`, `gfx906-candidates`, `merge-v0.5.0` (pure substrate, PR #17); local clone `/root/exabit-llama.cpp`, remote `exabit-mx` |
 | PR to mxxm-t | https://github.com/mxxm-t/mx-llama.cpp/pull/17 |
 | plans, docs, data, records | `github.com/exabit-io/llama.cpp-gfx906-tuning` (this repo) |
 | retired code history | `github.com/exabit-io/llama.cpp` (archived 2026-09-24, read-only) |
@@ -231,5 +234,6 @@ GitHub releases mark milestones only.
    to use the upstreamable merge instead, which keeps every fork feature the squash had set aside (the fork's
    MTP `process_decode`, chunked MMQ, the server speculative reset).
 3. Merged v0.5.0 into mxxm-t's master on `exabit-io/mx-llama.cpp`, opened PR #17, and made that the substrate.
-4. Consolidated all code into `exabit-io/mx-llama.cpp` (substrate = `master`, six branches); `exabit-io/llama.cpp`
-   retired as history (lead: "reduce and simplify things greatly").
+4. Consolidated all code into `exabit-io/mx-llama.cpp`; `exabit-io/llama.cpp` retired and archived (lead: "reduce and
+   simplify things greatly").
+5. Folded `gfx906-both` into `master` (lead: redundant in a gfx906-only repo). Five branches.

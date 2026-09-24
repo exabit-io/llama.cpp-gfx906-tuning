@@ -1,7 +1,7 @@
 #!/bin/bash
 # binrun.sh — bin the Exabit patchsets. For each patchset x: compile x, test x, bin x.
 #
-# Base: gfx906-both on the substrate exabit-io/mx-llama.cpp merge-v0.5.0 (mxxm-t's fork merged with llama.cpp v0.5.0).
+# Base: master of exabit-io/mx-llama.cpp = the substrate (mxxm-t fork + llama.cpp v0.5.0) + the patches binned both.
 # max-ilp is a BUILD-FLAG patchset: base code, compiled with mixa3607/ML-gfx906's -mllvm -amdgpu-sched-strategy=max-ilp. Each arm = base + one
 # patchset, cherry-picked from gfx906-candidates of exabit-io/mx-llama.cpp (our terms with their conflicts already resolved on the substrate). Two patchsets need an
 # earlier one to apply, so their arm includes it and they are binned on the INCREMENT over that arm:
@@ -19,7 +19,7 @@ set -u
 W=/root/night-20260919; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf
 TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-fa-fallback.sh
 AB=$TL/assert-build-config.sh; AC=$TL/assert-arms-comparable.sh
-WT=/root/wt-bin; BASEREF=gfx906-both
+WT=/root/wt-bin; BASEREF=exabit-mx/master
 P=$W/binrun.progress; TSV=$W/binrun.tsv; DONE=$W/.binrun-done
 log(){ echo "$(date -Is) [bin] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
