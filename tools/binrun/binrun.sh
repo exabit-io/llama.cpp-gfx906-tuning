@@ -3,7 +3,7 @@
 #
 # Base: gfx906-both on the substrate exabit-io/mx-llama.cpp merge-v0.5.0 (mxxm-t's fork merged with llama.cpp v0.5.0).
 # max-ilp is a BUILD-FLAG patchset: base code, compiled with mixa3607/ML-gfx906's -mllvm -amdgpu-sched-strategy=max-ilp. Each arm = base + one
-# patchset, cherry-picked from c4-series-v050m (our terms with their conflicts already resolved on the substrate). Two patchsets need an
+# patchset, cherry-picked from gfx906-candidates of exabit-io/mx-llama.cpp (our terms with their conflicts already resolved on the substrate). Two patchsets need an
 # earlier one to apply, so their arm includes it and they are binned on the INCREMENT over that arm:
 #   gdn-producer-fold  needs norm-add-fusion
 # The mmvq patchset is ONE unit, 01 15 05 09 (arm name mmvq-batch1-knobs): 01's resolved form uses q8_fast, which

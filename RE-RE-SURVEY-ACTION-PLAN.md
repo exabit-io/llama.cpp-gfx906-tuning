@@ -1,4 +1,4 @@
-# gfx906 patchset binning — action plan (substrate: exabit-io/mx-llama.cpp @ merge-v0.5.0)
+# gfx906 patchset binning — action plan (code: exabit-io/mx-llama.cpp, substrate = its master)
 
 The working plan. `RESURVEY-ACTION-PLAN.md` is history (method, traps T1-T12, decisions); where the two
 disagree, this file wins. `REQUIREMENTS.md` outranks both. Last restructured 2026-09-24 when the lead set the
@@ -16,53 +16,57 @@ substrate (section 2).
 Not in scope, and not to be started without an explicit ask: KV-type tests of any kind, 8-slot or any other
 cell, offload/config sweeps, Flash-Next performance numbers, new tooling, report rewrites.
 
-## 2. The substrate — `exabit-io/mx-llama.cpp` @ `merge-v0.5.0` (lead, 2026-09-24)
+## 2. The code — one repository, `exabit-io/mx-llama.cpp`; substrate = its `master` (lead, 2026-09-24)
 
-**Every gfx906 build, branch and measurement sits on `exabit-io/mx-llama.cpp` branch `merge-v0.5.0`
-(`528384980`) until mxxm-t accepts our pull request.** When mxxm-t merges
-[mxxm-t/mx-llama.cpp#17](https://github.com/mxxm-t/mx-llama.cpp/pull/17), the substrate becomes mxxm-t's
-`master` again and this section is updated.
-
-What `merge-v0.5.0` is:
+**All gfx906 code lives in [`exabit-io/mx-llama.cpp`](https://github.com/exabit-io/mx-llama.cpp)**, our fork of
+mxxm-t's fork. **Its `master` is the substrate** for every build, branch and measurement. Today `master` =
+`528384980`:
 
 - **mxxm-t's fork** (`mxxm-t/mx-llama.cpp`, Marko Tombak) at its master `eefc4e732` (2026-09-21): 182 commits over
-  upstream b10760, **kept as individual commits** (a merge, not a squash — so any one of them can be named,
-  reverted and binned by its own hash);
-- merged with **llama.cpp v0.5.0** (`7fe450e`, b11146, 386 upstream commits) in merge commit `65027084e`, all 13
-  conflict hunks and 3 silent breaks combined so that no fork feature is lost (the list is in the merge
-  commit's message and in PR #17);
-- plus one commit, `528384980`, making `GGML_HIP_RCCL=ON` the default.
+  upstream b10760, **kept as individual commits** (a merge, not a squash — any one can be named, reverted and binned);
+- merged with **llama.cpp v0.5.0** (`7fe450e`, b11146) in `65027084e`: 13 conflict hunks and 3 silent breaks combined so
+  no fork feature is lost (listed in that commit's message and in PR #17);
+- plus `528384980`, `GGML_HIP_RCCL=ON` by default.
 
-Verified on the box before the PR (`night-20260919/pr-test.sh`): build 0 warnings; `test-backend-ops`
-16273/16273 on two dies and 16272/16273 on two (upstream's `ADD_ADD` f16 test at its 1e-7 edge — 0/352 on
-re-run, and 4/352 without the merge, so an upstream flake); perplexity 16K/6 **5.6153**; `-sm layer` generates;
-MTP `draft-mtp` 156/197 drafts accepted; Flash-Next loads and generates at production flags.
+It is offered to mxxm-t as [mxxm-t/mx-llama.cpp#17](https://github.com/mxxm-t/mx-llama.cpp/pull/17), opened from
+branch `merge-v0.5.0` (same commit as `master`; deleted once merged). When mxxm-t merges it, `master` tracks mxxm-t's
+master. **Every upstream release, one procedure:** merge it into `master`, offer that to mxxm-t as a PR, move the four
+`gfx906-*` branches onto the new `master`.
 
-**Two separate upstreams — never conflate them.** mxxm-t's fork is the kernel substrate. **mixa3607's
-`ML-gfx906`** builds ROCm for gfx906 and publishes Docker presets; it has no llama.cpp source. Its one llama.cpp
-patch (`mxxm-gfx906-kcase.patch`, Q4_K/Q5_K/Q6_K MMQ configs — submitted to mxxm-t as PR #3, closed unmerged)
-and its compiler flag `-mllvm -amdgpu-sched-strategy=max-ilp` are **not** in the substrate; both are candidate
-patchsets to bin.
+Verified before the PR (`night-20260919/pr-test.sh`): build 0 warnings; `test-backend-ops` 16273/16273 on two dies,
+16272/16273 on two (upstream's `ADD_ADD` f16 test at its 1e-7 edge — 0/352 on re-run, 4/352 without the merge: an upstream
+flake); perplexity 16K/6 **5.6153**; `-sm layer` generates; MTP `draft-mtp` 156/197 accepted; Flash-Next loads and
+generates at production flags.
 
-### Branches on `exabit-io/llama.cpp` (moving names; every state they pass through is tagged, section 9)
+### Branches of `exabit-io/mx-llama.cpp` — six, nothing else
 
 | branch | commit | contents |
 |---|---|---|
-| `gfx906-required` | `528384980` | = the substrate, exactly |
-| `gfx906-both` | `a23e12438` | required + AR size gate (term 06) + `GGML_TP_AR_MAX_NE` default 20481 + `GGML_CUDA_FA_QUANTS=all` default |
+| `master` | `528384980` | **the substrate** |
+| `merge-v0.5.0` | `528384980` | PR #17's branch; deleted when merged |
+| `gfx906-both` | `a23e12438` | master + AR size gate (term 06) + `GGML_TP_AR_MAX_NE` default 20481 + `GGML_CUDA_FA_QUANTS=all` default |
 | `gfx906-single`, `gfx906-multi` | `a23e12438` | = gfx906-both until single-/multi-only winners are binned |
-| `c4-series` | `db983d191` | our 20 code terms (+2 docs commits, incl. `BRANCHES.md`) on the substrate, not yet binned — the source of round-1 arms |
+| `gfx906-candidates` | `d19af19e8` | master + our 20 code patches (+ docs, `BRANCHES.md`), not yet binned — the source of round-1 arms |
 
-Binned `both` and already in `gfx906-both`, not re-tested (lead, 2026-09-24): `tp-ar-size-gate` (own commit;
-default 20481 because mxxm-t `41c46cedb` turned custom AR on by default and the fork's 262144 threshold is the
-configuration measured at -19% prefill), `custom-allreduce` and `q8-repack` (substrate code), `rccl-collective`
-(now the substrate's own default).
+Each branch's own commits are its bin (`git log gfx906-both ^master` is the `both` set). Binned `both` and in
+`gfx906-both`, not re-tested (lead, 2026-09-24): `tp-ar-size-gate` (own commit; default 20481 because mxxm-t
+`41c46cedb` turned custom AR on by default and the fork's 262144 threshold is the configuration measured at -19% prefill),
+`custom-allreduce` and `q8-repack` (in master), `rccl-collective` (master's own default).
+
+**Two separate upstreams — never conflate them.** mxxm-t's fork is the kernel substrate. **mixa3607's `ML-gfx906`**
+builds ROCm for gfx906 and publishes Docker presets; it has no llama.cpp source. Its one llama.cpp patch
+(`mxxm-gfx906-kcase.patch`, Q4_K/Q5_K/Q6_K MMQ configs — mxxm-t PR #3, closed unmerged) and its compiler flag
+`-mllvm -amdgpu-sched-strategy=max-ilp` are **not** in master; both are candidate patchsets to bin.
+
+**Retired:** `exabit-io/llama.cpp` (our older fork of ggml-org) holds the history before 2026-09-24 — 27 branches and all
+the `gfx906/v0.4.1/*`, `gfx906/v0.5.0/*`, `import/*` tags. Nothing new goes there; it is to be archived (read-only,
+everything kept) on the lead's OK.
 
 ## 3. Fixed test conditions — identical for every patchset, never varied
 
 | item | value |
 |---|---|
-| base | `gfx906-both` on the substrate of section 2 |
+| base | `gfx906-both` of `exabit-io/mx-llama.cpp` (section 2) |
 | build | `-DGGML_HIP=ON -DAMDGPU_TARGETS=gfx906 -DGGML_HIP_RCCL=ON -DGGML_CUDA_FA_QUANTS=all -DGGML_HIP_GRAPHS=ON -DGGML_NATIVE=ON`, Release, ccache — same for every arm, checked by `assert-arms-comparable.sh` |
 | model (perf) | Qwen3.8-27B Q8_0, four dies, `-sm tensor -ngl all -fa on` |
 | KV | **f16 / f16** |
@@ -103,7 +107,7 @@ measure without it.
 
 ## 6. Round 1 — our patchsets + mixa3607's build flag (7 arms + base, ~11 GPU h)
 
-Arms built on `gfx906-both`, commits cherry-picked from `c4-series` (term numbers as in `terms/`):
+Arms built on `gfx906-both`, commits cherry-picked from `gfx906-candidates` (term numbers as in `terms/`):
 
 | patchset | terms | measured against | note |
 |---|---|---|---|
@@ -116,7 +120,8 @@ Arms built on `gfx906-both`, commits cherry-picked from `c4-series` (term number
 | max-ilp | (build flag) | base | mixa3607/ML-gfx906's `-mllvm -amdgpu-sched-strategy=max-ilp`, base code |
 
 Not patchsets for this instrument: terms 11 13 14 16 20 25 29 (docs, build script, inventory); 21 24 26 (MTP,
-R3.9). Scripts: `night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`.
+R3.9). Terms 24 (adaptive MTP, upstream PR #27210) and 26 were set aside because the old squashed substrate had
+lost the fork's MTP code; `master` has it back, so both are to be ported to `gfx906-candidates`. Scripts: `night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`.
 
 ## 7. Round 2 — the substrate's patchsets (~8 arms + base, ~14 GPU h)
 
@@ -157,7 +162,7 @@ mixa3607's kcase patch and the 34 later mxxm-t commits' Flash-Next/K-quant items
 (`de27e7509`, `20af9a480`, `62d4be47d`, `be8ff98aa`, `a355590d2`, `cf6a98f73`, `54702a718`, `27f755681`) join group A
 after the per-group check.
 
-How a substrate bin lands: the substrate stays whole in `gfx906-required`. A patchset that regresses on a
+How a substrate bin lands: the substrate stays whole in `master`. A patchset that regresses on a
 profile is switched off in that profile's launch settings (runtime switch) or reverted on that profile's branch.
 
 ## 8. Timeline — starts on the lead's go (nothing is queued)
@@ -174,16 +179,13 @@ If a phase overruns by more than 20%, stop and report. Every launch gets a PID w
 
 ## 9. Versioning — nothing is thrown away
 
-Moving branch names are pinned at every state by **annotated tags** on `exabit-io/llama.cpp`:
+The branches move; every state is pinned by an **annotated tag**:
 
-| tag | state |
-|---|---|
-| `gfx906/mx-merge-v0.5.0/{required,both,c4-series}` | **current**: the section 2 substrate |
-| `gfx906/v0.5.0+mxxm-t-eefc4e732/*` | superseded: v0.5.0 + squash of mxxm-t 0c81bd502 + 34 cherry-picks + kcase |
-| `gfx906/v0.5.0/*` | superseded: v0.5.0 + squash of mxxm-t 0c81bd502 |
-| `gfx906/v0.4.1/*` | superseded: the v0.4.1 rebase |
-| `import/mxxm-0c81bd502`, `import/mxxm-b10912` | fork snapshots as imported |
-| `gfx906-20260909`, `gfx906-b11067-1d1361e`, `gfx906-pre-v041-20260920` | older production states |
+| where | tag | state |
+|---|---|---|
+| `exabit-io/mx-llama.cpp` | `gfx906/v0.5.0/r0/{master,both,candidates}` | **current**: round 0 on v0.5.0 |
+| `exabit-io/mx-llama.cpp` | `gfx906/v0.5.0/r<N>/…` | after round N's bins are committed |
+| `exabit-io/llama.cpp` (retired) | `gfx906/mx-merge-v0.5.0/*`, `gfx906/v0.5.0+mxxm-t-eefc4e732/*`, `gfx906/v0.5.0/*`, `gfx906/v0.4.1/*`, `import/*`, `gfx906-20260909`, `gfx906-b11067-1d1361e`, `gfx906-pre-v041-20260920` | history |
 
 All measurement data, including runs later judged invalid or stopped, is mirrored to `data/raw/night-20260919/`.
 GitHub releases mark milestones only.
@@ -214,10 +216,11 @@ GitHub releases mark milestones only.
 
 | what | where |
 |---|---|
-| substrate | `github.com/exabit-io/mx-llama.cpp` branch `merge-v0.5.0`; local remote `exabit-mx` in `/root/exabit-llama.cpp` |
-| bin branches | `github.com/exabit-io/llama.cpp` (`gfx906-required/-both/-single/-multi`, `c4-series`) |
+| **code (the only repo)** | `github.com/exabit-io/mx-llama.cpp` — `master` (substrate), `gfx906-both/-single/-multi`, `gfx906-candidates`; local clone `/root/exabit-llama.cpp`, remote `exabit-mx` |
 | PR to mxxm-t | https://github.com/mxxm-t/mx-llama.cpp/pull/17 |
-| run scripts | `/root/night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`, `pr-test.sh` (copies in `tools/binrun/`) |
+| plans, docs, data, records | `github.com/exabit-io/llama.cpp-gfx906-tuning` (this repo) |
+| retired code history | `github.com/exabit-io/llama.cpp` |
+| run scripts | `/root/night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`, `gate-v050.sh`, `pr-test.sh` (copies in `tools/binrun/`) |
 | records | `survey/*.md`, lint `survey/survey-lint.py`; records carry the base they were measured on |
 | requirements | `REQUIREMENTS.md` |
 
@@ -227,5 +230,6 @@ GitHub releases mark milestones only.
 2. Added mxxm-t's 34 newer commits as cherry-picks + mixa3607's kcase patch — superseded by the lead's directive
    to use the upstreamable merge instead, which keeps every fork feature the squash had set aside (the fork's
    MTP `process_decode`, chunked MMQ, the server speculative reset).
-3. Merged v0.5.0 into mxxm-t's master on `exabit-io/mx-llama.cpp`, opened PR #17, and made that branch the
-   substrate (this plan).
+3. Merged v0.5.0 into mxxm-t's master on `exabit-io/mx-llama.cpp`, opened PR #17, and made that the substrate.
+4. Consolidated all code into `exabit-io/mx-llama.cpp` (substrate = `master`, six branches); `exabit-io/llama.cpp`
+   retired as history (lead: "reduce and simplify things greatly").

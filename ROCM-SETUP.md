@@ -7,8 +7,8 @@ via resize-amdgpu-bars.service. All links Gen3 x16 (the box's ceiling).
 ## What was installed and from where
 
 Source of truth: https://github.com/mixa3607/ML-gfx906 (clone in /root/ML-gfx906)
-(for **ROCm** only: mixa3607's ML-gfx906 has no llama.cpp source. The llama.cpp substrate is `exabit-io/mx-llama.cpp`
-`merge-v0.5.0`, see REQUIREMENTS R3.7.)
+(for **ROCm** only: mixa3607's ML-gfx906 has no llama.cpp source. The llama.cpp code is `exabit-io/mx-llama.cpp`
+(`master` = the substrate), see REQUIREMENTS R3.7.)
 and https://arkprojects.space/wiki/AMD_GFX906. AMD dropped gfx906 from ROCm;
 mixa3607 builds ROCm from AMD's TheRock with gfx906 enabled and publishes debs.
 

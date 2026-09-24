@@ -1,4 +1,4 @@
-> **2026-09-24:** the code substrate is `exabit-io/mx-llama.cpp` `merge-v0.5.0` (REQUIREMENTS R3.7) and the Exabit terms live on `c4-series` of exabit-io/llama.cpp. Everything below describes the 2026-09-07..09 patch files and is kept as history.
+> **2026-09-24:** all code is in `exabit-io/mx-llama.cpp` (substrate = `master`; REQUIREMENTS R3.7) and the Exabit patches live on its `gfx906-candidates` / `gfx906-*` branches. Everything below describes the 2026-09-07..09 patch files and is kept as history.
 
 # patches/ — the gfx906 kernel changes behind the production build
 
