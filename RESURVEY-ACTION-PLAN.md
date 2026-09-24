@@ -1,5 +1,8 @@
 # gfx906 re-survey — action plan
 
+> **SUPERSEDED 2026-09-24 by `RE-RE-SURVEY-ACTION-PLAN.md`** (rebase onto llama.cpp v0.5.0 `7fe450e`, lead). This file is history: method, traps, decisions.
+
+
 > ## CURRENT STATE — 2026-09-24 (read this first; everything below it is history)
 >
 > **Scope, in the lead's words:** *"your only goal is to bin llama.cpp patchsets"* — *"you have a patchset

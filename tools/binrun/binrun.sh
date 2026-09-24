@@ -1,8 +1,8 @@
 #!/bin/bash
 # binrun.sh — bin the Exabit patchsets. For each patchset x: compile x, test x, bin x.
 #
-# Base: gfx906-both (v0.4.1 + substrate + AR size gate). Each arm = base + one patchset, cherry-picked
-# from c4-series (our terms with their conflicts already resolved on the substrate). Two patchsets need an
+# Base: gfx906-both-v050 (llama.cpp v0.5.0 7fe450e + substrate + AR size gate). Each arm = base + one
+# patchset, cherry-picked from c4-series-v050 (our terms with their conflicts already resolved on the substrate). Two patchsets need an
 # earlier one to apply, so their arm includes it and they are binned on the INCREMENT over that arm:
 #   gdn-producer-fold  needs norm-add-fusion
 # The mmvq patchset is ONE unit, 01 15 05 09 (arm name mmvq-batch1-knobs): 01's resolved form uses q8_fast, which
@@ -18,7 +18,7 @@ set -u
 W=/root/night-20260919; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf
 TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-fa-fallback.sh
 AB=$TL/assert-build-config.sh; AC=$TL/assert-arms-comparable.sh
-WT=/root/wt-bin; BASEREF=gfx906-both
+WT=/root/wt-bin; BASEREF=gfx906-both-v050
 P=$W/binrun.progress; TSV=$W/binrun.tsv; DONE=$W/.binrun-done
 log(){ echo "$(date -Is) [bin] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
@@ -26,12 +26,12 @@ rm -f $DONE; echo $$ > $W/binrun.pid
 ARMS_FILE=$W/binrun-arms.txt
 cat > $ARMS_FILE <<'EOF'
 base|
-norm-add-fusion|092642ea1 1297e7d90
-gdn-producer-fold|092642ea1 1297e7d90 fc2d2bee1 bae656ebc bca3053d6 71c0459af d1c66ccab
-mmvq-batch1-knobs|30986ae19 a5cbc3aa6 dfabcbd18 0802147e7
-s1b-repacked-matvec|8e1e9aace b668b4221 e4715526c
-fa-head256-rows|7698134eb 634a45c49
-dpp-warp-reductions|29199371e 60ffef123
+norm-add-fusion|53b068a3e 481b20bbb
+gdn-producer-fold|53b068a3e 481b20bbb 1dfc37ba0 d3db60faa e67a3f9d1 e0aea2b77 35316fa8b
+mmvq-batch1-knobs|e422bca49 489b57b71 97dda78ec 3e8a52b4c
+s1b-repacked-matvec|f87ba74c9 7592afac4 97ad7e399
+fa-head256-rows|0a0388ab8 1ae7d1beb
+dpp-warp-reductions|5d76f2b51 dd5dd6304
 EOF
 
 # ---- phase 1: compile every arm (host only, nothing measuring)
@@ -74,6 +74,22 @@ $AC $(for a in "${READY[@]}"; do echo /root/build-ps-$a; done) >> $P 2>&1 \
   || { log "ARMS NOT COMPARABLE — refusing to measure"; touch $DONE; exit 4; }
 log "arms comparable: ${READY[*]}"
 
+# ---- phase 2 is gated on the v0.5.0 correctness gate (gate-v050.sh): wait for it by PID, then require a pass
+GATE_PID=${1:-}
+if [ -n "$GATE_PID" ]; then
+  log "waiting for the correctness gate (pid $GATE_PID) before measuring"
+  WAIT_MAX=86400 $W/waitproc.sh "$GATE_PID" >> $P 2>&1
+fi
+GP=$W/gate-v050.progress
+tbo=$(grep -c 'test-backend-ops: PASS' $GP 2>/dev/null)
+ppl=$(grep -oE 'PPL = [0-9.]+' $GP 2>/dev/null | tail -1 | awk '{print $3}')
+fnok=$(grep -cE 'flash-next rc=0, [0-9]{3,} bytes' $GP 2>/dev/null)
+pplok=$(awk -v p="${ppl:-0}" 'BEGIN{print (p>=5.55 && p<=5.70)?1:0}')
+if [ "${tbo:-0}" -ne 1 ] || [ "$pplok" -ne 1 ] || [ "${fnok:-0}" -ne 1 ]; then
+  log "GATE NOT PASSED (test-backend-ops pass=${tbo:-0}, ppl=${ppl:-none}, flash-next ok=${fnok:-0}) — not measuring"
+  touch $DONE; exit 6
+fi
+log "correctness gate passed: test-backend-ops PASS, ppl $ppl, Flash-Next generates"
 # ---- phase 2: test
 . $R/gpu-test-env.sh
 export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl
