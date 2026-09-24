@@ -1,0 +1,7 @@
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+0.01.623.603 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+0.02.336.294 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+0.02.347.950 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+0.02.349.797 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors
+3.16.408.156 W [repack-moe-fusion] type=q8_0 cols=4 fused up/gate mat-vec engaged

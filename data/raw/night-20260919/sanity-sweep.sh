@@ -43,7 +43,9 @@ WDOG=$!
 nohup $R/smc-log.sh $O/smc.log >/dev/null 2>&1 &
 SMCL=$!
 sleep 6
-: > $TSV
+# SKIP_MODELS="m1 m2": resume after a stop — those models are already in sweep.tsv, keep it and skip them (rotation index
+# still advances, so every model keeps the build order it would have had in one uninterrupted run).
+[ -n "${SKIP_MODELS:-}" ] || : > $TSV
 cell(){ # cell BUILD MODEL SLOTS DEPTH
   local b=$1; local m=$2; local s=$3; local d=$4
   local bin=$MX/bin; local lib=$MX/lib
@@ -82,6 +84,7 @@ log "=== sweeping $(echo $MODELS | wc -w) models (of $n_found /root/models/*Q8*.
 i=0
 for mn in $MODELS; do
   m=/root/models/$mn.gguf
+  case " ${SKIP_MODELS:-} " in *" $mn "*) log "$mn done in an earlier run — skipped"; i=$((i+1)); continue;; esac
   if [ ! -f "$m" ]; then log "missing $m — skipped"; continue; fi
   case $((i % 3)) in
     0) order="stock substrate master";;

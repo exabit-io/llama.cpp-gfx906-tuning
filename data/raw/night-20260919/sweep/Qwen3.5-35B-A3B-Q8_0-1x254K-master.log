@@ -1,0 +1,6 @@
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+0.01.610.502 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+0.02.296.342 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+0.02.300.829 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+0.02.302.790 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.0.attn_qkv.weight, 4456448 bytes)
+7.57.467.837 W [repack-moe-fusion] type=q8_0 cols=1 fused up/gate mat-vec engaged

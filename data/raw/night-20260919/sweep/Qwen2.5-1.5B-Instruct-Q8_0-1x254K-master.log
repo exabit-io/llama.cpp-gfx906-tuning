@@ -1,0 +1,7 @@
+0.00.182.574 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+0.00.425.834 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.0.attn_q.weight, 1253376 bytes)
+0.00.431.407 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.0.attn_q.weight, 1253376 bytes)
+0.00.442.995 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.0.ffn_gate.weight, 3551232 bytes)
+0.00.451.166 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.0.ffn_gate.weight, 3551232 bytes)
+0.00.780.186 W llama_context: n_ctx_seq (262144) > n_ctx_train (32768) -- possible training context overflow
