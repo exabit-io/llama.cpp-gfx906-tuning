@@ -1,0 +1,31 @@
+2026-09-24T00:24:34+00:00 [bin] compile base (gfx906-both head)
+2026-09-24T00:28:52+00:00 [bin]   base: ready
+2026-09-24T00:28:52+00:00 [bin] compile norm-add-fusion (53b068a3e 481b20bbb)
+2026-09-24T00:29:35+00:00 [bin]   norm-add-fusion: ready
+2026-09-24T00:29:35+00:00 [bin] compile gdn-producer-fold (53b068a3e 481b20bbb 1dfc37ba0 d3db60faa e67a3f9d1 e0aea2b77 35316fa8b)
+2026-09-24T00:32:20+00:00 [bin]   gdn-producer-fold: ready
+2026-09-24T00:32:20+00:00 [bin] compile mmvq-batch1-knobs (e422bca49 489b57b71 97dda78ec 3e8a52b4c)
+2026-09-24T00:34:07+00:00 [bin]   mmvq-batch1-knobs: ready
+2026-09-24T00:34:07+00:00 [bin] compile s1b-repacked-matvec (f87ba74c9 7592afac4 97ad7e399)
+2026-09-24T00:34:45+00:00 [bin]   s1b-repacked-matvec: ready
+2026-09-24T00:34:45+00:00 [bin] compile fa-head256-rows (0a0388ab8 1ae7d1beb)
+2026-09-24T00:35:35+00:00 [bin]   fa-head256-rows: ready
+2026-09-24T00:35:35+00:00 [bin] compile dpp-warp-reductions (5d76f2b51 dd5dd6304)
+2026-09-24T00:37:39+00:00 [bin]   dpp-warp-reductions: ready
+2026-09-24T00:37:39+00:00 [bin] arms comparable: base norm-add-fusion gdn-producer-fold mmvq-batch1-knobs s1b-repacked-matvec fa-head256-rows dpp-warp-reductions
+2026-09-24T00:37:39+00:00 [bin] waiting for the correctness gate (pid 69217) before measuring
+2026-09-24T00:38:09+00:00 [bin] correctness gate passed: test-backend-ops PASS, ppl 5.6153, Flash-Next generates
+2026-09-24T00:38:24+00:00 [bin] === axis multi: 7 arms x 5 blocks
+2026-09-24T00:38:24+00:00 [bin] block 1 order: norm-add-fusion s1b-repacked-matvec base dpp-warp-reductions fa-head256-rows mmvq-batch1-knobs gdn-producer-fold
+2026-09-24T00:45:05+00:00 [bin] multi norm-add-fusion b1: decode 22.3332, prefill 763.0
+2026-09-24T00:51:49+00:00 [bin] multi s1b-repacked-matvec b1: decode 22.1736, prefill 759.0
+2026-09-24T00:58:32+00:00 [bin] multi base b1: decode 22.1583, prefill 758.9
+2026-09-24T01:05:14+00:00 [bin] multi dpp-warp-reductions b1: decode 22.3894, prefill 759.8
+2026-09-24T01:12:03+00:00 [bin] multi fa-head256-rows b1: decode 19.7375, prefill 759.3
+2026-09-24T01:18:46+00:00 [bin] multi mmvq-batch1-knobs b1: decode 22.2560, prefill 759.6
+2026-09-24T01:25:28+00:00 [bin] multi gdn-producer-fold b1: decode 22.4365, prefill 760.0
+2026-09-24T01:25:28+00:00 [bin] block 2 order: s1b-repacked-matvec gdn-producer-fold norm-add-fusion fa-head256-rows base mmvq-batch1-knobs dpp-warp-reductions
+2026-09-24T01:32:11+00:00 [bin] multi s1b-repacked-matvec b2: decode 22.1133, prefill 760.1
+2026-09-24T01:38:53+00:00 [bin] multi gdn-producer-fold b2: decode 22.4006, prefill 760.3
+2026-09-24T01:45:34+00:00 [bin] multi norm-add-fusion b2: decode 22.2464, prefill 763.6
+2026-09-24T01:47:28+00:00 [bin] STOPPED (trap)

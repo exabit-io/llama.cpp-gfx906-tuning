@@ -1,0 +1,10 @@
+multi	norm-add-fusion	1	22.333210	762.9603
+multi	s1b-repacked-matvec	1	22.173621	758.9951
+multi	base	1	22.158267	758.9423
+multi	dpp-warp-reductions	1	22.389365	759.8377
+multi	fa-head256-rows	1	19.737476	759.2699
+multi	mmvq-batch1-knobs	1	22.256031	759.6395
+multi	gdn-producer-fold	1	22.436459	759.9632
+multi	s1b-repacked-matvec	2	22.113287	760.0822
+multi	gdn-producer-fold	2	22.400630	760.2718
+multi	norm-add-fusion	2	22.246361	763.6471

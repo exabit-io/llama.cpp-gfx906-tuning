@@ -1,8 +1,9 @@
 #!/bin/bash
 # binrun.sh — bin the Exabit patchsets. For each patchset x: compile x, test x, bin x.
 #
-# Base: gfx906-both-v050 (llama.cpp v0.5.0 7fe450e + substrate + AR size gate). Each arm = base + one
-# patchset, cherry-picked from c4-series-v050 (our terms with their conflicts already resolved on the substrate). Two patchsets need an
+# Base: gfx906-both = llama.cpp v0.5.0 7fe450e + mxxm-t's fork @eefc4e732 + mixa3607/ML-gfx906's kcase patch + AR gate.
+# max-ilp is a BUILD-FLAG patchset: base code, compiled with mixa3607/ML-gfx906's -mllvm -amdgpu-sched-strategy=max-ilp. Each arm = base + one
+# patchset, cherry-picked from c4-series-v050m (our terms with their conflicts already resolved on the substrate). Two patchsets need an
 # earlier one to apply, so their arm includes it and they are binned on the INCREMENT over that arm:
 #   gdn-producer-fold  needs norm-add-fusion
 # The mmvq patchset is ONE unit, 01 15 05 09 (arm name mmvq-batch1-knobs): 01's resolved form uses q8_fast, which
@@ -18,7 +19,7 @@ set -u
 W=/root/night-20260919; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf
 TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-fa-fallback.sh
 AB=$TL/assert-build-config.sh; AC=$TL/assert-arms-comparable.sh
-WT=/root/wt-bin; BASEREF=gfx906-both-v050
+WT=/root/wt-bin; BASEREF=gfx906-both
 P=$W/binrun.progress; TSV=$W/binrun.tsv; DONE=$W/.binrun-done
 log(){ echo "$(date -Is) [bin] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
@@ -26,17 +27,18 @@ rm -f $DONE; echo $$ > $W/binrun.pid
 ARMS_FILE=$W/binrun-arms.txt
 cat > $ARMS_FILE <<'EOF'
 base|
-norm-add-fusion|53b068a3e 481b20bbb
-gdn-producer-fold|53b068a3e 481b20bbb 1dfc37ba0 d3db60faa e67a3f9d1 e0aea2b77 35316fa8b
-mmvq-batch1-knobs|e422bca49 489b57b71 97dda78ec 3e8a52b4c
-s1b-repacked-matvec|f87ba74c9 7592afac4 97ad7e399
-fa-head256-rows|0a0388ab8 1ae7d1beb
-dpp-warp-reductions|5d76f2b51 dd5dd6304
+norm-add-fusion|a206e0264 4e95d4636
+gdn-producer-fold|a206e0264 4e95d4636 39d1678d6 28bca430c 13b6369dd cbd857b28 34f2ca869
+mmvq-batch1-knobs|64ba61f7f 8753f5e8f 6fd5667d0 90650509b
+s1b-repacked-matvec|ee3c02922 4c72a10db 09801edf3
+fa-head256-rows|f7fd04fb6 c27df9023
+dpp-warp-reductions|6cd756113 b9e07ad91
+max-ilp||-DCMAKE_HIP_FLAGS=-mllvm -amdgpu-sched-strategy=max-ilp
 EOF
 
 # ---- phase 1: compile every arm (host only, nothing measuring)
 declare -a READY=()
-while IFS='|' read -r name commits; do
+while IFS='|' read -r name commits extra; do
   [ -z "$name" ] && continue
   bd=/root/build-ps-$name
   log "compile $name (${commits:-gfx906-both head})"
@@ -54,7 +56,8 @@ while IFS='|' read -r name commits; do
     cmake -S $WT -B "$bd" -DCMAKE_BUILD_TYPE=Release -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx906 \
       -DCMAKE_HIP_ARCHITECTURES=gfx906 -DGGML_HIP_RCCL=ON -DGGML_HIP_GRAPHS=ON -DGGML_NATIVE=ON \
       -DGGML_CUDA_FA_QUANTS=all -DLLAMA_BUILD_TESTS=OFF -DLLAMA_CURL=OFF \
-      -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_HIP_COMPILER_LAUNCHER=ccache
+      -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_HIP_COMPILER_LAUNCHER=ccache \
+      ${extra:+"$extra"}
     cmake --build "$bd" -j 24
   } > $W/build-ps-$name.log 2>&1
   rc=$?

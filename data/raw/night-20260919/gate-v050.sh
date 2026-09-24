@@ -5,7 +5,7 @@
 #      correctness comparison at the reference's own settings, never a performance result
 #   3. Flash-Next (qwen4exp) at production flags, greedy 64 tokens: loads and generates coherent text
 set -u
-W=/root/night-20260919; R=/root/rocm-tests/bench; B=/root/build-v050-substrate
+W=/root/night-20260919; R=/root/rocm-tests/bench; B=/root/build-v050m-substrate
 M=/root/models/Qwen3.8-27B-Q8_0.gguf; F=/root/models/wikitext-2-raw/wiki.test.raw
 FN=/root/models/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf
 P=$W/gate-v050.progress; DONE=$W/.gate-v050-done

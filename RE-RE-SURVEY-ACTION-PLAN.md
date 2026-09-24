@@ -20,7 +20,7 @@ cell, offload/config sweeps, Flash-Next performance numbers, new tooling, report
 
 | item | value |
 |---|---|
-| base | llama.cpp **v0.5.0 = `7fe450e`** + the mxxm substrate (below) |
+| base | llama.cpp **v0.5.0 = `7fe450e`** + **mxxm-t's fork** (`mxxm-t/mx-llama.cpp`, Marko Tombak) at its latest `eefc4e732` + the one llama.cpp patch from **mixa3607's ML-gfx906** (`mxxm-gfx906-kcase.patch`) — two different people and projects |
 | build | `-DGGML_HIP_RCCL=ON -DGGML_CUDA_FA_QUANTS=all -DGGML_HIP_GRAPHS=ON -DGGML_NATIVE=ON`, gfx906, Release, ccache — same flags for every arm, checked by `assert-arms-comparable.sh` |
 | model (perf) | Qwen3.8-27B Q8_0, four dies, `-sm tensor -ngl all -fa on` |
 | KV | **f16 / f16** |
@@ -85,6 +85,37 @@ Remaining in round 0 (~1 GPU h):
 3. On pass: move the canonical names — `gfx906-required` / `-single` / `-multi` -> the v0.5.0 substrate,
    `gfx906-both` -> `gfx906-both-v050-cfg` (5502cedbd: the AR gate + a commit making `GGML_HIP_RCCL=ON` and `GGML_CUDA_FA_QUANTS=all` the branch's CMake defaults — upstream defaults RCCL OFF, so until then a plain build of gfx906-both silently lacked RCCL), `c4-series` -> `c4-series-v050`; old tips kept as
    `backup/<name>-v041-20260924`; push everything. Nothing is pushed before it compiles and passes.
+
+## 4b. Round 0b — rebase onto mxxm-t's latest fork + mixa3607's ML-gfx906 patch (lead, 2026-09-24 02:00)
+
+**Two separate upstreams.** mxxm-t (Marko Tombak) = `mxxm-t/mx-llama.cpp`, the llama.cpp fork with the gfx906
+kernel work. mixa3607 = `mixa3607/ML-gfx906`, ROCm-for-gfx906 builds and Docker presets, no llama.cpp source;
+its newest preset builds stock ggml-org b11026, its mxxm-t preset pins the fork's old b10254, and all current
+presets compile with `-mllvm -amdgpu-sched-strategy=max-ilp` (not yet in our builds — binned as a build-flag
+patchset). An earlier version of this section said "the latest mxxm, as ML-gfx906 builds it"; that was wrong.
+
+The lead: the v0.5.0 rebase was meant to bring in the latest of `mixa3607/ML-gfx906`'s llama.cpp, not our
+2026-09-09 fork snapshot. The v0.5.0 rebase above carried mxxm `0c81bd502`; mxxm master had moved **34
+commits** to `eefc4e732` (2026-09-21). ML-gfx906 fetched in full (all 5 branches, 33 tags, no submodules;
+master `e1aa948`, 2026-09-19): its llama.cpp builds use the mxxm fork plus exactly one patch,
+`mxxm-gfx906-kcase.patch` (Q4_K/Q5_K/Q6_K MMQ configs), identical on every branch that has one.
+
+- **`gfx906-substrate-v050-mxxm`** = `gfx906-substrate-v050` + the 34 mxxm commits cherry-picked **one by one**
+  (so each stays separable for binning) + the kcase patch as its own commit (`e9e43f917`). 3 conflicts, all
+  merged semantically: `llama-graph.cpp` (union of the swiglu-clamp arch lists: upstream's MAPLE/HY_V4 + the
+  commit's DEEPSEEK41), `ggml-backend-meta.cpp` (upstream removed the multi-buffer abort; kept that and the
+  commit's mirror-lane block), `llama-model.cpp` (upstream's HRM_TEXT guard + the commit's tied-output rule).
+- **`c4-series-v050m`**: our 21 terms on it, no conflicts, patch-ids identical.
+- **`gfx906-both-v050m`** = substrate + AR size gate + RCCL/FA_QUANTS defaults + **one new commit making
+  `GGML_TP_AR_MAX_NE=20481` the default** (`ac179c379`). Reason: mxxm `41c46cedb` turned custom AR on by
+  default, so with the variable unset the fork's own 262144 threshold applied — the configuration measured at
+  -19% prefill at 4x64K. Measurement scripts export 20481 explicitly, so no measured number changes.
+
+The 34 commits join round 2's classification: custom-AR default and two-shot tuning (`41c46cedb`,
+`92607b5d1`, `19d784ad0`) fall under the already-binned custom AllReduce; `de27e7509`, `20af9a480`,
+`62d4be47d`, `be8ff98aa`, `a355590d2`, `cf6a98f73`, `54702a718`, `27f755681` are 27B-visible candidates (checked
+per group before round 2 is built); `afca10209`, `2e740434e`, `d9c6fc44d` and the kcase patch are qwen4exp /
+K-quant (Flash-Next compat); the DeepSeek-V4.1 / DSpark / gemma commits are other models (group C).
 
 ## 5. Round 1 — our patchsets (6 arms + base, ~11 GPU h)
 

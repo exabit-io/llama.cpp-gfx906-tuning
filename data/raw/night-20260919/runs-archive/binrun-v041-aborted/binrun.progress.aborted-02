@@ -1,0 +1,15 @@
+2026-09-24T00:02:28+00:00 [bin] compile base (gfx906-both head)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-24T00:03:40+00:00 [bin]   base: ready
+2026-09-24T00:03:40+00:00 [bin] compile mmvq-16col (30986ae19 a5cbc3aa6)
+2026-09-24T00:03:56+00:00 [bin]   mmvq-16col: BUILD FAILED exit=2
+/root/wt-bin/ggml/src/ggml-cuda/mmvq.cu:745:19: error: use of undeclared identifier 'q8_fast'
+/root/wt-bin/ggml/src/ggml-cuda/mmvq.cu:845:23: error: use of undeclared identifier 'q8_fast'
+/root/wt-bin/ggml/src/ggml-cuda/mmvq.cu:749:23: error: static assertion failed due to requirement 'rows_per_cuda_block == RW * nwarps': LDS_Y path expects 2 rows per warp
+/root/wt-bin/ggml/src/ggml-cuda/mmvq.cu:749:23: error: static assertion failed due to requirement 'rows_per_cuda_block == RW * nwarps': LDS_Y path expects 2 rows per warp
+/root/wt-bin/ggml/src/ggml-cuda/mmvq.cu:749:23: error: static assertion failed due to requirement 'rows_per_cuda_block == RW * nwarps': LDS_Y path expects 2 rows per warp
+/root/wt-bin/ggml/src/ggml-cuda/mmvq.cu:749:23: error: static assertion failed due to requirement 'rows_per_cuda_block == RW * nwarps': LDS_Y path expects 2 rows per warp
+2026-09-24T00:03:56+00:00 [bin] compile norm-add-fusion (092642ea1 1297e7d90)
