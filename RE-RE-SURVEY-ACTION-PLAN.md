@@ -180,6 +180,23 @@ phase's budget. Every launch gets a PID-based waiter and a monitor in the same t
 6. **Clean merge taken as done.** A patch that applies is not a patch that compiles (term 01 needs 05's
    `q8_fast`). Build before claiming.
 
+## 8a. Versioning — every state stays reachable after branches move
+
+The bin branches (`gfx906-required/-both/-single/-multi`) are moving names: they are force-moved on each
+rebase and gain commits each round. Every state they pass through is pinned by an **annotated tag** on
+exabit-io/llama.cpp (immutable; the message says what the state is and what superseded it):
+
+| namespace | pins | examples |
+|---|---|---|
+| `import/…` | fork snapshots we imported | `import/mxxm-0c81bd502` (the substrate source), `import/mxxm-b10912` |
+| `gfx906/<base>/…` | each rebase's branch tips | `gfx906/v0.4.1/substrate`, `…/both`, `…/c4-series` (pushed 2026-09-24) |
+| `gfx906/<base>/r<N>/…` | bin branches after round N's bins are committed | `gfx906/v0.5.0/r1/both`, `…/r1/single`, `…/r1/multi` |
+| pre-v0.4.1 | older production states, kept as they were | `gfx906-20260909`, `gfx906-b11067-1d1361e`, `gfx906-pre-v041-20260920` |
+
+Upstream's `v0.4.1` and `v0.5.0` tags are pushed too, so every base resolves inside our repo.
+**GitHub releases** mark milestones only: a rebase that passed the round-0 gate (notes = gate results) and each
+completed round (notes = the bins and their numbers). First release: `gfx906/v0.5.0` when the gate passes.
+
 ## 9. Where things are
 
 | what | where |
