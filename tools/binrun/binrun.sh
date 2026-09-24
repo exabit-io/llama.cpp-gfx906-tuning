@@ -4,14 +4,15 @@
 # Base: gfx906-both (v0.4.1 + substrate + AR size gate). Each arm = base + one patchset, cherry-picked
 # from c4-series (our terms with their conflicts already resolved on the substrate). Two patchsets need an
 # earlier one to apply, so their arm includes it and they are binned on the INCREMENT over that arm:
-#   gdn-producer-fold  needs norm-add-fusion      mmvq-batch1-knobs  needs mmvq-16col
-# mmvq-16col carries term 15 (the MUL_MAT_ID sync-predicate fix): 15 uses a define only term 01 creates, and
-# it is 01's correctness fix for 9-16-token expert products, so 01 is not shippable without it.
+#   gdn-producer-fold  needs norm-add-fusion
+# The mmvq patchset is ONE unit, 01 15 05 09 (arm name mmvq-batch1-knobs): 01's resolved form uses q8_fast, which
+# 05 declares, so 01 cannot compile alone; 15 uses a define only 01 creates and is 01's MUL_MAT_ID correctness fix.
 #
 # Test (fixed for every arm, nothing else varies): Qwen3.8-27B Q8_0, four dies -sm tensor, -ngl all,
 # f16/f16 KV, 125 W/die, RCCL + gated custom AR, llama-batched-bench -ntg 1024.
 #   multi-user  axis: 4 x 64K   (4 x 65536)      single-user axis: 1 x 255K (1 x 260864)
-# n=4 per arm per axis. Axis-major so multi-user verdicts exist first; inside an axis each block runs
+# n=5 per arm per axis (n=4's exact-test floor p=0.0286 cannot pass BH q<0.10 over a 24-test family unless
+# >=7 tests are real effects; n=5's floor 0.0079 needs 2). Axis-major so multi-user verdicts exist first; inside an axis each block runs
 # every arm once in a seeded random order, so drift hits all arms alike. binstats.py bins the result.
 set -u
 W=/root/night-20260919; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf
@@ -25,7 +26,6 @@ rm -f $DONE; echo $$ > $W/binrun.pid
 ARMS_FILE=$W/binrun-arms.txt
 cat > $ARMS_FILE <<'EOF'
 base|
-mmvq-16col|30986ae19 a5cbc3aa6
 norm-add-fusion|092642ea1 1297e7d90
 gdn-producer-fold|092642ea1 1297e7d90 fc2d2bee1 bae656ebc bca3053d6 71c0459af d1c66ccab
 mmvq-batch1-knobs|30986ae19 a5cbc3aa6 dfabcbd18 0802147e7
@@ -116,8 +116,8 @@ cell(){ # cell AXIS ARM BLOCK
   log "$axis $arm b$blk: $(echo "$m" | awk -F'\t' '{printf "decode %.4f, prefill %.1f",$1,$2}')"
 }
 for axis in multi single; do
-  log "=== axis $axis: ${#READY[@]} arms x 4 blocks"
-  for blk in 1 2 3 4; do
+  log "=== axis $axis: ${#READY[@]} arms x 5 blocks"
+  for blk in 1 2 3 4 5; do
     order=$(python3 -c 'import random,sys; a=sys.argv[2:]; random.Random(int(sys.argv[1])).shuffle(a); print(" ".join(a))' \
       "$(( 20260924 + blk + (${#axis} * 10) ))" "${READY[@]}")
     log "block $blk order: $order"

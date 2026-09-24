@@ -6,21 +6,25 @@
 > x, you compile x, you test it, then you bin it."* KV type is not a patchset (f16-f16 is settled and held
 > fixed in every arm). Flash-Next is a **compatibility gate only**: each patchset must load and run qwen4exp.
 >
-> **Running now:** `/root/night-20260919/binrun.sh` — 7 Exabit patchsets + base, each compiled on
-> `gfx906-both`, tested on the 27B at 4x64K (multi-user) and 1x255K (single-user), f16 KV, 125 W, n=4,
+> **Running now:** `/root/night-20260919/binrun.sh` — 6 Exabit patchsets + base, each compiled on
+> `gfx906-both`, tested on the 27B at 4x64K (multi-user) and 1x255K (single-user), f16 KV, 125 W, n=5,
 > interleaved; binned by the pre-registered `binstats.py` (exact permutation, BH q=0.10, 2% floor). Then
-> `fncompat.sh` runs the Flash-Next gate on every build. ~11 GPU h. Results -> `survey/*.md` records and the
+> `fncompat.sh` runs the Flash-Next gate on every build. ~11 GPU h: multi-user bins ~04:30 UTC,
+> single-user ~11:20, Flash-Next gate ~11:45. Results -> `survey/*.md` records and the
 > bin branches (`gfx906-both` / `-single` / `-multi`), committed and pushed as each axis lands.
 >
 > | patchset | commits (c4-series) | reference |
 > |---|---|---|
-> | mmvq-16col | 01 + 15 (15 is 01's MUL_MAT_ID fix; cannot build alone) | base |
 > | norm-add-fusion | 02 03 | base |
 > | gdn-producer-fold | 04 07 08 10 12 | norm-add-fusion (cannot apply without it) |
-> | mmvq-batch1-knobs | 05 09 | mmvq-16col (cannot apply without it) |
+> | mmvq-q8-fastpath | 01 05 09 15 — ONE unit: 01 does not compile without 05 (`q8_fast`), 15 needs 01's define | base |
 > | s1b-repacked-matvec | 17 18 19 | base |
 > | fa-head256-rows | 22 27 | base |
 > | dpp-warp-reductions | 23 28 | base |
+>
+> **Why n=5, not n=4:** n=4's exact-test floor (p=0.0286) cannot clear BH q<0.10 over the 24-test family
+> unless >=7 tests are real effects, so sparse real wins would bin as neutral. Caught on synthetic data before
+> any GPU time; n=5 (floor 0.0079) needs 2.
 >
 > **Next:** the substrate's own features (the 148 mxxm commits, squashed), same loop. **Bin branch state
 > before this run:** `gfx906-both` = 1 commit (AR size gate), `-required`/`-single`/`-multi` = 0.

@@ -3,10 +3,10 @@
 
 Pre-registered rule (RESURVEY-ACTION-PLAN §1.10, lead-approved 2026-09-20):
   contrast   arm vs its reference: base, except gdn-producer-fold vs norm-add-fusion and
-             mmvq-batch1-knobs vs mmvq-16col (they cannot apply without those)
-  statistic  run-level: multi-user MEAN of n=4; single-user MEDIAN of n=4 (heavy-tailed stalls, §Part 0)
-  test       two-sided exact permutation, 4 vs 4 = 70 arrangements (p floor 0.0286)
-  family     7 patchsets x 2 axes x 2 metrics (decode, prefill) = 28 tests, BH FDR q = 0.10
+             mmvq-batch1-knobs = the whole mmvq patchset vs base (amended, see REF)
+  statistic  run-level: multi-user MEAN of n=5; single-user MEDIAN of n=5 (heavy-tailed stalls, §Part 0)
+  test       two-sided exact permutation, 5 vs 5 = 252 arrangements (p floor 0.0079)
+  family     6 patchsets x 2 axes x 2 metrics (decode, prefill) = 24 tests (amended from 28, see REF), BH FDR q = 0.10
   per axis   improves  = some metric q<0.10 AND effect >= +2%, and no metric q<0.10 AND <= -2%
              regresses = some metric q<0.10 AND effect <= -2%, and none improves
              mixed     = one improves, one regresses  -> reported, never auto-binned
@@ -18,8 +18,13 @@ usage: binstats.py binrun.tsv
 """
 import sys, itertools, statistics as st
 
-REF = {'mmvq-16col': 'base', 'norm-add-fusion': 'base', 'gdn-producer-fold': 'norm-add-fusion',
-       'mmvq-batch1-knobs': 'mmvq-16col', 's1b-repacked-matvec': 'base', 'fa-head256-rows': 'base',
+# AMENDED 2026-09-24 00:05, BEFORE any cell was measured: term 01 does not compile without term 05 (its
+# c4-series resolution uses q8_fast, which 05 declares), so mmvq-16col cannot exist as an arm. The arm
+# 'mmvq-batch1-knobs' (01 15 05 09) is the whole inseparable mmvq patchset and is binned against base.
+# Family: 6 patchsets x 2 axes x 2 metrics = 24.
+LABEL = {'mmvq-batch1-knobs': 'mmvq-q8-fastpath(01,05,09,15)'}
+REF = {'norm-add-fusion': 'base', 'gdn-producer-fold': 'norm-add-fusion',
+       'mmvq-batch1-knobs': 'base', 's1b-repacked-matvec': 'base', 'fa-head256-rows': 'base',
        'dpp-warp-reductions': 'base'}
 AXES = ('multi', 'single'); METRICS = ('decode', 'prefill'); Q = 0.10; FLOOR = 2.0
 
@@ -51,7 +56,7 @@ for arm, ref in REF.items():
         A = data.get((axis, ref), []); B = data.get((axis, arm), [])
         for mi, metric in enumerate(METRICS):
             a = [r[mi] for r in A]; b = [r[mi] for r in B]
-            if len(a) < 4 or len(b) < 4:
+            if len(a) < 5 or len(b) < 5:
                 tests.append(dict(arm=arm, ref=ref, axis=axis, metric=metric, n=(len(a), len(b)), eff=None, p=None)); continue
             eff = 100 * (stat(axis, b) / stat(axis, a) - 1)
             tests.append(dict(arm=arm, ref=ref, axis=axis, metric=metric, n=(len(a), len(b)), eff=eff, p=perm_p(axis, a, b),
@@ -90,4 +95,4 @@ for arm in REF:
     elif ax['single'] == 'improves': b = 'single-user-only'
     elif ax['multi'] == 'regresses' and ax['single'] == 'regresses': b = 'regresses-both'
     else: b = 'neutral-drop'
-    print(f"  {arm:22} multi={ax['multi']:10} single={ax['single']:10} -> {b}")
+    print(f"  {LABEL.get(arm, arm):30} multi={ax['multi']:10} single={ax['single']:10} -> {b}")
