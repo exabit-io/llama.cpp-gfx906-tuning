@@ -105,21 +105,20 @@ Already in the base, not re-tested: term 06 (AR size gate). Not patchsets for th
 Timing: multi-user 7 arms x 5 x 6.9 min = 4.0 h, single-user 7 x 5 x 11.9 = 6.9 h, compat ~15 min.
 Scripts: `night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh` (commit SHAs updated to `c4-series-v050`).
 
-## 6. Round 2 — the substrate's patchsets + the AR size gate (~12 arms + base, ~18.5 GPU h)
+## 6. Round 2 — the substrate's patchsets (8 arms + base, ~14 GPU h)
 
 The substrate is the fork `mxxm-t/mx-llama.cpp` @ `0c81bd502` (148 commits over b10760), squashed. Its
 commits cannot be removed one by one (most were rewritten by later ones), so its patchsets are **feature
 groups**, removed from the base either by the fork's own runtime switch (same binary, cleanest contrast) or
 by reverting the feature's code. Classified from the 148 commit subjects and the switch code (static, 0 GPU):
 
+**Already binned `both` — carried forward, not re-tested (lead, 2026-09-24):** `tp-ar-size-gate` (our term 06, gfx906-both's own commit), `custom-allreduce` and `q8-repack` (substrate code, inherited by gfx906-both from the substrate beneath it), `rccl-collective` (the `GGML_HIP_RCCL=ON` build flag, in every build). Records: `survey/tp-ar-size-gate.md`, `custom-allreduce-*.md`, `q8-repack*.md`, `rccl-collective*.md`.
+
 **A. Measurable on the 27B — these are the round-2 arms**
 
 | patchset | key commits | removal |
 |---|---|---|
-| q8-repack | fcb857560 + ~25 `q8_repack` commits | `--no-repack` |
 | q8_1-activation-cache | 775a8051f, cfea4a1f6, 0a694d8ad | `GGML_CUDA_Q8_1_CACHE=0` |
-| custom-allreduce | 04f89ab03 (part), 6d82eb5f8, cb501dcb8, 5f65f9fa3, 743037eae | `GGML_ENABLE_CUSTOM_AR` unset |
-| tp-ar-size-gate (ours, term 06) | 5e8c77273 | `GGML_TP_AR_MAX_NE` unset, custom AR on — re-confirms the v0.4.1 `both` bin on v0.5.0 at f16; its single-user half was only ever measured at 1x32K |
 | meta-token-graph | 751b6114c, 8051f5f2a, a3ab67c89, 693375a1f | `GGML_META_TG_LIMIT=0` |
 | meta-xfer-rccl | 04f89ab03 (part) | `GGML_META_XFER_RCCL=0` |
 | alloc-layout-cache | 6d2012d8a, 42b3cfb63, 687ef0194, d5047d6aa | `GGML_GALLOC_LAYOUT_CACHE=0` |
@@ -158,10 +157,10 @@ checked against the v0.5.0 substrate (host only), and group A is final only afte
 | Round 1 multi-user bins | 4.0 | ~06:15 |
 | Round 1 single-user bins + compat | 7.1 | ~13:30 |
 | Round 2 group check + builds (host) | 0 | ~14:30 |
-| Round 2 multi-user bins | 6.3 | ~21:00 |
-| Round 2 single-user bins + compat | 11.2 | 09-25 ~08:00 |
+| Round 2 multi-user bins | 5.2 | ~20:00 |
+| Round 2 single-user bins + compat | 9.2 | 09-25 ~05:30 |
 
-Total ~30 GPU h. If a phase overruns its time by more than 20%, stop and report instead of spending the next
+Total ~27 GPU h. If a phase overruns its time by more than 20%, stop and report instead of spending the next
 phase's budget. Every launch gets a PID-based waiter and a monitor in the same turn.
 
 ## 8. What went wrong in attempts 1 and 2 — do not repeat
