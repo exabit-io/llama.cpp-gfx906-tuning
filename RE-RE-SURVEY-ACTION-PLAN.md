@@ -83,7 +83,7 @@ Remaining in round 0 (~1 GPU h):
 2. `assert-build-config.sh`; `test-backend-ops` on all four dies; perplexity 16K/6 on the 27B vs the
    reference cluster (quality gate R3.5, not a perf result).
 3. On pass: move the canonical names — `gfx906-required` / `-single` / `-multi` -> the v0.5.0 substrate,
-   `gfx906-both` -> `gfx906-both-v050`, `c4-series` -> `c4-series-v050`; old tips kept as
+   `gfx906-both` -> `gfx906-both-v050-cfg` (5502cedbd: the AR gate + a commit making `GGML_HIP_RCCL=ON` and `GGML_CUDA_FA_QUANTS=all` the branch's CMake defaults — upstream defaults RCCL OFF, so until then a plain build of gfx906-both silently lacked RCCL), `c4-series` -> `c4-series-v050`; old tips kept as
    `backup/<name>-v041-20260924`; push everything. Nothing is pushed before it compiles and passes.
 
 ## 5. Round 1 — our patchsets (6 arms + base, ~11 GPU h)
