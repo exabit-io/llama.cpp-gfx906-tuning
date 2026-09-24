@@ -47,8 +47,13 @@ generates at production flags.
 
 The substrate itself is pinned by tag `gfx906/v0.5.0/r0/master` (`528384980`). The `both` bin is `git log master ^merge-v0.5.0`;
 each profile bin is `git log gfx906-single ^master` / `gfx906-multi ^master`. Binned `both` and in `master`, not re-tested
-(lead, 2026-09-24): `tp-ar-size-gate` (own commit; default 20481 because mxxm-t `41c46cedb` turned custom AR on by default and
-the fork's 262144 threshold is the configuration measured at -19% prefill), `custom-allreduce` and `q8-repack` (substrate code),
+(lead, 2026-09-24): `tp-ar-size-gate` (own commit; default 20481 because mxxm-t `41c46cedb` turned custom AR on by default and the
+fork's own threshold, 262144 elements = 51 rows at four ranks, sends 5-51-row messages to the custom path, which loses
+~8% on batched decode at 8-16 slots, measured 2026-09-08. *Correction 2026-09-24:* this line and the message of commit
+`a23e12438` first gave "-19% prefill" as the reason; that figure is from builds without RCCL, where the fork's gate is
+bypassed and prefill also went through custom AR. With RCCL compiled in, the fork's gate already sends prefill to RCCL
+(sweep 2026-09-24: substrate 4x64K prefill 760 t/s, not collapsed). At 4x64K (4 rows) and 1x255K (1 row) master and the
+substrate take the same AllReduce paths), `custom-allreduce` and `q8-repack` (substrate code),
 `rccl-collective` (the substrate's own default). `gfx906-both` was folded into `master` on 2026-09-24 (lead: in a repo that is
 only gfx906, the both-profile patches are what `master` is).
 
