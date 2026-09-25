@@ -14,7 +14,10 @@ Pre-registered rule (RESURVEY-ACTION-PLAN §1.10, lead-approved 2026-09-20):
   bin        improves on both -> both; on multi only -> multi-user-only; on single only -> single-user-only
              regresses on both -> regresses-both; neither -> neutral-drop
              (R2.7: a regression on one axis never blocks the other axis's build)
-usage: binstats.py binrun.tsv
+usage: binstats.py binrun.tsv [ROUND.json]
+  ROUND.json (optional, written BEFORE the round's data) = {"REF": {arm: reference}, "LABEL": {arm: label}} for a
+  later round; the family is then 2 axes x 2 metrics x len(REF). Without it: round 1's declaration below, unchanged.
+  The permutation test takes n from the data (5 vs 5 = 252 arrangements, 6 vs 6 = 924).
 """
 import sys, itertools, statistics as st
 
@@ -27,6 +30,9 @@ REF = {'norm-add-fusion': 'base', 'gdn-producer-fold': 'norm-add-fusion',
        'mmvq-batch1-knobs': 'base', 's1b-repacked-matvec': 'base', 'fa-head256-rows': 'base',
        'dpp-warp-reductions': 'base', 'max-ilp': 'base'}
 AXES = ('multi', 'single'); METRICS = ('decode', 'prefill'); Q = 0.10; FLOOR = 2.0
+if len(sys.argv) > 2:
+    import json
+    _r = json.load(open(sys.argv[2])); REF = _r['REF']; LABEL = _r.get('LABEL', {})
 
 data = {}
 for line in open(sys.argv[1]):
@@ -62,7 +68,7 @@ for arm, ref in REF.items():
             tests.append(dict(arm=arm, ref=ref, axis=axis, metric=metric, n=(len(a), len(b)), eff=eff, p=perm_p(axis, a, b),
                               ra=stat(axis, a), rb=stat(axis, b)))
 
-# BH over the whole declared family of 28; an untested member counts as p=1 so the family is never shrunk
+# BH over the whole declared family (28 in round 1); an untested member counts as p=1 so the family is never shrunk
 m = len(REF) * len(AXES) * len(METRICS)
 ps = sorted(((t['p'] if t['p'] is not None else 1.0), i) for i, t in enumerate(tests))
 qs = [0.0] * len(tests); prev = 1.0

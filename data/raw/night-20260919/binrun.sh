@@ -20,10 +20,17 @@ W=/root/night-20260919; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_
 TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-fa-fallback.sh
 AB=$TL/assert-build-config.sh; AC=$TL/assert-arms-comparable.sh
 WT=/root/wt-bin; BASEREF=exabit-mx/master
-P=$W/binrun.progress; TSV=$W/binrun.tsv; DONE=$W/.binrun-done
+# ROUND (env) names a follow-up round's outputs (binrun-<ROUND>.*); empty = round 1's original names.
+# ARMS_FILE (env) = a prepared arms file (name|commits|extra cmake arg); unset = round 1's list below.
+# NMULTI / NSINGLE (env) = runs per arm per axis (default 5 / 5; lead 2026-09-25: single-user n=6 from round 1b on).
+ROUND=${ROUND:-}; SFX=${ROUND:+-$ROUND}; NMULTI=${NMULTI:-5}; NSINGLE=${NSINGLE:-5}
+P=$W/binrun$SFX.progress; TSV=$W/binrun$SFX.tsv; DONE=$W/.binrun$SFX-done
 log(){ echo "$(date -Is) [bin] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
-rm -f $DONE; echo $$ > $W/binrun.pid
+rm -f $DONE; echo $$ > $W/binrun$SFX.pid
+if [ -n "${ARMS_FILE:-}" ]; then
+  [ -f "$ARMS_FILE" ] || { log "FATAL: ARMS_FILE $ARMS_FILE missing"; touch $DONE; exit 1; }
+else
 ARMS_FILE=$W/binrun-arms.txt
 cat > $ARMS_FILE <<'EOF'
 base|
@@ -35,6 +42,8 @@ fa-head256-rows|bf4bf4f19 60cad6022
 dpp-warp-reductions|49c6ca3b3 c339a4087
 max-ilp||-DCMAKE_HIP_FLAGS=-mllvm -amdgpu-sched-strategy=max-ilp
 EOF
+fi
+log "round ${ROUND:-r1}: arms from $ARMS_FILE, n=$NMULTI multi / $NSINGLE single"
 
 # ---- phase 1: compile every arm (host only, nothing measuring)
 declare -a READY=()
@@ -45,12 +54,12 @@ while IFS='|' read -r name commits extra; do
   git -C $WT checkout -qf --detach $BASEREF && git -C $WT clean -qfd
   ok=1
   for c in $commits; do
-    if ! git -C $WT cherry-pick --no-commit "$c" >> $W/binrun-build.log 2>&1; then
+    if ! git -C $WT cherry-pick --no-commit "$c" >> $W/binrun$SFX-build.log 2>&1; then
       log "  $name: cherry-pick $c FAILED onto $BASEREF"; git -C $WT cherry-pick --abort >/dev/null 2>&1; ok=0; break
     fi
   done
   if [ $ok -eq 0 ]; then printf "all\t%s\t-\tAPPLY-FAILED\tAPPLY-FAILED\n" "$name" >> $TSV; continue; fi
-  git -C $WT diff --cached > $W/binrun-$name.diff
+  git -C $WT diff --cached > $W/binrun$SFX-$name.diff
   rm -rf "$bd" && mkdir -p "$bd"
   {
     cmake -S $WT -B "$bd" -DCMAKE_BUILD_TYPE=Release -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx906 \
@@ -59,10 +68,10 @@ while IFS='|' read -r name commits extra; do
       -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_HIP_COMPILER_LAUNCHER=ccache \
       ${extra:+"$extra"}
     cmake --build "$bd" -j 24
-  } > $W/build-ps-$name.log 2>&1
+  } > $W/build-ps$SFX-$name.log 2>&1
   rc=$?
   if [ $rc -ne 0 ] || [ ! -x "$bd/bin/llama-batched-bench" ]; then
-    log "  $name: BUILD FAILED exit=$rc"; grep -m6 -E 'error:' $W/build-ps-$name.log >> $P
+    log "  $name: BUILD FAILED exit=$rc"; grep -m6 -E 'error:' $W/build-ps$SFX-$name.log >> $P
     printf "all\t%s\t-\tBUILD-FAILED\tBUILD-FAILED\n" "$name" >> $TSV; continue
   fi
   if ! $AB "$bd" >> $P 2>&1; then log "  $name: violates R3.11 build requirements — not measured"; continue; fi
@@ -106,12 +115,12 @@ cleanup(){ trap - INT TERM EXIT; kpid "${BPID:-}"; kpid "${SAMP:-}"; kpid "${WDO
   for d in 0b 0e 1b 1e; do echo 200000000 > /sys/bus/pci/devices/0000:$d:00.0/hwmon/hwmon*/power1_cap 2>/dev/null; done
   restore; log "STOPPED (trap)"; touch $DONE; exit 1; }
 trap cleanup INT TERM EXIT
-setmax; start_sampler $W/binrun-clocks.txt
+setmax; start_sampler $W/binrun$SFX-clocks.txt
 for d in 0b 0e 1b 1e; do echo 125000000 > /sys/bus/pci/devices/0000:$d:00.0/hwmon/hwmon*/power1_cap 2>/dev/null; done
-QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$W/binrun-smc.log SCLK_GUARD=1 \
-  nohup $R/clamp-watchdog-v2.sh >> $W/binrun-watchdog.out 2>&1 &
+QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$W/binrun$SFX-smc.log SCLK_GUARD=1 \
+  nohup $R/clamp-watchdog-v2.sh >> $W/binrun$SFX-watchdog.out 2>&1 &
 WDOG=$!
-nohup $R/smc-log.sh $W/binrun-smc.log >/dev/null 2>&1 &
+nohup $R/smc-log.sh $W/binrun$SFX-smc.log >/dev/null 2>&1 &
 SMCL=$!
 sleep 6
 cell(){ # cell AXIS ARM BLOCK
@@ -119,7 +128,7 @@ cell(){ # cell AXIS ARM BLOCK
   local s=4; local d=65536
   if [ "$axis" = single ]; then s=1; d=260864; fi
   local bd=/root/build-ps-$arm
-  local out=$W/br-$axis-$arm-$blk.md
+  local out=$W/br$SFX-$axis-$arm-$blk.md
   LD_LIBRARY_PATH=$bd/bin:$bd/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 7200 \
     $bd/bin/llama-batched-bench -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
     -fa on -ctk f16 -ctv f16 -b 2048 -ub 2048 -c $(( s*(d+1280) )) -npp $d -ntg 1024 -npl $s \
@@ -138,8 +147,9 @@ cell(){ # cell AXIS ARM BLOCK
   log "$axis $arm b$blk: $(echo "$m" | awk -F'\t' '{printf "decode %.4f, prefill %.1f",$1,$2}')"
 }
 for axis in multi single; do
-  log "=== axis $axis: ${#READY[@]} arms x 5 blocks"
-  for blk in 1 2 3 4 5; do
+  nb=$NMULTI; [ "$axis" = single ] && nb=$NSINGLE
+  log "=== axis $axis: ${#READY[@]} arms x $nb blocks"
+  for blk in $(seq 1 $nb); do
     order=$(python3 -c 'import random,sys; a=sys.argv[2:]; random.Random(int(sys.argv[1])).shuffle(a); print(" ".join(a))' \
       "$(( 20260924 + blk + (${#axis} * 10) ))" "${READY[@]}")
     log "block $blk order: $order"

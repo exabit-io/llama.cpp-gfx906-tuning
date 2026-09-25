@@ -11,10 +11,12 @@
 set -u
 W=/root/night-20260919; R=/root/rocm-tests/bench
 M=/root/models/Qwen3.8-Flash-Next-UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf
-P=$W/fncompat.progress; TSV=$W/fncompat.tsv; DONE=$W/.fncompat-done
+# ROUND / ARMS_FILE (env) as in binrun.sh; empty = round 1's names and arms.
+ROUND=${ROUND:-}; SFX=${ROUND:+-$ROUND}; ARMS_FILE=${ARMS_FILE:-$W/binrun-arms.txt}
+P=$W/fncompat$SFX.progress; TSV=$W/fncompat$SFX.tsv; DONE=$W/.fncompat$SFX-done
 log(){ echo "$(date -Is) [fnc] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
-rm -f $DONE; echo $$ > $W/fncompat.pid
+rm -f $DONE; echo $$ > $W/fncompat$SFX.pid
 PRED=${1:?usage: fncompat.sh BINRUN_PID}
 log "waiting for binrun pid $PRED"
 WAIT_MAX=86400 $W/waitproc.sh "$PRED" >> $P 2>&1
@@ -28,20 +30,20 @@ cleanup(){ trap - INT TERM EXIT; kpid "${BPID:-}"; kpid "${SAMP:-}"; kpid "${WDO
   for d in 0b 0e 1b 1e; do echo 200000000 > /sys/bus/pci/devices/0000:$d:00.0/hwmon/hwmon*/power1_cap 2>/dev/null; done
   restore; log "STOPPED (trap)"; touch $DONE; exit 1; }
 trap cleanup INT TERM EXIT
-setmax; start_sampler $W/fncompat-clocks.txt
+setmax; start_sampler $W/fncompat$SFX-clocks.txt
 for d in 0b 0e 1b 1e; do echo 125000000 > /sys/bus/pci/devices/0000:$d:00.0/hwmon/hwmon*/power1_cap 2>/dev/null; done
-QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$W/fncompat-smc.log SCLK_GUARD=1 \
-  nohup $R/clamp-watchdog-v2.sh >> $W/fncompat-watchdog.out 2>&1 &
+QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$W/fncompat$SFX-smc.log SCLK_GUARD=1 \
+  nohup $R/clamp-watchdog-v2.sh >> $W/fncompat$SFX-watchdog.out 2>&1 &
 WDOG=$!
-nohup $R/smc-log.sh $W/fncompat-smc.log >/dev/null 2>&1 &
+nohup $R/smc-log.sh $W/fncompat$SFX-smc.log >/dev/null 2>&1 &
 SMCL=$!
 sleep 6
 : > $TSV
 BASEMD5=""
-for arm in $(cut -d'|' -f1 $W/binrun-arms.txt); do
+for arm in $(cut -d'|' -f1 $ARMS_FILE); do
   bd=/root/build-ps-$arm
   if [ ! -x $bd/bin/llama-completion ]; then log "$arm: no build — skipped"; printf "%s\tNO-BUILD\n" "$arm" >> $TSV; continue; fi
-  out=$W/fnc-$arm.txt
+  out=$W/fnc$SFX-$arm.txt
   LD_LIBRARY_PATH=$bd/bin:$bd/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 900 \
     $bd/bin/llama-completion -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -lm mlock --n-cpu-moe 41 \
     -fa on -ctk f16 -ctv f16 -c 4096 -n 64 --temp 0 --top-k 1 -s 0 -no-cnv --no-warmup \
