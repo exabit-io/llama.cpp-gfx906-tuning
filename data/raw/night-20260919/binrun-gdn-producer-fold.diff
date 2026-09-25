@@ -1,5 +1,5 @@
 diff --git a/ggml/src/ggml-cuda/common.cuh b/ggml/src/ggml-cuda/common.cuh
-index 5ed78a50e..1b7b581e8 100644
+index ce7367dc6..4e0c83d14 100644
 --- a/ggml/src/ggml-cuda/common.cuh
 +++ b/ggml/src/ggml-cuda/common.cuh
 @@ -29,6 +29,7 @@
@@ -10,7 +10,7 @@ index 5ed78a50e..1b7b581e8 100644
  #include <utility>
  #include <vector>
  
-@@ -1621,6 +1622,29 @@ struct ggml_backend_cuda_context {
+@@ -1623,6 +1624,29 @@ struct ggml_backend_cuda_context {
          q8_1_cache.clear();
      }
  
@@ -294,10 +294,10 @@ index f9bf43706..f9c0ff653 100644
 +    const float * ssm_a      = nullptr;
 +};
 diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
-index abcbae599..85394c447 100644
+index 861e1c303..ce8f16977 100644
 --- a/ggml/src/ggml-cuda/ggml-cuda.cu
 +++ b/ggml/src/ggml-cuda/ggml-cuda.cu
-@@ -4469,6 +4469,281 @@ static bool ggml_cuda_moe_weighted_reduction_enabled() {
+@@ -4545,6 +4545,281 @@ static bool ggml_cuda_moe_weighted_reduction_enabled() {
      return enabled;
  }
  
@@ -579,7 +579,7 @@ index abcbae599..85394c447 100644
  // try and fuse nodes and return the number of nodes to skip
  static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph * cgraph, int i) {
  
-@@ -5243,13 +5518,30 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph
+@@ -5319,13 +5594,30 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph
          return 2;
      }
  
@@ -612,7 +612,7 @@ index abcbae599..85394c447 100644
          return 1;
      }
  
-@@ -5423,6 +5715,10 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
+@@ -5505,6 +5797,10 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
                      continue;
                  }
  
@@ -623,7 +623,7 @@ index abcbae599..85394c447 100644
                  int nodes_to_skip = ggml_cuda_try_fuse(cuda_ctx, cgraph, i);
  
                  if (nodes_to_skip != 0) {
-@@ -5577,6 +5873,7 @@ static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend,
+@@ -5659,6 +5955,7 @@ static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend,
  
      // entries are only valid within one graph evaluation
      cuda_ctx->q8_1_cache_reset();
@@ -631,7 +631,7 @@ index abcbae599..85394c447 100644
  
      bool use_cuda_graph             = false;
      bool cuda_graph_update_required = false;
-@@ -5769,12 +6066,15 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
+@@ -5851,12 +6148,15 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
      GGML_UNUSED(cgraph);
  #endif
  

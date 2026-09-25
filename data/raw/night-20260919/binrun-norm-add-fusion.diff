@@ -1,8 +1,8 @@
 diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
-index abcbae599..ac905a440 100644
+index 861e1c303..b0fa724b1 100644
 --- a/ggml/src/ggml-cuda/ggml-cuda.cu
 +++ b/ggml/src/ggml-cuda/ggml-cuda.cu
-@@ -4469,6 +4469,86 @@ static bool ggml_cuda_moe_weighted_reduction_enabled() {
+@@ -4545,6 +4545,86 @@ static bool ggml_cuda_moe_weighted_reduction_enabled() {
      return enabled;
  }
  
@@ -89,7 +89,7 @@ index abcbae599..ac905a440 100644
  // try and fuse nodes and return the number of nodes to skip
  static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph * cgraph, int i) {
  
-@@ -5243,13 +5323,30 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph
+@@ -5319,13 +5399,30 @@ static int ggml_cuda_try_fuse(ggml_backend_cuda_context * cuda_ctx, ggml_cgraph
          return 2;
      }
  

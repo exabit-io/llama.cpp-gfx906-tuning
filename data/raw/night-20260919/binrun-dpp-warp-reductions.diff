@@ -1,8 +1,8 @@
 diff --git a/ggml/src/ggml-cuda/common.cuh b/ggml/src/ggml-cuda/common.cuh
-index 5ed78a50e..e1eae85ee 100644
+index ce7367dc6..6e6e0f00b 100644
 --- a/ggml/src/ggml-cuda/common.cuh
 +++ b/ggml/src/ggml-cuda/common.cuh
-@@ -461,9 +461,126 @@ struct ggml_cuda_unroll<1> {
+@@ -459,9 +459,126 @@ struct ggml_cuda_unroll<1> {
      }
  };
  
@@ -130,7 +130,7 @@ index 5ed78a50e..e1eae85ee 100644
      return __reduce_add_sync(0xffffffff, x);
  #else
  #pragma unroll
-@@ -476,21 +593,31 @@ static __device__ __forceinline__ int warp_reduce_sum(int x) {
+@@ -474,21 +591,31 @@ static __device__ __forceinline__ int warp_reduce_sum(int x) {
  
  template<int width = WARP_SIZE>
  static __device__ __forceinline__ float warp_reduce_sum(float x) {
@@ -162,7 +162,7 @@ index 5ed78a50e..e1eae85ee 100644
  }
  
  template<int width = WARP_SIZE>
-@@ -536,11 +663,15 @@ static __device__ __forceinline__ int warp_reduce_any(int x) {
+@@ -534,11 +661,15 @@ static __device__ __forceinline__ int warp_reduce_any(int x) {
  
  template<int width = WARP_SIZE>
  static __device__ __forceinline__ float warp_reduce_max(float x) {

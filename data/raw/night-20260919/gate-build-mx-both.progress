@@ -1,0 +1,12 @@
+2026-09-24T21:15:30+00:00 [g050] gate on /root/build-mx-both, source commit a23e1243828d331cc6aca7f5ffe6b5529d99a077
+2026-09-24T21:15:45+00:00 [g050] 1. test-backend-ops on ROCm0..3
+2026-09-24T21:23:57+00:00 [g050]   ROCm0 rc=0:   16273/16273 tests passed (FAIL lines: 0)
+2026-09-24T21:23:59+00:00 [g050]   ROCm1 rc=0:   16273/16273 tests passed (FAIL lines: 0)
+2026-09-24T21:23:59+00:00 [g050]   ROCm2 rc=0:   16273/16273 tests passed (FAIL lines: 0)
+2026-09-24T21:24:00+00:00 [g050]   ROCm3 rc=1:   16272/16273 tests passed (FAIL lines: 0)
+2026-09-24T21:24:00+00:00 [g050] test-backend-ops: PASS
+2026-09-24T21:24:00+00:00 [g050] 2. perplexity 16K/6 (reference 5.6171 +/- 0.0624)
+2026-09-24T21:26:27+00:00 [g050]   ppl rc=0 -> Final estimate: PPL = 5.6153 +/- 0.06235
+2026-09-24T21:26:27+00:00 [g050] 3. Flash-Next compatibility (production flags, greedy 64 tokens)
+2026-09-24T21:29:30+00:00 [g050]   flash-next rc=0, 358 bytes: Explain in two sentences why the sky is blue.  <think> The user wants a concise two-sentence explanation of why the sky is blue. I need to cover Rayleigh scattering and why blue specifically dominates. Let me be accurate and concise. </thin
+2026-09-24T21:29:30+00:00 [g050] === GATE v0.5.0 DONE ===

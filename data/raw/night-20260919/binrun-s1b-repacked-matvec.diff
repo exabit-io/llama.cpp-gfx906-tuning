@@ -111,7 +111,7 @@ index 087834ade..a3514d0f0 100644
  // assignment instead of the tiled GEMM. Expert token counts are per expert, so
  // at these widths nearly every active expert holds a single assignment.
 diff --git a/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh b/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh
-index 6bd0c0f8d..430690445 100644
+index 03a0b480c..e031e0dde 100644
 --- a/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh
 +++ b/ggml/src/ggml-cuda/q8_repack/repack-kernels.cuh
 @@ -1133,7 +1133,13 @@ static __device__ __forceinline__ void mul_mat_vec_repacked_nc_impl(
