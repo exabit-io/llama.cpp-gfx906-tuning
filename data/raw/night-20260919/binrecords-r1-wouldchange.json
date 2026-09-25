@@ -1,0 +1,9 @@
+{
+ "norm-add-fusion": "a later substrate makes the fused add-norm a larger share of decode: today +0.56% decode / +0.45% prefill at 4x64K (both q=0.025) and +0.08% / +0.14% at 1x255K, real but below the 2% floor",
+ "gdn-producer-fold": "its increment over norm-add-fusion (+0.88% decode at 4x64K, +1.18% at 1x255K) grows past +2% on a later substrate; it cannot ship without norm-add-fusion (terms 02 03), which is neutral itself",
+ "mmvq-batch1-knobs": "the batch-1 knobs are re-tuned for long context: they cost 1.19% decode at 1x255K (q=0.074) and gain 0.57% at 4x64K (q=0.025), both inside the 2% floor",
+ "s1b-repacked-matvec": "the instrument gains a cell with 9-32 rows per mat-vec, the batch width this patch targets; 4x64K and 1x255K run 4 and 1 rows, where it is neutral (+0.19% / -0.15% decode)",
+ "fa-head256-rows": "the head-256 tile row is re-derived for gfx906 so decode no longer loses 10.7% at 4x64K and 16.2% at 1x255K; prefill is unchanged in both cells, so the loss is in the decode flash-attention path",
+ "dpp-warp-reductions": "its +1.41% decode at 4x64K (q=0.025; +0.49% at 1x255K) grows past +2% on a later substrate",
+ "max-ilp": "a later ROCm/LLVM changes the max-ilp scheduler: today +1.03% / +1.47% (decode/prefill) at 4x64K and +0.74% / +0.84% at 1x255K, all q<0.10, none reaching 2%"
+}

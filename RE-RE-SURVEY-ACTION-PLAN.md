@@ -131,6 +131,20 @@ Not patchsets for this instrument: terms 11 13 14 16 20 25 29 (docs, build scrip
 R3.9). Terms 24 (adaptive MTP, upstream PR #27210) and 26 were set aside because the old squashed substrate had
 lost the fork's MTP code; `master` has it back, so both are to be ported to `gfx906-candidates`. Scripts: `night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`.
 
+**Result (DONE 2026-09-25 09:54 UTC, lead's go 2026-09-24 21:15):** gate on `master` PASS; all 8 arms built and
+compatible with Flash-Next; 80 cells, no clamp. **No patchset binned into any build.** fa-head256-rows
+**regresses-both** (decode -10.66% at 4x64K, -16.17% at 1x255K, prefill unchanged); the other six are
+**neutral-drop**: several effects are real (q<0.10) but none reaches the 2% floor — largest dpp-warp-reductions
++1.41% multi decode, max-ilp +1.47% multi prefill, gdn-producer-fold +1.18% single decode; mmvq-q8-fastpath costs
+1.19% single decode. Base: 22.47 tok/s/seq + 760.9 t/s prefill (4x64K), 30.92 + 398.5 (1x255K). Records
+`survey/<patchset>.md` + `-single.md` (written by `night-20260919/binrecords.py` from binstats output), data
+`data/raw/night-20260919/` (binrun.tsv, binstats-final.txt). Branches unchanged; `gfx906-single`/`-multi` = `master`.
+
+*Statistics finding (round 1, before round 2):* the single-user axis uses the median, whose exact 5-vs-5 floor is
+**p = 12/252 = 0.0476**, not the 0.0079 of section 4 (that is the mean's). Under BH q<0.10 over 28 tests a median
+effect can pass only if >= 14 tests sit at the floor; round 1 had enough (q=0.074), a round with few real effects
+would call real single-user effects neutral. Median floors: n=6 0.0130, n=7 0.0117. To be settled before round 2 data.
+
 ## 7. Round 2 — the substrate's patchsets (~8 arms + base, ~14 GPU h)
 
 The substrate now keeps mxxm-t's 182 commits individually, so a feature can be removed by reverting its own
@@ -178,8 +192,8 @@ profile is switched off in that profile's launch settings (runtime switch) or re
 | step | GPU h |
 |---|---:|
 | gate on `master` | ~0.3 |
-| round 1 multi-user bins | 4.6 |
-| round 1 single-user bins + compat | 8.2 |
+| round 1 multi-user bins | 4.6 (DONE: 21:29-01:57, 4.5 h) |
+| round 1 single-user bins + compat | 8.2 (DONE: 01:57-09:54, 8.0 h) |
 | round 2 multi-user bins | 5.2 |
 | round 2 single-user bins + compat | 9.2 |
 

@@ -99,3 +99,49 @@ OK    8 arms share every code-affecting build option
 2026-09-25T01:57:08+00:00 [bin] === axis multi DONE
 2026-09-25T01:57:08+00:00 [bin] === axis single: 8 arms x 5 blocks
 2026-09-25T01:57:09+00:00 [bin] block 1 order: max-ilp s1b-repacked-matvec gdn-producer-fold mmvq-batch1-knobs dpp-warp-reductions base fa-head256-rows norm-add-fusion
+2026-09-25T02:08:43+00:00 [bin] single max-ilp b1: decode 31.2119, prefill 402.3
+2026-09-25T02:20:23+00:00 [bin] single s1b-repacked-matvec b1: decode 30.8638, prefill 398.6
+2026-09-25T02:32:02+00:00 [bin] single gdn-producer-fold b1: decode 31.3380, prefill 398.7
+2026-09-25T02:43:43+00:00 [bin] single mmvq-batch1-knobs b1: decode 30.5507, prefill 398.8
+2026-09-25T02:55:22+00:00 [bin] single dpp-warp-reductions b1: decode 31.0802, prefill 398.8
+2026-09-25T03:07:02+00:00 [bin] single base b1: decode 30.9338, prefill 398.7
+2026-09-25T03:18:49+00:00 [bin] single fa-head256-rows b1: decode 25.9760, prefill 398.5
+2026-09-25T03:30:28+00:00 [bin] single norm-add-fusion b1: decode 30.9412, prefill 399.4
+2026-09-25T03:30:28+00:00 [bin] block 2 order: max-ilp fa-head256-rows dpp-warp-reductions gdn-producer-fold mmvq-batch1-knobs base norm-add-fusion s1b-repacked-matvec
+2026-09-25T03:42:03+00:00 [bin] single max-ilp b2: decode 31.1322, prefill 401.9
+2026-09-25T03:53:49+00:00 [bin] single fa-head256-rows b2: decode 25.9155, prefill 398.5
+2026-09-25T04:05:29+00:00 [bin] single dpp-warp-reductions b2: decode 31.0661, prefill 398.8
+2026-09-25T04:17:09+00:00 [bin] single gdn-producer-fold b2: decode 31.3169, prefill 398.6
+2026-09-25T04:28:49+00:00 [bin] single mmvq-batch1-knobs b2: decode 30.5407, prefill 398.6
+2026-09-25T04:40:30+00:00 [bin] single base b2: decode 30.9291, prefill 398.5
+2026-09-25T04:52:08+00:00 [bin] single norm-add-fusion b2: decode 30.9581, prefill 399.5
+2026-09-25T05:03:49+00:00 [bin] single s1b-repacked-matvec b2: decode 30.8545, prefill 398.3
+2026-09-25T05:03:49+00:00 [bin] block 3 order: s1b-repacked-matvec gdn-producer-fold fa-head256-rows base norm-add-fusion mmvq-batch1-knobs dpp-warp-reductions max-ilp
+2026-09-25T05:15:30+00:00 [bin] single s1b-repacked-matvec b3: decode 30.8871, prefill 398.2
+2026-09-25T05:27:10+00:00 [bin] single gdn-producer-fold b3: decode 31.3006, prefill 398.2
+2026-09-25T05:38:57+00:00 [bin] single fa-head256-rows b3: decode 25.9031, prefill 398.3
+2026-09-25T05:50:38+00:00 [bin] single base b3: decode 30.8694, prefill 398.2
+2026-09-25T06:02:18+00:00 [bin] single norm-add-fusion b3: decode 30.9141, prefill 399.1
+2026-09-25T06:13:59+00:00 [bin] single mmvq-batch1-knobs b3: decode 30.5489, prefill 398.4
+2026-09-25T06:25:39+00:00 [bin] single dpp-warp-reductions b3: decode 31.0698, prefill 398.7
+2026-09-25T06:37:13+00:00 [bin] single max-ilp b3: decode 31.1114, prefill 401.9
+2026-09-25T06:37:13+00:00 [bin] block 4 order: base gdn-producer-fold s1b-repacked-matvec mmvq-batch1-knobs max-ilp fa-head256-rows norm-add-fusion dpp-warp-reductions
+2026-09-25T06:48:54+00:00 [bin] single base b4: decode 30.9160, prefill 398.5
+2026-09-25T07:00:34+00:00 [bin] single gdn-producer-fold b4: decode 31.3064, prefill 398.5
+2026-09-25T07:12:14+00:00 [bin] single s1b-repacked-matvec b4: decode 30.8824, prefill 398.4
+2026-09-25T07:23:54+00:00 [bin] single mmvq-batch1-knobs b4: decode 30.5836, prefill 398.7
+2026-09-25T07:35:29+00:00 [bin] single max-ilp b4: decode 31.1910, prefill 402.1
+2026-09-25T07:47:16+00:00 [bin] single fa-head256-rows b4: decode 25.9438, prefill 398.0
+2026-09-25T07:58:55+00:00 [bin] single norm-add-fusion b4: decode 30.9937, prefill 399.1
+2026-09-25T08:10:36+00:00 [bin] single dpp-warp-reductions b4: decode 31.0623, prefill 398.4
+2026-09-25T08:10:36+00:00 [bin] block 5 order: max-ilp s1b-repacked-matvec base norm-add-fusion fa-head256-rows gdn-producer-fold mmvq-batch1-knobs dpp-warp-reductions
+2026-09-25T08:22:11+00:00 [bin] single max-ilp b5: decode 31.1436, prefill 401.6
+2026-09-25T08:33:52+00:00 [bin] single s1b-repacked-matvec b5: decode 30.8685, prefill 398.2
+2026-09-25T08:45:33+00:00 [bin] single base b5: decode 30.9085, prefill 398.1
+2026-09-25T08:57:12+00:00 [bin] single norm-add-fusion b5: decode 30.9160, prefill 399.0
+2026-09-25T09:08:59+00:00 [bin] single fa-head256-rows b5: decode 25.8887, prefill 398.0
+2026-09-25T09:20:40+00:00 [bin] single gdn-producer-fold b5: decode 31.2414, prefill 398.0
+2026-09-25T09:32:22+00:00 [bin] single mmvq-batch1-knobs b5: decode 30.5480, prefill 397.9
+2026-09-25T09:44:03+00:00 [bin] single dpp-warp-reductions b5: decode 31.0228, prefill 398.0
+2026-09-25T09:44:03+00:00 [bin] === axis single DONE
+2026-09-25T09:44:03+00:00 [bin] === BINRUN DONE ===

@@ -1,1 +1,11 @@
-2026-09-24T00:24:37+00:00 [fnc] waiting for binrun pid 419853
+2026-09-24T21:15:36+00:00 [fnc] waiting for binrun pid 134389
+2026-09-25T09:44:09+00:00 [fnc] binrun finished; starting compatibility gate
+2026-09-25T09:45:35+00:00 [fnc] base: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-25T09:46:52+00:00 [fnc] norm-add-fusion: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-25T09:48:04+00:00 [fnc] gdn-producer-fold: PASS (rc=0, 365 bytes, text different vs base)
+2026-09-25T09:49:19+00:00 [fnc] mmvq-batch1-knobs: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-25T09:50:30+00:00 [fnc] s1b-repacked-matvec: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-25T09:51:40+00:00 [fnc] fa-head256-rows: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-25T09:52:51+00:00 [fnc] dpp-warp-reductions: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-25T09:54:01+00:00 [fnc] max-ilp: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-25T09:54:02+00:00 [fnc] === FN COMPAT DONE ===

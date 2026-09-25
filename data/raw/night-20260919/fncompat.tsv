@@ -1,0 +1,8 @@
+base	PASS	rc=0	bytes=358	788d896adc9f	identical
+norm-add-fusion	PASS	rc=0	bytes=358	788d896adc9f	identical
+gdn-producer-fold	PASS	rc=0	bytes=365	ec56d384a47e	different
+mmvq-batch1-knobs	PASS	rc=0	bytes=358	788d896adc9f	identical
+s1b-repacked-matvec	PASS	rc=0	bytes=358	788d896adc9f	identical
+fa-head256-rows	PASS	rc=0	bytes=358	788d896adc9f	identical
+dpp-warp-reductions	PASS	rc=0	bytes=358	788d896adc9f	identical
+max-ilp	PASS	rc=0	bytes=358	788d896adc9f	identical
