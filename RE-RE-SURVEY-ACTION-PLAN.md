@@ -147,6 +147,13 @@ would call real single-user effects neutral. Median floors: n=6 0.0130, n=7 0.01
 
 ## 7. Round 2 — the substrate's patchsets (~8 arms + base, ~14 GPU h)
 
+**Superseded before data by `data/raw/night-20260919/r2-preregistration.md` (2026-09-25):** arms re-checked against
+the code — token graph switched by `GGML_META_TOKEN_GRAPH=0` (not `TG_LIMIT`), concurrent lanes by
+`GGML_META_PARALLEL_DISPATCH=0` on the token-graph-off arm, chunked GDN and the MMQ kernel tweaks by one-line switch-off
+patches (their reverts conflict), meta-xfer-rccl not measurable (needs n_stages > 1), plus one addition arm: the v0.5.0
+merge made the fork's gfx906 Q8_0 MMQ config unreachable (upstream's GCN table now wins the dispatch). Single-user n=6.
+Round 1b (stacked round-1 patchsets, `r1b-preregistration.md`) runs first.
+
 The substrate now keeps mxxm-t's 182 commits individually, so a feature can be removed by reverting its own
 commits on top of `master` (or switched off at runtime where the fork provides a switch). Classified from
 commit subjects and switch code, 0 GPU; each group's commits are re-checked against the substrate before it is

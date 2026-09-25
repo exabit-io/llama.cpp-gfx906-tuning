@@ -1,0 +1,9 @@
+base|||
+no-q8_1-cache|||GGML_CUDA_Q8_1_CACHE=0
+no-token-graph|||GGML_META_TOKEN_GRAPH=0
+no-parallel-dispatch|||GGML_META_PARALLEL_DISPATCH=0
+no-layout-cache|||GGML_GALLOC_LAYOUT_CACHE=0
+no-gdn-chunked|f62654251||
+revert-input-staging|-20af9a480 -c7069d868 -38e266b6a||
+no-mmq-kernel-tweaks|2032a34e6||
+mmq-config-reachable|a22eb39ef||

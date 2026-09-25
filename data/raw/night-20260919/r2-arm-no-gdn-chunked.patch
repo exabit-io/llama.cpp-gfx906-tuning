@@ -1,0 +1,27 @@
+From f62654251684d0f586a76a1f21386948f21e9508 Mon Sep 17 00:00:00 2001
+From: Joshua <joshua@exabit.io>
+Date: Fri, 25 Sep 2026 18:50:58 +0000
+Subject: [PATCH] bin r2 arm (measurement only, not for merge): chunked
+ gated-delta-net prefill off
+
+---
+ ggml/src/ggml-cuda/gated_delta_net.cu | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/ggml/src/ggml-cuda/gated_delta_net.cu b/ggml/src/ggml-cuda/gated_delta_net.cu
+index c6af50a27..75d3bee5c 100644
+--- a/ggml/src/ggml-cuda/gated_delta_net.cu
++++ b/ggml/src/ggml-cuda/gated_delta_net.cu
+@@ -186,7 +186,8 @@ static void launch_gated_delta_net(
+         const char * value = getenv("LLAMA_GDN_NO_CHUNK_SNAPSHOTS");
+         return value != nullptr && atoi(value) != 0;
+     }();
+-    const bool chunk_eligible = n_tokens >= 2 * CS && S_v <= 128;
++    // round-2 removal arm (not for merge): chunked GDN off, every call takes the serial kernel (upstream v0.5.0 behaviour)
++    const bool chunk_eligible = false && n_tokens >= 2 * CS && S_v <= 128;
+ 
+     static bool chunk_snap_announced = false;
+     if constexpr (keep_rs_t) {
+-- 
+2.43.0
+
