@@ -1,6 +1,9 @@
 # Round 2 — the substrate's patchsets (pre-registered 2026-09-25, before any round-2 data)
 
-Base: master a23e12438 (substrate 528384980 + AR size gate + FA_QUANTS=all). Each arm REMOVES one substrate feature
+Base: master of exabit-io/mx-llama.cpp. **Amended before any round-2 data (2026-09-26 00:20 UTC):** round 1b binned
+combo-multi both, so master moved a23e12438 -> 82868aa3b (+ the stack and GGML_HIP_GFX906_MAX_ILP default ON); round 2
+measures on 82868aa3b. All four patch arms were re-checked to apply on it; the correctness gate is re-run on it first.
+The lead decided (2026-09-25) that session claude-fd's kernel boot tests (reboots) run before round 2. Each arm REMOVES one substrate feature
 (runtime switch where the fork has one, else a revert or a one-line switch-off patch), except one ADDITION arm.
 Rule: binstats.py with binstats-r2.json; multi-user mean of n=5, single-user median of n=6 (lead 2026-09-25);
 two-sided exact permutation; BH q<0.10 over 8 arms x 2 axes x 2 metrics = 32; effect floor 2%.

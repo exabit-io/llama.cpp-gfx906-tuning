@@ -5,16 +5,21 @@ Every number comes from binstats.py's own output (effects, p, q, per-axis verdic
 binrun.tsv (run values for median/p10/min); nothing is typed by hand. Refuses to write anything if a
 patchset is NOT BINNED (incomplete or mixed: mixed goes to the lead) or if the compat gate has no row.
 
-usage: binrecords.py BINRUN_TSV FNCOMPAT_TSV OUTDIR ROUND_LABEL WOULDCHANGE_JSON
+usage: binrecords.py BINRUN_TSV FNCOMPAT_TSV OUTDIR ROUND_LABEL WOULDCHANGE_JSON [ROUND_JSON ARMS_FILE]
+  ROUND_JSON / ARMS_FILE: a later round's binstats family file and arms file (round 1 when omitted).
   WOULDCHANGE_JSON: {arm: text} — the observation that would overturn each verdict, written after reading the
   results; every arm must have one (a placeholder would pass survey-lint, so this script refuses instead).
 """
 import sys, re, subprocess, statistics as st, collections, os, json
 
 tsv, fnc, outdir, rnd, wcj = sys.argv[1:6]
+rj = sys.argv[6] if len(sys.argv) > 6 else None
 WOULD = json.load(open(wcj))
 W = os.path.dirname(os.path.abspath(__file__))
-out = subprocess.run([sys.executable, os.path.join(W, 'binstats.py'), tsv], capture_output=True, text=True, check=True).stdout
+out = subprocess.run([sys.executable, os.path.join(W, 'binstats.py'), tsv] + ([rj] if rj else []), capture_output=True, text=True, check=True).stdout
+M = 4 * len(json.load(open(rj))['REF']) if rj else 28
+ARMS = sys.argv[7] if len(sys.argv) > 7 else os.path.join(W, 'binrun-arms.txt')
+SFX = '' if rnd == 'r1' else '-' + rnd
 
 NAME = {'mmvq-batch1-knobs': 'mmvq-q8-fastpath'}
 CLAIM = {
@@ -25,10 +30,12 @@ CLAIM = {
     'fa-head256-rows': ('terms 22 27', 'gfx906 GCN row for the head-256 flash-attention tile table'),
     'dpp-warp-reductions': ('terms 23 28', 'DPP-based warp reductions on GCN, generic reductions kept where DPP does not apply'),
     'max-ilp': ('build flag', 'compile with -mllvm -amdgpu-sched-strategy=max-ilp (mixa3607/ML-gfx906), base code unchanged'),
+    'combo-both': ('terms 02 03 04 07 08 10 12 23 28 + max-ilp flag', 'stack of norm-add-fusion, gdn-producer-fold, dpp-warp-reductions and max-ilp (round 1b)'),
+    'combo-multi': ('terms 01 02 03 04 05 07 08 09 10 12 15 23 28 + max-ilp flag', 'combo-both plus mmvq-q8-fastpath (round 1b)'),
 }
 SRC = {'max-ilp': 'https://github.com/mixa3607/ML-gfx906'}
 arms = {}
-for line in open(os.path.join(W, 'binrun-arms.txt')):
+for line in open(ARMS):
     f = line.rstrip('\n').split('|')
     if f[0]: arms[f[0]] = f[1]
 
@@ -41,12 +48,18 @@ for line in out.splitlines():
         T[(a, ax, me)] = dict(ref=ref, n=int(n), rv=float(rv), av=float(av), eff=float(eff), p=float(p), q=float(q))
 BIN = {}
 for line in out.split('\nBINS\n', 1)[1].splitlines():
-    m = re.match(r'^\s+(\S+)\s+multi=(\S+)\s+single=(\S+)\s+->\s+(.+)$', line)
+    m = re.match(r'^\s+(.+?)\s+multi=(\S+)\s+single=(\S+)\s+->\s+(.+)$', line)   # labels may contain spaces
     if m:
         BIN[m.group(1)] = (m.group(2), m.group(3), m.group(4).strip())
 LABEL2ARM = {'mmvq-q8-fastpath(01,05,09,15)': 'mmvq-batch1-knobs'}
+if rj:
+    LABEL2ARM.update({v: k for k, v in json.load(open(rj)).get('LABEL', {}).items()})
 BIN = {LABEL2ARM.get(k, k): v for k, v in BIN.items()}
 bad = [a for a, v in BIN.items() if v[2].startswith('NOT BINNED')]
+_ref = json.load(open(rj))['REF'] if rj else None
+missing = [x for x in (_ref or []) if x not in BIN]
+if missing:
+    sys.exit(f"refusing: binstats BINS has no row for {missing} (label parse?)")
 if bad:
     sys.exit(f"refusing: not binned: {bad} — incomplete or mixed (mixed goes to the lead)")
 
@@ -90,10 +103,10 @@ for a, (vm, vs, b) in BIN.items():
 axis:             {AXN[ax]}
 zero point:       {'build-ps-base = master a23e12438' if ref == 'base' else 'build-ps-' + ref + ' = master a23e12438 + ' + ref} measured 2026-09-24/25 ({rnd}, interleaved in the same blocks)
 recipe:           {CELL[ax]} | f16 K / f16 V | 125 W/die, host RAPL 150 W | --cache-ram n/a (llama-batched-bench) | -ngl all -sm tensor -fa on, four dies | RCCL + custom AR gated 20481, NCCL_TOPO_FILE
-metric:           decode tok/s per sequence and prefill t/s, full precision (tools/cell-metrics.py); run-level {STAT[ax]} of n=5; improves requires q<0.10 AND effect >= +2%, regresses q<0.10 AND <= -2%
-result:           decode {STAT[ax]} {d['av']:.3f} (median {st.median(dv):.3f} / p10 {p10(dv):.3f} / min {min(dv):.3f}) vs ref {d['rv']:.3f} tok/s | prefill {STAT[ax]} {pf['av']:.1f} (min {min(pv):.1f}) vs ref {pf['rv']:.1f} t/s | n=5 per arm | decode spread {spread:.2f}%
+metric:           decode tok/s per sequence and prefill t/s, full precision (tools/cell-metrics.py); run-level {STAT[ax]} of n={len(dv)}; improves requires q<0.10 AND effect >= +2%, regresses q<0.10 AND <= -2%
+result:           decode {STAT[ax]} {d['av']:.3f} (median {st.median(dv):.3f} / p10 {p10(dv):.3f} / min {min(dv):.3f}) vs ref {d['rv']:.3f} tok/s | prefill {STAT[ax]} {pf['av']:.1f} (min {min(pv):.1f}) vs ref {pf['rv']:.1f} t/s | n={len(dv)} per arm | decode spread {spread:.2f}%
 effect:           decode {d['eff']:+.2f}%, prefill {pf['eff']:+.2f}% vs {ref}
-stats:            {'; '.join(f"{mname[id(t)]} p={t['p']:.4f} q={t['q']:.4f}" for t in order)} | two-sided exact permutation 5 vs 5, BH over the declared family m=28 | n=5 per arm
+stats:            {'; '.join(f"{mname[id(t)]} p={t['p']:.4f} q={t['q']:.4f}" for t in order)} | two-sided exact permutation {len(RR)} vs {len(dv)}, BH over the declared family m={M} | n={len(dv)} per arm
 evidence:         confirmed-fresh
 structural:       standalone
 verdict:          {verdict}
@@ -101,7 +114,7 @@ bin:              {b}
 would change if:  {WOULD[a]}
 notes:            Round {rnd} of the binning plan (RE-RE-SURVEY-ACTION-PLAN s6), binstats.py rule fixed before data.
                   Per-axis verdicts: multi-user {vm}, single-user {vs}. Flash-Next compatibility: {c[1]} ({c[2]}, text {c[5]} vs base).
-                  Data: data/raw/night-20260919/binrun.tsv, br-{ax}-{a}-*.md, binstats output in the same folder.
+                  Data: data/raw/night-20260919/binrun{SFX}.tsv, br{SFX}-{ax}-{a}-*.md, binstats output in the same folder.
 """
         written.append((fn, txt, a, ax))
 os.makedirs(outdir, exist_ok=True)

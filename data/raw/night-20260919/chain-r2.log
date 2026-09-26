@@ -1,0 +1,4 @@
+2026-09-25T18:54:13+00:00 [chain-r2] waiting for round 1b (fncompat pid 3895587)
+2026-09-25T23:31:30+00:00 [chain-r2] stopped by the operator: round 2 must also wait for the lead-approved kernel builds (claude-fd, /root/kbuild-queue-20260925.log ALL DONE); replaced by chain-r2b.sh
+2026-09-25T23:31:34+00:00 [chain-r2b] waiting for round 1b (fncompat pid 3895587)
+2026-09-25T23:32:47+00:00 [chain-r2b] stopped by the operator: round 2 must also wait for the lead's decision on kernel boot tests (reboots); replaced by chain-r2c.sh (waits for /root/night-20260919/.r2-go)

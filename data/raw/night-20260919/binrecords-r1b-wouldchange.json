@@ -1,0 +1,4 @@
+{
+ "combo-both": "a later substrate moves its multi-user decode (+1.95%, 0.05 pt under the floor) past +2%; combo-multi, which contains it, binned both and supersedes it",
+ "combo-multi": "a re-measure on another kernel or substrate drops either axis' decode gain (+2.53% 4x64K, +2.57% 1x255K) below +2%; on decode the stack is sub-additive (+2.5% measured vs +4.5% predicted from round 1), and mmvq's single-user cost (-1.19% alone) does not appear inside it"
+}

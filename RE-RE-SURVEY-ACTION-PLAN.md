@@ -40,8 +40,8 @@ generates at production flags.
 
 | branch | commit | contents |
 |---|---|---|
-| `master` | `a23e12438` | **the build**: the substrate + the patches binned as improving **both** profiles (today: AR size gate with default 20481, `GGML_CUDA_FA_QUANTS=all` default) |
-| `gfx906-single`, `gfx906-multi` | `a23e12438` | = master until single-/multi-only winners are binned |
+| `master` | `82868aa3b` | **the build**: the substrate + the patches binned as improving **both** profiles: AR size gate (default 20481), `GGML_CUDA_FA_QUANTS=all` default (round 0, `a23e12438`); + combo-multi = terms 01 02 03 04 05 07 08 09 10 12 15 23 28 and `GGML_HIP_GFX906_MAX_ILP` default ON (round 1b, 2026-09-26, tag `gfx906/v0.5.0/r1b/master`) |
+| `gfx906-single`, `gfx906-multi` | `82868aa3b` | = master until single-/multi-only winners are binned |
 | `gfx906-candidates` | `5e39f29b9` | the substrate + our 20 code patches (+ docs, `BRANCHES.md`), not yet binned — the source of round-1 arms |
 | `merge-v0.5.0` | `528384980` | **the pure substrate** (what PR #17 offers mxxm-t); deleted once merged, after which the pure substrate is mxxm-t's own `master` |
 
@@ -139,6 +139,16 @@ compatible with Flash-Next; 80 cells, no clamp. **No patchset binned into any bu
 1.19% single decode. Base: 22.47 tok/s/seq + 760.9 t/s prefill (4x64K), 30.92 + 398.5 (1x255K). Records
 `survey/<patchset>.md` + `-single.md` (written by `night-20260919/binrecords.py` from binstats output), data
 `data/raw/night-20260919/` (binrun.tsv, binstats-final.txt). Branches unchanged; `gfx906-single`/`-multi` = `master`.
+
+**Round 1b (DONE 2026-09-26 00:08 UTC; lead asked 2026-09-25 whether the sub-2% patchsets combine):** stacks on
+fresh runs, pre-registered (`r1b-preregistration.md`), single-user n=6. **combo-multi** (norm-add-fusion +
+gdn-producer-fold + dpp-warp-reductions + mmvq-q8-fastpath + max-ilp) **binned both**: decode 22.49 -> 23.06 tok/s/seq
+(+2.53%) at 4x64K and 30.91 -> 31.70 (+2.57%) at 1x255K, prefill +1.6% / +1.0%, q=0.013, Flash-Next PASS (text
+identical). combo-both (without mmvq) +1.95% / +2.29% -> single-user-only, superseded by combo-multi. Sub-additive on
+decode (+2.5% measured vs +4.5% predicted from round 1); mmvq's -1.19% single-user cost vanishes inside the stack.
+Pushed: `master` = `gfx906-single` = `gfx906-multi` = `82868aa3b` (the 13 commits, author Joshua, + CMake option
+`GGML_HIP_GFX906_MAX_ILP` default ON for gfx906; source verified identical to the measured arm, flag on the same 194
+HIP compile commands). Records `survey/combo-*.md`. **Round 2's base is now `82868aa3b`** (re-gate before it runs).
 
 *Statistics finding (round 1, before round 2):* the single-user axis uses the median, whose exact 5-vs-5 floor is
 **p = 12/252 = 0.0476**, not the 0.0079 of section 4 (that is the mean's). Under BH q<0.10 over 28 tests a median
@@ -247,7 +257,7 @@ GitHub releases mark milestones only.
 |---|---|
 | **code (the only repo)** | `github.com/exabit-io/mx-llama.cpp` — `master` (the build), `gfx906-single/-multi`, `gfx906-candidates`, `merge-v0.5.0` (pure substrate, PR #17); local clone `/root/exabit-llama.cpp`, remote `exabit-mx` |
 | PR to mxxm-t | https://github.com/mxxm-t/mx-llama.cpp/pull/17 |
-| installed build | `/opt/llama.cpp-mx` -> `/opt/llama.cpp-mx-a23e12438` (master, ROCm 10.0, RCCL + FA_QUANTS=all, installed 2026-09-24); `settings/launch.sh` defaults to it |
+| installed build | `/opt/llama.cpp-mx` -> `/opt/llama.cpp-mx-a23e12438` (round-0 master, ROCm 10.0, RCCL + FA_QUANTS=all, installed 2026-09-24; NOT yet the round-1b master `82868aa3b`); `settings/launch.sh` defaults to it |
 | plans, docs, data, records | `github.com/exabit-io/llama.cpp-gfx906-tuning` (this repo) |
 | retired code history | `github.com/exabit-io/llama.cpp` (archived 2026-09-24, read-only) |
 | run scripts | `/root/night-20260919/binrun.sh`, `binstats.py`, `fncompat.sh`, `gate-v050.sh`, `pr-test.sh` (copies in `tools/binrun/`) |

@@ -1,0 +1,6 @@
+2026-09-25T18:45:33+00:00 [fnc] waiting for binrun pid 3894642
+2026-09-25T23:58:19+00:00 [fnc] binrun finished; starting compatibility gate
+2026-09-26T00:02:40+00:00 [fnc] base: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-26T00:04:12+00:00 [fnc] combo-both: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-26T00:08:13+00:00 [fnc] combo-multi: PASS (rc=0, 358 bytes, text identical vs base)
+2026-09-26T00:08:13+00:00 [fnc] === FN COMPAT DONE ===

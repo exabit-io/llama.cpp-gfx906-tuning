@@ -1,0 +1,71 @@
+2026-09-25T18:45:30+00:00 [bin] round r1b: arms from /root/night-20260919/binrun-arms-r1b.txt, n=5 multi / 6 single
+2026-09-25T18:45:30+00:00 [bin] compile base (master head)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-25T18:45:47+00:00 [bin]   base: ready
+2026-09-25T18:45:47+00:00 [bin] compile combo-both (1d5918cce 91fdc0277 8a4a9b616 8c99f4af7 c7ee50145 bf65d955c d35a9c793 49c6ca3b3 c339a4087)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-25T18:47:32+00:00 [bin]   combo-both: ready
+2026-09-25T18:47:32+00:00 [bin] compile combo-multi (1d5918cce 91fdc0277 8a4a9b616 8c99f4af7 c7ee50145 bf65d955c d35a9c793 49c6ca3b3 c339a4087 4d6246ad7 7af0ac291 df4c199b2 3a49b322e)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-25T18:49:37+00:00 [bin]   combo-multi: ready
+OK    3 arms share every code-affecting build option
+2026-09-25T18:49:37+00:00 [bin] arms comparable: base combo-both combo-multi
+2026-09-25T18:49:37+00:00 [bin] correctness gate passed: test-backend-ops PASS, ppl 5.6153, Flash-Next generates
+2026-09-25T18:49:52+00:00 [bin] === axis multi: 3 arms x 5 blocks
+2026-09-25T18:49:52+00:00 [bin] block 1 order: base combo-multi combo-both
+2026-09-25T18:56:34+00:00 [bin] multi base b1: decode 22.4640, prefill 759.7
+2026-09-25T19:03:10+00:00 [bin] multi combo-multi b1: decode 23.0563, prefill 771.9
+2026-09-25T19:09:45+00:00 [bin] multi combo-both b1: decode 22.9452, prefill 772.0
+2026-09-25T19:09:45+00:00 [bin] block 2 order: combo-multi base combo-both
+2026-09-25T19:16:21+00:00 [bin] multi combo-multi b2: decode 23.0387, prefill 772.1
+2026-09-25T19:23:02+00:00 [bin] multi base b2: decode 22.4907, prefill 759.8
+2026-09-25T19:29:38+00:00 [bin] multi combo-both b2: decode 22.9437, prefill 772.0
+2026-09-25T19:29:38+00:00 [bin] block 3 order: combo-multi combo-both base
+2026-09-25T19:36:14+00:00 [bin] multi combo-multi b3: decode 23.0423, prefill 771.7
+2026-09-25T19:42:50+00:00 [bin] multi combo-both b3: decode 22.9257, prefill 771.5
+2026-09-25T19:49:32+00:00 [bin] multi base b3: decode 22.4719, prefill 759.4
+2026-09-25T19:49:32+00:00 [bin] block 4 order: combo-both combo-multi base
+2026-09-25T19:56:08+00:00 [bin] multi combo-both b4: decode 22.9073, prefill 771.8
+2026-09-25T20:02:43+00:00 [bin] multi combo-multi b4: decode 23.0797, prefill 771.9
+2026-09-25T20:09:25+00:00 [bin] multi base b4: decode 22.4926, prefill 759.7
+2026-09-25T20:09:25+00:00 [bin] block 5 order: combo-both base combo-multi
+2026-09-25T20:16:01+00:00 [bin] multi combo-both b5: decode 22.9237, prefill 771.6
+2026-09-25T20:22:42+00:00 [bin] multi base b5: decode 22.5367, prefill 759.7
+2026-09-25T20:29:18+00:00 [bin] multi combo-multi b5: decode 23.0839, prefill 772.0
+2026-09-25T20:29:18+00:00 [bin] === axis multi DONE
+2026-09-25T20:29:18+00:00 [bin] === axis single: 3 arms x 6 blocks
+2026-09-25T20:29:18+00:00 [bin] block 1 order: combo-both base combo-multi
+2026-09-25T20:40:51+00:00 [bin] single combo-both b1: decode 31.6626, prefill 402.3
+2026-09-25T20:52:32+00:00 [bin] single base b1: decode 30.9272, prefill 398.4
+2026-09-25T21:04:06+00:00 [bin] single combo-multi b1: decode 31.7038, prefill 401.9
+2026-09-25T21:04:06+00:00 [bin] block 2 order: base combo-both combo-multi
+2026-09-25T21:15:47+00:00 [bin] single base b2: decode 30.8871, prefill 397.9
+2026-09-25T21:27:22+00:00 [bin] single combo-both b2: decode 31.6059, prefill 401.7
+2026-09-25T21:38:56+00:00 [bin] single combo-multi b2: decode 31.7038, prefill 401.7
+2026-09-25T21:38:56+00:00 [bin] block 3 order: base combo-multi combo-both
+2026-09-25T21:50:37+00:00 [bin] single base b3: decode 30.9422, prefill 398.1
+2026-09-25T22:02:12+00:00 [bin] single combo-multi b3: decode 31.7205, prefill 401.7
+2026-09-25T22:13:46+00:00 [bin] single combo-both b3: decode 31.6206, prefill 401.6
+2026-09-25T22:13:46+00:00 [bin] block 4 order: combo-multi base combo-both
+2026-09-25T22:25:21+00:00 [bin] single combo-multi b4: decode 31.6675, prefill 401.6
+2026-09-25T22:37:02+00:00 [bin] single base b4: decode 30.8918, prefill 398.0
+2026-09-25T22:48:36+00:00 [bin] single combo-both b4: decode 31.5864, prefill 401.8
+2026-09-25T22:48:36+00:00 [bin] block 5 order: base combo-multi combo-both
+2026-09-25T23:00:18+00:00 [bin] single base b5: decode 30.9300, prefill 397.9
+2026-09-25T23:11:52+00:00 [bin] single combo-multi b5: decode 31.6802, prefill 401.9
+2026-09-25T23:23:26+00:00 [bin] single combo-both b5: decode 31.6137, prefill 401.6
+2026-09-25T23:23:26+00:00 [bin] block 6 order: base combo-both combo-multi
+2026-09-25T23:35:07+00:00 [bin] single base b6: decode 30.8350, prefill 397.8
+2026-09-25T23:46:42+00:00 [bin] single combo-both b6: decode 31.6587, prefill 401.7
+2026-09-25T23:58:15+00:00 [bin] single combo-multi b6: decode 31.7028, prefill 402.1
+2026-09-25T23:58:15+00:00 [bin] === axis single DONE
+2026-09-25T23:58:16+00:00 [bin] === BINRUN DONE ===

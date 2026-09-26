@@ -1,0 +1,39 @@
+0.00.156.702 I llama_completion: llama backend init
+0.00.156.729 I llama_completion: load the model and apply lora adapter, if any
+0.00.156.876 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPLIT_MODE_TENSOR, abort
+0.01.718.524 W operator(): LLAMA_PLE_SHARD=1, sharding the PLE gather table across the TP group
+[shexp-split] splitting shared experts across the TP group (LLAMA_SHEXP_SPLIT=0 to disable)
+1.50.929.217 W q8_repack: repacking q8_0 tensors on device 0 (first: blk.46.ffn_down_exps.weight, 178257920 bytes)
+1.52.069.378 W q8_repack: repacking q8_0 tensors on device 1 (first: blk.46.ffn_down_exps.weight, 178257920 bytes)
+1.52.909.555 W q8_repack: repacking q8_0 tensors on device 2 (first: blk.46.ffn_down_exps.weight, 356515840 bytes)
+1.53.892.737 W q8_repack: repacking q8_0 tensors on device 3 (first: blk.46.ffn_down_exps.weight, 178257920 bytes)
+1.58.143.394 W q8_repack: repacking q5_1 tensors on device 0 (first: blk.41.ffn_down_exps.weight, 125829120 bytes)
+1.58.772.880 W q8_repack: repacking q5_1 tensors on device 1 (first: blk.41.ffn_down_exps.weight, 125829120 bytes)
+1.59.391.614 W q8_repack: repacking q5_1 tensors on device 2 (first: blk.41.ffn_down_exps.weight, 251658240 bytes)
+1.59.956.579 W q8_repack: repacking q5_1 tensors on device 3 (first: blk.41.ffn_down_exps.weight, 125829120 bytes)
+2.11.176.187 W q8_repack: repacking q4_K tensors on device 0 (first: blk.41.ffn_gate_exps.weight, 94371840 bytes)
+2.11.191.736 W q8_repack: repacking q4_K tensors on device 1 (first: blk.41.ffn_gate_exps.weight, 94371840 bytes)
+2.11.207.118 W q8_repack: repacking q4_K tensors on device 2 (first: blk.41.ffn_gate_exps.weight, 188743680 bytes)
+2.11.237.361 W q8_repack: repacking q4_K tensors on device 3 (first: blk.41.ffn_gate_exps.weight, 94371840 bytes)
+2.38.370.549 I cmn          init: llama threadpool init, n_threads = 28
+2.38.386.540 I 
+2.38.386.695 I system_info: n_threads = 28 (n_threads_batch = 28) / 56 | ROCm : NO_VMM = 1 | FA_QUANTS = all | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | AVX512 = 1 | AVX512_VNNI = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+2.38.386.705 I 
+2.38.386.917 I sampler seed: 0
+2.38.386.947 I sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+	top_k = 1, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+2.38.386.961 I sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> dist 
+2.38.386.962 I generate: n_ctx = 4096, n_batch = 2048, n_predict = 64, n_keep = 0
+2.38.386.963 I 
+2.42.369.665 W [repack-moe-fusion] type=q4_K cols=1 fused up/gate mat-vec engaged
+3.35.657.552 I common_perf_print:    sampling time =     118.77 ms
+3.35.657.555 I common_perf_print:    samplers time =      48.94 ms /    75 tokens
+3.35.657.562 I common_perf_print:        load time =    4414.98 ms
+3.35.657.566 I common_perf_print: prompt eval time =    4414.45 ms /    11 tokens (  401.31 ms per token,     2.49 tokens per second)
+3.35.657.570 I common_perf_print:        eval time =   52730.17 ms /    63 runs   (  836.99 ms per token,     1.19 tokens per second)
+3.35.657.573 I common_perf_print:       total time =   57271.03 ms /    74 tokens
+3.35.657.575 I common_perf_print: unaccounted time =       7.64 ms /   0.0 %      (total - sampling - prompt eval - eval) / (total)
+3.35.657.576 I common_perf_print:    graphs reused =         62

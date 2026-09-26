@@ -1,0 +1,13 @@
+patchset               axis   metric   ref              n       ref val   arm val   effect       p       q
+combo-both             multi  decode   base             5        22.491    22.929   +1.95%  0.0079  0.0130
+combo-both             multi  prefill  base             5       759.680   771.787   +1.59%  0.0079  0.0130
+combo-both             single decode   base             6        30.909    31.617   +2.29%  0.0130  0.0130
+combo-both             single prefill  base             6       397.978   401.695   +0.93%  0.0130  0.0130
+combo-multi            multi  decode   base             5        22.491    23.060   +2.53%  0.0079  0.0130
+combo-multi            multi  prefill  base             5       759.680   771.938   +1.61%  0.0079  0.0130
+combo-multi            single decode   base             6        30.909    31.703   +2.57%  0.0130  0.0130
+combo-multi            single prefill  base             6       397.978   401.798   +0.96%  0.0130  0.0130
+
+BINS
+  combo-both(02-04,07,08,10,12,23,28+max-ilp) multi=neutral    single=improves   -> single-user-only
+  combo-multi(combo-both+mmvq 01,05,09,15) multi=improves   single=improves   -> both
