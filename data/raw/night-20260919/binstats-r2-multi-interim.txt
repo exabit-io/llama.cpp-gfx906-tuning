@@ -1,0 +1,43 @@
+patchset               axis   metric   ref              n       ref val   arm val   effect       p       q
+no-q8_1-cache          multi  decode   base             5        23.014    22.649   -1.59%  0.0079  0.0508
+no-q8_1-cache          multi  prefill  base             5       771.386   771.345   -0.01%  0.8810  1.0000
+no-q8_1-cache          single decode   base             (0, 0)  INCOMPLETE
+no-q8_1-cache          single prefill  base             (0, 0)  INCOMPLETE
+no-token-graph         multi  decode   base             5        23.014    22.684   -1.43%  0.0079  0.0508
+no-token-graph         multi  prefill  base             5       771.386   771.428   +0.01%  0.8968  1.0000
+no-token-graph         single decode   base             (0, 0)  INCOMPLETE
+no-token-graph         single prefill  base             (0, 0)  INCOMPLETE
+no-parallel-dispatch   multi  decode   no-token-graph   5        22.684    22.556   -0.57%  0.0079  0.0508
+no-parallel-dispatch   multi  prefill  no-token-graph   5       771.428   770.931   -0.06%  0.3651  1.0000
+no-parallel-dispatch   single decode   no-token-graph   (0, 0)  INCOMPLETE
+no-parallel-dispatch   single prefill  no-token-graph   (0, 0)  INCOMPLETE
+no-layout-cache        multi  decode   base             5        23.014    23.019   +0.02%  0.7857  1.0000
+no-layout-cache        multi  prefill  base             5       771.386   771.640   +0.03%  0.4127  1.0000
+no-layout-cache        single decode   base             (0, 1)  INCOMPLETE
+no-layout-cache        single prefill  base             (0, 1)  INCOMPLETE
+no-gdn-chunked         multi  decode   base             5        23.014    23.037   +0.10%  0.1032  0.5503
+no-gdn-chunked         multi  prefill  base             5       771.386   762.392   -1.17%  0.0079  0.0508
+no-gdn-chunked         single decode   base             (0, 0)  INCOMPLETE
+no-gdn-chunked         single prefill  base             (0, 0)  INCOMPLETE
+revert-input-staging   multi  decode   base             5        23.014    23.025   +0.05%  0.4921  1.0000
+revert-input-staging   multi  prefill  base             5       771.386   769.534   -0.24%  0.0079  0.0508
+revert-input-staging   single decode   base             (0, 0)  INCOMPLETE
+revert-input-staging   single prefill  base             (0, 0)  INCOMPLETE
+no-mmq-kernel-tweaks   multi  decode   base             5        23.014    23.028   +0.06%  0.3730  1.0000
+no-mmq-kernel-tweaks   multi  prefill  base             5       771.386   771.755   +0.05%  0.2381  1.0000
+no-mmq-kernel-tweaks   single decode   base             (0, 1)  INCOMPLETE
+no-mmq-kernel-tweaks   single prefill  base             (0, 1)  INCOMPLETE
+mmq-config-reachable   multi  decode   base             5        23.014    23.015   +0.00%  0.9683  1.0000
+mmq-config-reachable   multi  prefill  base             5       771.386   771.478   +0.01%  0.8175  1.0000
+mmq-config-reachable   single decode   base             (0, 0)  INCOMPLETE
+mmq-config-reachable   single prefill  base             (0, 0)  INCOMPLETE
+
+BINS
+  no-q8_1-cache                  multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)
+  no-token-graph                 multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)
+  no-parallel-dispatch           multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)
+  no-layout-cache                multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)
+  no-gdn-chunked                 multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)
+  revert-input-staging           multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)
+  no-mmq-kernel-tweaks           multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)
+  mmq-config-reachable           multi=neutral    single=incomplete -> NOT BINNED (multi=neutral, single=incomplete)

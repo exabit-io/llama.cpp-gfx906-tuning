@@ -1,0 +1,115 @@
+diff --git a/ggml/CMakeLists.txt b/ggml/CMakeLists.txt
+index 661c540ac..be6d9027e 100644
+--- a/ggml/CMakeLists.txt
++++ b/ggml/CMakeLists.txt
+@@ -185,7 +185,7 @@ set(GGML_CPU_ARM_ARCH        "" CACHE STRING "ggml: CPU architecture for ARM")
+ set(GGML_CPU_POWERPC_CPUTYPE "" CACHE STRING "ggml: CPU type for PowerPC")
+ 
+ # ggml core
+-set(GGML_SCHED_MAX_COPIES  "16" CACHE STRING "ggml: max input copies for pipeline parallelism")
++set(GGML_SCHED_MAX_COPIES  "5" CACHE STRING "ggml: max input copies for pipeline parallelism")
+ set(GGML_SCHED_MAX_SPLIT_INPUTS "64" CACHE STRING "ggml: max inputs per graph split")
+ option(GGML_CPU                             "ggml: enable CPU backend"                        ON)
+ option(GGML_SCHED_NO_REALLOC                "ggml: disallow reallocations in ggml-alloc (for debugging)" OFF)
+diff --git a/ggml/src/ggml-backend.cpp b/ggml/src/ggml-backend.cpp
+index 66ce433d1..ca40fe6a8 100644
+--- a/ggml/src/ggml-backend.cpp
++++ b/ggml/src/ggml-backend.cpp
+@@ -783,7 +783,7 @@ static bool ggml_is_view_op(enum ggml_op op) {
+ #endif
+ 
+ #ifndef GGML_SCHED_MAX_COPIES
+-#define GGML_SCHED_MAX_COPIES 16
++#define GGML_SCHED_MAX_COPIES 4
+ #endif
+ 
+ struct ggml_backend_sched_split {
+@@ -924,24 +924,7 @@ static int ggml_backend_sched_default_n_copies(ggml_backend_t * backends, int n_
+         return 1;
+     }
+ 
+-    // The ring depth bounds how many ubatches can be in flight, and therefore
+-    // how many pipeline stages can compute at once: a layer pipeline over N
+-    // GPUs needs N slots to keep every stage busy, and the fixed default of 4
+-    // left half of an 8-GPU pipeline idle. Every slot costs another copy of
+-    // the graph inputs, so GGML_SCHED_N_COPIES overrides this either way.
+-    static const size_t n_copies_env = []() {
+-        const char * env = getenv("GGML_SCHED_N_COPIES");
+-        return env != nullptr ? (size_t) std::max(1, atoi(env)) : (size_t) 0;
+-    }();
+-
+-    size_t n_devices = 0;
+-    for (int i = 0; i < n_backends; i++) {
+-        if (ggml_backend_dev_type(ggml_backend_get_device(backends[i])) == GGML_BACKEND_DEVICE_TYPE_GPU) {
+-            n_devices++;
+-        }
+-    }
+-
+-    size_t n_copies = n_copies_env != 0 ? n_copies_env : std::max<size_t>(4, n_devices);
++    size_t n_copies = std::min<size_t>(4, GGML_SCHED_MAX_COPIES);
+     for (int i = 0; i < n_backends; i++) {
+         if (ggml_backend_is_meta(backends[i])) {
+             n_copies = std::max(n_copies, ggml_backend_meta_n_stages(backends[i]));
+@@ -1072,17 +1055,6 @@ static ggml_backend_sched_input_staging * ggml_backend_sched_get_input_staging(
+     }
+ 
+     if (slot->buffer == nullptr || slot->size < size) {
+-        // Grow in geometric steps rather than to the exact size. Pinned host
+-        // allocation and free synchronize the device, so a slot that grows by
+-        // one ubatch worth of mask on every prefill step drains the pipeline
+-        // once per step. Rounding up amortizes that to O(log n) reallocations
+-        // over a prefill: 16k-context tps4 prefill 380 -> 445 t/s.
+-        size_t alloc_size = 1024*1024;
+-        while (alloc_size < size) {
+-            alloc_size *= 2;
+-        }
+-        size = alloc_size;
+-
+         ggml_backend_buffer_free(slot->buffer);
+ 
+         ggml_backend_dev_t dev = ggml_backend_get_device(sched->backends[backend_id]);
+@@ -1750,44 +1722,6 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
+                 }
+ 
+                 if (src_backend_id != cur_backend_id && !ggml_backend_sched_buffer_supported(sched, src, cur_backend_id)) {
+-                    // a full-size view (a reshape of a layer output) is staged as a view of its source's copy, so the two cross once
+-                    static const bool share_view_inputs = [] {
+-                        const char * e = getenv("GGML_SCHED_SHARE_VIEW_INPUTS");
+-                        return e == NULL || atoi(e) != 0;
+-                    }();
+-                    struct ggml_tensor * root = src->view_src;
+-                    const bool share_root = share_view_inputs && root != NULL && tensor_id_copy(src_id, cur_backend_id, 0) == NULL &&
+-                        src->view_offs == 0 && ggml_nbytes(src) == ggml_nbytes(root) && ggml_is_contiguous(src) && ggml_is_contiguous(root) &&
+-                        !(root->flags & GGML_TENSOR_FLAG_INPUT) && sched->hv_tensor_backend_ids[hash_id(root)] == src_backend_id &&
+-                        !ggml_backend_sched_buffer_supported(sched, root, cur_backend_id);
+-                    if (share_root) {
+-                        const size_t root_id = hash_id(root);
+-                        ggml_backend_t backend = sched->backends[cur_backend_id];
+-                        if (tensor_id_copy(root_id, cur_backend_id, 0) == NULL) {
+-                            for (int c = 0; c < sched->n_copies; c++) {
+-                                struct ggml_tensor * root_copy = ggml_dup_tensor_layout(sched->ctx, root);
+-                                ggml_format_name(root_copy, "%s#%s#%d", ggml_backend_name(backend), root->name, c);
+-                                if (sched->n_copies > 1) {
+-                                    ggml_set_input(root_copy);
+-                                    ggml_set_output(root_copy); // prevent ggml-alloc from overwriting the tensor
+-                                }
+-                                tensor_id_copy(root_id, cur_backend_id, c) = root_copy;
+-                                SET_CAUSE(root_copy, "4.cpy");
+-                            }
+-                            int n_inputs = split->n_inputs++;
+-                            if (n_inputs >= split->inputs_capacity) {
+-                                ggml_backend_sched_split_inputs_grow(split);
+-                            }
+-                            split->inputs[n_inputs] = root;
+-                        }
+-                        for (int c = 0; c < sched->n_copies; c++) {
+-                            struct ggml_tensor * tensor_copy = ggml_view_4d(sched->ctx, tensor_id_copy(root_id, cur_backend_id, c),
+-                                src->ne[0], src->ne[1], src->ne[2], src->ne[3], src->nb[1], src->nb[2], src->nb[3], 0);
+-                            ggml_format_name(tensor_copy, "%s#%s#%d", ggml_backend_name(backend), src->name, c);
+-                            tensor_id_copy(src_id, cur_backend_id, c) = tensor_copy;
+-                            SET_CAUSE(tensor_copy, "4.cpy");
+-                        }
+-                    }
+                     // create a copy of the input in the split's backend
+                     if (tensor_id_copy(src_id, cur_backend_id, 0) == NULL) {
+                         ggml_backend_t backend = sched->backends[cur_backend_id];

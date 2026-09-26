@@ -1,0 +1,114 @@
+2026-09-26T10:42:02+00:00 [bin] round r2: arms from /root/night-20260919/binrun-arms-r2.txt, n=5 multi / 6 single
+2026-09-26T10:42:02+00:00 [bin] compile base (master head)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:42:20+00:00 [bin]   base: ready
+2026-09-26T10:42:20+00:00 [bin] compile no-q8_1-cache (master head) runtime env: GGML_CUDA_Q8_1_CACHE=0
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:42:44+00:00 [bin]   no-q8_1-cache: ready
+2026-09-26T10:42:44+00:00 [bin] compile no-token-graph (master head) runtime env: GGML_META_TOKEN_GRAPH=0
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:43:07+00:00 [bin]   no-token-graph: ready
+2026-09-26T10:43:07+00:00 [bin] compile no-parallel-dispatch (master head) runtime env: GGML_META_PARALLEL_DISPATCH=0
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:43:30+00:00 [bin]   no-parallel-dispatch: ready
+2026-09-26T10:43:30+00:00 [bin] compile no-layout-cache (master head) runtime env: GGML_GALLOC_LAYOUT_CACHE=0
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:43:54+00:00 [bin]   no-layout-cache: ready
+2026-09-26T10:43:54+00:00 [bin] compile no-gdn-chunked (f62654251)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:44:19+00:00 [bin]   no-gdn-chunked: ready
+2026-09-26T10:44:19+00:00 [bin] compile revert-input-staging (-20af9a480 -c7069d868 -38e266b6a)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:44:50+00:00 [bin]   revert-input-staging: ready
+2026-09-26T10:44:50+00:00 [bin] compile no-mmq-kernel-tweaks (2032a34e6)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:47:00+00:00 [bin]   no-mmq-kernel-tweaks: ready
+2026-09-26T10:47:00+00:00 [bin] compile mmq-config-reachable (a22eb39ef)
+  OK        RCCL linked (18 symbols) — R3.11 satisfied
+  OK        CMakeCache GGML_HIP_RCCL=ON
+  OK        FA_QUANTS=all — every K/V combination compiled (R3.11)
+  OK        AR size gate knob compiled in
+2026-09-26T10:49:10+00:00 [bin]   mmq-config-reachable: ready
+OK    9 arms share every code-affecting build option
+2026-09-26T10:49:10+00:00 [bin] arms comparable: base no-q8_1-cache no-token-graph no-parallel-dispatch no-layout-cache no-gdn-chunked revert-input-staging no-mmq-kernel-tweaks mmq-config-reachable
+2026-09-26T10:49:10+00:00 [bin] correctness gate passed: test-backend-ops PASS, ppl 5.6264, Flash-Next generates
+2026-09-26T10:49:25+00:00 [bin] === axis multi: 9 arms x 5 blocks
+2026-09-26T10:49:25+00:00 [bin] block 1 order: no-q8_1-cache mmq-config-reachable no-mmq-kernel-tweaks base no-token-graph no-parallel-dispatch no-gdn-chunked revert-input-staging no-layout-cache
+2026-09-26T10:56:02+00:00 [bin] multi no-q8_1-cache b1: decode 22.6113, prefill 771.0
+2026-09-26T11:02:38+00:00 [bin] multi mmq-config-reachable b1: decode 23.0366, prefill 771.2
+2026-09-26T11:09:14+00:00 [bin] multi no-mmq-kernel-tweaks b1: decode 22.9911, prefill 771.7
+2026-09-26T11:15:49+00:00 [bin] multi base b1: decode 22.9947, prefill 771.1
+2026-09-26T11:22:26+00:00 [bin] multi no-token-graph b1: decode 22.6870, prefill 772.0
+2026-09-26T11:29:02+00:00 [bin] multi no-parallel-dispatch b1: decode 22.5859, prefill 772.2
+2026-09-26T11:35:42+00:00 [bin] multi no-gdn-chunked b1: decode 23.0159, prefill 762.8
+2026-09-26T11:42:18+00:00 [bin] multi revert-input-staging b1: decode 23.0273, prefill 769.3
+2026-09-26T11:48:54+00:00 [bin] multi no-layout-cache b1: decode 23.0615, prefill 772.0
+2026-09-26T11:48:54+00:00 [bin] block 2 order: no-mmq-kernel-tweaks no-q8_1-cache no-token-graph no-layout-cache mmq-config-reachable no-parallel-dispatch no-gdn-chunked base revert-input-staging
+2026-09-26T11:55:29+00:00 [bin] multi no-mmq-kernel-tweaks b2: decode 23.0423, prefill 772.4
+2026-09-26T12:02:05+00:00 [bin] multi no-q8_1-cache b2: decode 22.6534, prefill 772.3
+2026-09-26T12:08:41+00:00 [bin] multi no-token-graph b2: decode 22.6779, prefill 772.0
+2026-09-26T12:15:16+00:00 [bin] multi no-layout-cache b2: decode 23.0169, prefill 772.4
+2026-09-26T12:21:52+00:00 [bin] multi mmq-config-reachable b2: decode 23.0174, prefill 771.0
+2026-09-26T12:28:29+00:00 [bin] multi no-parallel-dispatch b2: decode 22.5630, prefill 771.0
+2026-09-26T12:35:09+00:00 [bin] multi no-gdn-chunked b2: decode 23.0599, prefill 762.4
+2026-09-26T12:41:44+00:00 [bin] multi base b2: decode 23.0330, prefill 771.8
+2026-09-26T12:48:20+00:00 [bin] multi revert-input-staging b2: decode 23.0620, prefill 770.3
+2026-09-26T12:48:20+00:00 [bin] block 3 order: revert-input-staging no-token-graph mmq-config-reachable no-q8_1-cache no-parallel-dispatch no-mmq-kernel-tweaks no-layout-cache no-gdn-chunked base
+2026-09-26T12:54:56+00:00 [bin] multi revert-input-staging b3: decode 23.0387, prefill 770.1
+2026-09-26T13:01:33+00:00 [bin] multi no-token-graph b3: decode 22.6830, prefill 770.8
+2026-09-26T13:08:09+00:00 [bin] multi mmq-config-reachable b3: decode 23.0200, prefill 771.6
+2026-09-26T13:14:45+00:00 [bin] multi no-q8_1-cache b3: decode 22.6579, prefill 771.2
+2026-09-26T13:21:22+00:00 [bin] multi no-parallel-dispatch b3: decode 22.5645, prefill 770.7
+2026-09-26T13:27:58+00:00 [bin] multi no-mmq-kernel-tweaks b3: decode 23.0402, prefill 771.4
+2026-09-26T13:34:34+00:00 [bin] multi no-layout-cache b3: decode 23.0361, prefill 771.6
+2026-09-26T13:41:14+00:00 [bin] multi no-gdn-chunked b3: decode 23.0516, prefill 762.2
+2026-09-26T13:47:49+00:00 [bin] multi base b3: decode 23.0143, prefill 771.3
+2026-09-26T13:47:49+00:00 [bin] block 4 order: base no-layout-cache revert-input-staging no-mmq-kernel-tweaks no-gdn-chunked mmq-config-reachable no-token-graph no-q8_1-cache no-parallel-dispatch
+2026-09-26T13:54:25+00:00 [bin] multi base b4: decode 23.0149, prefill 771.5
+2026-09-26T14:01:01+00:00 [bin] multi no-layout-cache b4: decode 23.0097, prefill 771.3
+2026-09-26T14:07:37+00:00 [bin] multi revert-input-staging b4: decode 23.0180, prefill 769.6
+2026-09-26T14:14:13+00:00 [bin] multi no-mmq-kernel-tweaks b4: decode 23.0631, prefill 772.3
+2026-09-26T14:20:52+00:00 [bin] multi no-gdn-chunked b4: decode 23.0599, prefill 762.8
+2026-09-26T14:27:27+00:00 [bin] multi mmq-config-reachable b4: decode 23.0268, prefill 772.5
+2026-09-26T14:34:03+00:00 [bin] multi no-token-graph b4: decode 22.6845, prefill 771.8
+2026-09-26T14:40:40+00:00 [bin] multi no-q8_1-cache b4: decode 22.6769, prefill 771.0
+2026-09-26T14:47:17+00:00 [bin] multi no-parallel-dispatch b4: decode 22.5531, prefill 770.4
+2026-09-26T14:47:17+00:00 [bin] block 5 order: no-mmq-kernel-tweaks no-parallel-dispatch mmq-config-reachable base no-token-graph no-gdn-chunked no-layout-cache revert-input-staging no-q8_1-cache
+2026-09-26T14:53:52+00:00 [bin] multi no-mmq-kernel-tweaks b5: decode 23.0050, prefill 771.1
+2026-09-26T15:00:29+00:00 [bin] multi no-parallel-dispatch b5: decode 22.5134, prefill 770.3
+2026-09-26T15:07:05+00:00 [bin] multi mmq-config-reachable b5: decode 22.9730, prefill 771.1
+2026-09-26T15:13:41+00:00 [bin] multi base b5: decode 23.0143, prefill 771.2
+2026-09-26T15:20:17+00:00 [bin] multi no-token-graph b5: decode 22.6895, prefill 770.5
+2026-09-26T15:26:57+00:00 [bin] multi no-gdn-chunked b5: decode 22.9962, prefill 761.7
+2026-09-26T15:33:34+00:00 [bin] multi no-layout-cache b5: decode 22.9705, prefill 770.9
+2026-09-26T15:40:11+00:00 [bin] multi revert-input-staging b5: decode 22.9803, prefill 768.4
+2026-09-26T15:46:47+00:00 [bin] multi no-q8_1-cache b5: decode 22.6464, prefill 771.3
+2026-09-26T15:46:47+00:00 [bin] === axis multi DONE
+2026-09-26T15:46:47+00:00 [bin] === axis single: 9 arms x 6 blocks
+2026-09-26T15:46:48+00:00 [bin] block 1 order: no-mmq-kernel-tweaks no-layout-cache no-token-graph no-parallel-dispatch revert-input-staging base no-gdn-chunked no-q8_1-cache mmq-config-reachable
+2026-09-26T15:58:22+00:00 [bin] single no-mmq-kernel-tweaks b1: decode 31.6724, prefill 401.7
+2026-09-26T16:09:57+00:00 [bin] single no-layout-cache b1: decode 31.6930, prefill 401.6

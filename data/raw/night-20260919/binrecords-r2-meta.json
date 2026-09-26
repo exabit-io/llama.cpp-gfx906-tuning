@@ -1,0 +1,68 @@
+{
+ "BASE": "master 82868aa3b",
+ "WHEN": "2026-09-26/27",
+ "KERNEL": "7.0.0-34-generic #34~24.04.1+barfix2",
+ "INVERT": [
+  "no-q8_1-cache",
+  "no-token-graph",
+  "no-parallel-dispatch",
+  "no-layout-cache",
+  "no-gdn-chunked",
+  "revert-input-staging",
+  "no-mmq-kernel-tweaks"
+ ],
+ "NAME": {
+  "no-q8_1-cache": "q8_1-activation-cache",
+  "no-token-graph": "meta-token-graph",
+  "no-parallel-dispatch": "meta-concurrent-lanes",
+  "no-layout-cache": "alloc-layout-cache",
+  "no-gdn-chunked": "gdn-chunked-prefill",
+  "revert-input-staging": "sched-input-staging",
+  "no-mmq-kernel-tweaks": "gfx906-mmq-kernel-tweaks",
+  "mmq-config-reachable": "gfx906-mmq-config-reachable"
+ },
+ "SRC": {
+  "no-q8_1-cache": "https://github.com/mxxm-t/mx-llama.cpp",
+  "no-token-graph": "https://github.com/mxxm-t/mx-llama.cpp",
+  "no-parallel-dispatch": "https://github.com/mxxm-t/mx-llama.cpp",
+  "no-layout-cache": "https://github.com/mxxm-t/mx-llama.cpp",
+  "no-gdn-chunked": "https://github.com/mxxm-t/mx-llama.cpp",
+  "revert-input-staging": "https://github.com/mxxm-t/mx-llama.cpp",
+  "no-mmq-kernel-tweaks": "https://github.com/mxxm-t/mx-llama.cpp",
+  "mmq-config-reachable": "https://github.com/exabit-io/mx-llama.cpp"
+ },
+ "CLAIM": {
+  "no-q8_1-cache": [
+   "substrate 775a8051f cfea4a1f6 0a694d8ad; removed via GGML_CUDA_Q8_1_CACHE=0",
+   "reuse the quantized Q8_1 activation across matmuls in one graph (incl. the q8_repack path)"
+  ],
+  "no-token-graph": [
+   "substrate 751b6114c a3ab67c89 693375a1f a355590d2; removed via GGML_META_TOKEN_GRAPH=0",
+   "record a whole decode token into one graph per lane and replay it"
+  ],
+  "no-parallel-dispatch": [
+   "substrate 5d9efc8ca; removed via GGML_META_PARALLEL_DISPATCH=0, measured on its increment over the token-graph-off arm",
+   "issue the meta backend's subgraph lanes concurrently"
+  ],
+  "no-layout-cache": [
+   "substrate 6d2012d8a 42b3cfb63 687ef0194 d5047d6aa; removed via GGML_GALLOC_LAYOUT_CACHE=0",
+   "cache and restore graph-allocator layouts"
+  ],
+  "no-gdn-chunked": [
+   "substrate 55b275262 1248e5e37 4405b44cd 0e3249e9d; removed via switch-off patch f62654251 (reverts conflict)",
+   "chunked gated-delta-net prefill kernel (upstream v0.5.0 has only the serial one)"
+  ],
+  "revert-input-staging": [
+   "substrate 38e266b6a c7069d868 20af9a480; removed via git revert",
+   "sched: geometric input staging buffers, input ring sized to the pipeline width, view inputs staged as views"
+  ],
+  "no-mmq-kernel-tweaks": [
+   "substrate 5c4505b5d f1684f76c; removed via switch-off patch 2032a34e6",
+   "gfx906 Q8_0 MMQ tile-load threads-per-row 8 and vec_dot unroll-2"
+  ],
+  "mmq-config-reachable": [
+   "arm patch a22eb39ef on master (ADDITION)",
+   "make the fork's gfx906 Q8_0 MMQ config (2335544ab) reachable again: the v0.5.0 merge left it behind upstream's new GCN dispatch"
+  ]
+ }
+}

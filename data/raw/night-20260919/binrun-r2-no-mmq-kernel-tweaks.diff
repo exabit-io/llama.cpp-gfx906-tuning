@@ -1,0 +1,26 @@
+diff --git a/ggml/src/ggml-cuda/mmq-load-tiles.cuh b/ggml/src/ggml-cuda/mmq-load-tiles.cuh
+index 51be2fdd0..15a5cc5ca 100644
+--- a/ggml/src/ggml-cuda/mmq-load-tiles.cuh
++++ b/ggml/src/ggml-cuda/mmq-load-tiles.cuh
+@@ -485,7 +485,7 @@ template <ggml_type type, int J, bool fallback> static __device__ __forceinline_
+ #endif // defined(AMD_MFMA_AVAILABLE) || defined(TURING_MMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)
+ 
+     // MMQ_ITER_K / (4 * QR8_0) == 64 required. but NV has only 32 threads per warp
+-#if defined(GGML_USE_HIP) && defined(GCN5)
++#if 0 && defined(GGML_USE_HIP) && defined(GCN5) // round-2 removal arm (not for merge)
+     // gfx906 (wave64): fewer threads-per-row load more rows per warp with
+     // better HBM coalescing. Swept 32/16/8/4 - 8 is fastest (~+50% pp512 vs
+     // 32) and the correctness floor - below 8 under-covers QI8_0 and diverges.
+diff --git a/ggml/src/ggml-cuda/mmq-vec-dot.cuh b/ggml/src/ggml-cuda/mmq-vec-dot.cuh
+index f48af43b7..b6c1ffeb7 100644
+--- a/ggml/src/ggml-cuda/mmq-vec-dot.cuh
++++ b/ggml/src/ggml-cuda/mmq-vec-dot.cuh
+@@ -120,7 +120,7 @@ template <ggml_type type, int J, bool fallback> static __device__ __forceinline_
+     const float * y_df = (const float *) y;
+ 
+ // #pragma unroll
+-#if defined(__gfx906__)
++#if 0 && defined(__gfx906__) // round-2 removal arm (not for merge)
+     // gfx906 (Vega20): LDS capacity pins this kernel to one block per CU, so residency
+     // is 2 waves per SIMD and roughly 128 VGPR per wave go unused. Spending some of that
+     // on a partial unroll of k buys fewer address computations per dot product, because

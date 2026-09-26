@@ -1,0 +1,14 @@
+diff --git a/ggml/src/ggml-cuda/gated_delta_net.cu b/ggml/src/ggml-cuda/gated_delta_net.cu
+index 2a6b773fd..21abcd7ca 100644
+--- a/ggml/src/ggml-cuda/gated_delta_net.cu
++++ b/ggml/src/ggml-cuda/gated_delta_net.cu
+@@ -240,7 +240,8 @@ static void launch_gated_delta_net(
+         const char * value = getenv("LLAMA_GDN_NO_CHUNK_SNAPSHOTS");
+         return value != nullptr && atoi(value) != 0;
+     }();
+-    const bool chunk_eligible = n_tokens >= 2 * CS && S_v <= 128;
++    // round-2 removal arm (not for merge): chunked GDN off, every call takes the serial kernel (upstream v0.5.0 behaviour)
++    const bool chunk_eligible = false && n_tokens >= 2 * CS && S_v <= 128;
+ 
+     static bool chunk_snap_announced = false;
+     if constexpr (keep_rs_t) {

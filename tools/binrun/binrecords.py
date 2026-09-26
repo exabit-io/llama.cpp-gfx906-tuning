@@ -5,7 +5,10 @@ Every number comes from binstats.py's own output (effects, p, q, per-axis verdic
 binrun.tsv (run values for median/p10/min); nothing is typed by hand. Refuses to write anything if a
 patchset is NOT BINNED (incomplete or mixed: mixed goes to the lead) or if the compat gate has no row.
 
-usage: binrecords.py BINRUN_TSV FNCOMPAT_TSV OUTDIR ROUND_LABEL WOULDCHANGE_JSON [ROUND_JSON ARMS_FILE]
+usage: binrecords.py BINRUN_TSV FNCOMPAT_TSV OUTDIR ROUND_LABEL WOULDCHANGE_JSON [ROUND_JSON ARMS_FILE [META_JSON]]
+  META_JSON (presentation only, never the rule): NAME/CLAIM/SRC per arm, BASE, WHEN, KERNEL, and INVERT = the removal
+  arms (round 2): their record describes the FEATURE — effect = ref/arm - 1, improves<->regresses swapped, bin recomputed
+  from the swapped per-axis verdicts with binstats.py's own bin logic (pre-registered in r2-preregistration.md).
   ROUND_JSON / ARMS_FILE: a later round's binstats family file and arms file (round 1 when omitted).
   WOULDCHANGE_JSON: {arm: text} — the observation that would overturn each verdict, written after reading the
   results; every arm must have one (a placeholder would pass survey-lint, so this script refuses instead).
@@ -34,6 +37,18 @@ CLAIM = {
     'combo-multi': ('terms 01 02 03 04 05 07 08 09 10 12 15 23 28 + max-ilp flag', 'combo-both plus mmvq-q8-fastpath (round 1b)'),
 }
 SRC = {'max-ilp': 'https://github.com/mixa3607/ML-gfx906'}
+META = json.load(open(sys.argv[8])) if len(sys.argv) > 8 else {}
+NAME.update(META.get('NAME', {})); CLAIM.update({k: tuple(v) for k, v in META.get('CLAIM', {}).items()}); SRC.update(META.get('SRC', {}))
+INV = set(META.get('INVERT', [])); BASEDESC = META.get('BASE', 'master a23e12438'); WHEN = META.get('WHEN', '2026-09-24/25')
+KERNEL = META.get('KERNEL', '')
+SWAP = {'improves': 'regresses', 'regresses': 'improves'}
+def binof(m, s):  # binstats.py's bin logic, for the swapped (feature) verdicts
+    if 'incomplete' in (m, s) or 'mixed' in (m, s): return 'NOT BINNED'
+    if m == 'improves' and s == 'improves': return 'both'
+    if m == 'improves': return 'multi-user-only'
+    if s == 'improves': return 'single-user-only'
+    if m == 'regresses' and s == 'regresses': return 'regresses-both'
+    return 'neutral-drop'
 arms = {}
 for line in open(ARMS):
     f = line.rstrip('\n').split('|')
@@ -86,12 +101,16 @@ for a, (vm, vs, b) in BIN.items():
     if a not in comp:
         sys.exit(f"refusing: no Flash-Next compat row for {a}")
     c = comp[a]
+    inv = a in INV
+    if inv:
+        vm, vs = SWAP.get(vm, vm), SWAP.get(vs, vs); b = binof(vm, vs)
     for ax, verdict in (('multi', vm), ('single', vs)):
         d, pf = T[(a, ax, 'decode')], T[(a, ax, 'prefill')]
         ref = d['ref']
         R = runs[(ax, a)]; RR = runs[(ax, ref)]
         dv = [r[0] for r in R]; pv = [r[1] for r in R]
         spread = 100 * (max(dv) - min(dv)) / st.mean(dv)
+        fd, fp = 100 * (d['rv'] / d['av'] - 1), 100 * (pf['rv'] / pf['av'] - 1)   # feature effect (removal arms)
         # the metric that decided the verdict goes first, so 'stats' leads with its q
         order = [d, pf] if (verdict == 'neutral' or abs(d['eff']) >= abs(pf['eff'])) else [pf, d]
         mname = {id(d): 'decode', id(pf): 'prefill'}
@@ -101,11 +120,11 @@ for a, (vm, vs, b) in BIN.items():
         commits = arms[a] or '(build flag)'
         txt = f"""patch:            {name} | {SRC.get(a, 'https://github.com/exabit-io/mx-llama.cpp/tree/gfx906-candidates')} | {commits} | {cl[1]} ({cl[0]})
 axis:             {AXN[ax]}
-zero point:       {'build-ps-base = master a23e12438' if ref == 'base' else 'build-ps-' + ref + ' = master a23e12438 + ' + ref} measured 2026-09-24/25 ({rnd}, interleaved in the same blocks)
+zero point:       {'build-ps-base = ' + BASEDESC if ref == 'base' else 'build-ps-' + ref + ' = ' + BASEDESC + ' + ' + ref} measured {WHEN} ({rnd}, interleaved in the same blocks){(', kernel ' + KERNEL) if KERNEL else ''}
 recipe:           {CELL[ax]} | f16 K / f16 V | 125 W/die, host RAPL 150 W | --cache-ram n/a (llama-batched-bench) | -ngl all -sm tensor -fa on, four dies | RCCL + custom AR gated 20481, NCCL_TOPO_FILE
 metric:           decode tok/s per sequence and prefill t/s, full precision (tools/cell-metrics.py); run-level {STAT[ax]} of n={len(dv)}; improves requires q<0.10 AND effect >= +2%, regresses q<0.10 AND <= -2%
 result:           decode {STAT[ax]} {d['av']:.3f} (median {st.median(dv):.3f} / p10 {p10(dv):.3f} / min {min(dv):.3f}) vs ref {d['rv']:.3f} tok/s | prefill {STAT[ax]} {pf['av']:.1f} (min {min(pv):.1f}) vs ref {pf['rv']:.1f} t/s | n={len(dv)} per arm | decode spread {spread:.2f}%
-effect:           decode {d['eff']:+.2f}%, prefill {pf['eff']:+.2f}% vs {ref}
+effect:           {(f"feature: decode {fd:+.2f}%, prefill {fp:+.2f}% (removal arm measured: switching it off gives {d['eff']:+.2f}% / {pf['eff']:+.2f}% vs {ref}; ref = feature on)") if inv else (f"decode {d['eff']:+.2f}%, prefill {pf['eff']:+.2f}% vs {ref}")}
 stats:            {'; '.join(f"{mname[id(t)]} p={t['p']:.4f} q={t['q']:.4f}" for t in order)} | two-sided exact permutation {len(RR)} vs {len(dv)}, BH over the declared family m={M} | n={len(dv)} per arm
 evidence:         confirmed-fresh
 structural:       standalone
@@ -113,7 +132,7 @@ verdict:          {verdict}
 bin:              {b}
 would change if:  {WOULD[a]}
 notes:            Round {rnd} of the binning plan (RE-RE-SURVEY-ACTION-PLAN s6), binstats.py rule fixed before data.
-                  Per-axis verdicts: multi-user {vm}, single-user {vs}. Flash-Next compatibility: {c[1]} ({c[2]}, text {c[5]} vs base).
+                  Per-axis verdicts{' (of the FEATURE; the arm switched it off)' if inv else ''}: multi-user {vm}, single-user {vs}. Flash-Next compatibility: {c[1]} ({c[2]}, text {c[5]} vs base).
                   Data: data/raw/night-20260919/binrun{SFX}.tsv, br{SFX}-{ax}-{a}-*.md, binstats output in the same folder.
 """
         written.append((fn, txt, a, ax))

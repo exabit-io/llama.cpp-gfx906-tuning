@@ -2,3 +2,10 @@
 2026-09-25T23:31:30+00:00 [chain-r2] stopped by the operator: round 2 must also wait for the lead-approved kernel builds (claude-fd, /root/kbuild-queue-20260925.log ALL DONE); replaced by chain-r2b.sh
 2026-09-25T23:31:34+00:00 [chain-r2b] waiting for round 1b (fncompat pid 3895587)
 2026-09-25T23:32:47+00:00 [chain-r2b] stopped by the operator: round 2 must also wait for the lead's decision on kernel boot tests (reboots); replaced by chain-r2c.sh (waits for /root/night-20260919/.r2-go)
+2026-09-26T10:39:02+00:00 [chain-r2c] waiting for round 1b (fncompat pid none)
+2026-09-26T10:39:02+00:00 [chain-r2c] round 1b done; waiting for the kernel build queue (/root/kbuild-queue-20260925.log: ALL DONE), at most 6 h
+2026-09-26T10:39:02+00:00 [chain-r2c] kernel build queue ALL DONE; waiting for the go marker /root/night-20260919/.r2-go (created by the operator after the lead decides on reboots)
+2026-09-26T10:39:02+00:00 [chain-r2c] go marker present; waiting for a quiet host (1-min load < 8 for 3 consecutive minutes)
+2026-09-26T10:42:02+00:00 [chain-r2c] host quiet (load 0.21); extended binrun.sh / fncompat.sh installed; starting round 2
+2026-09-26T10:42:02+00:00 [chain-r2c] round 2 binrun pid 2842613
+2026-09-26T10:42:02+00:00 [chain-r2c] round 2 fncompat pid 2842618
