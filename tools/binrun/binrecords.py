@@ -52,7 +52,7 @@ def binof(m, s):  # binstats.py's bin logic, for the swapped (feature) verdicts
 arms = {}
 for line in open(ARMS):
     f = line.rstrip('\n').split('|')
-    if f[0]: arms[f[0]] = f[1]
+    if f[0]: arms[f[0]] = f[1] or (f'(runtime switch {f[3]}, no code change)' if len(f) > 3 and f[3].strip() else '')
 
 # binstats table rows
 T = {}

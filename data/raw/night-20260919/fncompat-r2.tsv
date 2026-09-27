@@ -1,0 +1,9 @@
+base	PASS	rc=0	bytes=358	788d896adc9f	identical
+no-q8_1-cache	PASS	rc=0	bytes=358	788d896adc9f	identical
+no-token-graph	PASS	rc=0	bytes=358	788d896adc9f	identical
+no-parallel-dispatch	PASS	rc=0	bytes=358	788d896adc9f	identical
+no-layout-cache	PASS	rc=0	bytes=358	788d896adc9f	identical
+no-gdn-chunked	PASS	rc=0	bytes=358	788d896adc9f	identical
+revert-input-staging	PASS	rc=0	bytes=365	ec56d384a47e	different
+no-mmq-kernel-tweaks	PASS	rc=0	bytes=358	788d896adc9f	identical
+mmq-config-reachable	PASS	rc=0	bytes=358	788d896adc9f	identical

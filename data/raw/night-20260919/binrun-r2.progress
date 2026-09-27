@@ -112,3 +112,62 @@ OK    9 arms share every code-affecting build option
 2026-09-26T15:46:48+00:00 [bin] block 1 order: no-mmq-kernel-tweaks no-layout-cache no-token-graph no-parallel-dispatch revert-input-staging base no-gdn-chunked no-q8_1-cache mmq-config-reachable
 2026-09-26T15:58:22+00:00 [bin] single no-mmq-kernel-tweaks b1: decode 31.6724, prefill 401.7
 2026-09-26T16:09:57+00:00 [bin] single no-layout-cache b1: decode 31.6930, prefill 401.6
+2026-09-26T16:21:32+00:00 [bin] single no-token-graph b1: decode 31.0078, prefill 401.4
+2026-09-26T16:33:08+00:00 [bin] single no-parallel-dispatch b1: decode 30.8285, prefill 401.5
+2026-09-26T16:44:48+00:00 [bin] single revert-input-staging b1: decode 31.6871, prefill 398.0
+2026-09-26T16:56:22+00:00 [bin] single base b1: decode 31.7067, prefill 401.6
+2026-09-26T17:08:01+00:00 [bin] single no-gdn-chunked b1: decode 31.6940, prefill 399.1
+2026-09-26T17:19:35+00:00 [bin] single no-q8_1-cache b1: decode 31.5349, prefill 401.8
+2026-09-26T17:31:09+00:00 [bin] single mmq-config-reachable b1: decode 31.7529, prefill 401.6
+2026-09-26T17:31:09+00:00 [bin] block 2 order: no-q8_1-cache mmq-config-reachable revert-input-staging no-gdn-chunked no-mmq-kernel-tweaks no-parallel-dispatch base no-token-graph no-layout-cache
+2026-09-26T17:42:44+00:00 [bin] single no-q8_1-cache b2: decode 31.4854, prefill 401.4
+2026-09-26T17:54:18+00:00 [bin] single mmq-config-reachable b2: decode 31.7224, prefill 401.5
+2026-09-26T18:05:59+00:00 [bin] single revert-input-staging b2: decode 31.6743, prefill 397.7
+2026-09-26T18:17:38+00:00 [bin] single no-gdn-chunked b2: decode 31.6420, prefill 398.9
+2026-09-26T18:29:13+00:00 [bin] single no-mmq-kernel-tweaks b2: decode 31.6323, prefill 401.2
+2026-09-26T18:40:50+00:00 [bin] single no-parallel-dispatch b2: decode 30.7840, prefill 401.0
+2026-09-26T18:52:25+00:00 [bin] single base b2: decode 31.6147, prefill 401.3
+2026-09-26T19:04:01+00:00 [bin] single no-token-graph b2: decode 30.9684, prefill 401.2
+2026-09-26T19:15:35+00:00 [bin] single no-layout-cache b2: decode 31.6518, prefill 401.4
+2026-09-26T19:15:35+00:00 [bin] block 3 order: no-gdn-chunked no-parallel-dispatch no-token-graph no-layout-cache revert-input-staging base no-q8_1-cache mmq-config-reachable no-mmq-kernel-tweaks
+2026-09-26T19:27:14+00:00 [bin] single no-gdn-chunked b3: decode 31.7067, prefill 399.1
+2026-09-26T19:38:49+00:00 [bin] single no-parallel-dispatch b3: decode 30.9001, prefill 401.7
+2026-09-26T19:50:24+00:00 [bin] single no-token-graph b3: decode 30.9431, prefill 401.7
+2026-09-26T20:01:58+00:00 [bin] single no-layout-cache b3: decode 31.6743, prefill 401.9
+2026-09-26T20:13:37+00:00 [bin] single revert-input-staging b3: decode 31.7097, prefill 398.4
+2026-09-26T20:25:11+00:00 [bin] single base b3: decode 31.6685, prefill 402.0
+2026-09-26T20:36:45+00:00 [bin] single no-q8_1-cache b3: decode 31.4352, prefill 401.9
+2026-09-26T20:48:20+00:00 [bin] single mmq-config-reachable b3: decode 31.6293, prefill 401.4
+2026-09-26T20:59:55+00:00 [bin] single no-mmq-kernel-tweaks b3: decode 31.6940, prefill 401.3
+2026-09-26T20:59:55+00:00 [bin] block 4 order: base mmq-config-reachable no-mmq-kernel-tweaks no-layout-cache no-parallel-dispatch no-q8_1-cache no-gdn-chunked no-token-graph revert-input-staging
+2026-09-26T21:11:30+00:00 [bin] single base b4: decode 31.6245, prefill 401.4
+2026-09-26T21:23:05+00:00 [bin] single mmq-config-reachable b4: decode 31.6352, prefill 401.3
+2026-09-26T21:34:39+00:00 [bin] single no-mmq-kernel-tweaks b4: decode 31.6323, prefill 401.4
+2026-09-26T21:46:14+00:00 [bin] single no-layout-cache b4: decode 31.6469, prefill 401.5
+2026-09-26T21:57:50+00:00 [bin] single no-parallel-dispatch b4: decode 30.8462, prefill 401.3
+2026-09-26T22:09:25+00:00 [bin] single no-q8_1-cache b4: decode 31.5067, prefill 401.3
+2026-09-26T22:21:04+00:00 [bin] single no-gdn-chunked b4: decode 31.5533, prefill 398.8
+2026-09-26T22:32:40+00:00 [bin] single no-token-graph b4: decode 30.9496, prefill 401.0
+2026-09-26T22:44:21+00:00 [bin] single revert-input-staging b4: decode 31.6704, prefill 397.7
+2026-09-26T22:44:21+00:00 [bin] block 5 order: no-layout-cache no-gdn-chunked no-parallel-dispatch base no-q8_1-cache mmq-config-reachable no-token-graph no-mmq-kernel-tweaks revert-input-staging
+2026-09-26T22:55:57+00:00 [bin] single no-layout-cache b5: decode 31.6734, prefill 401.1
+2026-09-26T23:07:35+00:00 [bin] single no-gdn-chunked b5: decode 31.6675, prefill 398.7
+2026-09-26T23:19:12+00:00 [bin] single no-parallel-dispatch b5: decode 30.8582, prefill 401.1
+2026-09-26T23:30:46+00:00 [bin] single base b5: decode 31.6088, prefill 401.8
+2026-09-26T23:42:20+00:00 [bin] single no-q8_1-cache b5: decode 31.5475, prefill 401.9
+2026-09-26T23:53:54+00:00 [bin] single mmq-config-reachable b5: decode 31.7382, prefill 401.9
+2026-09-27T00:05:29+00:00 [bin] single no-token-graph b5: decode 31.0359, prefill 401.7
+2026-09-27T00:17:04+00:00 [bin] single no-mmq-kernel-tweaks b5: decode 31.6841, prefill 401.3
+2026-09-27T00:28:44+00:00 [bin] single revert-input-staging b5: decode 31.7008, prefill 397.8
+2026-09-27T00:28:44+00:00 [bin] block 6 order: mmq-config-reachable no-layout-cache no-token-graph no-mmq-kernel-tweaks no-parallel-dispatch no-gdn-chunked no-q8_1-cache base revert-input-staging
+2026-09-27T00:40:19+00:00 [bin] single mmq-config-reachable b6: decode 31.6734, prefill 401.5
+2026-09-27T00:51:53+00:00 [bin] single no-layout-cache b6: decode 31.6225, prefill 401.5
+2026-09-27T01:03:29+00:00 [bin] single no-token-graph b6: decode 30.9506, prefill 401.3
+2026-09-27T01:15:03+00:00 [bin] single no-mmq-kernel-tweaks b6: decode 31.6989, prefill 401.5
+2026-09-27T01:26:39+00:00 [bin] single no-parallel-dispatch b6: decode 30.8703, prefill 401.1
+2026-09-27T01:38:18+00:00 [bin] single no-gdn-chunked b6: decode 31.7028, prefill 399.0
+2026-09-27T01:49:53+00:00 [bin] single no-q8_1-cache b6: decode 31.4535, prefill 401.5
+2026-09-27T02:01:28+00:00 [bin] single base b6: decode 31.6538, prefill 401.4
+2026-09-27T02:13:08+00:00 [bin] single revert-input-staging b6: decode 31.7175, prefill 398.0
+2026-09-27T02:13:08+00:00 [bin] === axis single DONE
+2026-09-27T02:13:09+00:00 [bin] === BINRUN DONE ===

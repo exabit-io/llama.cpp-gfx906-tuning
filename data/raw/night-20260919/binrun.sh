@@ -21,7 +21,9 @@ TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-
 AB=$TL/assert-build-config.sh; AC=$TL/assert-arms-comparable.sh
 WT=/root/wt-bin; BASEREF=exabit-mx/master
 # ROUND (env) names a follow-up round's outputs (binrun-<ROUND>.*); empty = round 1's original names.
-# ARMS_FILE (env) = a prepared arms file (name|commits|extra cmake arg); unset = round 1's list below.
+# ARMS_FILE (env) = a prepared arms file (name|commits|extra cmake arg|runtime env); unset = round 1's list below.
+#   commits: a hash is cherry-picked, a hash prefixed with '-' is reverted (substrate removal arms, round 2);
+#   runtime env: VAR=VAL ... applied to every cell of that arm (substrate features that have a runtime switch).
 # NMULTI / NSINGLE (env) = runs per arm per axis (default 5 / 5; lead 2026-09-25: single-user n=6 from round 1b on).
 ROUND=${ROUND:-}; SFX=${ROUND:+-$ROUND}; NMULTI=${NMULTI:-5}; NSINGLE=${NSINGLE:-5}
 P=$W/binrun$SFX.progress; TSV=$W/binrun$SFX.tsv; DONE=$W/.binrun$SFX-done
@@ -46,16 +48,18 @@ fi
 log "round ${ROUND:-r1}: arms from $ARMS_FILE, n=$NMULTI multi / $NSINGLE single"
 
 # ---- phase 1: compile every arm (host only, nothing measuring)
-declare -a READY=()
-while IFS='|' read -r name commits extra; do
+declare -a READY=(); declare -A ARMENV=()
+while IFS='|' read -r name commits extra armenv; do
   [ -z "$name" ] && continue
+  ARMENV[$name]="${armenv:-}"
   bd=/root/build-ps-$name
-  log "compile $name (${commits:-master head})"
+  log "compile $name (${commits:-master head})${armenv:+ runtime env: $armenv}"
   git -C $WT checkout -qf --detach $BASEREF && git -C $WT clean -qfd
   ok=1
   for c in $commits; do
-    if ! git -C $WT cherry-pick --no-commit "$c" >> $W/binrun$SFX-build.log 2>&1; then
-      log "  $name: cherry-pick $c FAILED onto $BASEREF"; git -C $WT cherry-pick --abort >/dev/null 2>&1; ok=0; break
+    if [ "${c#-}" != "$c" ]; then op=revert; else op=cherry-pick; fi
+    if ! git -C $WT $op --no-commit "${c#-}" >> $W/binrun$SFX-build.log 2>&1; then
+      log "  $name: $op ${c#-} FAILED onto $BASEREF"; git -C $WT $op --abort >/dev/null 2>&1; ok=0; break
     fi
   done
   if [ $ok -eq 0 ]; then printf "all\t%s\t-\tAPPLY-FAILED\tAPPLY-FAILED\n" "$name" >> $TSV; continue; fi
@@ -129,7 +133,7 @@ cell(){ # cell AXIS ARM BLOCK
   if [ "$axis" = single ]; then s=1; d=260864; fi
   local bd=/root/build-ps-$arm
   local out=$W/br$SFX-$axis-$arm-$blk.md
-  LD_LIBRARY_PATH=$bd/bin:$bd/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 7200 \
+  env ${ARMENV[$arm]:-} LD_LIBRARY_PATH=$bd/bin:$bd/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 7200 \
     $bd/bin/llama-batched-bench -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
     -fa on -ctk f16 -ctv f16 -b 2048 -ub 2048 -c $(( s*(d+1280) )) -npp $d -ntg 1024 -npl $s \
     > $out 2>${out%.md}.log &

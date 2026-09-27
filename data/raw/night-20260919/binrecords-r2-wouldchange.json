@@ -1,0 +1,10 @@
+{
+ "no-q8_1-cache": "the cache's decode value grows past 2%: today +1.61% at 4x64K (q=0.042) and +0.45% at 1x255K \u2014 it pays more with more rows in flight, so a wider multi-user cell would be the place to look",
+ "no-token-graph": "single-user decode stops depending on per-kernel launch overhead (e.g. a faster HIP launch path): today the token graph is worth +2.20% at 1x255K (31.64 vs 30.96 without it, q=0.042) and +1.45% at 4x64K; together with concurrent lanes +2.0% / +2.6%",
+ "no-parallel-dispatch": "its increment on top of the token graph (+0.57% at 4x64K, +0.35% at 1x255K) grows past 2%; it is also the token graph's prerequisite, so it stays on as long as the token graph does",
+ "no-layout-cache": "graph re-allocation becomes a measurable share of a token (e.g. graphs that change shape every step); today switching it off changes nothing (+0.02% / +0.07%)",
+ "no-gdn-chunked": "prefill of a GDN-heavier model or shorter prompts: today it is worth +1.18% prefill at 4x64K and +0.64% at 1x255K, decode unaffected",
+ "revert-input-staging": "pipeline-parallel (-sm layer) or multi-stage runs, which its claims (+37-69% layer prefill) target; on this single-stage instrument it is worth +0.24% / +0.90% prefill",
+ "no-mmq-kernel-tweaks": "a workload whose Q8_0 matmuls run through MMQ instead of q8_repack (repack off, or a non-repacked type); here they are inert (+-0.1%)",
+ "mmq-config-reachable": "the same: with q8_repack handling every Q8_0 matmul, restoring the fork's gfx906 table changes nothing (0.00% / +0.19%); it would matter only on the MMQ path, so the merge bug has no measured cost for this service"
+}

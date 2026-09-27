@@ -164,6 +164,17 @@ patches (their reverts conflict), meta-xfer-rccl not measurable (needs n_stages 
 merge made the fork's gfx906 Q8_0 MMQ config unreachable (upstream's GCN table now wins the dispatch). Single-user n=6.
 Round 1b (stacked round-1 patchsets, `r1b-preregistration.md`) runs first.
 
+**Result (DONE 2026-09-27 02:25 UTC; kernel 7.0.0-34+barfix2, base master 82868aa3b, gate PASS PPL 5.6264):** 99 cells,
+no clamp, Flash-Next PASS on all 9 arms. **Nothing regresses, so nothing is switched off; nothing changes in any build.**
+Feature worth (base/arm - 1), 4x64K / 1x255K decode unless noted: **whole-token graph +1.45% / +2.20% -> binned
+single-user-only** (q=0.042; already on by default); concurrent lanes +0.57% / +0.35% on top of it (together +2.0% / +2.6%);
+q8_1 activation cache +1.61% / +0.45%; chunked GDN prefill +1.18% / +0.64%; input staging prefill +0.24% / +0.90%;
+layout cache and the gfx906 MMQ kernel tweaks ~0. **The v0.5.0 merge bug costs nothing on this service:** restoring the
+fork's gfx906 Q8_0 MMQ table measures 0.00% / +0.19% — the 27B's Q8_0 weights are repacked and run through q8_repack,
+not MMQ (the same reason the MMQ kernel tweaks are inert). 16 measured records + 7 by inspection (meta-xfer-rccl and the
+six later mxxm-t commits: inactive on a one-stage tensor split or robustness-only). Base on -34 = the same master on -31
+within 0.3% (23.01 vs 23.06, 31.64 vs 31.70).
+
 The substrate now keeps mxxm-t's 182 commits individually, so a feature can be removed by reverting its own
 commits on top of `master` (or switched off at runtime where the fork provides a switch). Classified from
 commit subjects and switch code, 0 GPU; each group's commits are re-checked against the substrate before it is
@@ -211,8 +222,8 @@ profile is switched off in that profile's launch settings (runtime switch) or re
 | gate on `master` | ~0.3 |
 | round 1 multi-user bins | 4.6 (DONE: 21:29-01:57, 4.5 h) |
 | round 1 single-user bins + compat | 8.2 (DONE: 01:57-09:54, 8.0 h) |
-| round 2 multi-user bins | 5.2 |
-| round 2 single-user bins + compat | 9.2 |
+| round 2 multi-user bins | 5.2 (DONE: 10:49-15:47, 5.0 h) |
+| round 2 single-user bins + compat | 9.2 (DONE: 15:47-02:25, 10.6 h at n=6) |
 
 If a phase overruns by more than 20%, stop and report. Every launch gets a PID waiter and a monitor in the same turn.
 

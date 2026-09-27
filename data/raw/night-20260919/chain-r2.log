@@ -9,3 +9,4 @@
 2026-09-26T10:42:02+00:00 [chain-r2c] host quiet (load 0.21); extended binrun.sh / fncompat.sh installed; starting round 2
 2026-09-26T10:42:02+00:00 [chain-r2c] round 2 binrun pid 2842613
 2026-09-26T10:42:02+00:00 [chain-r2c] round 2 fncompat pid 2842618
+2026-09-27T02:25:28+00:00 [chain-r2c] round 2 chain exited

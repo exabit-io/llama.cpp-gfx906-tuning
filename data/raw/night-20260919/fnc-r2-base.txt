@@ -1,0 +1,8 @@
+Explain in two sentences why the sky is blue.
+
+<think>
+The user wants a concise two-sentence explanation of why the sky is blue. I need to cover Rayleigh scattering and why blue specifically dominates. Let me be accurate and concise.
+</think>
+
+Sunlight contains all colors, but as it passes through Earth's atmosphere, shorter wavelengths (blue and violet)
+

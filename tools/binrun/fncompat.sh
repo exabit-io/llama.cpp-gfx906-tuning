@@ -40,11 +40,13 @@ SMCL=$!
 sleep 6
 : > $TSV
 BASEMD5=""
+declare -A ARMENV=()
+while IFS='|' read -r name commits extra armenv; do [ -n "$name" ] && ARMENV[$name]="${armenv:-}"; done < $ARMS_FILE
 for arm in $(cut -d'|' -f1 $ARMS_FILE); do
   bd=/root/build-ps-$arm
   if [ ! -x $bd/bin/llama-completion ]; then log "$arm: no build — skipped"; printf "%s\tNO-BUILD\n" "$arm" >> $TSV; continue; fi
   out=$W/fnc$SFX-$arm.txt
-  LD_LIBRARY_PATH=$bd/bin:$bd/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 900 \
+  env ${ARMENV[$arm]:-} LD_LIBRARY_PATH=$bd/bin:$bd/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib timeout 900 \
     $bd/bin/llama-completion -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -lm mlock --n-cpu-moe 41 \
     -fa on -ctk f16 -ctv f16 -c 4096 -n 64 --temp 0 --top-k 1 -s 0 -no-cnv --no-warmup \
     -p "Explain in two sentences why the sky is blue." > $out 2>${out%.txt}.log < /dev/null &
