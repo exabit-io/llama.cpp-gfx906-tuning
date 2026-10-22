@@ -1,0 +1,12 @@
+2026-10-22T21:24:58+00:00 [q2] queue2 start pid 3827203
+2026-10-22T21:25:41+00:00 [q2] dio gpu path rc=0 O_DIRECT opens=1 fallbacks=0 out='The capital of France is Paris. The capital of Germany is  '
+2026-10-22T21:30:44+00:00 [q2] fold old master rc=0
+2026-10-22T21:35:42+00:00 [q2] fold reconcile rc=0
+2026-10-22T21:40:41+00:00 [q2] fold master-v070 rc=0
+2026-10-22T21:50:36+00:00 [q2] tbo-master-0:   18644/18644 tests passed failed: 
+2026-10-22T21:50:36+00:00 [q2] tbo-master-1:   18644/18644 tests passed failed: 
+2026-10-22T21:50:36+00:00 [q2] tbo-cand-2:   18643/18644 tests passed failed: [MUL_MAT] ERR = 0.000512834 > 0.000500000   MUL_MAT(type_a=q5_1,type_b=f32,m=16,n=1,k=256,bs=[1,1],nr=[1,1],per=[0,1,2,3],k_v=0,o=1,src_overlap=0,m_v=0,pad=0): [1;31mFAIL[0m   Backend ROCm2: [1;31mFAIL[0m [1;31mFAIL[0m 
+2026-10-22T21:50:36+00:00 [q2] tbo-cand-3:   18644/18644 tests passed failed: 
+2026-10-22T21:54:59+00:00 [q2] pr-test master-v070 rc=0
+2026-10-22T21:57:15+00:00 [q2] candidates ppl rc=0 Final estimate: PPL = 5.6264 +/- 0.06256
+2026-10-22T21:57:16+00:00 [q2] === QUEUE2 DONE ===

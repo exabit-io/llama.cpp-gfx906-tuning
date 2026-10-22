@@ -215,6 +215,7 @@ per-request floor · R3.4 TTFT bound · R5 the first design point.
 
 ## Change log
 
+- 2026-10-22 (lead's instruction, recorded by Claude; no requirement changed): **R3.7 substrate moved** to `merge-v0.7.0` (mxxm-t's own b11553 merge `c4d12e2c0` + llama.cpp v0.7.0), offered as mxxm-t/mx-llama.cpp#22; #17 was closed unmerged. The Exabit commits are now rebased (not merged) onto each release; procedure in `RELEASE-RUNBOOK.md`.
 - 2026-09-24 (lead): **R3.7 — all gfx906 code in `exabit-io/mx-llama.cpp`; `master` = substrate + both-profile patches** (mxxm-t's fork merged with llama.cpp v0.5.0, offered upstream as mxxm-t/mx-llama.cpp#17); the bin branches live there; `exabit-io/llama.cpp` retired. Same day, R2.2: the context floor is 64K.
 - 2026-09-19 (lead, on the harness): **R2.4 rewritten — the session shape was wrong, and with it every
   service-axis measurement in the corpus.** The lead's point: a real chat session has the user saying little and

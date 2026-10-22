@@ -1,0 +1,7 @@
+2026-10-22T21:57:21+00:00 [q3] queue3 start pid 2864382
+2026-10-22T21:57:49+00:00 [q3] q5_1 n=1 k=256 merge on ROCm1: 0/50 failed; worst ERR 
+2026-10-22T21:57:52+00:00 [q3] q5_1 n=1 k=256 candidates on ROCm3: 0/50 failed; worst ERR 
+2026-10-22T21:57:52+00:00 [q3] q5_1 n=1 k=256 master on ROCm2: 0/50 failed; worst ERR 
+2026-10-22T22:04:36+00:00 [q3] isolate old master rc=0
+2026-10-22T22:11:10+00:00 [q3] isolate master-v070 rc=0
+2026-10-22T22:11:10+00:00 [q3] === QUEUE3 DONE ===

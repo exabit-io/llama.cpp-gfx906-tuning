@@ -1,0 +1,30 @@
+2026-10-22T22:11:45+00:00 === torch build start: ROCM_PATH=/opt/rocm/core-10.0 (7.15.26333-0000000) arch=gfx906 suffix=gfx906.20261018172427 jobs=48 ===
+2026-10-22T22:11:45+00:00 toolchain: AMD clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 8f497e0992fb7513f7f78a6f6b6f1056c375e961)
+2026-10-22T22:12:24+00:00 venv ready: Python 3.12.3, cmake 4.4.4, ninja 1.13.2.git.kitware.jobserver-pipe-1, mkl 2026.2.0
+2026-10-22T22:12:24+00:00 pytorch at v2.14.1 (5c4886908584029761b579af026dcfb627c84070)
+2026-10-22T22:12:40+00:00 running tools/amd_build/build_amd.py (hipify) ...
+2026-10-22T22:12:45+00:00 building torch 2.14.1+gfx906.20261018172427 ...
+2026-10-22T22:12:45+00:00 TORCH BUILD FAILED after 0s: error: `python setup.py bdist_wheel` is deprecated: PyTorch is built with 
+2026-10-22T22:13:08+00:00 === torch build start: ROCM_PATH=/opt/rocm/core-10.0 (7.15.26333-0000000) arch=gfx906 suffix=gfx906.20261018172427 jobs=48 ===
+2026-10-22T22:13:08+00:00 toolchain: AMD clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 8f497e0992fb7513f7f78a6f6b6f1056c375e961)
+2026-10-22T22:13:10+00:00 venv ready: Python 3.12.3, cmake 4.4.4, ninja 1.13.2.git.kitware.jobserver-pipe-1, mkl 2026.2.0
+2026-10-22T22:13:10+00:00 pytorch at v2.14.1 (5c4886908584029761b579af026dcfb627c84070)
+2026-10-22T22:13:11+00:00 running tools/amd_build/build_amd.py (hipify) ...
+2026-10-22T22:13:16+00:00 building torch 2.14.1+gfx906.20261018172427 ...
+2026-10-22T22:16:42+00:00 TORCH BUILD FAILED after 206s: Error: could not find CMAKE_PROJECT_NAME in Cache /root/pytorch-gfx906-rocm10-2.14.1/src/pytorch/third_party/fbgemm/src/QuantUtilsAvx512.cc:428:21: error: ‘__builtin_ia32_cvtneps2bf16_v8sf’ needs isa option /root/pytorch-gfx906-rocm10-2.14.1/src/pytorch/third_party/fbgemm/src/QuantUtilsAvx512.cc:428:21: error: ‘__builtin_ia32_cvtneps2bf16_v8sf’ needs isa option 
+2026-10-22T22:18:11+00:00 === torch build start: ROCM_PATH=/opt/rocm/core-10.0 (7.15.26333-0000000) arch=gfx906 suffix=gfx906.20261018172427 jobs=48 ===
+2026-10-22T22:18:11+00:00 toolchain: AMD clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 8f497e0992fb7513f7f78a6f6b6f1056c375e961)
+2026-10-22T22:18:13+00:00 venv ready: Python 3.12.3, cmake 4.4.4, ninja 1.13.2.git.kitware.jobserver-pipe-1, mkl 2026.2.0
+2026-10-22T22:18:13+00:00 pytorch at v2.14.1 (5c4886908584029761b579af026dcfb627c84070)
+2026-10-22T22:18:14+00:00 running tools/amd_build/build_amd.py (hipify) ...
+2026-10-22T22:18:19+00:00 building torch 2.14.1+gfx906.20261018172427 ...
+2026-10-22T22:41:53+00:00 torch wheel built in 1414s: torch-2.14.1+gfx906.20261018172427-cp312-cp312-linux_x86_64.whl
+2026-10-22T22:42:05+00:00 building vision 0.29.0+gfx906.20261018172427 (pin 34572106ad1f0ea95793e379751f8bb0cfeeac1c) ...
+2026-10-22T22:42:41+00:00 vision wheel built in 36s
+2026-10-22T22:42:45+00:00 building audio 2.11.0+gfx906.20261018172427 (pin 4e3e282b0e23a0b9133abc8f719e2fa39be2a6e3) ...
+2026-10-22T22:42:54+00:00 audio wheel built in 9s
+2026-10-22T22:42:55+00:00 === wheels in /root/pytorch-gfx906-rocm10-2.14.1/dist ===
+235988910 /root/pytorch-gfx906-rocm10-2.14.1/dist/torch-2.14.1+gfx906.20261018172427-cp312-cp312-linux_x86_64.whl
+363993 /root/pytorch-gfx906-rocm10-2.14.1/dist/torchaudio-2.11.0+gfx906.20261018172427-cp312-cp312-linux_x86_64.whl
+1285906 /root/pytorch-gfx906-rocm10-2.14.1/dist/torchvision-0.29.0+gfx906.20261018172427-cp312-cp312-linux_x86_64.whl
+2026-10-22T22:42:55+00:00 === torch build done ===

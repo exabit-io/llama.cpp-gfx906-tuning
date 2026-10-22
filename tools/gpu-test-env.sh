@@ -1,23 +1,32 @@
 # Source from every GPU benchmark script. setmax before touching the GPUs, restore at the end (and in the trap).
-#   fans max (t2fanrd always_full_speed), rocm-smi perf level high, CPU governor performance, 5 s sampler,
+#   fans max + GPU caps pinned through the macpro-fand override (it owns the 1228 W budget), or without it
+#   t2fanrd always_full_speed and rocm-smi perf level high, CPU governor performance, 5 s sampler,
 #   host CPU RAPL PL1/PL2 = 150 W (2026-09-07: the SMC clamps the dies when the DC total passes 1228 W; four dies at the
 #   200 W cap + host idle = 1062 W, + an uncapped CPU (303 W measured, 413 W allowed) = 1264 W; 150 W keeps the worst
 #   case at ~1123 W with the GPU cap untouched). restore() puts the previous PL1/PL2 back.
 export PATH=/opt/llama.cpp/bin:/opt/rocm/bin:$PATH
 SMC=/sys/devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:1f/APP0001:00
+FAN_OV=/run/macpro-fand/override   # macpro-fand (when it owns the fans) takes "max" here; t2fanrd takes a config flip
 setmax() {
-  sed -i 's/always_full_speed=false/always_full_speed=true/' /etc/t2fand.conf; systemctl restart t2fanrd
   rocm-smi --setperflevel high >/dev/null 2>&1
   cpupower frequency-set -g performance >/dev/null 2>&1
-  RAPL=/sys/class/powercap/intel-rapl:0; RAPL_ORIG=$(cat $RAPL/constraint_0_power_limit_uw 2>/dev/null)
-  for c in 0 1; do echo ${CPU_CAP_UW:-150000000} > $RAPL/constraint_${c}_power_limit_uw 2>/dev/null; done
+  if systemctl is-active --quiet macpro-fand; then
+    # macpro-fand owns the fans and the 1228 W power budget: fans to max, GPU caps pinned (BENCH_GPU_W, default the
+    # production 125 W; the budget lowers a pin that would not fit), PL1 left to its budget governor
+    mkdir -p ${FAN_OV%/*}; echo "max gpu=${BENCH_GPU_W:-125}" > $FAN_OV
+  else
+    sed -i 's/always_full_speed=false/always_full_speed=true/' /etc/t2fand.conf; systemctl restart t2fanrd
+    RAPL=/sys/class/powercap/intel-rapl:0; RAPL_ORIG=$(cat $RAPL/constraint_0_power_limit_uw 2>/dev/null)
+    for c in 0 1; do echo ${CPU_CAP_UW:-150000000} > $RAPL/constraint_${c}_power_limit_uw 2>/dev/null; done
+  fi
   sleep 8
 }
 restore() {
   cpupower idle-set -E >/dev/null 2>&1
   [ -n "${RAPL_ORIG:-}" ] && for c in 0 1; do echo $RAPL_ORIG > ${RAPL:-/sys/class/powercap/intel-rapl:0}/constraint_${c}_power_limit_uw 2>/dev/null; done
   rocm-smi --setperflevel auto >/dev/null 2>&1
-  cp /root/t2fand.conf.orig /etc/t2fand.conf && systemctl restart t2fanrd
+  if [ -f $FAN_OV ] || systemctl is-active --quiet macpro-fand; then rm -f $FAN_OV
+  else cp /root/t2fand.conf.orig /etc/t2fand.conf && systemctl restart t2fanrd; fi
   [ -n "${PROG:-}" ] && echo "$(date -Is) RESTORED perf level auto + fan curve (governor left on performance)" >> "$PROG"
 }
 start_sampler() {  # start_sampler FILE -> sets SAMP

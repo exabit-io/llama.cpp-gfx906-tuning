@@ -121,3 +121,16 @@ every pair. TransferBench p2p (256 MiB, GFX engine):
 - The 1000 MHz "clamp" seen from 2026-09-03 on is the SMC's 1228 W DC power envelope, not thermal and not a driver fault (see /root/llama.cpp-benchmarking/reports/2026-09-07-todo-runthrough.md, "Interruption 3"). Rules: host CPU RAPL-capped at 150 W beside four loaded dies (gpu-test-env.sh does it), no host work beside GPU jobs, a cold power cycle after any clamp. The GPU numbers in "Verified results" above were taken before the clamp was understood and were not re-verified against the five-second clamp test.
 - Follow-on builds beside /opt/llama.cpp (b10288): /opt/llama.cpp-faq (GGML_CUDA_FA_ALL_QUANTS), /opt/llama.cpp-mmvq16 (MMVQ_MAX_BATCH_SIZE 16), /opt/llama.cpp-cublas (FORCE_CUBLAS, retired), and /opt/llama.cpp-b10837 (upstream update for BENCHMARKS-TODO item 4, built by /root/rocm-tests/bench/build-b10837.sh). The tuning guide's numbers are all b10288.
 - Serving model is Qwen3.8-27B (Q8_0 and four other quants in /root/models); the Qwen2.5-1.5B file above is only the smoke-test model.
+
+## 2026-10-22: ROCm 10.0 build 20261018172427 and the Exabit debs
+
+The gfx906 repository rolled the 10.0 stream to `10.0.0-gfx906+20261018172427` (65 packages; HIP still 7.15.26333, rocBLAS
+5.6; new: rdc, rocshmem, hipfile, rocDecode, rocJPEG). It was installed on 2026-10-22 01:54 UTC through the existing pin
+(`amdrocm*` at `10.0.0-gfx906*`); no reboot needed. On top of it the box now runs two signed debs from
+`exabit-io/resize-amdgpu-bars` releases (sources in `/etc/apt/sources.list.d/`):
+
+- `mx-llama-cpp-gfx906` (release `mx-llama-cpp-0.7.0-gfx906-rocm10.0`): exabit-io/mx-llama.cpp master, `/opt/mx-llama.cpp`.
+- `python3-torch-gfx906` 2.14.1 (release `pytorch-2.14.1-gfx906-rocm10.0`): torch, torchvision 0.29.0, torchaudio 2.11.0 for
+  the system python, `-march=native`, static oneMKL. Replaces 2.13.0.
+
+How both are built, tested and published: `RELEASE-RUNBOOK.md` section 7.

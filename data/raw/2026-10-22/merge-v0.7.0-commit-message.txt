@@ -1,0 +1,20 @@
+Merge llama.cpp v0.7.0 (620d222, b11669) into master
+
+Brings the fork from upstream b11553 to the v0.7.0 release (116 upstream commits). Every fork feature is kept; where both sides changed the same code the two changes are combined, not chosen between.
+
+Textual conflicts (10 hunks, 8 files):
+- common/speculative.cpp: upstream's LiliCorr setup (#30506) placed ahead of the fork's fallback to the target vocab's mask token.
+- ggml/src/ggml-backend-meta.cpp: upstream's subgraph recreation (#30453) is the fork's own fix; the fork's comment is kept.
+- ggml/src/ggml-cuda/common.cuh: the fork's context fields kept, with upstream's `= {}` initializers for the stream and cuBLAS arrays.
+- ggml/src/ggml-cuda/gated_delta_net.cu: includes both the fork's chunk kernel header and upstream's MMA header.
+- src/llama-context.cpp: both call sites use upstream's sched_new() member (it adds the graph realloc callback, #30329); the fork's sync-non-graph-inputs policy moves into it.
+- src/llama-ext.h: the fork's MTP prefill and pre-norm accumulation declarations kept, upstream's wording for the decision head comment.
+- src/llama-model.cpp: the fork's skip for contexts with nothing to allocate kept without the per-file buffer map that upstream removed (#30405); load_tensors() ends with upstream's load_tensors_hadamard() and then the fork's PLE prefault.
+- tools/server/server-context.cpp: release() resets the speculative state as the fork does and also drops the prompt of stateless tasks as upstream does.
+
+Merged without a textual conflict but changed here:
+- common/speculative.cpp: LiliCorr stores the projected rows of each inject in the eager path only. The fork's deferred prompt encode replays the injects in flush_pending_upto() without that step, so a LiliCorr drafter stays on the eager path.
+- ggml/src/ggml-cuda/gated_delta_net.cu: upstream's MMA chunked kernel (#29353) writes only the final state. When the fork's snapshot ring keeps more than one state (K > 1) the call goes to the fork's kernels. On HIP the MMA path runs on RDNA3.5 only, so gfx906 does not take it.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+

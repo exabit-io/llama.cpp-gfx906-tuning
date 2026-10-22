@@ -1,6 +1,6 @@
 # reports/ — the measurement reports, in order
 
-> Dated reports, each the record of its day. Current work: `RE-RE-SURVEY-ACTION-PLAN.md` (code: `exabit-io/mx-llama.cpp`, `master` = substrate + both-profile patches).
+> Dated reports, each the record of its day. Current work: `RE-RE-SURVEY-ACTION-PLAN.md` (code: `exabit-io/mx-llama.cpp`, `master` = substrate `merge-v0.7.0` + both-profile patches); release procedure: `RELEASE-RUNBOOK.md`.
 
 The HTML files are the primary sources every number in the guide traces to; do not rename them (external notes
 link to them by name). Where a report was also published as a Claude artifact the link is given; the `.md` next
@@ -8,6 +8,7 @@ to an `.html` is the same content as text. Raw tables: `data/raw/<day>/`.
 
 | Date | Report | What it settles | Published |
 |---|---|---|---|
+| [2026-10-22 v0.7.0 rebase](2026-10-22-v070-rebase.md) | llama.cpp v0.7.0 taken through the stack: Exabit commits moved onto mxxm-t's b11553 master and rebased onto `merge-v0.7.0` (PR mxxm-t#22); master perplexity bit-identical to the old master; six silent breaks found and fixed; GDN fold KLD 3.9e-4 (equivalent to the original); `-lm dio` clean on every build; debs `mx-llama-cpp-gfx906` and `python3-torch-gfx906` 2.14.1 published and verified | `data/raw/2026-10-22/` |
 | [2026-09-23 KV cache quality gate](2026-09-23-kv-quality-gate.md) | perplexity for f16, q8_0/q8_0, q8_0/q4_1, q8_0/q4_0, q4_0/q4_0 — all quality-equivalent at 16K/6 resolution; quality is not the discriminator among KV types | `data/raw/2026-09-23/kvq.tsv` |
 | 2026-09-04 | `gfx906-xgmi-ring.html` | the four-die XGMI ring as wired (0b–0e–1e–1b), 33.5 GB/s per link per direction, 256 GB/s all-to-all, the firmware's mislabelled hop table, `rccl_topo_fixed.xml` | https://claude.ai/code/artifact/f811df1d-b2bb-4d95-9157-4726d0519194 |
 | 2026-09-07 | `qwen38-27b-q8_0-gfx906.html` | Qwen3.8-27B Q8_0 on stock b10288: placement, the slot staircase (8/16/24/32), servers, the 1000 MHz clamp, the 2026-09-07 update on the 16-column patch | https://claude.ai/code/artifact/e248ff49-e4e3-4a21-967e-927f21f5af71 |

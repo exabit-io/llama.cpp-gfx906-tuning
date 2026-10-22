@@ -1,0 +1,5 @@
+2026-10-22T20:59:02+00:00 [dio] pre-v050 rc=0 fallbacks=0 first='' load='' out='The capital of France is Paris. The capital of Germany is  '
+2026-10-22T20:59:15+00:00 [dio] pr17-v050 rc=0 fallbacks=0 first='' load='' out='The capital of France is Paris. The capital of Germany is  '
+2026-10-22T20:59:27+00:00 [dio] reconcile-b11553 rc=0 fallbacks=0 first='' load='' out='The capital of France is Paris. The capital of Germany is  '
+2026-10-22T20:59:40+00:00 [dio] merge-v070 rc=0 fallbacks=0 first='' load='' out='The capital of France is Paris. The capital of Germany is  '
+2026-10-22T20:59:40+00:00 [dio] === DIO CHECK DONE ===

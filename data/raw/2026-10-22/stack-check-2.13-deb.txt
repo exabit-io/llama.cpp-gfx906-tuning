@@ -1,0 +1,20 @@
+  MKL True  MKLDNN True  OpenMP True  CPU capability AVX512
+  CPU fp32 matmul 1024^3 max abs err vs fp64 9.16e-05
+torchvision 0.27.0+gfx906.20260917140126  torchaudio 2.11.0+gfx906.20260917140126
+  torchvision nms on GPU: 690 kept, equal to CPU: True
+  torchvision roi_align GPU vs CPU max abs diff 0.00e+00
+  torchaudio MelSpectrogram on GPU: (1, 128, 81)
+torch 2.13.0+gfx906.20260917140126 hip 7.15.26333 cuda_available True ndev 4
+  dev0: AMD Radeon Graphics gfx906:sramecc-:xnack- 32.0GiB CUs=64
+  dev1: AMD Radeon Graphics gfx906:sramecc-:xnack- 32.0GiB CUs=64
+  dev2: AMD Radeon Graphics gfx906:sramecc-:xnack- 32.0GiB CUs=64
+  dev3: AMD Radeon Graphics gfx906:sramecc-:xnack- 32.0GiB CUs=64
+  dev0 matmul 4096^3: float32=  7.92TF err=2.2e-06  float16=  8.15TF err=3.6e-04  bfloat16=  4.73TF err=3.5e-03
+  dev1 matmul 4096^3: float32=  7.84TF err=2.8e-06  float16=  7.86TF err=4.1e-04  bfloat16=  4.50TF err=3.0e-03
+  dev2 matmul 4096^3: float32=  7.99TF err=2.8e-06  float16=  8.28TF err=4.1e-04  bfloat16=  4.85TF err=3.0e-03
+  dev3 matmul 4096^3: float32=  7.88TF err=2.8e-06  float16=  8.03TF err=4.1e-04  bfloat16=  4.76TF err=3.0e-03
+  MIOpen conv2d fwd/bwd OK, out (16, 128, 128, 128) grad (16, 64, 128, 128)
+  cross-device copy OK: True
+  p2p 0->1: True  0->2: True  2->3: True
+  RCCL all_reduce 4 GPUs: value 10.0 (expect 10.0)  1GiB all_reduce 65 ms  algbw 15.41 GiB/s
+ALL OK

@@ -1,0 +1,4 @@
+2026-10-22T20:59:54+00:00 [fold] fold check on /root/build-reconcile; kernel 7.0.0-38-generic; perf: high high high high ; governor performance; fans rpm: 1199/2508/2491/2510
+2026-10-22T21:01:05+00:00 [fold]   folds-on rc=0 Final estimate: PPL = 5.0607 +/- 0.12944; fusion lines: 
+2026-10-22T21:02:01+00:00 [fold]   folds-off rc=0 Final estimate: PPL = 5.0547 +/- 0.12898; fusion lines: 
+2026-10-22T21:02:01+00:00 [fold] === FOLD CHECK DONE ===

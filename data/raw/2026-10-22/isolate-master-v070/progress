@@ -1,0 +1,6 @@
+2026-10-22T22:04:50+00:00 [isolate] fold check on /root/build-master-v070 (ubatch 16); kernel 7.0.0-38-generic; perf: high high high high ; governor performance; fans rpm: 1199/2488/2484/2488
+2026-10-22T22:06:25+00:00 [isolate]   no-q8 rc=0 Final estimate: PPL = 5.0677 +/- 0.12961; fusion lines: RMS_NORM);add + rms_norm fusion active (ncols 5120, rows 2);
+2026-10-22T22:08:00+00:00 [isolate]   no-addnorm rc=0 Final estimate: PPL = 5.0677 +/- 0.12961; fusion lines: rms_norm + q8_1 fusion active (ncols 5120, rows 2);RMS_NORM);
+2026-10-22T22:09:35+00:00 [isolate]   no-gdn rc=0 Final estimate: PPL = 5.0568 +/- 0.12917; fusion lines: rms_norm + q8_1 fusion active (ncols 5120, rows 2);add + rms_norm fusion active (ncols 5120, rows 2);
+2026-10-22T22:11:09+00:00 [isolate]   gdn-l2only rc=0 Final estimate: PPL = 5.0677 +/- 0.12961; fusion lines: rms_norm + q8_1 fusion active (ncols 5120, rows 2);RMS_NORM);add + rms_norm fusion active (ncols 5120, rows 2);
+2026-10-22T22:11:10+00:00 [isolate] === ISOLATE DONE ===

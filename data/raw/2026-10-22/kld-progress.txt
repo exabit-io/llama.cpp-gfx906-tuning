@@ -1,0 +1,5 @@
+2026-10-22T22:13:19+00:00 [kld] old base (folds off): Final estimate: PPL = 6.2224 +/- 0.23002
+2026-10-22T22:14:17+00:00 [kld] old folds on vs off: 
+2026-10-22T22:15:18+00:00 [kld] new base (folds off): Final estimate: PPL = 6.2297 +/- 0.23037
+2026-10-22T22:16:12+00:00 [kld] new folds on vs off: 
+2026-10-22T22:16:12+00:00 [kld] === KLD DONE ===

@@ -1,0 +1,44 @@
+== 2026-10-22T22:47:05+00:00 sign debs
+OK   mx-llama-cpp-gfx906_0.7.0.git20261022.ef70ef51e.gfx906.20261018172427-1_amd64.deb
+OK   python3-torch-gfx906_2.14.1.gfx906.20261018172427-1_amd64.deb
+== 2026-10-22T22:47:06+00:00 tags on exabit-io/resize-amdgpu-bars
+To github.com:exabit-io/resize-amdgpu-bars.git
+ * [new tag]         mx-llama-cpp-0.7.0-gfx906-rocm10.0 -> mx-llama-cpp-0.7.0-gfx906-rocm10.0
+ * [new tag]         pytorch-2.14.1-gfx906-rocm10.0 -> pytorch-2.14.1-gfx906-rocm10.0
+== 2026-10-22T22:47:09+00:00 release mx-llama-cpp-0.7.0-gfx906-rocm10.0
+== 2026-10-22T22:47:09+00:00 release mx-llama-cpp-0.7.0-gfx906-rocm10.0
+https://github.com/exabit-io/resize-amdgpu-bars/releases/tag/mx-llama-cpp-0.7.0-gfx906-rocm10.0
+== 2026-10-22T22:47:12+00:00 upload
+  mx-llama-cpp-gfx906_0.7.0.git20261022.ef70ef51e.gfx906.20261018172427-1_amd64.deb
+== 2026-10-22T22:47:18+00:00 index
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+  Packages
+  Packages.gz
+  Release
+  Release.gpg
+  InRelease
+  SHA256SUMS
+== 2026-10-22T22:47:25+00:00 verify over https
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+Package:  mx-llama-cpp-gfx906  Version:  0.7.0+git20261022.ef70ef51e.gfx906.20261018172427-1  Filename:  mx-llama-cpp-gfx906_0.7.0.git20261022.ef70ef51e.gfx906.20261018172427-1_amd64.deb
+== done: https://github.com/exabit-io/resize-amdgpu-bars/releases/download/mx-llama-cpp-0.7.0-gfx906-rocm10.0
+== 2026-10-22T22:47:26+00:00 release pytorch-2.14.1-gfx906-rocm10.0
+== 2026-10-22T22:47:26+00:00 release pytorch-2.14.1-gfx906-rocm10.0
+https://github.com/exabit-io/resize-amdgpu-bars/releases/tag/pytorch-2.14.1-gfx906-rocm10.0
+== 2026-10-22T22:47:28+00:00 upload
+  python3-torch-gfx906_2.14.1.gfx906.20261018172427-1_amd64.deb
+  Intel-oneMKL-LICENSE.txt
+  README-third-party.md
+== 2026-10-22T22:48:19+00:00 index
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+  Packages
+  Packages.gz
+  Release
+  Release.gpg
+  InRelease
+  SHA256SUMS
+== 2026-10-22T22:48:28+00:00 verify over https
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+Package:  python3-torch-gfx906  Version:  2.14.1+gfx906.20261018172427-1  Filename:  python3-torch-gfx906_2.14.1.gfx906.20261018172427-1_amd64.deb
+== done: https://github.com/exabit-io/resize-amdgpu-bars/releases/download/pytorch-2.14.1-gfx906-rocm10.0
+== 2026-10-22T22:48:28+00:00 published

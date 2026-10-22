@@ -18,6 +18,13 @@ cell, offload/config sweeps, Flash-Next performance numbers, new tooling, report
 
 ## 2. The code — one repository, `exabit-io/mx-llama.cpp` (lead, 2026-09-24)
 
+> **2026-10-22 — substrate moved, the v0.5.0 text below is history.** PR #17 was closed (mxxm-t merged b11553 himself).
+> Substrate = `merge-v0.7.0` (`342507407`) = mxxm-t master `c4d12e2c0` + llama.cpp v0.7.0, offered as
+> [mxxm-t/mx-llama.cpp#22](https://github.com/mxxm-t/mx-llama.cpp/pull/22). `master` = `gfx906-single` = `gfx906-multi` =
+> `ef70ef51e` (the same 18 Exabit commits, rebased; PPL 16K/6 5.6264 bit-identical to the old master); `gfx906-candidates`
+> = `9a901c33f`. Tags `gfx906/v0.7.0/r0/*`, `gfx906/b11553/r0/master`. Installed build: deb `mx-llama-cpp-gfx906` in
+> /opt/mx-llama.cpp. Details: memory `mx-llama-cpp-v070-pr`, work dir /root/rebase-v070.
+
 **All gfx906 code lives in [`exabit-io/mx-llama.cpp`](https://github.com/exabit-io/mx-llama.cpp)**, our fork of
 mxxm-t's fork. **The substrate** under every build, branch and measurement is `528384980` (branch `merge-v0.5.0`,
 tag `gfx906/v0.5.0/r0/master`):
