@@ -42,8 +42,8 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   with ntg=128**, where q8_0/q4_0 decoded 107.4 against q8_0/q8_0's 111.2 aggregate — a **3% cost**, not 18%
   (the 18% was against f16). Today's gain is measured at **4 slots and 1 slot with ntg=1024 on v0.4.1 +
   RCCL + ROCm 10.0**. The sign difference is a difference of SHAPE and PLATFORM, not a build artefact, and
-  **q4_0-V is NOT established at 8 slots** — R2.2's other design point, where the old data says it loses 3%. It saves **23.5%** of KV bytes (105.6 vs 138.1 KiB/token
-  for this model) but its decode slope is **0.092 vs 0.086** ms per sequence per 1K of depth — i.e. **7% SLOWER**,
+  **q4_0-V is NOT established at 8 slots** — R2.2's other design point, where the old data says it loses 3%. It saves **23.5%** of KV bytes (26.0 vs 34.0 KiB/token
+  over the four dies, survey/q4v-cache.md) but its decode slope is **0.092 vs 0.086** ms per sequence per 1K of depth — i.e. **7% SLOWER**,
   not faster. Fewer bytes read and yet a higher slope means the FA kernel's dequant cost exceeds the bandwidth it
   saves on gfx906. Since capacity here is **decode-bandwidth-bound, not memory-bound** (memory allows ~3.1x more
   than R3.1 does), trading decode for memory is the wrong direction at the current design points. Keep it as a
