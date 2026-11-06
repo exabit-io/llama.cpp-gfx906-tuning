@@ -8,7 +8,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$NEW/lib
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$NEW/lib
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md
 echo "# $TAG  $(date -Is)  b10837 tp4 batched-bench 8 x 32K, private vs --kv-unified (libggml-hip: $(ldd $NEW/bin/llama-batched-bench | grep -o '/opt/[^ ]*libggml-hip[^ ]*'))" > $OUT
 for mode in private unified; do opt=""; [ $mode = unified ] && opt="--kv-unified"

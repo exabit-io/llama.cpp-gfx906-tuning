@@ -9,7 +9,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md
 { echo "# $TAG  $(date -Is)  tile-table ablation on upstream b10288"; echo "| build | model | rocm0 pp2048 | rocm0 tg128 | tp4 pp2048 | tp4 tg128 |"; echo "|---|---|---:|---:|---:|---:|"; } > $OUT
 lb() { local P=$1 name=$2 M=$3 q=$4; LD_LIBRARY_PATH=$P/lib $P/bin/llama-bench -m $M --device rocm0,rocm0/rocm1/rocm2/rocm3 -sm tensor -fa 1 -p 2048 -ub 2048 -b 2048 -n 128 -d 0 -r 3 -o md > $B/$TAG-$name-$q-lb.md 2>$B/$TAG-$name-$q-lb.err

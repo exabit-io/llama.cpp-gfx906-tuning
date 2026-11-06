@@ -9,7 +9,7 @@ for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done
 q "=== post22 start"; setmax; start_sampler $B/post22-clocks.txt
 QUEUE="^/bin/bash $B/post22[.]sh" DONEFLAG=$B/.post22-done SMCLOG=$B/smc-power-post22.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-post22.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-post22.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 OUT=$B/qwen38-27b-post22.md; echo "# post22 $(date -Is): the gfx906 branch build (r2, mul_mat_id fix) with and without the fork's weight repack; bisect perplexities" > $OUT
 { echo; echo "## llama-bench -p 2048 -n 128 -r 3 (tp4 + rocm0), gfx906.env"; echo "| build | repack | tp4 pp2048 | tp4 tg128 | rocm0 pp2048 | rocm0 tg128 |"; echo "|---|---|---:|---:|---:|---:|"; } >> $OUT
 for nr in 1 0; do P=/opt/llama.cpp-gfx906-master-r2; LD_LIBRARY_PATH=$P/lib timeout 1200 $P/bin/llama-bench -m $M --device rocm0/rocm1/rocm2/rocm3,rocm0 -sm tensor -fa 1 -p 2048 -ub 2048 -b 2048 -n 128 -r 3 -nr $nr -o md > $B/post22-nr$nr-lb.md 2>$B/post22-nr$nr-lb.err

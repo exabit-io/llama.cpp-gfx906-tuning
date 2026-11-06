@@ -9,7 +9,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 OUT=$B/$TAG.md
 { echo "# $TAG  $(date -Is)  batch-1 MMVQ variants, fusion tree; llama-bench -p 0 -n 128 -r 3"
   echo "| build | knobs (ROWS1 NWARPS1 VDR8_1COL) | tp4 tg128 | rocm0 tg128 |"; echo "|---|---|---:|---:|"; } > $OUT

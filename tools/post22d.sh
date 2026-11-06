@@ -8,7 +8,7 @@ sleep 3; pkill -f "^/bin/bash $B/queue-21-ablation[.]sh"; pkill -f "^/bin/bash $
 q "=== post22d start (queue-21 pre-empted)"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/$TAG-clocks.txt
 QUEUE="^/bin/bash $B/post22d[.]sh" DONEFLAG=$B/.post22d-done SMCLOG=$B/smc-power-post22d.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-post22d.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-post22d.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 OUT=$B/$TAG.md; echo "# $TAG $(date -Is): gfx906 branch (r2) at the server level, team16 profile (-np 16, 16 x 32K), 1300/256 requests; production read 67.4 / 76.1 / 83.0 / 83.4 at 4 / 8 / 12 / 16 clients" > $OUT
 P=/opt/llama.cpp-gfx906-master-r2
 for rp in on off; do extra=""; [ $rp = off ] && extra="--no-repack"

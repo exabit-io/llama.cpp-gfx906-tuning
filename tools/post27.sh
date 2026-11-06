@@ -7,7 +7,7 @@ while [ ! -f $B/.post26-done ] || ! grep -q BUILD-R3-OK $B/build-r3.log 2>/dev/n
 q "=== post27 start (r3 = branch + unsafe-math)"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/post27-clocks.txt
 QUEUE="^/bin/bash $B/post27[.]sh" DONEFLAG=$B/.post27-done SMCLOG=$B/smc-power-post27.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-post27.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-post27.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 OUT=$B/qwen38-27b-post27.md; echo "# post27 $(date -Is): branch r3 (-funsafe-math-optimizations restored), --no-repack unless noted; production for reference" > $OUT
 q "post27 ppl $($B/bisect/bisect-ppl.sh $P r3-unsafe-math)"
 { echo; echo "## per-sample tg128 x5"; } >> $B/bisect/tg.md

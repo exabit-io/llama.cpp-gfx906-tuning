@@ -12,7 +12,7 @@ stopload() { pkill -x yes 2>/dev/null; }
 cleanup() { trap - INT TERM; stopload; setrapl 150; pkill -P $$ 2>/dev/null; pkill -f "^/opt/llama.cpp[^ ]*/bin/llama-server .*--port 8089" 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481
 OUT=$B/$TAG.md; SMC=$B/$TAG-smc.log; nohup $B/smc-log.sh $SMC > /dev/null 2>&1 & SMCPID=$!
 dc() { tail -1 $SMC 2>/dev/null | sed -n 's/.*PZ0G=\([0-9]*\).*/\1/p'; }
 echo "# $TAG  $(date -Is)  16-client serving (tp4 -np 16, production build) beside an all-core host load at stepped RAPL caps" > $OUT

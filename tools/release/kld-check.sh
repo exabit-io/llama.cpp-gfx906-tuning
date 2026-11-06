@@ -7,7 +7,7 @@ M=/root/models/Qwen3.8-27B-Q8_0.gguf; F=/root/models/wikitext-2-raw/wiki.test.ra
 L(){ echo "$1/bin:$1/lib:/opt/rocm/lib:/opt/rocm/core-10.0/lib"; }
 log(){ echo "$(date -Is) [kld] $*" | tee -a $O/progress; }
 . $R/gpu-test-env.sh; setmax
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml HSA_FORCE_FINE_GRAIN_PCIE=1
+export HSA_FORCE_FINE_GRAIN_PCIE=1
 DONE=$O/.done; rm -f $DONE
 QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$O/smc.log SCLK_GUARD=1 nohup $R/clamp-watchdog-v2.sh >> $O/watchdog.out 2>&1 &
 WDOG=$!

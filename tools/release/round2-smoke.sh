@@ -13,7 +13,7 @@ P=$O/progress; DONE=$O/.done; rm -f $DONE; echo $$ > $O/pid
 log(){ echo "$(date -Is) [r2] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml HSA_FORCE_FINE_GRAIN_PCIE=1 LLAMA_PLE_SHARD=1
+export HSA_FORCE_FINE_GRAIN_PCIE=1 LLAMA_PLE_SHARD=1
 BPID=""; SPID=""
 cleanup(){ trap - INT TERM EXIT; for p in "${BPID:-}" "${SPID:-}" "${WDOG:-}" "${SMCL:-}"; do kpid "$p"; done; restore; log "STOPPED (trap)"; touch $DONE; exit 1; }
 trap cleanup INT TERM EXIT

@@ -111,7 +111,7 @@ fi
 log "correctness gate passed: test-backend-ops PASS, ppl $ppl, Flash-Next generates"
 # ---- phase 2: test
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl
+export GGML_CUDA_ALLREDUCE=nccl
 export GGML_ENABLE_CUSTOM_AR=1 GGML_TP_AR_MAX_NE=20481 HSA_FORCE_FINE_GRAIN_PCIE=1
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 BPID=""

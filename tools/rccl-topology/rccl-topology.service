@@ -1,0 +1,25 @@
+# rccl-topology.service -- writes /var/cache/rccl/topology.xml, the RCCL topology for the XGMI ring of the AMD GPUs, on every
+# boot, after resize-amdgpu-bars has loaded amdgpu. The file is derived from sysfs (PCI tree, KFD hives), so PCI
+# renumbering needs no manual edit. /etc/rccl.conf points RCCL at it (NCCL_TOPO_FILE); to use a hand-made topology
+# instead, point that line at your own file.
+#
+# Verify:  journalctl -b -u rccl-topology.service
+#          rccl-topology show
+# If the GPUs do not match the supported shape, the unit fails and the previous file is moved to topology.xml.stale,
+# so RCCL never reads a topology from another boot. RCCL then detects the topology itself, which on the Mac Pro takes
+# the firmware's swapped bridge links (about 25 instead of 33 GB/s all-reduce).
+
+[Unit]
+Description=RCCL topology file for the XGMI ring of the AMD GPUs
+Documentation=file:/usr/local/sbin/rccl-topology
+After=resize-amdgpu-bars.service systemd-modules-load.service
+Before=multi-user.target
+ConditionPathIsDirectory=/sys/class/kfd/kfd/topology/nodes
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/rccl-topology generate --output /var/cache/rccl/topology.xml --wait 120
+
+[Install]
+WantedBy=multi-user.target

@@ -8,7 +8,7 @@ B=/root/rocm-tests/bench; OUT=$B/trace-m1; PROG=$OUT/m1.progress
 M=/root/models/Qwen3.8-27B-Q8_0.gguf
 P=/opt/llama.cpp-mxxm-fh
 export LD_LIBRARY_PATH=$P/lib
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 log(){ echo "$(date -Is) $*" | tee -a "$PROG"; }
 SAMP=""; SMCPID=""
 cleanup(){ restore; [ -n "$SAMP" ] && kill $SAMP 2>/dev/null; [ -n "$SMCPID" ] && kill $SMCPID 2>/dev/null; }

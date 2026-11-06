@@ -8,7 +8,7 @@ q "=== n3b build start"; ( cd $WT && CCACHE_BASEDIR=/root bash scripts/gfx906/bu
 q "=== n3b measure start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/n3b-clocks.txt
 QUEUE="^/bin/bash $B/night-0909-n3b[.]sh" DONEFLAG=$B/.n3b-done SMCLOG=$B/smc-power-n3b.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-night0909.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-n3b.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; q "n3b KILLED"; exit 1; }; trap cleanup INT TERM
 { echo; echo "## 8. n3b = DPP everywhere except the flash-attention kernels, vs n3 ($(date -Is))"; echo "| round | build | dev | test | depth | t/s |"; echo "|---|---|---|---|---:|---:|"; } >> $OUT
 for r in 1 2; do for b in $( [ $r = 1 ] && echo "n3 n3b" || echo "n3b n3" ); do P=$N3; [ $b = n3b ] && P=$N3B

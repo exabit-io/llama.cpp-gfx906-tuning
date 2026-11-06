@@ -20,7 +20,7 @@ kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/n
 vram(){ local t=0; for d in 0b 0e 1b 1e; do t=$((t+$(cat /sys/bus/pci/devices/0000:$d:00.0/mem_info_vram_used 2>/dev/null || echo 0))); done; echo $t; }
 rm -f $W/.fnsweep2-done
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl
+export GGML_CUDA_ALLREDUCE=nccl
 export GGML_ENABLE_CUSTOM_AR=1 GGML_TP_AR_MAX_NE=20481 HSA_FORCE_FINE_GRAIN_PCIE=1
 export LLAMA_PLE_SHARD=1
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100

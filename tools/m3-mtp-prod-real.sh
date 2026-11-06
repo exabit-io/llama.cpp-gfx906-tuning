@@ -9,7 +9,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; pkill -f "^/opt/llama.cpp[^ ]*/bin/llama-server .*--port 8089" 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
 OUT=$B/$TAG.md
 { echo "# $TAG  $(date -Is)  production build tp4, greedy, 300 generated, N concurrent distinct wikitext prompts, two waves (wave 2 = clean decode); libggml-hip: $(ldd $P/bin/llama-server | grep -o '/opt/[^ ]*libggml-hip[^ ]*')"
   echo "| variant | depth | conc | wall s | prompt tok | TTFT mean / max s | per-req gen t/s | sum per-req gen t/s | wave agg gen t/s | accepted / drafted |"; echo "|---|---:|---:|---:|---:|---:|---:|---:|---:|---|"; } > $OUT

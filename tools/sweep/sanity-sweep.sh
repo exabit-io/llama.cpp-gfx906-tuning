@@ -28,7 +28,7 @@ if ! $AC $MXB $SU $ST >> $P 2>&1; then log "FATAL: builds differ in a code-affec
 if [ "$(readlink -f $MX)" != /opt/llama.cpp-mx-a23e12438 ]; then log "FATAL: /opt/llama.cpp-mx is not the checked install"; touch $DONE; exit 1; fi
 log "builds checked: master $(readlink -f $MX) (from $MXB), substrate $SU (528384980), stock $ST (7fe450e) — RCCL + FA_QUANTS=all in all three"
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl
+export GGML_CUDA_ALLREDUCE=nccl
 export GGML_ENABLE_CUSTOM_AR=1 GGML_TP_AR_MAX_NE=20481 HSA_FORCE_FINE_GRAIN_PCIE=1
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 BPID=""

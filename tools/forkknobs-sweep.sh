@@ -11,7 +11,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md; F=/root/models/wikitext-2-raw/wiki.test.raw
 { echo "# $TAG  $(date -Is)  fork knobs on the production build, tp4 (libggml-hip: $(ldd $P/bin/llama-bench | grep -o '/opt/[^ ]*libggml-hip[^ ]*'))"
   echo "| variant | env | AR path (from the log) | pp2048 t/s | tg128 t/s | 8 slots 2K t/s | 16 slots 2K t/s |"; echo "|---|---|---|---:|---:|---:|---:|"; } > $OUT

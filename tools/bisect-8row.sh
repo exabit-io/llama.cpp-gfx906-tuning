@@ -6,7 +6,7 @@ q() { echo "$(date -Is) $*" >> $Q; }
 q "=== bisect8 start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/bisect8-clocks.txt
 QUEUE="^/bin/bash $B/bisect-8row[.]sh" DONEFLAG=$B/.bisect8-done SMCLOG=$B/smc-power-bisect8.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-bisect8.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-bisect8.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md
 { echo "# $TAG $(date -Is): batched-bench tp4 2K, twelve 8-row cells in one process (-npl 8 x12, -c 69632); production repeats 174.0 +/- 0.3, the branch shows intermittent 155-170 cells"; echo "| build (fork position) | cells | min | max | n < 171 |"; echo "|---|---|---:|---:|---:|"; } > $OUT
 run() { local name=$1 P=$2; shift 2; [ -x $P/bin/llama-batched-bench ] || { echo "| $name | no binary | | | |" >> $OUT; return; }

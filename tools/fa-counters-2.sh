@@ -13,7 +13,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
 set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md; T=$B/trace-fa2; rm -rf $T; mkdir -p $T
 echo "# $TAG  $(date -Is)  FA head-256 counters (gfx906 counter set), production build tp4" > $OUT

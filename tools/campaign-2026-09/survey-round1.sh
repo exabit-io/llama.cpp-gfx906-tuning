@@ -22,7 +22,7 @@ for b in /root/build-stock-v041-rccl /root/build-substrate-v041-rccl /root/build
   /root/llama.cpp-benchmarking/tools/assert-build-config.sh "$b" >/dev/null || { echo "FATAL: $b violates R3.11" >&2; exit 1; }
 done
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml
+true
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 export HSA_FORCE_FINE_GRAIN_PCIE=1
 cleanup(){ trap - INT TERM EXIT; pkill -f "/bin/llama-batched-bench " 2>/dev/null; kpid "${SAMP:-}"

@@ -4,19 +4,19 @@ Written 2026-10-22, after the v0.7.0 cycle (reconcile with mxxm-t, merge, rebase
 next upstream release. Every script named here is in `tools/release/` (box-side copies; the working copies and their logs
 from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `reports/2026-10-22-v070-rebase.md`.
 
-## 0. State after the v0.7.0 cycle
+## 0. State after the v0.9.0 cycle (2026-11-06)
 
 | What | Where / value |
 |---|---|
 | Code repository | `github.com/exabit-io/mx-llama.cpp`; local clone `/root/exabit-llama.cpp`, remote `exabit-mx`; upstream fork remote `mxxm` (mxxm-t/mx-llama.cpp), `upstream` (ggml-org) |
-| Pure substrate | branch `merge-v0.7.0` = `342507407` = mxxm-t master `c4d12e2c0` (upstream b11553) + one merge of v0.7.0 (`620d222`, b11669); PR [mxxm-t/mx-llama.cpp#22](https://github.com/mxxm-t/mx-llama.cpp/pull/22) |
-| The build | `master` = `gfx906-single` = `gfx906-multi` = `ef70ef51e` = substrate + 18 Exabit commits (RCCL default, AR size gate, FA_QUANTS=all, AR 20481, terms 02 03 04 07 08 10 12 23 28 01 15 05 09, max-ilp) |
-| Unbinned pool | `gfx906-candidates` = `9a901c33f` (substrate + RCCL + 20 terms + BRANCHES.md) |
-| Tags | `gfx906/v0.7.0/r0/{merge,master,candidates}`, `gfx906/b11553/r0/master` (same 18 commits on mxxm-t's b11553 master); older states `gfx906/v0.5.0/*` |
-| ROCm | 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, rocBLAS 5.6), apt repo `s3.arkprojects.space/apt-gfx906`, pinned `amdrocm*` to `10.0.0-gfx906*` |
-| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 0.7.0+git20261022.ef70ef51e.gfx906.20261018172427-1 in `/opt/mx-llama.cpp` (DT_RPATH, no `LD_LIBRARY_PATH` needed or possible) |
-| Installed PyTorch | deb `python3-torch-gfx906` 2.14.1+gfx906.20261018172427-1 (torchvision 0.29.0, torchaudio 2.11.0), system `python3` |
-| Package releases | `github.com/exabit-io/resize-amdgpu-bars/releases/tag/mx-llama-cpp-0.7.0-gfx906-rocm10.0` and `.../pytorch-2.14.1-gfx906-rocm10.0` (signed flat apt repos); box sources in `/etc/apt/sources.list.d/{mx-llama-cpp-gfx906,pytorch-gfx906}.sources` |
+| Pure substrate | branch `merge-v0.9.0` = `0f901b4c5` = merge of v0.9.0 (`cd959ba`, b12110) onto mxxm-t `c4d12e2c0` + HIP top-k ballot fix + merge of mxxm-t master `cdc81dae4`; PR [mxxm-t/mx-llama.cpp#23](https://github.com/mxxm-t/mx-llama.cpp/pull/23) (supersedes #22) |
+| The build | tag `gfx906/v0.9.0/r0/master` = `58db0123a` = substrate + the 18 Exabit commits. The branches `master`/`gfx906-single`/`gfx906-multi` move there once the lead runs/approves the force-push (blocked for the agent) |
+| Unbinned pool | tag `gfx906/v0.9.0/r0/candidates` = `d0e315972` |
+| ROCm | 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, rocBLAS 5.6) |
+| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 0.9.0+git20261106.58db0123a.gfx906.20261018172427-1, release `mx-llama-cpp-0.9.0-gfx906-rocm10.0` on `exabit-io/resize-amdgpu-bars` |
+| RCCL topology | generated at boot: `rccl-topology.service` -> `/var/cache/rccl/topology.xml`; `/etc/rccl.conf` points RCCL at it (source `tools/rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
+
+Previous cycle (v0.7.0, 2026-10-22): `reports/2026-10-22-v070-rebase.md`; this cycle: `reports/2026-11-06-v090-rebase.md`.
 
 ## 1. Identities and access
 
@@ -68,6 +68,21 @@ and read upstream's diff of every fork-heavy file in that list. The v0.7.0 cycle
 | New upstream feature on a path the fork replaced | LiliCorr (#30506) captures embeddings only in the eager DFlash inject; the fork defers injects | LiliCorr stays on the eager path |
 | Fork shortcut that never covered a path | term 04's fold ignored by the chunked GDN kernel (KDA, 32-64 tokens) | folded calls stay on the recurrent kernel |
 
+The v0.9.0 cycle added these classes (all compiled cleanly):
+
+| Class | v0.9.0 instance | Fix |
+|---|---|---|
+| Upstream rewrote a kernel a fold lives in | float4 `rms_norm` variants (#29720): the fold-off path takes the vector kernel, the fold only existed in the scalar one, so folds-on stopped being bit-exact | implement the fold in both paths; run every shuffle on all lanes and gate only the stores |
+| A shared numeric convention changed | Q8_1 sum is `d * sum(q)` (#31247); term 02's folded producer used the float sum | follow the producer the cache entry stands in for (`quantize_q8_1`) |
+| Trailing struct member added | `mmq_args.fusion`; the fork's chunked launches built it without, which compiles and drops a fusion | grep every aggregate initializer of a struct upstream extended |
+| Same name, two meanings | fork `layer_inp_dev` taps vs upstream's device buffer | rename one side |
+| Same arch name, two formats | DeepSeek-V4.1 (`deepseek41`), fork vs upstream GGUF | take upstream's format (the converter writes it); port the fork's routing |
+| Base moved mid-cycle | mxxm-t pushed `cdc81dae4` (column-thread GDN) while the PR was open | merge his master into the PR branch (force-push is blocked); re-check fork terms against his new code: term 04's folded calls had to skip the new kernel |
+| Upstream bug on wave64 | grouped top-k fusion (#29181): HIP `__ballot_sync` ANDs with its mask | separate commit on the PR branch |
+
+Run `ctest -R test-llama-context` too: upstream's rollback cases assume the last ubatch's snapshots only, which the fork's ring
+exceeds (fixed in the merge); the realloc debug check and the four-way parallel run fail on #22's tree as well (fork-side, open).
+
 Also check the refactors that change an API the fork extends (v0.7.0: `llama_context::sched_new()`, the loader's per-file buffer
 map removed in #30405): fold the fork's additions into the new structure.
 
@@ -86,7 +101,8 @@ commit, and the others from the old branch. Restore the `term NN-...` subjects a
 ## 5. Build and test
 
 `tools/release/build.sh SRC BUILD LOG` (the tree's own defaults; ~2-4 min with ccache). Then, in this order, each with the
-clamp watchdog and `gpu-test-env.sh` (macpro-fand pins the GPUs at 125 W):
+clamp watchdog and `gpu-test-env.sh` (macpro-fand pins the GPUs at 125 W). Check first that RCCL initialises
+(no `NCCL init failed` in a `-sm tensor` log of a master build): a stale topology made every RCCL build fall back silently in Oct-Nov 2026:
 
 | Test | Script | v0.7.0 values (reference) |
 |---|---|---|

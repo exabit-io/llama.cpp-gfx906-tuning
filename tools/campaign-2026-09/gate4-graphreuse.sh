@@ -30,7 +30,7 @@ cleanup() { trap - INT TERM EXIT; kpid "${SRV:-}"; sleep 3
 trap cleanup INT TERM EXIT
 export LD_LIBRARY_PATH=$B/lib          # T: no rpath -- without this the stock kernels are loaded
 set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml
+true
 for d in 0b 0e 1b 1e; do echo 125000000 > /sys/bus/pci/devices/0000:$d:00.0/hwmon/hwmon*/power1_cap 2>/dev/null; done
 # Envelope guard on every long GPU job (standing rule). Guarded by PID, not by a cmdline pattern:
 # on 2026-09-20 a pattern-guarded watchdog exited 1 s after start because the launch form differed,

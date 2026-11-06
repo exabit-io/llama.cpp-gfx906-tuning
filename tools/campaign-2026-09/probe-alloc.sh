@@ -20,7 +20,7 @@ kpid() { [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 . $B/gpu-test-env.sh
 set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 export LD_LIBRARY_PATH=$P/lib:$RT
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all"
 DIES="0b 0e 1b 1e"

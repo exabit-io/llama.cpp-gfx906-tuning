@@ -7,7 +7,7 @@ set -u
 W=/root/night-20260919; B=/root/build-substrate-v041
 M=/root/models/Qwen3.8-27B-Q8_0.gguf; F=/root/models/wikitext-2-raw/wiki.test.raw
 set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 export LD_LIBRARY_PATH=$B/bin:$B/lib:/opt/rocm/core-10.0/lib
 echo "$(date -Is) starting C5 perplexity gate 16K/6" >> $W/chain.log

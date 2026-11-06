@@ -10,7 +10,7 @@ pfx() { case $1 in prod) echo $PR;; n3) echo $N3;; n4) echo $N4;; n5) echo $N5;;
 q "=== night0909 addendum start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/night0909-add-clocks.txt
 QUEUE="^/bin/bash $B/night-0909-addendum[.]sh" DONEFLAG=$B/.night0909-add-done SMCLOG=$B/smc-power-night0909-add.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-night0909.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-night0909-add.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"
 wait_ready() { local port=$1 pid=$2 i; for i in $(seq 1 900); do curl -sf http://127.0.0.1:$port/health >/dev/null && return 0; kill -0 $pid 2>/dev/null || return 1; sleep 1; done; return 1; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; pkill -f llama-server; kill ${SAMP:-} 2>/dev/null; restore; q "night0909 addendum KILLED"; exit 1; }

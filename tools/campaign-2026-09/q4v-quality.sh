@@ -14,7 +14,7 @@ log(){ echo "$(date -Is) [q4v] $*" | tee -a $W/q4v.progress; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
 [ -f "$C" ] || { echo "FATAL: corpus $C missing" >&2; exit 1; }
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl
+export GGML_CUDA_ALLREDUCE=nccl
 export GGML_ENABLE_CUSTOM_AR=1 GGML_TP_AR_MAX_NE=20481 HSA_FORCE_FINE_GRAIN_PCIE=1
 cleanup(){ trap - INT TERM EXIT; pkill -f "/bin/llama-perplexity " 2>/dev/null; kpid "${SAMP:-}"
   pkill -f "^/bin/bash [^ ]*clamp-watchdog-v2[.]sh" 2>/dev/null; pkill -f "^/bin/bash [^ ]*smc-log[.]sh $W" 2>/dev/null

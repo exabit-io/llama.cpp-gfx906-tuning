@@ -11,7 +11,7 @@ setcap() { local w=$1 d; for d in $DIES; do echo $((w*1000000)) > $(capfile $d);
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; setcap 200; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md
 { echo "# $TAG  $(date -Is)  production build tp4: decode-only (16 slots, 2K) and prefill-only (pp2048) per cap"; echo "| cap W | decode 16 slots tok/s | prefill pp2048 tok/s | mean die W during decode | during prefill |"; echo "|---:|---:|---:|---:|---:|"; } > $OUT
 for CAP in 200 170 140 125 85 200; do setcap $CAP; log "cap $CAP"

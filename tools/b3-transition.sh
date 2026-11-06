@@ -6,7 +6,7 @@ q() { echo "$(date -Is) $*" >> $Q; }
 q "=== b3 start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/b3-clocks.txt
 QUEUE="^/bin/bash $B/b3-transition[.]sh" DONEFLAG=$B/.b3-done SMCLOG=$B/smc-power-b3.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-b3.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-b3.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md
 { echo "# $TAG $(date -Is): batched-bench tp4 2K -npl 32,8,8,8,16,8,24,8,32,8,8,8 (-c 69632): persistence of the after-32 loss, and 24 as a trigger"; echo "| build | 32 | 8 | 8 | 8 | 16 | 8 | 24 | 8 | 32 | 8 | 8 | 8 |"; echo "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"; } > $OUT
 for b in r2-nr1 a3 prod; do case $b in r2-nr1) P=/opt/llama.cpp-gfx906-master-r2; X="--no-repack";; a3) P=/opt/llama.cpp-gfx906-s1b-a3; X="";; prod) P=/opt/llama.cpp-prod; X="";; esac

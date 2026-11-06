@@ -4,7 +4,7 @@ set -u
 R=/root/rocm-tests/bench; O=/root/rebase-v070/mtp-deb; mkdir -p $O
 M=/root/models/Qwen3.8-27B-Q8_0.gguf; B=/opt/mx-llama.cpp
 . $R/gpu-test-env.sh; setmax
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml HSA_FORCE_FINE_GRAIN_PCIE=1
+export HSA_FORCE_FINE_GRAIN_PCIE=1
 $B/bin/llama-server -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -c 8192 -np 1 --port 8092 \
   --spec-type draft-mtp --spec-draft-n-max 2 > $O/server.out 2> $O/server.log < /dev/null &
 SPID=$!

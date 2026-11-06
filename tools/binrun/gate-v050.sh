@@ -16,7 +16,7 @@ rm -f $DONE; echo $$ > $W/gate-$GN.pid
 SRC=$(grep -m1 "^CMAKE_HOME_DIRECTORY" $B/CMakeCache.txt | cut -d= -f2)
 log "gate on $B, source commit $(git -C $SRC rev-parse HEAD)"
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl HSA_FORCE_FINE_GRAIN_PCIE=1 LLAMA_PLE_SHARD=1
+export GGML_CUDA_ALLREDUCE=nccl HSA_FORCE_FINE_GRAIN_PCIE=1 LLAMA_PLE_SHARD=1
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 T0=""; T1=""; T2=""; T3=""; BPID=""
 cleanup(){ trap - INT TERM EXIT; for p in "${T0:-}" "${T1:-}" "${T2:-}" "${T3:-}" "${BPID:-}" "${SAMP:-}" "${WDOG:-}" "${SMCL:-}"; do kpid "$p"; done

@@ -4,7 +4,7 @@
 # link: two hops or PCIe). llama-bench pp2048/tg128 -r 3 and batched-bench -npl 8 at 2K per pair. The diagonal bounds the link's worth from below.
 B=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf; RAPL=/sys/class/powercap/intel-rapl:0; P=/opt/llama.cpp-prod; TAG=qwen38-27b-pair-link
 . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
 OUT=$B/$TAG.md; echo "# $TAG $(date -Is): tp2 on three pairs of the ring as cabled (production build, gfx906.env)" > $OUT
 echo "| pair | link | pp2048 | tg128 | batched 8 slots decode | batched 8 prefill |" >> $OUT; echo "|---|---|---:|---:|---:|---:|" >> $OUT
 for spec in "on-card:rocm0/rocm1:rocm0,rocm1:one direct XGMI link (0b-0e)" "bridge:rocm0/rocm2:rocm0,rocm2:one direct XGMI link (0b-1b)" "diagonal:rocm0/rocm3:rocm0,rocm3:no direct link (0b-1e: two hops or PCIe)"; do IFS=: read name dev devc desc <<< "$spec"

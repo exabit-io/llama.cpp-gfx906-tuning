@@ -9,7 +9,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md; T=$B/trace-fa; rm -rf $T; mkdir -p $T
 echo "# $TAG  $(date -Is)  FA head-256 counters, production build tp4" > $OUT
 PMC="--pmc SQ_INSTS_VALU SQ_BUSY_CYCLES SQ_WAIT_INST_ANY TCP_TOTAL_CACHE_ACCESSES"

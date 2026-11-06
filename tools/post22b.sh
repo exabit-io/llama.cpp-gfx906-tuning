@@ -12,7 +12,7 @@ QUEUE="^/bin/bash $B/post22b[.]sh" DONEFLAG=$B/.post22b-done SMCLOG=$B/smc-power
 nohup $B/smc-log.sh $B/smc-power-post22b.log > /dev/null 2>&1 &
 OUT=$B/qwen38-27b-post22b.md; echo "# post22b $(date -Is): gfx906 branch (r2) tp4 single-stream instability, knob sweep; llama-bench -p 0 -n 128 -r 3 --no-repack, gfx906.env base" > $OUT
 echo "| variant | tp4 tg128 |" >> $OUT; echo "|---|---:|" >> $OUT
-run() { local name=$1; shift; ( set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib "$@"
+run() { local name=$1; shift; ( set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib "$@"
   timeout 600 $P/bin/llama-bench -m $M --device rocm0/rocm1/rocm2/rocm3 -sm tensor -fa 1 -p 0 -n 128 -r 3 -nr 1 -o md > $B/post22b-$name.md 2>$B/post22b-$name.err )
   local c; c=$(grep -E '^\| qwen' $B/post22b-$name.md | awk -F'|' '{gsub(/^ +| +$/,"",$(NF-1)); print $(NF-1)}' | tail -1); echo "| $name | ${c:-fail} |" >> $OUT; q "post22b $name: ${c:-fail}"; }
 run base X=1

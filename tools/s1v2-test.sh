@@ -6,7 +6,7 @@ q() { echo "$(date -Is) $*" >> $Q; }
 q "=== s1v2 start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/s1v2-clocks.txt
 QUEUE="^/bin/bash $B/s1v2-test[.]sh" DONEFLAG=$B/.s1v2-done SMCLOG=$B/smc-power-s1v2.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-s1v2.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-s1v2.log > /dev/null 2>&1 &
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md
 pfx() { case $1 in up) echo /opt/llama.cpp-master;; s1) echo /opt/llama.cpp-s1-upstream;; s1v2) echo /opt/llama.cpp-s1-upstream-v2;; esac; }
 { echo "# $TAG $(date -Is): S1 patch v2 (J>=32) vs v1 (J>=8) vs pristine master 5d806aa25"; echo; echo "## batched tp4 2K -npl 1,8,16,32, two interleaved rounds"; echo "| round | build | 1 | 8 | 16 | 32 |"; echo "|---|---|---:|---:|---:|---:|"; } > $OUT

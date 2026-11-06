@@ -38,7 +38,7 @@ restore
 # 4. the PR suite minus test-backend-ops on the rebased master (RCCL on), and perplexity on candidates
 SKIP_TBO=1 SRC=/root/wt-master-v070 $W/pr-test.sh $BM $W/pr-test-master-v070; log "pr-test master-v070 rc=$?"
 . $R/gpu-test-env.sh; setmax
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml HSA_FORCE_FINE_GRAIN_PCIE=1
+export HSA_FORCE_FINE_GRAIN_PCIE=1
 LD_LIBRARY_PATH=$(L $BC) timeout 7200 $BC/bin/llama-perplexity -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all -fa on -b 2048 -ub 2048 -c 16384 --chunks 6 -f $F > $W/ppl-candidates.out 2> $W/ppl-candidates.log < /dev/null
 log "candidates ppl rc=$? $(grep -oE 'Final estimate: PPL = [0-9.]+ \+/- [0-9.]+' $W/ppl-candidates.log | tail -1)"
 restore

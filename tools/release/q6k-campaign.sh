@@ -4,7 +4,7 @@
 # RCCL + gated custom AR (the binrun environment). Phases:
 #   Q  quality vs the BF16 original at 64K context, 4 chunks (KLD, top-token agreement, PPL); Lam12 Q6_K vs Lam12 Q8_0
 #   S  speed: llama-batched-bench, multi 4 x 65536 (n=5) and single 1 x 260864 (n=6), -ntg 1024, seeded random order
-#   M  MTP off vs draft-mtp n-max 3: mtp-depth-client, 4 x 64K and 1 x 252K, 1024 generated, two waves, n=3, random order
+#   M  MTP off vs draft-mtp n-max 3: mtp-depth-client, 4 x 64K and 1 x 252K, 1024 generated, two waves, n=4 (3 vs 3 cannot reach p<0.10), random order
 #   C  capacity: largest context per slot that loads at 4 slots, f16 KV, per quant (bisection on llama-server load)
 # PHASES (env) selects phases, default "Q S M C".
 set -u
@@ -15,12 +15,12 @@ BF=$MD/Huihui-Qwen3.8-27B-abliterated-BF16.gguf
 declare -A MODEL=( [q8]=$MD/Huihui-Qwen3.8-27B-abliterated-Q8_0.gguf [q6]=$MD/Huihui-Qwen3.8-27B-abliterated-Q6_K.gguf
                    [lam12-q8]=$MD/Qwen3.8-27B-abliterated-mtp-Q8_0.gguf [lam12-q6]=$MD/Qwen3.8-27B-abliterated-mtp-Q6_K.gguf )
 D4="--device rocm0,rocm1,rocm2,rocm3"
-PHASES=${PHASES:-"Q S M C"}; NMULTI=${NMULTI:-5}; NSINGLE=${NSINGLE:-6}; NMTP=${NMTP:-3}
+PHASES=${PHASES:-"Q S M C"}; NMULTI=${NMULTI:-5}; NSINGLE=${NSINGLE:-6}; NMTP=${NMTP:-4}
 P=$W/progress; DONE=$W/.done; rm -f $DONE; echo $$ > $W/pid
 log(){ echo "$(date -Is) [q6k] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml GGML_CUDA_ALLREDUCE=nccl
+export GGML_CUDA_ALLREDUCE=nccl
 export GGML_ENABLE_CUSTOM_AR=1 GGML_TP_AR_MAX_NE=20481 HSA_FORCE_FINE_GRAIN_PCIE=1
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 BPID=""; SPID=""

@@ -8,7 +8,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md
 echo "# $TAG  $(date -Is)  production build tp4 batched-bench: slots 8-32 at 2K, 12-32 at 8K/32K (libggml-hip: $(ldd $P/bin/llama-batched-bench | grep -o '/opt/[^ ]*libggml-hip[^ ]*'))" > $OUT
 { echo; echo "## 2K: -npp 2048 -ntg 128 -npl 8,12,16,24,32 -c 69632"; $P/bin/llama-batched-bench -m $M $D4 -fa on -b 2048 -ub 2048 -c 69632 -npp 2048 -ntg 128 -npl 8,12,16,24,32 2>$B/$TAG-2k.err | grep -E '^\|'; echo "(exit ${PIPESTATUS[0]})"; } >> $OUT

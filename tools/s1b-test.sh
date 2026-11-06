@@ -8,7 +8,7 @@ while [ ! -f $B/.post28-done ] || ! grep -q "BUILD-S1B-A3-OK\|BUILD-S1B-A3-FAIL"
 q "=== s1b-test start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/s1b-test-clocks.txt
 QUEUE="^/bin/bash $B/s1b-test[.]sh" DONEFLAG=$B/.s1b-test-done SMCLOG=$B/smc-power-s1b-test.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-s1b-test.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-s1b-test.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"; OUT=$B/$TAG.md; F=/root/models/wikitext-2-raw/wiki.test.raw
 BUILDS="r2 a a2 a3 prod"; [ -x $A3/bin/llama-server ] || BUILDS="r2 a a2 prod"
 pfx() { case $1 in prod) echo $PR;; r2) echo $R2;; a) echo $A;; a2) echo $A2;; a3) echo $A3;; s1) echo $S1;; up) echo $UP;; esac; }

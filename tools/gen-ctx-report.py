@@ -372,7 +372,7 @@ def f_serve_section():
     if not (base and best): return ''
     rows = [['clients', 'agg gen t/s, default', 'agg gen t/s, corrected topology', 'per-request gen t/s, default', 'per-request, corrected', 'first token s, default', 'first token s, corrected'], ['-'] * 7]
     for b, t in zip([r for r in base if r[0].isdigit()], [r for r in best if r[0].isdigit()]): rows.append([b[0], b[3], t[3], b[6], t[6], b[7], t[7]])
-    return '<h3>The corrected topology in the server</h3>' + md_table(rows) + '<div class="prose"><p>1300-token prompts, 256 generated, the first report\'s client: the corrected RCCL topology with sixteen channels gives the server +3% at one client, +2% at eight and nothing at four, the same small, real gain the bench showed. It costs nothing to set (<code>NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16</code> in the server\'s environment).</p></div>'
+    return '<h3>The corrected topology in the server</h3>' + md_table(rows) + '<div class="prose"><p>1300-token prompts, 256 generated, the first report\'s client: the corrected RCCL topology with sixteen channels gives the server +3% at one client, +2% at eight and nothing at four, the same small, real gain the bench showed. It costs nothing to set (<code>NCCL_MIN_NCHANNELS=16</code> in the server\'s environment).</p></div>'
 
 def mtp_more_section():
     Mx = D['m']
@@ -750,7 +750,7 @@ python3 /root/rocm-tests/bench/server-ctx-bench.py http://127.0.0.1:8089 TAG --p
 # the next-token head for a single user (section 8): add to any llama-server line; draft 3 for 1-2 clients, 1 at 4, off at 8
 llama-server ... --spec-type draft-mtp --spec-draft-n-max 3
 # corrected RCCL topology (section 7): +1-4%
-NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 llama-server ...
+NCCL_MIN_NCHANNELS=16 llama-server ...
 # one shared 256K pool for 8 slots (section 5): --kv-unified -np 8 -c 262144
 # cache-type perplexity (tensor split; -sm layer for the 4-bit-value rows)
 llama-perplexity -m /root/models/Qwen3.8-27B-Q8_0.gguf --device rocm0,rocm1,rocm2,rocm3 -sm tensor -fa on \\

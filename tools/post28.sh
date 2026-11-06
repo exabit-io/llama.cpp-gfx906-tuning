@@ -9,7 +9,7 @@ q() { echo "$(date -Is) $*" >> $Q; }
 q "=== post28 start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/post28-clocks.txt
 QUEUE="^/bin/bash $B/post28[.]sh" DONEFLAG=$B/.post28-done SMCLOG=$B/smc-power-post28.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-post28.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-post28.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"
 wait_ready() { local port=$1 pid=$2 i; for i in $(seq 1 900); do curl -sf http://127.0.0.1:$port/health >/dev/null && return 0; kill -0 $pid 2>/dev/null || return 1; sleep 1; done; return 1; }
 prefix() { case $1 in prod) echo $PR;; r2-*) echo $R2;; esac; }

@@ -9,7 +9,7 @@ log() { echo "$(date -Is) $*" >> $PROG; }
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; pkill -f "^/opt/llama.cpp[^ ]*/bin/llama-server .*--port 80(89|90)" 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; log KILLED; exit 1; }
 trap cleanup INT TERM
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib
 OUT=$B/$TAG.md; echo "# $TAG  $(date -Is)  two tp2 servers on the production build (8089 = rocm0,rocm1 / 8090 = rocm2,rocm3); libggml-hip: $(ldd $P/bin/llama-server | grep -o '/opt/[^ ]*libggml-hip[^ ]*')" > $OUT
 srv() { local port=$1; shift; $P/bin/llama-server -m $M -fa on -b 2048 -ub 2048 -cb --host 127.0.0.1 --port $port "$@" > $B/$TAG-server-$port.log 2>&1 & echo $!; }
 stage() { local name=$1 np=$2 ctx=$3 conc=$4

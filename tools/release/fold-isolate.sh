@@ -13,7 +13,7 @@ D4="--device rocm0,rocm1,rocm2,rocm3"
 log(){ echo "$(date -Is) [isolate] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
 . $R/gpu-test-env.sh
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml HSA_FORCE_FINE_GRAIN_PCIE=1
+export HSA_FORCE_FINE_GRAIN_PCIE=1
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 BPID=""
 cleanup(){ trap - INT TERM EXIT; for p in "${BPID:-}" "${SAMP:-}" "${WDOG:-}" "${SMCL:-}"; do kpid "$p"; done

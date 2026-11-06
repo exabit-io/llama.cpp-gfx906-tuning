@@ -21,7 +21,7 @@ done
 q "=== fasweep2 measure start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/fasweep2-clocks.txt
 QUEUE="^/bin/bash $B/night-0909-fasweep2[.]sh" DONEFLAG=$B/.fasweep2-done SMCLOG=$B/smc-power-fasweep2.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-night0909.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-fasweep2.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; q "fasweep2 KILLED"; exit 1; }; trap cleanup INT TERM
 echo "# $TAG $(date -Is): gfx906 head-256 tile row for ncols=2 at 32K depth; rows 4..32 = r2 values. rocm0: -p 512 -n 128 -d 32768 -r 2; tp4: -n 128 -d 32768 -r 2" > $OUT
 echo "| round | variant | row (threads,occ,nbatch_fa,nbatch_K) | rocm0 pp512@32K | rocm0 tg128@32K | tp4 tg128@32K |" >> $OUT; echo "|---|---|---|---:|---:|---:|" >> $OUT

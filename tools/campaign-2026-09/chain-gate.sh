@@ -10,7 +10,7 @@ M=/root/models/Qwen3.8-27B-Q8_0.gguf; F=/root/models/wikitext-2-raw/wiki.test.ra
 /bin/bash $W/waitproc.sh "${1:-}" "^$B/bin/test-backend-ops" || echo "$(date -Is) waitproc failed ($?)" >> $W/chain.log
 echo "$(date -Is) test-backend-ops finished; starting perplexity 16K/6 gate" >> $W/chain.log
 set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 export LD_LIBRARY_PATH=$B/bin:$B/lib:/opt/rocm/core-10.0/lib
 timeout 7200 $B/bin/llama-perplexity -m $M \

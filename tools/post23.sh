@@ -7,7 +7,7 @@ q "=== post23 start (step-1 perplexity bisect)"; . $B/gpu-test-env.sh; for c in 
 QUEUE="^/bin/bash $B/post23[.]sh" DONEFLAG=$B/.post23-done SMCLOG=$B/smc-power-post23.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-post23.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-post23.log > /dev/null 2>&1 &
 # (0) promotion repeat: branch --no-repack vs production, interleaved twice: batched 8/12/16 at 2K and the team16 server level
-M=/root/models/Qwen3.8-27B-Q8_0.gguf; set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+M=/root/models/Qwen3.8-27B-Q8_0.gguf; set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 OUT=$B/qwen38-27b-post23-promo.md; echo "# post23 promotion repeat $(date -Is): branch r2 --no-repack vs production, interleaved x2" > $OUT
 { echo; echo "## batched-bench decode tok/s at 2K, tp4 -npl 8,12,16"; echo "| round | build | 8 | 12 | 16 |"; echo "|---|---|---:|---:|---:|"; } >> $OUT
 for r in 1 2; do for bld in r2 prod; do if [ $bld = r2 ]; then P=/opt/llama.cpp-gfx906-master-r2; X="--no-repack"; else P=/opt/llama.cpp-prod; X=""; fi

@@ -9,7 +9,7 @@ pfx() { case $1 in r2) echo /opt/llama.cpp-gfx906-master-r2;; n2) echo /opt/llam
 q "=== night0909 bb32k start"; . $B/gpu-test-env.sh; for c in 0 1; do echo 150000000 > $RAPL/constraint_${c}_power_limit_uw; done; setmax; start_sampler $B/bb32k-clocks.txt
 QUEUE="^/bin/bash $B/night-0909-bb32k[.]sh" DONEFLAG=$B/.bb32k-done SMCLOG=$B/smc-power-bb32k.log SCLK_GUARD=1 nohup $B/clamp-watchdog-v2.sh >> $B/clamp-watchdog-night0909.out 2>&1 &
 nohup $B/smc-log.sh $B/smc-power-bb32k.log > /dev/null 2>&1 &
-set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a; export NCCL_MIN_NCHANNELS=16
 D4="--device rocm0,rocm1,rocm2,rocm3 -sm tensor"
 cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null; restore; q "bb32k KILLED"; exit 1; }; trap cleanup INT TERM
 { echo; echo "## 2b. llama-batched-bench -npp 32768 -ntg 128 -npl 8,16 (own prompt per sequence; -pps fails the M-RoPE position check), tp4, $(date -Is)"

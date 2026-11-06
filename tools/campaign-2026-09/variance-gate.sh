@@ -13,7 +13,7 @@ R=/root/rocm-tests/bench
 log() { echo "$(date -Is) [variance] $*" | tee -a $W/variance.progress; }
 . $R/gpu-test-env.sh
 set -a; . /root/llama.cpp-benchmarking/settings/gfx906.env; set +a
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16
+export NCCL_MIN_NCHANNELS=16
 export AMD_COMGR_CACHE_DIR=/root/.cache/comgr-100 MIOPEN_CUSTOM_CACHE_DIR=/root/.cache/miopen-100
 export LD_LIBRARY_PATH=$B/bin:$B/lib:/opt/rocm/core-10.0/lib
 kpid() { [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }

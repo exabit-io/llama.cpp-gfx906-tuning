@@ -10,7 +10,7 @@ cleanup() { trap - INT TERM; pkill -P $$ 2>/dev/null; kill ${SAMP:-} 2>/dev/null
 trap cleanup INT TERM
 [ -f $MD/.download-done ] || { log "download not complete"; exit 1; }
 setmax; start_sampler $B/$TAG-clocks.txt; log "START $(state_line)"
-export NCCL_TOPO_FILE=/root/rccl_topo_fixed.xml NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481 GPU_MAX_HW_QUEUES=8
+export NCCL_MIN_NCHANNELS=16 LD_LIBRARY_PATH=$P/lib GGML_ENABLE_CUSTOM_AR=1 HSA_FORCE_FINE_GRAIN_PCIE=1 GGML_TP_AR_MAX_NE=20481 GPU_MAX_HW_QUEUES=8
 LM=""; $P/bin/llama-bench --help 2>&1 | grep -q -- '--load-mode' && LM="--load-mode dio"
 OUT=$B/$TAG.md; echo "# $TAG  $(date -Is)  $P, four dies -sm tensor, model $(du -sh $MD | cut -f1) ($LM)" > $OUT
 { echo; echo "## llama-bench -p 2048 -n 128 -r 2, tp4"; echo "| PLE shard | pp2048 | tg128 |"; echo "|---|---:|---:|"; } >> $OUT
