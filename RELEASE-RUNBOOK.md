@@ -14,7 +14,7 @@ from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `re
 | Unbinned pool | tag `gfx906/v0.9.0/r0/candidates` = `d0e315972` |
 | ROCm | 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, rocBLAS 5.6) |
 | Installed llama.cpp | deb `mx-llama-cpp-gfx906` 0.9.0+git20261106.58db0123a.gfx906.20261018172427-1, release `mx-llama-cpp-0.9.0-gfx906-rocm10.0` on `exabit-io/resize-amdgpu-bars` |
-| RCCL topology | generated at boot: `rccl-topology.service` -> `/var/cache/rccl/topology.xml`; `/etc/rccl.conf` points RCCL at it (source `tools/rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
+| RCCL topology | generated at boot by package `gfx906-rccl-topology`: its unit writes `/var/cache/gfx906-rccl-topology/topology.xml`, its conffile `/etc/rccl.conf` points RCCL at it (source `tools/gfx906-rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
 
 Previous cycle (v0.7.0, 2026-10-22): `reports/2026-10-22-v070-rebase.md`; this cycle: `reports/2026-11-06-v090-rebase.md`.
 

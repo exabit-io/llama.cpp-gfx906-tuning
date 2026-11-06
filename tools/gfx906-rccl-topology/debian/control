@@ -1,0 +1,26 @@
+Source: gfx906-rccl-topology
+Section: admin
+Priority: optional
+Maintainer: Exabit Networks <packages@exabit.io>
+Build-Depends: debhelper-compat (= 13), scdoc, python3
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/exabit-io/llama.cpp-gfx906-tuning/tree/main/tools/gfx906-rccl-topology
+Vcs-Git: https://github.com/exabit-io/llama.cpp-gfx906-tuning.git
+Vcs-Browser: https://github.com/exabit-io/llama.cpp-gfx906-tuning
+
+Package: gfx906-rccl-topology
+Architecture: all
+Depends: ${misc:Depends}, python3 (>= 3.8), systemd
+Suggests: resize-amdgpu-bars
+Description: RCCL topology for the XGMI ring of gfx906 GPUs, regenerated at boot
+ Writes the RCCL/NCCL topology file (NCCL_TOPO_FILE) for the XGMI links of
+ AMD gfx906 GPUs from sysfs on every boot, so PCI renumbering (cards added
+ or moved, PCIe switch pools changing) needs no manual edit, and points
+ every RCCL process at it through /etc/rccl.conf.
+ .
+ On the Mac Pro 7,1 with two Radeon Pro Vega II Duo modules and the bridge,
+ the XGMI hop table the firmware reports swaps the two bridge links; the
+ generated topology has the physical ring instead (all-reduce bus bandwidth
+ 34 instead of 25 GB/s on four dies). Other gfx906 layouts get the
+ firmware's links; other GPU families get no file.

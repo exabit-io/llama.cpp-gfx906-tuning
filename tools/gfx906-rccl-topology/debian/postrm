@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+remove|purge)
+	# The generated topology names this boot's PCI addresses: never leave it
+	# behind for RCCL. After a plain remove /etc/rccl.conf stays and points at
+	# a missing file, which RCCL reports before detecting the topology itself.
+	rm -rf /var/cache/gfx906-rccl-topology
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

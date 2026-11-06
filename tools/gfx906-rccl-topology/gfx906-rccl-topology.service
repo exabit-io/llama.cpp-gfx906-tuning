@@ -1,0 +1,52 @@
+# gfx906-rccl-topology.service -- writes /var/cache/gfx906-rccl-topology/topology.xml, the RCCL topology for the XGMI
+# ring of the gfx906 GPUs, on every boot, after resize-amdgpu-bars (when installed) has loaded amdgpu. The file is
+# derived from sysfs (PCI tree, KFD hives), so PCI renumbering needs no manual edit. /etc/rccl.conf points RCCL at it
+# (NCCL_TOPO_FILE); to use a hand-made topology instead, point that line at your own file.
+#
+# Verify:  journalctl -b -u gfx906-rccl-topology.service
+#          gfx906-rccl-topology show
+# If the GPUs are not gfx906 or are inconsistent, the unit fails and the previous file is moved to topology.xml.stale,
+# so RCCL never reads a topology from another boot. RCCL then detects the topology itself, which on the Mac Pro takes
+# the firmware's swapped bridge links (about 25 instead of 34 GB/s all-reduce).
+
+[Unit]
+Description=RCCL topology for the XGMI ring of the gfx906 GPUs
+Documentation=man:gfx906-rccl-topology(8)
+After=resize-amdgpu-bars.service systemd-modules-load.service systemd-udev-trigger.service
+Before=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# --wait: amdgpu may still be binding the GPUs (udev) when this starts; machines without AMD GPUs return at once.
+ExecStart=/usr/sbin/gfx906-rccl-topology generate --output /var/cache/gfx906-rccl-topology/topology.xml --wait 120
+TimeoutStartSec=180
+CacheDirectory=gfx906-rccl-topology
+CacheDirectoryMode=0755
+# Reads sysfs and writes its cache directory, nothing else. PCI config space past 64 bytes (the PCIe port type)
+# needs CAP_SYS_ADMIN. No PrivateDevices=/DevicePolicy=: amdkfd hides the GPU nodes of its sysfs topology from
+# a process whose device cgroup does not allow the DRM render nodes.
+CapabilityBoundingSet=CAP_SYS_ADMIN
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateNetwork=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+
+[Install]
+WantedBy=multi-user.target

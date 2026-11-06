@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+PKG := gfx906-rccl-topology
+
+%:
+	dh $@
+
+# The script's VERSION must equal the changelog version.
+.PHONY: check-version
+check-version:
+	@sv=$$(python3 -I ./$(PKG) --version | awk '{print $$2}'); \
+	 cv=$$(dpkg-parsechangelog -SVersion); \
+	 if [ "$$sv" != "$$cv" ]; then \
+	   echo "debian/rules: $(PKG) says $$sv but debian/changelog says $$cv" >&2; exit 1; \
+	 fi; \
+	 echo "debian/rules: script version $$sv matches changelog"
+
+$(PKG).8: $(PKG).8.scd
+	scdoc < $< > $@
+
+override_dh_auto_build: check-version $(PKG).8
+
+override_dh_auto_test:
+	python3 -I -c 'import ast, sys; ast.parse(open(sys.argv[1]).read(), sys.argv[1])' $(PKG)
+	python3 -I ./$(PKG) --help > /dev/null
+
+override_dh_auto_clean:
+	rm -f $(PKG).8

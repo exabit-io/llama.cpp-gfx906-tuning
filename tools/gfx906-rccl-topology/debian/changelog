@@ -1,0 +1,12 @@
+gfx906-rccl-topology (1.0.0) noble; urgency=medium
+
+  * Initial release. gfx906-rccl-topology.service writes the RCCL topology
+    for the XGMI ring of the gfx906 GPUs to
+    /var/cache/gfx906-rccl-topology/topology.xml on every boot, derived from
+    the PCI tree and KFD's hives; /etc/rccl.conf points RCCL at it.
+  * Mac Pro 7,1: physical ring instead of the firmware's swapped bridge
+    links (all-reduce 34.1 vs 24.8 GB/s, four dies, 1 GiB).
+  * On failure nothing is written and the previous file is renamed to
+    .stale; removing the package deletes the generated file.
+
+ -- Exabit Networks <packages@exabit.io>  Fri, 06 Nov 2026 14:00:00 +0000

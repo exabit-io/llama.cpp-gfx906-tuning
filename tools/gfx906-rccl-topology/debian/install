@@ -1,0 +1,3 @@
+gfx906-rccl-topology usr/sbin
+gfx906-rccl-topology.service usr/lib/systemd/system
+rccl.conf etc

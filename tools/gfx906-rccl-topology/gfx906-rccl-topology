@@ -1,5 +1,5 @@
 #!/usr/bin/python3 -I
-"""rccl-topology -- write the RCCL/NCCL topology file for the XGMI ring of the AMD GPUs in this machine.
+"""gfx906-rccl-topology -- write the RCCL/NCCL topology file for the XGMI ring of the gfx906 GPUs in this machine.
 
 The topology is derived from sysfs on every run, so PCI renumbering (cards added or moved, switch pools changing)
 needs no manual edit.
@@ -7,25 +7,28 @@ needs no manual edit.
 Why RCCL needs a file at all: on the Mac Pro 7,1 with two Radeon Pro Vega II Duo modules and the A2326 bridge, the
 XGMI hop table that the firmware reports (and KFD, rocm-smi and RCCL read) swaps the two bridge links. The physical
 ring joins the die on the same switch port of each module (port 08 to port 08, port 10 to port 10); the firmware
-says port 08 to port 10. Measured 2026-09-04: RCCL all-reduce busbw 24.8 GB/s on the firmware links, 33.5 GB/s on
-the physical ring.
+says port 08 to port 10. Measured 2026-09-04 and 2026-11-06: RCCL all-reduce busbw 24.8 GB/s on the firmware links,
+33.5-34.1 GB/s on the physical ring.
 
 Rule, for each XGMI hive (KFD hive_id):
   module = the outermost PCIe switch above a GPU (first upstream port below the root port)
   die    = the downstream port of that switch the GPU hangs off, ordered by device number
   links  = the two dies of a module; with two modules in one hive (a bridge is present), the dies on the same
            port of each module.
-A hive that does not fit this shape (other hardware) gets the firmware's one-hop XGMI links, with a warning.
-Every link is checked against KFD's XGMI table (the two GPUs must be XGMI peers).
+A hive that does not fit this shape (other gfx906 hardware) gets the firmware's one-hop XGMI links, with a warning.
+Every link is checked against KFD's XGMI table (the two GPUs must be XGMI peers). Only gfx906 is supported: the
+file carries gfx906's RCCL attributes, and a machine with any other AMD GPU in KFD gets no file.
 
-Usage: rccl-topology generate [--output PATH] [--links rule|firmware] [--wait SECONDS]   (default /var/cache/rccl/topology.xml)
-       rccl-topology show     [--links rule|firmware]
-Exit status: 0 written (or shown), 1 no supported GPUs or an inconsistency: nothing is written, a file from an
-earlier boot is moved to .stale, and RCCL then detects the topology itself.
+Usage: gfx906-rccl-topology generate [--output PATH] [--links rule|firmware] [--wait SECONDS]
+       gfx906-rccl-topology show     [--links rule|firmware]
+--wait waits for KFD to report every AMD GPU that is bound to amdgpu or not bound yet (amdgpu may still be loading).
+Exit status: 0 written (or shown), or no AMD GPUs at all (nothing to do); 1 an unsupported GPU, no GPUs in KFD, or an
+inconsistency: nothing is written, a file from an earlier run is moved to .stale, and RCCL then detects the topology
+itself.
 
-The file is rewritten on every boot by rccl-topology.service. It is regenerable data, so it lives in /var/cache;
-/etc/rccl.conf (NCCL_TOPO_FILE) points RCCL at it, and an admin who wants a hand-made topology repoints that line.
-Nothing in /etc is ever written by this tool.
+gfx906-rccl-topology.service rewrites /var/cache/gfx906-rccl-topology/topology.xml on every boot. The file is
+regenerable data, so it lives in /var/cache; /etc/rccl.conf (NCCL_TOPO_FILE) points RCCL at it, and an admin who wants
+a hand-made topology repoints that line. Nothing in /etc is ever written by this tool.
 """
 import argparse
 import os
@@ -33,14 +36,18 @@ import sys
 import tempfile
 import time
 
+VERSION = "1.0.0"
+NAME = "gfx906-rccl-topology"
+DEFAULT_OUTPUT = "/var/cache/gfx906-rccl-topology/topology.xml"
 KFD = "/sys/class/kfd/kfd/topology/nodes"
 PCI = "/sys/bus/pci/devices"
 XGMI_LINK_TYPE = 11            # CRAT_IOLINK_TYPE_XGMI
+GPU_CLASSES = ("0x0300", "0x0380", "0x1200")                    # VGA, other display, processing accelerator
 GPU_ATTRS = {90006: dict(gcn="gfx906", sm="64", arch="38911")}   # as RCCL dumps them for gfx906
 
 
 def log(msg):
-    print("rccl-topology: " + msg, file=sys.stderr)
+    print(NAME + ": " + msg, file=sys.stderr)
 
 
 def read(path, default=None):
@@ -60,8 +67,13 @@ def props(path):
     return out
 
 
+def gfx_name(v):
+    return "gfx%d%x%x" % (v // 10000, (v // 100) % 100, v % 100)
+
+
 def pcie_port_type(bdf):
-    """PCIe capability device/port type: 0/1 endpoint, 4 root port, 5 upstream, 6 downstream; None if absent."""
+    """PCIe capability device/port type: 0/1 endpoint, 4 root port, 5 upstream, 6 downstream; None if absent.
+    Reading config space past 64 bytes needs CAP_SYS_ADMIN."""
     try:
         with open(os.path.join(PCI, bdf, "config"), "rb") as f:
             cfg = f.read(256)
@@ -104,15 +116,15 @@ def kfd_gpus():
     return gpus
 
 
-def expected_gpu_count():
-    """AMD display/compute devices bound to amdgpu (what KFD should eventually report)."""
-    n = 0
+def amd_gpu_functions():
+    """AMD GPU PCI functions -> the driver each is bound to ('' while unbound)."""
+    out = {}
     for bdf in os.listdir(PCI):
-        cls = read(os.path.join(PCI, bdf, "class"), "")
-        if read(os.path.join(PCI, bdf, "vendor")) == "0x1002" and cls[:6] in ("0x0300", "0x0380", "0x1200"):
-            drv = os.path.realpath(os.path.join(PCI, bdf, "driver"))
-            n += os.path.basename(drv) == "amdgpu"
-    return n
+        cls = read(os.path.join(PCI, bdf, "class"), "") or ""
+        if read(os.path.join(PCI, bdf, "vendor")) == "0x1002" and cls[:6] in GPU_CLASSES:
+            drv = os.path.join(PCI, bdf, "driver")
+            out[bdf] = os.path.basename(os.path.realpath(drv)) if os.path.exists(drv) else ""
+    return out
 
 
 def module_and_die(g):
@@ -169,8 +181,8 @@ def derive(gpus, mode):
         by_dev = {g["dev"]: g for g in hive}
         for a, b in sorted(links):
             if by_dev[b]["node"] not in by_dev[a]["xgmi"]:
-                raise SystemExit("rccl-topology: %s and %s are linked by the rule but are not XGMI peers in KFD" %
-                                 (by_dev[a]["bdf"], by_dev[b]["bdf"]))
+                raise SystemExit("%s: %s and %s are linked by the rule but are not XGMI peers in KFD" %
+                                 (NAME, by_dev[a]["bdf"], by_dev[b]["bdf"]))
             adj[a].append(b)
             adj[b].append(a)
         notes.append("hive %x: %s: %s" % (hid, why, ", ".join("%s-%s" % (by_dev[a]["bdf"][5:], by_dev[b]["bdf"][5:])
@@ -233,50 +245,64 @@ def xml(gpus, adj):
 
 
 def retire(path):
-    """Never leave a topology from an earlier boot for RCCL to read: it may name PCI addresses that are gone, which
-    makes RCCL initialisation fail. The old file is kept beside it as .stale for inspection."""
+    """Never leave a topology from an earlier run for RCCL to read: it may name PCI addresses that are gone, which
+    makes RCCL initialisation fail. A missing file is harmless (RCCL reports it and detects the topology itself). The
+    old file is kept beside it as .stale for inspection."""
     if os.path.exists(path):
         os.replace(path, path + ".stale")
         log("moved the previous %s to %s.stale; RCCL falls back to its own detection" % (path, path))
 
 
 def collect(wait):
+    """(AMD GPU PCI functions, KFD GPUs), once KFD reports every AMD GPU that is bound to amdgpu or not bound yet (so
+    a boot where amdgpu is still loading waits; GPUs bound to another driver, such as vfio-pci, are not waited for),
+    or when the wait runs out."""
     deadline = time.monotonic() + wait
     while True:
-        gpus, want = kfd_gpus(), expected_gpu_count()
-        if gpus and len(gpus) >= want:
-            return gpus
+        fns, gpus = amd_gpu_functions(), kfd_gpus()
+        want = sum(1 for d in fns.values() if d in ("", "amdgpu"))
+        if not fns or want == 0 or (gpus and len(gpus) >= want):
+            return fns, gpus
         if time.monotonic() >= deadline:
-            if gpus:
-                log("KFD reports %d GPUs, %d are bound to amdgpu; continuing with %d" % (len(gpus), want, len(gpus)))
-            return gpus
+            log("after %gs KFD reports %d GPUs; %d AMD GPUs are bound to amdgpu or unbound" % (wait, len(gpus), want))
+            return fns, gpus
         time.sleep(1)
 
 
 def main():
-    ap = argparse.ArgumentParser(prog="rccl-topology", description=__doc__.split("\n")[0])
+    ap = argparse.ArgumentParser(prog=NAME, description=__doc__.split("\n")[0].split(" -- ")[1])
+    ap.add_argument("--version", action="version", version="%s %s" % (NAME, VERSION))
     ap.add_argument("command", choices=["generate", "show"])
-    ap.add_argument("--output", default="/var/cache/rccl/topology.xml")
-    ap.add_argument("--links", choices=["rule", "firmware"], default="rule")
-    ap.add_argument("--wait", type=float, default=0, help="seconds to wait for KFD to report every amdgpu GPU")
+    ap.add_argument("--output", default=DEFAULT_OUTPUT, help="file to write (generate); default %(default)s")
+    ap.add_argument("--links", choices=["rule", "firmware"], default="rule",
+                    help="rule: the physical ring (default); firmware: KFD's one-hop XGMI links")
+    ap.add_argument("--wait", type=float, default=0, help="seconds to wait for KFD to report every AMD GPU")
     a = ap.parse_args()
+    generate = a.command == "generate"
 
-    gpus = [g for g in collect(a.wait) if g["gfx"] in GPU_ATTRS]
-    if not gpus:
-        log("no supported GPUs in KFD (gfx906 only); nothing written")
-        if a.command == "generate":
+    fns, gpus = collect(a.wait)
+    if not fns:
+        log("no AMD GPUs; nothing to do")
+        if generate:
+            retire(a.output)
+        return 0
+    other = sorted({gfx_name(g["gfx"]) for g in gpus if g["gfx"] not in GPU_ATTRS})
+    if other or not gpus:
+        log(("KFD reports %s; only gfx906 is supported" % ", ".join(other)) if other else "no GPUs in KFD")
+        log("nothing written")
+        if generate:
             retire(a.output)
         return 1
     try:
         adj, notes = derive(gpus, a.links)
     except SystemExit:
-        if a.command == "generate":
+        if generate:
             retire(a.output)
         raise
     for n in notes:
         log(n)
     text = xml(gpus, adj)
-    if a.command == "show":
+    if not generate:
         sys.stdout.write(text)
         return 0
     os.makedirs(os.path.dirname(a.output), exist_ok=True)
