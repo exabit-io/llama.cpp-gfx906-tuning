@@ -1,0 +1,6 @@
+2026-11-14T12:01:10+00:00 [ctx] test-llama-archs rc=0 models=144; 
+2026-11-14T12:03:04+00:00 [ctx] test-llama-context rc=0 8 cases, failed total 0; failing: 
+2026-11-14T12:03:05+00:00 [ctx] fp8 models rc=0 2 files
+2026-11-14T12:03:06+00:00 [ctx] test-fp8 requantize rc=0 | llama-dense.gguf | PASS | | llama-moe.gguf | PASS | 
+2026-11-14T12:03:08+00:00 [ctx] test-fp8 kv rc=0 0.01.274.010 W internal AllReduce init failed (n_devices != 2?); falling back to meta-backend butterfly | llama-dense.gguf | PASS | 
+2026-11-14T12:03:08+00:00 [ctx] === CTX DONE ===

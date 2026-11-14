@@ -1,0 +1,6 @@
+2026-11-14T12:06:22+00:00 [mtp-modes] host long : prompt 2089 tok 682.7 tok/s | gen 137 tok 71.93 tok/s | accepted 79/116 | sha acd81c983839
+2026-11-14T12:06:26+00:00 [mtp-modes] host run 1: prompt 11 tok 38.5 tok/s | gen 256 tok 78.08 tok/s | accepted 154/200 | sha 5d959ae72e81
+2026-11-14T12:06:30+00:00 [mtp-modes] host run 2: prompt 11 tok 36.0 tok/s | gen 256 tok 78.07 tok/s | accepted 154/200 | sha 5d959ae72e81
+2026-11-14T12:06:34+00:00 [mtp-modes] host run 3: prompt 11 tok 34.4 tok/s | gen 256 tok 78.46 tok/s | accepted 154/200 | sha 5d959ae72e81
+2026-11-14T12:06:34+00:00 [mtp-modes] host rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 5 error lines
+2026-11-14T12:06:38+00:00 [mtp-modes] === MTP-MODES DONE ===

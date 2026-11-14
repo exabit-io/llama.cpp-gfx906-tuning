@@ -21,7 +21,15 @@ Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) 
 | `reference/` | section maps of the AMD Vega 7nm ISA, Infinity Fabric Link and Instinct tuning guides, and the LLVM AMDGPU backend guide (`reference/README.md`) |
 | `CLAUDE.md` | conventions for future sessions in this folder |
 
-The code is a separate repository: **https://github.com/exabit-io/mx-llama.cpp**. **The substrate since 2026-10-22** is `merge-v0.7.0` (`342507407`) = mxxm-t's fork at `c4d12e2c0` (his own merge of upstream b11553) merged with llama.cpp v0.7.0 (`620d222`), offered to mxxm-t as [PR #22](https://github.com/mxxm-t/mx-llama.cpp/pull/22) (PR #17, the v0.5.0 merge, was closed when he merged b11553 himself). Branches: `master` = `gfx906-single` = `gfx906-multi` = `ef70ef51e` (substrate + RCCL default + the patches binned for both profiles), `gfx906-candidates` (our unbinned patches), `merge-v0.7.0` (the pure substrate, until merged). How a release is taken through the stack: `RELEASE-RUNBOOK.md`. `exabit-io/llama.cpp` is retired history (archived 2026-09-24, read-only). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`. This guide is **https://github.com/exabit-io/llama.cpp-gfx906-tuning**.
+The code is a separate repository: **https://github.com/exabit-io/mx-llama.cpp**. **The substrate since 2026-11-14** is `merge-v1.0.0` (`a73c601e6`) = mxxm-t's fork at `cdc81dae4` merged with llama.cpp v1.0.0 (`b1b770d`, b12359) plus two HIP fixes, offered to mxxm-t as [PR #24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (PR #17, #22 and #23, the v0.5.0, v0.7.0 and v0.9.0 merges, were closed unmerged). Branches: `master` = `gfx906-single` = `gfx906-multi` = `df2c6e5c5` (substrate + RCCL default + the patches binned for both profiles), `gfx906-candidates` (our unbinned patches), `merge-v1.0.0` (the pure substrate, until merged). How a release is taken through the stack: `RELEASE-RUNBOOK.md`. `exabit-io/llama.cpp` is retired history (archived 2026-09-24, read-only). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`.
+
+## Status — 2026-11-14
+
+llama.cpp v1.0.0: merged into mxxm-t's master and offered as PR #24 (replacing #23), the 18 Exabit commits rebased onto it without a port. Perplexity and
+every fold-check value are unchanged from v0.9.0 (16K/6 5.6093 on `master`); `test-backend-ops` passes 20388/20388 where stock v1.0.0 aborts on gfx906
+(`reports/2026-11-14-v100-rebase.md`). The build ships as `mx-llama-cpp-gfx906` 1.0.0 from the rolling apt channel `mx-llama-cpp-gfx906` on
+`exabit-io/resize-amdgpu-bars` (one source line; `apt upgrade` brings later versions) and is installed on the box from there. ROCm is still the 10.0 build
+20261018172427. The v0.9.0 cycle of 2026-11-06 (PR #23, `gfx906-rccl-topology`) is in `reports/2026-11-06-v090-rebase.md`.
 
 ## Status — 2026-10-22
 

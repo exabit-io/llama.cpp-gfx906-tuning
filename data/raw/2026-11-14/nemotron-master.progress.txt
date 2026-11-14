@@ -1,0 +1,14 @@
+2026-11-14T12:25:54+00:00 [nemotron] build /root/build-master-v100; kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1200/2503/2503/2508
+2026-11-14T12:26:00+00:00 [nemotron] 1. greedy 96 tokens, one die
+2026-11-14T12:26:12+00:00 [nemotron]   rc=0 328 bytes, md5 9856b581: Explain in two sentences why the sky is blue.</think>The sky appears blue because sunlight is scattered by molecules and small particles in Earth's atmosphere. This scattering, known as Rayleigh scatt
+2026-11-14T12:26:12+00:00 [nemotron]    prompt eval time =     731.33 ms /    11 tokens (   66.48 ms per token,    15.04 tokens per second)         eval time =    1157.75 ms /    47 runs   (   24.63 ms per token,    40.60 tokens per second
+2026-11-14T12:26:12+00:00 [nemotron] 2. perplexity 4K x 4 chunks, one die
+2026-11-14T12:27:12+00:00 [nemotron]   rc=0 Final estimate: PPL = 4.8591 +/- 0.12411
+2026-11-14T12:27:12+00:00 [nemotron] 3. llama-server, one die, greedy 256 tokens: baseline, then the LiLiCorr drafter
+2026-11-14T12:27:25+00:00 [nemotron]   base: tokens 90 tok/s 41.20 prompt tok/s 44.0 draft None / None | md5 ce7886ae | </think>The transistor, invented in 1947 by John Bardeen, Walter Brattain, and William Shockley at B
+2026-11-14T12:27:25+00:00 [nemotron]   base path: 
+2026-11-14T12:27:50+00:00 [nemotron]   lilicorr: tokens 90 tok/s 17.52 prompt tok/s 7.3 draft 61 / 168 | md5 ce7886ae | </think>The transistor, invented in 1947 by John Bardeen, Walter Brattain, and William Shockley at B
+2026-11-14T12:27:50+00:00 [nemotron]   lilicorr path: E llama_init_from_model: failed to initialize the context: dflash requires ctx_other to be set (this warning is normal during memory fitting);I common_speculative_init_result: loading draft model '/root/models/NVIDIA-Nemotron-3.5-Bolt-74B-A9B-24GB/NVIDIA-Nemot
+2026-11-14T12:27:53+00:00 [nemotron] 4. -sm tensor over four dies, greedy 96 tokens (smoke)
+2026-11-14T12:27:53+00:00 [nemotron]   rc=1 0 bytes, md5 d41d8cd9:  0.00.033.145 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPLIT_MODE_TENSOR, abort 0.00.082.230 E llama_model_load: error loading model: LLA
+2026-11-14T12:27:53+00:00 [nemotron] === NEMOTRON DONE ===

@@ -1,0 +1,5 @@
+2026-11-14T11:30:27+00:00 [fold] fold check on /root/build-master-v100 (ubatch 16); kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1200/2512/2492/2507
+2026-11-14T11:32:04+00:00 [fold]   folds-on rc=0 Final estimate: PPL = 5.0822 +/- 0.13028; fusion lines: rms_norm + q8_1 fusion active (ncols 5120, rows 2);RMS_NORM);add + rms_norm fusion active (ncols 5120, rows 2);
+2026-11-14T11:33:40+00:00 [fold]   folds-on2 rc=0 Final estimate: PPL = 5.0822 +/- 0.13028; fusion lines: rms_norm + q8_1 fusion active (ncols 5120, rows 2);RMS_NORM);add + rms_norm fusion active (ncols 5120, rows 2);
+2026-11-14T11:35:14+00:00 [fold]   folds-off rc=0 Final estimate: PPL = 5.0575 +/- 0.12932; fusion lines: 
+2026-11-14T11:35:15+00:00 [fold] === FOLD CHECK DONE ===

@@ -1,0 +1,75 @@
+2026-11-14T12:44:56+00:00 [stall] build /opt/mx-llama.cpp; idle state: vram used MiB: 10 10 10 10 ; smi count cpu0: 24; CE today: 99; cpu psi: avg10=0.10 avg60=1.65 avg300=2.12
+2026-11-14T12:45:24+00:00 [stall] loaded: vram used MiB: 9447 9447 9495 9463 ; smi count cpu0: 24; CE today: 100; cpu psi: avg10=2.22 avg60=2.14 avg300=2.20
+2026-11-14T12:45:33+00:00 [stall] request 1: prompt 270 ms, gen 3326 ms = 76.67 tok/s, accepted 154/200
+2026-11-14T12:45:37+00:00 [stall] request 2: prompt 268 ms, gen 3330 ms = 76.57 tok/s, accepted 154/200
+2026-11-14T12:45:41+00:00 [stall] request 3: prompt 305 ms, gen 3319 ms = 76.84 tok/s, accepted 154/200
+2026-11-14T12:45:44+00:00 [stall] request 4: prompt 305 ms, gen 3320 ms = 76.81 tok/s, accepted 154/200
+2026-11-14T12:45:48+00:00 [stall] request 5: prompt 306 ms, gen 3312 ms = 76.99 tok/s, accepted 154/200
+2026-11-14T12:45:52+00:00 [stall] request 6: prompt 306 ms, gen 3303 ms = 77.19 tok/s, accepted 154/200
+2026-11-14T12:45:55+00:00 [stall] request 7: prompt 308 ms, gen 3308 ms = 77.08 tok/s, accepted 154/200
+2026-11-14T12:45:59+00:00 [stall] request 8: prompt 309 ms, gen 3313 ms = 76.97 tok/s, accepted 154/200
+2026-11-14T12:45:59+00:00 [stall] after: vram used MiB: 10035 10035 10083 10051 ; smi count cpu0: 24; CE today: 100; cpu psi: avg10=0.06 avg60=1.19 avg300=1.95
+[stall] task 0: 5.12 s, 2868 lines; largest gaps:
+[stall]    949 ms after: 0.21.263.361 D que  process_new_: task declined, id = 1
+[stall]             before: 0.22.212.861 I sched_graph_realloc: graph reallocation: nodes = 64 (changed = 0), splits = 2, n_same = 1, n_diff = 0
+[stall]    920 ms after: 0.20.343.280 I sched_reserve: reserve took 273.22 ms, sched copies = 4
+[stall]             before: 0.21.263.338 D que  yield_to_que: done yielding to queue
+[stall]    481 ms after: 0.22.567.911 D que  process_new_: task declined, id = 2
+[stall]             before: 0.23.049.201 I sched_graph_realloc: graph reallocation: nodes = 64 (changed = 0), splits = 2, n_same = 3, n_diff = 0
+[stall] task 1: 3.88 s, 3945 lines; largest gaps:
+[stall]    279 ms after: 0.25.195.503 I srv   prompt_save:  - saving prompt with length 2226, total state size = 297.549 MiB (draft: 8.746 MiB)
+[stall]             before: 0.25.474.895 D slot process_sing: id  0 | task -1 | __TEST_TAG_CACHE_IDLE_SLOT__
+[stall]    129 ms after: 0.25.550.545 D slot   operator(): id  1 | task 62 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.25.679.360 I slot create_check: id  1 | task 62 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_toke
+[stall]    63 ms after: 0.25.679.393 D que  process_new_: task declined, id = 64
+[stall]             before: 0.25.742.039 D que  yield_to_que: done yielding to queue
+[stall] task 2: 3.60 s, 3947 lines; largest gaps:
+[stall]    125 ms after: 0.29.333.714 D slot   operator(): id  1 | task 166 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.29.458.930 I slot create_check: id  1 | task 166 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_tok
+[stall]    61 ms after: 0.29.536.230 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 2, n_diff = 3
+[stall]             before: 0.29.597.313 D que  yield_to_que: done yielding to queue
+[stall]    58 ms after: 0.32.795.526 I sched_graph_realloc: graph reallocation: nodes = 4240 (changed = 1), splits = 2, n_same = 3, n_diff = 4
+[stall]             before: 0.32.853.494 D que  yield_to_que: done yielding to queue
+[stall] task 3: 3.62 s, 3945 lines; largest gaps:
+[stall]    126 ms after: 0.32.998.030 D slot   operator(): id  1 | task 270 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.33.123.920 I slot create_check: id  1 | task 270 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_tok
+[stall]    57 ms after: 0.36.447.707 I sched_graph_realloc: graph reallocation: nodes = 4240 (changed = 1), splits = 2, n_same = 4, n_diff = 6
+[stall]             before: 0.36.505.140 D que  yield_to_que: done yielding to queue
+[stall]    56 ms after: 0.33.130.499 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 4, n_diff = 5
+[stall]             before: 0.33.186.267 D que  yield_to_que: done yielding to queue
+[stall] task 4: 3.63 s, 3947 lines; largest gaps:
+[stall]    126 ms after: 0.36.650.704 D slot   operator(): id  1 | task 374 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.36.776.553 I slot create_check: id  1 | task 374 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_tok
+[stall]    56 ms after: 0.40.103.096 I sched_graph_realloc: graph reallocation: nodes = 4240 (changed = 1), splits = 2, n_same = 7, n_diff = 8
+[stall]             before: 0.40.159.057 D que  yield_to_que: done yielding to queue
+[stall]    56 ms after: 0.36.783.172 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 5, n_diff = 7
+[stall]             before: 0.36.838.681 D que  yield_to_que: done yielding to queue
+[stall] task 5: 3.62 s, 3945 lines; largest gaps:
+[stall]    126 ms after: 0.40.305.731 D slot   operator(): id  1 | task 478 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.40.431.945 I slot create_check: id  1 | task 478 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_tok
+[stall]    58 ms after: 0.43.587.153 D que  process_new_: task declined, id = 577
+[stall]             before: 0.43.644.919 D que  yield_to_que: done yielding to queue
+[stall]    57 ms after: 0.40.501.165 D que  process_new_: task declined, id = 481
+[stall]             before: 0.40.557.935 D que  yield_to_que: done yielding to queue
+[stall] task 6: 3.61 s, 3947 lines; largest gaps:
+[stall]    126 ms after: 0.43.953.117 D slot   operator(): id  1 | task 582 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.44.079.360 I slot create_check: id  1 | task 582 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_tok
+[stall]    56 ms after: 0.44.085.763 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 9, n_diff = 11
+[stall]             before: 0.44.141.335 D que  yield_to_que: done yielding to queue
+[stall]    51 ms after: 0.47.232.539 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 11, n_diff = 11
+[stall]             before: 0.47.283.705 D que  yield_to_que: done yielding to queue
+[stall] task 7: 3.62 s, 3945 lines; largest gaps:
+[stall]    127 ms after: 0.47.592.545 D slot   operator(): id  1 | task 686 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.47.719.425 I slot create_check: id  1 | task 686 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_tok
+[stall]    56 ms after: 0.47.726.058 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 12, n_diff = 13
+[stall]             before: 0.47.781.861 D que  yield_to_que: done yielding to queue
+[stall]    56 ms after: 0.50.872.947 D que  process_new_: task declined, id = 785
+[stall]             before: 0.50.928.573 D que  yield_to_que: done yielding to queue
+[stall] task 8: 3.62 s, 3947 lines; largest gaps:
+[stall]    126 ms after: 0.51.239.248 D slot   operator(): id  1 | task 790 | main/do_checkpoint = yes, pos_min = 6, pos_max = 6
+[stall]             before: 0.51.365.504 I slot create_check: id  1 | task 790 | created context checkpoint 1 of 32 (pos_min = 6, pos_max = 6, n_tok
+[stall]    56 ms after: 0.51.371.996 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 13, n_diff = 15
+[stall]             before: 0.51.428.216 D que  yield_to_que: done yielding to queue
+[stall]    52 ms after: 0.54.527.748 I sched_graph_realloc: graph reallocation: nodes = 4048 (changed = 0), splits = 2, n_same = 15, n_diff = 15
+[stall]             before: 0.54.579.420 D que  yield_to_que: done yielding to queue
+2026-11-14T12:46:00+00:00 [stall] === STALL-DIAG DONE ===

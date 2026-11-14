@@ -22,3 +22,14 @@ clamp watchdog by PID.
 | `portnotes.py` | `git filter-branch --msg-filter` that appends port notes to ported commits |
 | `port_norm_q8.py`, `port_norm_preadd.py` | the scripted ports of terms 02 and 03 onto the clamped-grid RMS norm kernel (record) |
 | `ggufdiff.py`, `ggufcmp.py` | GGUF metadata/tensor-layout diff, and per-tensor byte comparison of two GGUFs |
+| `mtp-modes.sh BUILD OUT [NP]` | v1.0.0: MTP target hidden rows on each path (`LLAMA_MTP_DEV`, `LLAMA_MTP_DEFERRED_PREFILL`): one long prompt then three identical greedy requests per arm, output hash compared |
+| `ctx-check.sh BUILD OUT` | v1.0.0: `test-llama-archs`, `test-llama-context` (direct, one worker) and `test-fp8` over the dummy-model fixtures |
+| `deb-test.sh OUT` | v1.0.0: reference on the previous package, install the new deb from the file, ELF/RPATH/native checks, suite and MTP on `/opt/mx-llama.cpp` |
+| `publish-100.sh DEB` | v1.0.0: sign, tag, per-version release, then the rolling channel `mx-llama-cpp-gfx906` |
+| `fork-delta.py OLD_UP OLD_FORK NEW_UP [NEW_FORK]` | after a merge: which files' fork delta changed (edited by the merge) and which did not |
+| `queue-v100-1.sh` / `queue-v100-2.sh` | the v1.0.0 cycle's GPU queues (as run) |
+| `dogfood-100.sh OUT` | v1.0.0: write the channel source line, reinstall from the channel, verify InRelease signature -> Packages SHA256 -> deb SHA256 -> origin signature in the deb |
+| `drafters-100.sh OUT` | v1.0.0: DeepSeek-V4.1 + DSpark (`--fit-target 7168`; stock, merge build and its three feature paths) and Nemotron + LiLiCorr (stock, merge, master) |
+| `np4-ab.sh OUT` | v1.0.0: single-stream MTP at `-np 4`, v0.9.0 master against v1.0.0 master, three alternating rounds (the 2026-11-14 run was disturbed, see the report) |
+| `stall-diag.sh OUT [BUILD] [NREQ]` | v1.0.0: the same requests against one server with a verbose log; per request the speed and the largest gaps between log lines, plus SMI count, CE count, VRAM and CPU pressure before and after |
+| `raw-copy.sh`, `docs-update.py` | v1.0.0: copy the cycle's result lines into `data/raw/2026-11-14/`; move this repository's statements of the code state to the new cycle (run once) |

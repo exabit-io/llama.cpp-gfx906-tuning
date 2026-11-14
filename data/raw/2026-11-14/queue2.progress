@@ -1,0 +1,16 @@
+2026-11-14T11:57:05+00:00 [queue2] start
+2026-11-14T11:57:27+00:00 [queue2] rows combined: 1 device buffer allocations (h_nextn buffer size =    40.02 MiB), 0 fallbacks, 12 reserves; accepted 154/200 sha c0adc4434872
+2026-11-14T11:57:45+00:00 [queue2] rows dev: 1 device buffer allocations (h_nextn buffer size =    40.02 MiB), 0 fallbacks, 8 reserves; accepted 154/200 sha c0adc4434872
+2026-11-14T11:58:03+00:00 [queue2] rows host: 0 device buffer allocations (), 0 fallbacks, 8 reserves; accepted 154/200 sha c0adc4434872
+2026-11-14T12:01:08+00:00 [queue2] ctx-check merge rc=0
+2026-11-14T12:03:08+00:00 [queue2] ctx-check stock rc=0
+2026-11-14T12:05:07+00:00 [queue2] ctx-check master rc=0
+2026-11-14T12:05:08+00:00 [queue2] stock v1.0.0 TOPK_MOE ROCm0: rc=1   601/692 tests passed; FAIL lines 93
+2026-11-14T12:05:10+00:00 [queue2] merge TOPK_MOE ROCm0: rc=0   692/692 tests passed; FAIL lines 0
+2026-11-14T12:12:48+00:00 [queue2] deb-test rc=0
+2026-11-14T12:15:42+00:00 [queue2] dsv41 stock rc=0
+2026-11-14T12:21:27+00:00 [queue2] dsv41 merge rc=0
+2026-11-14T12:23:39+00:00 [queue2] nemotron stock rc=0
+2026-11-14T12:25:46+00:00 [queue2] nemotron merge rc=0
+2026-11-14T12:27:53+00:00 [queue2] nemotron master rc=0
+2026-11-14T12:27:53+00:00 [queue2] === QUEUE2 DONE ===

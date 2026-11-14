@@ -1,0 +1,14 @@
+2026-11-14T11:15:44+00:00 [extra] build /root/build-pr-v100; kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1203/2489/2494/2496
+2026-11-14T11:15:50+00:00 [extra] 1. MTP -np 1, n_probs 5
+2026-11-14T11:16:03+00:00 [extra]   tokens 128 tok/s 60.67 draft_n 97 accepted 78 | probs entries 128 with top_probs 0 | text:   <think> The user wants a short paragraph about the history of the transistor. Let me thi
+2026-11-14T11:16:06+00:00 [extra] 2. MTP -np 4, four concurrent requests
+2026-11-14T11:16:25+00:00 [extra]   req 0: tokens 192 tok/s 25.43 draft_n 155 accepted 113 | probs entries 0 with top_probs 0 | text:   <think> The user wants a short paragraph about the history of the transistor. Let me thi
+2026-11-14T11:16:25+00:00 [extra]   req 1: tokens 192 tok/s 26.78 draft_n 152 accepted 115 | probs entries 0 with top_probs 0 | text:   A refrigerator operates by moving heat from a colder region (the interior) to a warmer r
+2026-11-14T11:16:25+00:00 [extra]   req 2: tokens 192 tok/s 25.95 draft_n 153 accepted 114 | probs entries 0 with top_probs 0 | text:   Copper is a versatile material with a wide range of applications due to its unique prope
+2026-11-14T11:16:25+00:00 [extra]   req 3: tokens 192 tok/s 24.09 draft_n 167 accepted 106 | probs entries 0 with top_probs 0 | text:   Imagine the water cycle as a giant, never-ending game of hide-and-seek that the Earth pl
+2026-11-14T11:16:25+00:00 [extra]   refused rollbacks: 0; checkpoint restores: 0
+2026-11-14T11:16:29+00:00 [extra] 3. test-llama-context
+2026-11-14T11:16:29+00:00 [extra]   rc=1 0 fail lines; rollback_bound: 
+2026-11-14T11:16:29+00:00 [extra] 4. gguf-split round trip (Qwen3.5-0.8B Q8_0)
+2026-11-14T11:16:33+00:00 [extra]   split rc=0 parts=5 merge rc=0; greedy output identical: yes; size orig/merged 811843840/811843936
+2026-11-14T11:16:34+00:00 [extra] === EXTRA DONE ===

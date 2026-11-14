@@ -1,0 +1,8 @@
+2026-11-14T12:12:56+00:00 [dsv41] build /root/build-stock-v100; kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1200/2502/2513/2509
+2026-11-14T12:13:02+00:00 [dsv41] 1. -sm layer greedy 64 tokens
+2026-11-14T12:14:33+00:00 [dsv41]   rc=0 409 bytes, md5 bb07c3bf: The transistor was invented in 1947 at Bell Labs. In the decades that followed, the transistor became the building block for the integrated circuit, which is the heart of the computer. The transistor is a semiconductor d
+2026-11-14T12:14:33+00:00 [dsv41]   speed: 1734.86 ms /    18 tokens (   96.38 ms per token,    10.38 tokens per second) 2681.95 ms /    63 runs   (   42.57 ms per token,    23.49 tokens per second) 
+2026-11-14T12:14:33+00:00 [dsv41]   placement: 
+2026-11-14T12:14:33+00:00 [dsv41] 2. -sm layer perplexity 2K x 4 chunks
+2026-11-14T12:15:42+00:00 [dsv41]   rc=0 Final estimate: PPL = 2.2264 +/- 0.05991 PPL = 2.2264 +/- 0.05991
+2026-11-14T12:15:42+00:00 [dsv41] === DSV41 DONE ===

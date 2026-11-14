@@ -1,0 +1,11 @@
+2026-11-14T12:40:18+00:00 [dogfood] apt-get update rc=0: 0 error or warning lines; channel: 2 index lines
+2026-11-14T12:40:19+00:00 [dogfood] candidates:  Installed: 1.0.0+git20261114.df2c6e5c5.gfx906.20261018172427-1; Candidate: 1.0.0+git20261114.df2c6e5c5.gfx906.20261018172427-1;; versions in the channel:  1.0.0+git20261114.df2c6e5c5.gfx906.20261018172427-1   0.9.0+git20261106.58db0123a.gfx906.20261018172427-1   0.7.0+git20261022.ef70ef51e.gfx906.20261018172427-1  
+2026-11-14T12:40:24+00:00 [dogfood] apt-get install --reinstall rc=0: Get:1 https://github.com/exabit-io/resize-amdgpu-bars/releases/download/mx-llama-cpp-gfx906 ./ mx-llama-cpp-gfx906 1.0.0+git20261114.df2c6e5c5.gfx906.2026101817
+2026-11-14T12:40:24+00:00 [dogfood] installed: 1.0.0+git20261114.df2c6e5c5.gfx906.20261018172427-1 install ok installed
+2026-11-14T12:40:24+00:00 [dogfood] InRelease signature: gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [unknown]
+2026-11-14T12:40:24+00:00 [dogfood] Packages SHA256 is in InRelease
+2026-11-14T12:40:25+00:00 [dogfood] deb SHA256 matches Packages (mx-llama-cpp-gfx906_1.0.0.git20261114.df2c6e5c5.gfx906.20261018172427-1_amd64.deb)
+2026-11-14T12:40:25+00:00 [dogfood] origin signature in the deb (members: debian-binary control.tar.gz data.tar.gz _gpgorigin ): gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [unknown]
+2026-11-14T12:40:25+00:00 [dogfood] local build == channel deb: identical
+2026-11-14T12:40:26+00:00 [dogfood] version: version: 1.0.0-dev (build 12584, commit df2c6e5c5); source df2c6e5c5456c6a7b1bbcddfa703f59691c26ee9
+2026-11-14T12:40:26+00:00 [dogfood] === DOGFOOD DONE ===

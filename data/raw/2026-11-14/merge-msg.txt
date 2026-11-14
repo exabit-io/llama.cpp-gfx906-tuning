@@ -1,0 +1,69 @@
+Merge llama.cpp v1.0.0 (b1b770d, b12359) into master
+
+Brings the fork from upstream b11553 to the v1.0.0 release (806 upstream commits, through v0.7.0, v0.8.0 and v0.9.0). It replaces the v0.9.0 merge offered in #23 and keeps that merge's resolutions, so the list below has two parts: what v1.0.0 adds (249 commits since v0.9.0), then the v0.9.0 resolutions as they stand now. Every fork feature is kept and combined with upstream's change, with the one exception #23 already made: DeepSeek-V4.1 uses upstream's implementation.
+
+Part 1: v0.9.0 to v1.0.0
+
+Textual conflicts (15 files):
+- common/speculative.cpp: upstream reads the MTP target hidden rows from a device buffer (#31927). The fork's deferred prefill fills its accum buffer from the host rows, which the device mode skips, so the device rows start when the deferred prefill has replayed and released the buffer, and from the start when it is not armed (more than one sequence, LLAMA_MTP_DEFERRED_PREFILL=0). The fork's adaptive disable turns the device rows off with the extraction and on again in begin(). LLAMA_MTP_DEV=0 keeps the host rows. The fork's reset of the pending row of a sequence that starts at position 0 moves before the upload of the pending rows.
+- ggml/src/ggml-backend.cpp: upstream's hv_tensor_requires_copy (#31419) is the rule the fork already has as inputs_read (4d03828a1), which also follows a reader through a view to its root copy and always copies host weights. The fork's rule is kept and upstream's bookkeeping is dropped. Upstream's input prefetch (#30966, #32100) is added to the fork's inlined copy loop: it runs between the two passes, the prefetched inputs wait for their copy only, and an input that no computed node reads is not prefetched.
+- ggml/src/ggml-cuda/common.cuh: upstream moved the graph and stream structs to graph.cuh (#32001). The fork's graph fields (disable_due_to_memory, the HIP kernel-set record per chunk, the unstable-entry counters) move with them. The context constructor is defined in ggml-cuda.cu and keeps the fork's copy_only argument.
+- ggml/src/ggml-cuda/ggml-cuda.cu: the fork's fallible VMM allocation is checked against upstream's reservation, which can now be smaller than the maximum (#30542). Graph executables are upstream's instance struct (#31284): the fork's fallible instantiate and its HIP kernel-set check use it, and upstream's cluster-dimension check (CUDA only) re-instantiates through the fallible path. Upstream's skip of the compatibility check for a reused graph (#32004) keeps the fork's outer-capture and owner gates. The repack dispatch and its fused GLU path are kept next to upstream's mmq-few include and the gate argument of the MMVF fusion test.
+- ggml/src/ggml-cuda/mmq.cu: upstream linearized the MoE layout (#31047): tile specs replace the expert bounds, the compact src1 is one channel and the launch takes the number of column tiles. The fork's column chunking (dense) and token chunking (MoE) under workspace pressure compute the tile count and build the tile specs per chunk. The tile width is picked against the average number of tokens per expert on every architecture, as upstream now does.
+- ggml/src/ggml-cuda/mmvq.cu, ggml/src/ggml-cuda/quantize.cu: upstream removed the unused ids and type arguments of quantize_row_q8_1_cuda (#32018). The fork's activation cache and gfx906 block size are kept.
+- ggml/src/ggml-cuda/top-k.cu: both sides made the radix top-k deterministic. Upstream (#31084) fixes the selected set and the order of the ties, and still gathers the elements above the threshold with an atomic counter, so their order depends on scheduling. The fork's count, offsets and gather kernels (1b7d76ffc) write every index at a fixed position, which sparse attention needs for reproducible sums, so they are kept on top of upstream's contiguous histogram.
+- src/llama-ext.h: upstream moved the NextN, layer-input and embedding-row API to llama.h (#30565). The fork-only declarations stay (MTP KV-only prefill, pre-norm accum, layer-input accum, llama_sched_reserve), and common/speculative.cpp keeps its include.
+- src/llama-graph.cpp, src/llama-graph.h: upstream computes the conv slot order in the graph (#31660), so the s_slot_rev input and its fill are gone. The fork's snapshot-ring inputs are kept.
+- src/llama-kv-cache.cpp: upstream's build_rope_shift takes the cache tensor and derives the rope parameters itself (#31683). The fork passes each replica with its owner's rotation. Upstream's FP8 scale getters sit next to the replica accessors.
+- src/models/delta-net-base.cpp: upstream's build_conv_state_store (#31660) writes the conv history without rollback and for the plane-indexed case. The fork's ring write is kept ahead of it.
+- src/models/qwen4exp.cpp: the fork's conv snapshot writes (ring, and plane shift for parallel contexts) are kept. Upstream's per-model build_rope (#31683) and the model member of the graph context (#31733) are taken. The head-only guard is kept.
+- .github/actions/windows-setup-cuda/action.yml: the fork's retrying download loop takes upstream's CUDA 13.5 package set.
+
+Merged without a textual conflict but changed here:
+- ggml/src/ggml-cuda/mmid.cu, ggml/src/ggml-cuda/mmid.cuh, ggml/src/ggml-cuda/q8_repack/mul-mat-id.cu: upstream's ids helper writes tile specs and no longer the bounds of each expert (#31047), which the repacked MoE kernels read. The helper keeps an optional expert_bounds output, and the repack calls pass no tile specs.
+- ggml/src/ggml-cuda/q8_repack/repack-common.cuh: the new quantize_row_q8_1_cuda arguments.
+- src/llama-context.cpp: in device-row mode the host extraction that fills the fork's deferred MTP accum buffer is skipped, so the replay would have injected zeros. llama_set_embeddings_nextn_dev refuses while the accum buffer is set, and the accum buffer is refused while the device rows are on.
+- src/llama-graph.cpp: the fork's KV-only MTP store mirrors the store block of build_attn, which now divides K and V by the scale of an FP8 cache (#28392). The KV-only store does the same.
+- src/models/qwen35.cpp: the fork's KV-only MTP replay called ggml_rope_multi with the sections array that upstream removed (#31683). It uses build_rope like the full path.
+- README.md: the base line names v1.0.0 (b12359) instead of b11553.
+
+Part 2: the v0.9.0 resolutions (#23), as they stand
+
+DeepSeek-V4.1: upstream added its own V4.1 (#31086, v0.8.0) under the fork's architecture name deepseek41 but with a different GGUF layout, so one tree cannot load both. Upstream's implementation and format are taken; its converter (conversion/deepseek41.py) comes with this merge. The fork's tensor-parallel routing for V4.1 (design-B head split, shared-expert split) is kept. Upstream's version already has the DSpark query norm, the SwiGLU clamp order, the dead layer-0 mix and the verify-batch block padding that the fork fixed. The host-side Engram gather and the LLAMA_DSV41_* diagnostic gates are dropped. GGUFs converted for the fork's V4.1 (deepseek41.engram.layer_ids, blk.N.engram_embed) stop at load with a missing-key error and must be reconverted. LLAMA_PLE_SHARD is limited to qwen4exp, because V4.1 keeps its Engram tables in the same tensor. FEATURES.md and README.md are updated.
+
+Textual conflicts:
+- common/speculative.cpp: the fork's deferred DFlash prompt encode and upstream's device-buffer hidden features (#31506) exclude each other, and the deferred encode is decided first. The device path reads the fork's per-sequence rows, so combined server batches work. Upstream's LiliCorr setup (#30506) comes before the fork's mask-token fallback, and a LiliCorr drafter stays off the deferred path. Upstream's gemma4 MTP row selection is combined with the fork's staged deferred-prefill input.
+- ggml/src/ggml-backend-meta.cpp: upstream's TOP_K_MASK joins the replicated DeepSeek-V4 ops.
+- ggml/src/ggml-cuda/common.cuh: the fork's context fields are kept with upstream's initializers and graph-eviction timers (#30662).
+- ggml/src/ggml-cuda/gated_delta_net.cu: both the fork's chunk kernel header and upstream's MMA header.
+- ggml/src/ggml-cuda/ggml-cuda.cu: upstream captures a graph in chunks (#30804). The fork's HIP kernel-set check (hipGraphExecUpdate swaps kernel functions without validating launch geometry) runs per chunk. Its out-of-memory fallback resumes direct evaluation at the first node of the chunk that did not fit, because the earlier chunks already ran. Upstream's graph invalidation on pool frees (#26771) is added to the fork's fallible pool allocation. Upstream's multi-node NCCL comm_init_rank (#28967) sits beside the fork's custom all-reduce. Both gate fusions are kept: the fork's DeepSeek-V4 MUL/ADD/SIGMOID/SCALE and upstream's qwen4exp hc_post (#30602).
+- ggml/src/ggml-cuda/mmq.cu: the fork's gfx906 tile-width rule is in upstream's ggml_cuda_mmq_get_J_best. The chunked launches pass upstream's fused gate/up/GLU arguments (#29948, #31188) on every chunk.
+- ggml/src/ggml-cuda/norm.cu: upstream's float4 rms_norm variants and dispatcher (#29720) take the fork's clamped-grid parameter.
+- ggml/src/ggml-cuda/topk-moe.cu: both sides added the 384-expert case; one is kept.
+- src/llama-arch.cpp: the fork's sm-tensor replication helper is kept with upstream's llama_arch_* wrappers. The fork's V4.1 keys and tensors are removed.
+- src/llama-context.cpp: upstream's early return for device-buffer layer inputs comes before the fork's accumulation.
+- src/llama-context.h, src/llama-ext.h: the fork's MTP pre-norm accumulation and upstream's layer-input device buffer, events and embedding-row API are both kept.
+- src/llama-graph.cpp, src/llama-graph.h: upstream's llm_attn_mask (#29510) is used, with the fork's rule that a KV-only graph leaves the mask unallocated. The rotation constants stay on the device (#31073). The fork's replica-aware build_get_k is kept with upstream's MLA V view.
+- src/llama-hparams.h, src/models/models.h, src/models/deepseek41.cpp, src/models/dflash.cpp: upstream's DeepSeek-V4.1, as above. dflash keeps the fork's optional sliding-window pattern for sidecars.
+- src/llama-kv-cache-dsv4.cpp, src/llama-kv-cache-dsv4.h: upstream's file (V4.1 tiers, compressed-KV mirrors, rs_max #31368, no_alloc) with the fork's V4 replica sync, per-sequence replica clearing and phase-aware prefill snapshot gate.
+- src/llama-kv-cache.cpp: the fork's KV replicas and upstream's kv-rows functions are both kept.
+- src/llama-memory-recurrent.cpp: the fork's ring-aware seq_rm is kept. Outside ring mode the rollback bound is upstream's cell.rs_max (#31368).
+- src/llama-model.cpp: the fork's design-B head split and general shared-expert split are kept, and upstream's GLM-5.3-next head split is added. memory_breakdown keeps the fork's skip with upstream's no_alloc(). The fork's hybrid memory filters still leave MiniMax-01 out, and upstream's CLOVER_MOE is added. The v0.7.0 resolution (no per-file buffer map; load_tensors_hadamard, then the PLE prefault) is kept.
+- src/models/deepseek4.cpp: upstream's file plus the fork's two V4 changes: the layer_inp taps are expanded at the end of the graph, and the HCA compressed cache is accessed through build_get_k/build_cpy_k.
+- tools/gguf-split/gguf-split.cpp: the fork's chunked copy with upstream's truncation check on each chunk.
+- tools/server/server-context.cpp: release() drops the prompt in the fork's cases and for upstream's realtime, TTS and audio-stream tasks. Speculative verify uses upstream's local spec_i_batch (#27196) with the fork's per-row token probabilities.
+
+Merged without a textual conflict but changed:
+- ggml/src/ggml-cuda/gated_delta_net.cu: upstream's MMA chunked GDN kernel (#29353) writes only the final state, so it is skipped when the snapshot ring keeps more than one state. The column-thread kernel (cdc81dae4) is tried first.
+- ggml/src/ggml-cuda/mmq.cu: mmq_args has a trailing fusion member. The fork's chunked launches pass it.
+- src/llama-context.*, src/llama-graph.*: the fork's per-layer input taps are layer_inp_tap (upstream's device buffer is layer_inp_dev) and are not allocated in device-buffer mode.
+- common/speculative.cpp: in upstream's DFlash device-feature mode the host extraction that fills the fork's deferred accumulation is skipped. This is why the two modes exclude each other.
+- tools/server/server-context.cpp: upstream moves slot.spec_i_batch into a local before verification, so the fork's later copy was always empty and every speculative token lost its probabilities.
+- src/llama-graph.cpp: the fork's MTP KV-only store and its KV shift with replicas use the per-layer rotation (#31073), and a replica uses its owner's.
+- src/llama-kv-cache-dsv4.cpp: after an ubatch whose snapshots the prefill gate skipped, rs_max is 0, so a rollback into it is refused instead of restoring stale state.
+- src/llama-arch.h, src/models/models.h, src/llama-model.cpp: the duplicate V4.1 enumerators, struct and case label are removed, as is a fork engram_token_map member that shadowed upstream's.
+- src/llama-model.cpp: LLAMA_PLE_SHARD is limited to qwen4exp.
+- tests/llama-context/cases-rs.cpp: upstream's rollback cases assume only the last ubatch's snapshots survive. For the four architectures with the fork's snapshot ring (one sequence), rollback_bound expects the ring's bound (n_rs_seq within the decoded history), and rollback expects the ring to accept a rollback across the replayed single-token ubatches.
+- tests/test-llama-archs.cpp: the fork's deepseek41 skip is removed; upstream's fixture builds the Engram tables.
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>

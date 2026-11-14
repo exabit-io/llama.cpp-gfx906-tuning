@@ -1,0 +1,15 @@
+2026-11-14T11:12:10+00:00 [queue1] start
+2026-11-14T11:14:26+00:00 [queue1] mtp-modes merge rc=0
+2026-11-14T11:15:36+00:00 [queue1] mtp-modes merge np4 rc=0
+2026-11-14T11:16:34+00:00 [queue1] extra-checks merge rc=0
+2026-11-14T11:20:38+00:00 [queue1] pr-test master rc=0
+2026-11-14T11:20:38+00:00 [queue1]   allreduce path:  (empty = RCCL up)
+2026-11-14T11:30:13+00:00 [queue1] tbo-master ROCm0:   20388/20388 tests passed; failed: 
+2026-11-14T11:30:13+00:00 [queue1] tbo-master ROCm2:   20388/20388 tests passed; failed: 
+2026-11-14T11:35:15+00:00 [queue1] fold-check rc=0
+2026-11-14T11:41:53+00:00 [queue1] fold-isolate rc=0
+2026-11-14T11:44:26+00:00 [queue1] mtp-modes master rc=0
+2026-11-14T11:48:31+00:00 [queue1] pr-test candidates rc=0
+2026-11-14T11:56:46+00:00 [queue1] tbo-candidates ROCm1:   20388/20388 tests passed; failed: 
+2026-11-14T11:56:46+00:00 [queue1] tbo-candidates ROCm3:   20388/20388 tests passed; failed: 
+2026-11-14T11:56:46+00:00 [queue1] === QUEUE1 DONE ===

@@ -4,19 +4,19 @@ Written 2026-10-22, after the v0.7.0 cycle (reconcile with mxxm-t, merge, rebase
 next upstream release. Every script named here is in `tools/release/` (box-side copies; the working copies and their logs
 from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `reports/2026-10-22-v070-rebase.md`.
 
-## 0. State after the v0.9.0 cycle (2026-11-06)
+## 0. State after the v1.0.0 cycle (2026-11-14)
 
 | What | Where / value |
 |---|---|
 | Code repository | `github.com/exabit-io/mx-llama.cpp`; local clone `/root/exabit-llama.cpp`, remote `exabit-mx`; upstream fork remote `mxxm` (mxxm-t/mx-llama.cpp), `upstream` (ggml-org) |
-| Pure substrate | branch `merge-v0.9.0` = `0f901b4c5` = merge of v0.9.0 (`cd959ba`, b12110) onto mxxm-t `c4d12e2c0` + HIP top-k ballot fix + merge of mxxm-t master `cdc81dae4`; PR [mxxm-t/mx-llama.cpp#23](https://github.com/mxxm-t/mx-llama.cpp/pull/23) (supersedes #22) |
-| The build | tag `gfx906/v0.9.0/r0/master` = `58db0123a` = substrate + the 18 Exabit commits. The branches `master`/`gfx906-single`/`gfx906-multi` move there once the lead runs/approves the force-push (blocked for the agent) |
-| Unbinned pool | tag `gfx906/v0.9.0/r0/candidates` = `d0e315972` |
+| Pure substrate | branch `merge-v1.0.0` = `a73c601e6` = merge of v1.0.0 (`b1b770d`, b12359) onto mxxm-t `cdc81dae4` + HIP top-k ballot fix + HIP `PAD_REFLECT_1D` launch-size fix; PR [mxxm-t/mx-llama.cpp#24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (supersedes #23, closed) |
+| The build | tag `gfx906/v1.0.0/r0/master` = `df2c6e5c5` = substrate + the 18 Exabit commits; branches `master` = `gfx906-single` = `gfx906-multi` |
+| Unbinned pool | tag `gfx906/v1.0.0/r0/candidates` = `5c01f4ffd`; branch `gfx906-candidates` |
 | ROCm | 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, rocBLAS 5.6) |
-| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 0.9.0+git20261106.58db0123a.gfx906.20261018172427-1, release `mx-llama-cpp-0.9.0-gfx906-rocm10.0` on `exabit-io/resize-amdgpu-bars` |
+| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261114.df2c6e5c5.gfx906.20261018172427-1 from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.0` for the notes) |
 | RCCL topology | generated at boot by package `gfx906-rccl-topology`: its unit writes `/var/cache/gfx906-rccl-topology/topology.xml`, its conffile `/etc/rccl.conf` points RCCL at it (source `tools/gfx906-rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
 
-Previous cycle (v0.7.0, 2026-10-22): `reports/2026-10-22-v070-rebase.md`; this cycle: `reports/2026-11-06-v090-rebase.md`.
+Previous cycles: v0.7.0 `reports/2026-10-22-v070-rebase.md`, v0.9.0 `reports/2026-11-06-v090-rebase.md`; this cycle: `reports/2026-11-14-v100-rebase.md`.
 
 ## 1. Identities and access
 
@@ -80,6 +80,30 @@ The v0.9.0 cycle added these classes (all compiled cleanly):
 | Base moved mid-cycle | mxxm-t pushed `cdc81dae4` (column-thread GDN) while the PR was open | merge his master into the PR branch (force-push is blocked); re-check fork terms against his new code: term 04's folded calls had to skip the new kernel |
 | Upstream bug on wave64 | grouped top-k fusion (#29181): HIP `__ballot_sync` ANDs with its mask | separate commit on the PR branch |
 
+The v1.0.0 cycle added these (the first two compiled cleanly, the others were found by reading or by the tests):
+
+| Class | v1.0.0 instance | Fix |
+|---|---|---|
+| Upstream feature that skips a path a fork feature feeds from | MTP device rows (#31927) skip the host extraction that fills the fork's deferred-prefill accum buffer: the replay would have injected zeros | sequence the two (deferred prefill first, device rows when its buffer is released) and refuse the combination at the API |
+| Fork function that says it mirrors an upstream block | the KV-only MTP store mirrors `build_attn`'s store block, which gained the FP8 cache scales (#28392); its rope call used the removed `sections` array (#31683) | grep the fork for "mirrors" / copied blocks and diff upstream's version of each |
+| Upstream changed what a shared helper outputs | `mm_ids_helper` writes tile specs, no expert bounds (#31047); the repacked MoE kernels read the bounds | keep an optional output; port the fork's chunked MMQ launches to the tile count and per-chunk tile specs |
+| Both sides fixed the same bug | radix top-k determinism (#31084 vs 1b7d76ffc); unread scheduler inputs (#31419 vs 4d03828a1) | keep the stronger guarantee (fixed order; view-aware rule), drop the duplicate bookkeeping, say so in the merge message |
+| Upstream moved a block to another file | graph structs to `graph.cuh` (#32001), NextN API to `llama.h` (#30565) | the conflict shows as a deleted block: move the fork's fields along, re-add includes that upstream dropped from files that still use fork-only API |
+| New upstream test meets an old backend limit | `PAD_REFLECT_1D` with 2^24 rows: HIP rejects 2^32 threads along one grid dimension | separate commit on the PR branch; measure the limit with a minimal kernel before describing it |
+| A test abort that looks like progress | `test-backend-ops` aborted at case 13,418 on all four dies; a count of OK lines kept looking like a run in progress | check the exit code and the `N/N tests passed` line, not the log size |
+
+Stack the merge on the previous PR tip when that PR was not merged: `git merge vNEW` in a detached worktree at the old PR head gives
+only the new conflicts (15 files for v1.0.0 instead of 27 + 15). Then build the real merge commit from that tree with
+`git commit-tree TREE -p mxxm/master -p vNEW^{commit} -F merge-msg.txt` (revert the separate fix commits in the index first and
+cherry-pick them back on top). `tools/release/fork-delta.py OLD_UPSTREAM OLD_FORK NEW_UPSTREAM` lists the files whose fork delta
+changed in the merge (the ones edited) and the ones where it did not (read upstream's diff of the fork-heavy ones anyway).
+
+`test-llama-context` and the other fixture tests: `tools/release/ctx-check.sh BUILD OUT` (direct runs, one worker). With all four dies
+visible, `gemma4-dense` and `mistral-large4-moe` fail the sequence-copy cases because their KV-sharing layers land on different dies and
+mxxm-t's KV replicas (de27e7509) are then in use; `LLAMA_KV_REPLICA=0` or `HIP_VISIBLE_DEVICES=0` passes all 144 models. This is in every
+merge since v0.7.0 (reported in #24), so compare against that, not against zero failures. The dummy models get new random weights on
+every run, so the count moves: gemma4-dense failed in 3 of 3 four-die runs, mistral-large4-moe in 2 of 3 (142 or 143 of 144).
+
 Run `ctest -R test-llama-context` too: upstream's rollback cases assume the last ubatch's snapshots only, which the fork's ring
 exceeds (fixed in the merge); the realloc debug check and the four-way parallel run fail on #22's tree as well (fork-side, open).
 
@@ -112,6 +136,11 @@ clamp watchdog and `gpu-test-env.sh` (macpro-fand pins the GPUs at 125 W). Check
 | direct I/O | `dio-check.sh` + `strace -e trace=openat` | O_DIRECT open, 0 fallbacks on every build |
 | tolerance-edge flakes | re-run the single case 50x with `-o '<full case string>'` (inputs are random per run) | q5_1 n=1 k=256 at 5.13e-4 vs 5e-4: 0/150 on re-runs |
 
+v1.0.0 reference values (same scripts): merge build test-backend-ops 20388/20388 x4, PPL 16K/6 5.6126, MTP 154/200 at 70.7-71.7 tok/s
+steady state; master 20388/20388 x2, PPL 5.6093, folds on 5.0822 / off 5.0575 (all four unchanged from v0.9.0). `mtp-modes.sh BUILD OUT [NP]`
+compares the MTP row paths (`LLAMA_MTP_DEV`, `LLAMA_MTP_DEFERRED_PREFILL`); a server log shows llama's own INFO lines (reserves, buffer sizes)
+only with `-v`.
+
 Gotchas: the fold check needs ubatch <= 16 (norm+q8 fold <= 16 rows; add-norm and GDN folds <= 64) and `-v` (ggml INFO lines
 are hidden by default); `llama-perplexity --kl-divergence` prints its statistics on **stdout**; environment assignments in
 front of a bash function call do not reliably reach the commands inside it (pass them through `env`); 16K PPL is a smoke
@@ -138,6 +167,13 @@ upstream's workflows on the fork (that is where the `bNNNNN` tags on exabit-io c
 | test before publishing | `apt-get install ./deb`, then `SKIP_TBO=1 pr-test.sh /opt/mx-llama.cpp OUT`; rerun MTP on an idle host (a parallel compile cut it from 74.4 to 54.7 t/s) | `stack_check.py` with the build venv, then with `/usr/bin/python3 -I` after `apt-get install ./deb`; compare with the previous package (same check) |
 | publish | `publish.sh LLAMA_DEB TORCH_DEB` (signs the debs, tags resize-amdgpu-bars `origin/main`, runs `/root/local-apt/github-release-pkg.sh` once per package) | same call |
 | dogfood | point `/etc/apt/sources.list.d/*.sources` at the new releases, `apt-get clean; apt-get install --reinstall ...`, verify InRelease signature -> Packages SHA256 -> deb SHA256 -> embedded origin signature, rerun the checks | same |
+
+Since v1.0.0 `mx-llama-cpp-gfx906` has a rolling channel (release `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars`, channel dir
+`/root/local-apt/channel-mx-llama-cpp-gfx906`, notes `/root/local-apt/mx-llama-cpp-gfx906-channel-notes.md`): `publish-100.sh DEB` signs,
+tags, publishes the per-version release and then adds the deb to the channel. Machines keep the channel line and never a per-version one.
+Before publishing, `deb-test.sh OUT` takes a reference on the previous package, installs the new deb from the file and runs the suite on
+`/opt/mx-llama.cpp`. After publishing, `dogfood-100.sh OUT` writes the channel source line, reinstalls from the channel and verifies
+InRelease signature -> Packages SHA256 -> deb SHA256 -> embedded origin signature. Build the deb from a clean detached worktree of the final `master` (`git worktree add --detach /root/wt-deb-vXYZ master-vXYZ`).
 
 PyTorch traps found on 2.14.1:
 - 2.14 builds through scikit-build-core: `python -m build --wheel --no-isolation`; `setup.py bdist_wheel` is gone.

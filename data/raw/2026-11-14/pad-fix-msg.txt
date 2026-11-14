@@ -1,0 +1,16 @@
+cuda: launch PAD_REFLECT_1D in row chunks on HIP
+
+The kernel runs one block of 256 threads per row and per i0 tile, all of them along grid.x. HIP rejects a launch with 2^32
+or more threads along one grid dimension ("invalid configuration argument"), so a tensor with 2^24 or more rows aborted
+in ggml_cuda_compute_forward. CUDA allows 2^31 - 1 blocks there and is unchanged.
+
+On HIP the rows are now launched in chunks that stay below 2^31 threads. Each launch gets its row offset in the src and
+dst pointers and the fastdiv values of its own row count, so the kernel does not change.
+
+test-backend-ops -o PAD_REFLECT_1D on gfx906 (Radeon Pro Vega II, ROCm 10.0): upstream v1.0.0 aborts at the
+ne_a=[2,16777217,1,1] case that #31877 added (16777217 blocks of 256 threads = 2^32 + 256), which also ends a full
+test-backend-ops run at that point. With this change 7/7 pass. A minimal HIP kernel on the same device is accepted with
+2^32 - 1 threads (2147483647 blocks of 2, 4294967295 blocks of 1) and rejected with 2^32 (16777216 blocks of 256,
+2147483648 blocks of 2).
+
+Co-Authored-By: Claude Fable 5.2 <noreply@anthropic.com>
