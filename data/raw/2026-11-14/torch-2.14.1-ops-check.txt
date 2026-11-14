@@ -1,0 +1,18 @@
+torch 2.14.1+gfx906.20261018172427  hip 7.15.26333  devices 4  file /usr/lib/python3/dist-packages/torch/__init__.py
+ok   blas: gemm/gemv/bmm fp32 rel err 9.1e-07, fp64 gemm 0.0e+00
+ok   linalg: solve/cholesky/qr/svdvals/eigvalsh/inv fp64 worst rel err 4.0e-14
+ok   fft: fft2/rfft/irfft round trip rel err 2.4e-07
+ok   sparse: coalesce 0.0e+00, COO spmm 9.5e-08, CSR spmm 1.9e-07
+ok   random: randn mean +5.8e-04 std 1.0005, seeded stream repeats, randperm is a permutation
+FAIL sort_topk_argmax: AssertionError: topk with ties: same indices on a second call
+ok   conv_norm_pool: conv+bn+pool+convT 3.7e-07, conv input grad 4.0e-07, layer_norm 1.6e-07, group_norm 1.1e-07
+ok   rnn: 2-layer LSTM 2.4e-07, GRU 1.8e-07, LSTM backward finite
+ok   attention_amp: SDPA causal 1.9e-07, masked 5.4e-07, autocast fp16 4.8e-04, bf16 3.8e-03
+ok   transformer_train: first loss cpu 7.0613 gpu 7.0613; after 30 AdamW steps cpu 0.1241 gpu 0.1241
+ok   indexing: scatter_add 3.5e-07, index_put accumulate 4.7e-07, embedding_bag 0.0e+00, masked select/nonzero equal, cumsum 0.0e+00
+ok   cdist_pdist: cdist 3000x2500 1.1e-07, pdist 1500 1.1e-07
+ok   memory_serialize: 32.0 GiB die, 1 GiB alloc/free returns, save/load weights_only keeps devices
+ok   distributed[nccl]: 4 ranks, all_reduce/broadcast/all_gather correct, 1 GiB all_reduce 47 ms (21.10 GiB/s), implementation ProcessGroupNCCL
+ok   distributed[nccl-lazy]: 4 ranks, all_reduce/broadcast/all_gather correct, 1 GiB all_reduce 48 ms (20.95 GiB/s), implementation ProcessGroupNCCLLazy
+ok   distributed[nccl-legacy]: 4 ranks, all_reduce/broadcast/all_gather correct, 1 GiB all_reduce 47 ms (21.08 GiB/s), implementation ProcessGroupNCCL
+ops_check: 15 passed, 1 failed: sort_topk_argmax

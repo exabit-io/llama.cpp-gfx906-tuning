@@ -133,4 +133,9 @@ The gfx906 repository rolled the 10.0 stream to `10.0.0-gfx906+20261018172427` (
 - `python3-torch-gfx906` 2.14.1 (release `pytorch-2.14.1-gfx906-rocm10.0`): torch, torchvision 0.29.0, torchaudio 2.11.0 for
   the system python, `-march=native`, static oneMKL. Replaces 2.13.0.
 
+Since 2026-11-14 both come from rolling apt channels on the same repository (one source line each, new versions arrive
+with `apt upgrade`): `mx-llama-cpp-gfx906` 1.0.0 from the channel `mx-llama-cpp-gfx906`, and `python3-torch-gfx906` 2.15.0
+(torchvision 0.30.0, torchaudio 2.11.0) from the channel `python3-torch-gfx906`, which also carries the
+`python3-typing-extensions` 4.16.0 backport PyTorch 2.15 needs on Ubuntu 24.04 (`reports/2026-11-14-pytorch-2.15.0.md`).
+
 How both are built, tested and published: `RELEASE-RUNBOOK.md` section 7.

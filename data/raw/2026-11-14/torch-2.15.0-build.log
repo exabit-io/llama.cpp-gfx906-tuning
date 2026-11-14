@@ -1,0 +1,18 @@
+2026-11-14T13:06:53+00:00 === torch build start: ROCM_PATH=/opt/rocm/core-10.0 (7.15.26333-0000000) arch=gfx906 suffix=gfx906.20261018172427 jobs=48 ===
+2026-11-14T13:06:53+00:00 toolchain: AMD clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 8f497e0992fb7513f7f78a6f6b6f1056c375e961)
+2026-11-14T13:07:33+00:00 venv ready: Python 3.12.3, cmake 4.4.4, ninja 1.13.2.git.kitware.jobserver-pipe-1, mkl 2026.2.1
+2026-11-14T13:07:33+00:00 pytorch at v2.15.0 (31a77fc9c0a7c6fff15a1ff58c743f53b1a9d457)
+2026-11-14T13:07:45+00:00 running tools/amd_build/build_amd.py (hipify) ...
+2026-11-14T13:07:51+00:00 building torch 2.15.0+gfx906.20261018172427 ...
+2026-11-14T13:30:33+00:00 torch wheel built in 1362s: torch-2.15.0+gfx906.20261018172427-cp312-cp312-linux_x86_64.whl
+2026-11-14T13:30:33+00:00 -march=native in 3326 of 3326 compile commands; fbgemm AVX512 files with -mavx512bf16: 12
+2026-11-14T13:30:45+00:00 gate: 2.15.0+gfx906.20261018172427 7.15.26333 (MKL + LAPACK present)
+2026-11-14T13:30:47+00:00 building vision 0.30.0+gfx906.20261018172427 (pin 6da25ff876100d36f23472f5762d5f306c47d735) ...
+2026-11-14T13:31:03+00:00 vision wheel built in 16s
+2026-11-14T13:31:07+00:00 building audio 2.11.0+gfx906.20261018172427 (pin 45eaed85921bdab5348712a7e37db924bd150371) ...
+2026-11-14T13:31:16+00:00 audio wheel built in 9s
+2026-11-14T13:31:17+00:00 === wheels in /root/pytorch-gfx906-rocm10-2.15.0/dist ===
+238449777 /root/pytorch-gfx906-rocm10-2.15.0/dist/torch-2.15.0+gfx906.20261018172427-cp312-cp312-linux_x86_64.whl
+364100 /root/pytorch-gfx906-rocm10-2.15.0/dist/torchaudio-2.11.0+gfx906.20261018172427-cp310-abi3-linux_x86_64.whl
+1163520 /root/pytorch-gfx906-rocm10-2.15.0/dist/torchvision-0.30.0+gfx906.20261018172427-cp312-cp312-linux_x86_64.whl
+2026-11-14T13:31:17+00:00 === torch build done ===

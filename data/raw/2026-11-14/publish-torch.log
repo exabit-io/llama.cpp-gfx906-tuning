@@ -1,0 +1,57 @@
+== 2026-11-14T13:40:34+00:00 channel contents: the earlier versions must be the published bytes
+  python3-torch-gfx906_2.13.0.gfx906.20260917140126-1_amd64.deb = asset of pytorch-2.13.0-gfx906-rocm10.0
+  python3-torch-gfx906_2.14.1.gfx906.20261018172427-1_amd64.deb = asset of pytorch-2.14.1-gfx906-rocm10.0
+== 2026-11-14T13:40:36+00:00 sign debs
+OK   python3-torch-gfx906_2.15.0.gfx906.20261018172427-1_amd64.deb
+OK   python3-typing-extensions_4.16.0-0exabit1_all.deb
+== 2026-11-14T13:40:37+00:00 tag on exabit-io/resize-amdgpu-bars
+To github.com:exabit-io/resize-amdgpu-bars.git
+ * [new tag]         pytorch-2.15.0-gfx906-rocm10.0 -> pytorch-2.15.0-gfx906-rocm10.0
+== 2026-11-14T13:40:41+00:00 release pytorch-2.15.0-gfx906-rocm10.0
+== 2026-11-14T13:40:41+00:00 release pytorch-2.15.0-gfx906-rocm10.0
+https://github.com/exabit-io/resize-amdgpu-bars/releases/tag/pytorch-2.15.0-gfx906-rocm10.0
+== 2026-11-14T13:40:43+00:00 upload
+  python3-torch-gfx906_2.15.0.gfx906.20261018172427-1_amd64.deb
+  python3-typing-extensions_4.16.0-0exabit1_all.deb
+  Intel-oneMKL-LICENSE.txt
+  README-third-party.md
+== 2026-11-14T13:41:38+00:00 index
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+  Packages
+  Packages.gz
+  Release
+  Release.gpg
+  InRelease
+  SHA256SUMS
+== 2026-11-14T13:41:46+00:00 verify over https
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+Package:  python3-torch-gfx906       Version:  2.15.0+gfx906.20261018172427-1  Filename:  python3-torch-gfx906_2.15.0.gfx906.20261018172427-1_amd64.deb
+Package:  python3-typing-extensions  Version:  4.16.0-0exabit1                 Filename:  python3-typing-extensions_4.16.0-0exabit1_all.deb
+== done: https://github.com/exabit-io/resize-amdgpu-bars/releases/download/pytorch-2.15.0-gfx906-rocm10.0
+== 2026-11-14T13:41:47+00:00 rolling channel python3-torch-gfx906
+== 2026-11-14T13:41:48+00:00 release python3-torch-gfx906 (4 debs under /root/local-apt/channel-python3-torch-gfx906)
+https://github.com/exabit-io/resize-amdgpu-bars/releases/tag/python3-torch-gfx906
+== 2026-11-14T13:41:50+00:00 upload (identical assets skipped)
+  python3-torch-gfx906_2.13.0.gfx906.20260917140126-1_amd64.deb
+  python3-torch-gfx906_2.14.1.gfx906.20261018172427-1_amd64.deb
+  python3-torch-gfx906_2.15.0.gfx906.20261018172427-1_amd64.deb
+  python3-typing-extensions_4.16.0-0exabit1_all.deb
+  Intel-oneMKL-LICENSE.txt
+  README-third-party.md
+== 2026-11-14T13:44:25+00:00 index
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+  Packages
+  Packages.gz
+  Release
+  Release.gpg
+  InRelease
+  SHA256SUMS
+== 2026-11-14T13:44:34+00:00 verify over https
+gpg: Good signature from "Exabit, Inc. apt repository <packages@exabit.io>" [ultimate]
+  Packages sha256 matches InRelease
+      1 2.13.0+gfx906.20260917140126-1
+      1 2.14.1+gfx906.20261018172427-1
+      1 2.15.0+gfx906.20261018172427-1
+      1 4.16.0-0exabit1
+== done: https://github.com/exabit-io/resize-amdgpu-bars/releases/download/python3-torch-gfx906
+== 2026-11-14T13:44:35+00:00 published

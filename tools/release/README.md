@@ -32,4 +32,9 @@ clamp watchdog by PID.
 | `drafters-100.sh OUT` | v1.0.0: DeepSeek-V4.1 + DSpark (`--fit-target 7168`; stock, merge build and its three feature paths) and Nemotron + LiLiCorr (stock, merge, master) |
 | `np4-ab.sh OUT` | v1.0.0: single-stream MTP at `-np 4`, v0.9.0 master against v1.0.0 master, three alternating rounds (the 2026-11-14 run was disturbed, see the report) |
 | `stall-diag.sh OUT [BUILD] [NREQ]` | v1.0.0: the same requests against one server with a verbose log; per request the speed and the largest gaps between log lines, plus SMI count, CE count, VRAM and CPU pressure before and after |
+| `build-torch-2.15.0.sh`, `build-torch-deb-2.15.0.sh` | PyTorch 2.15.0 wheels (torch, vision, audio at PyTorch's CI pins) and the `python3-torch-gfx906` deb |
+| `build-typing-extensions-deb.sh [VERSION]` | `python3-typing-extensions` backport for noble from the upstream wheel (hash checked against PyPI and the build venv) |
+| `torch-deb-test.sh OUT` | reference on the installed PyTorch package, install the new debs from the files, library and dependency checks, `torch-stack-check.py` and `torch-ops-check.py` |
+| `torch-ops-check.py` | GPU against CPU, one check per ROCm library, sort/topk, attention, a short training run, and the NCCL backends over the four dies; exit code = failed checks |
+| `publish-torch.sh DEB`, `dogfood-torch.sh OUT` | PyTorch: sign, tag, per-version release, rolling channel `python3-torch-gfx906`; then switch the box to the channel and verify the chain |
 | `raw-copy.sh`, `docs-update.py` | v1.0.0: copy the cycle's result lines into `data/raw/2026-11-14/`; move this repository's statements of the code state to the new cycle (run once) |

@@ -14,6 +14,7 @@ from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `re
 | Unbinned pool | tag `gfx906/v1.0.0/r0/candidates` = `5c01f4ffd`; branch `gfx906-candidates` |
 | ROCm | 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, rocBLAS 5.6) |
 | Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261114.df2c6e5c5.gfx906.20261018172427-1 from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.0` for the notes) |
+| Installed PyTorch | deb `python3-torch-gfx906` 2.15.0+gfx906.20261018172427-1 (torchvision 0.30.0, torchaudio 2.11.0) from the ROLLING channel `python3-torch-gfx906` on `exabit-io/resize-amdgpu-bars`, with `python3-typing-extensions` 4.16.0-0exabit1 from the same channel (per-version release `pytorch-2.15.0-gfx906-rocm10.0`); work dir `/root/pytorch-gfx906-rocm10-2.15.0/` |
 | RCCL topology | generated at boot by package `gfx906-rccl-topology`: its unit writes `/var/cache/gfx906-rccl-topology/topology.xml`, its conffile `/etc/rccl.conf` points RCCL at it (source `tools/gfx906-rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
 
 Previous cycles: v0.7.0 `reports/2026-10-22-v070-rebase.md`, v0.9.0 `reports/2026-11-06-v090-rebase.md`; this cycle: `reports/2026-11-14-v100-rebase.md`.
@@ -174,6 +175,31 @@ tags, publishes the per-version release and then adds the deb to the channel. Ma
 Before publishing, `deb-test.sh OUT` takes a reference on the previous package, installs the new deb from the file and runs the suite on
 `/opt/mx-llama.cpp`. After publishing, `dogfood-100.sh OUT` writes the channel source line, reinstalls from the channel and verifies
 InRelease signature -> Packages SHA256 -> deb SHA256 -> embedded origin signature. Build the deb from a clean detached worktree of the final `master` (`git worktree add --detach /root/wt-deb-vXYZ master-vXYZ`).
+
+Since 2.15.0 `python3-torch-gfx906` has a rolling channel too (release `python3-torch-gfx906`, channel dir
+`/root/local-apt/channel-python3-torch-gfx906`, notes `/root/local-apt/python3-torch-gfx906-channel-notes.md`). The cycle, all in
+`/root/pytorch-gfx906-rocm10-X.Y.Z/` (copies in `tools/release/`): clone `vX.Y.Z` with submodules into `src/pytorch`,
+`build-torch-2.15.0.sh`, `build-torch-deb-2.15.0.sh`, `torch-deb-test.sh OUT` (reference on the installed package, install from the
+files, dependency checks, `stack_check.py` and `torch-ops-check.py`), `publish-torch.sh DEB` (per-version release, then the channel),
+`dogfood-torch.sh OUT`. Read the upstream release notes first (`gh api repos/pytorch/pytorch/releases/tags/vX.Y.Z -q .body`): the
+ROCm, Distributed, Release Engineering and Developers sections name what changes for a source build.
+
+PyTorch traps found on 2.15.0:
+- **Compare the wheel's `Requires-Dist` with what noble ships before building the deb, and import the staged tree with the system
+  interpreter** (`sys.path.insert(0, STAGE/usr/lib/python3/dist-packages)`). 2.15 needs typing_extensions >= 4.13.0 at `import torch`
+  (noble: 4.10.0); the build venv has its own copy and passes everything. The channel carries a `python3-typing-extensions` backport
+  (`build-typing-extensions-deb.sh`: the upstream wheel, Ubuntu's package name and layout) and the deb depends on it with the bound.
+  When PyTorch raises the bound again, rebuild the backport from the version in the new build venv.
+- A package that depends on a second package of ours: put both debs in the per-version release and in the channel (`ARCHES="amd64 all"`),
+  install both files in one `apt-get install` for the test, and check that apt refuses the main deb alone.
+- `amd_smi` is a required CMake package for ROCm 7.14 and later; ROCm 10.0 has it. `libtorch_hip.so` links `libamd_smi.so`.
+- 2.15's extra distributed backends (`nccl-lazy`, `nccl-legacy`, `nccl2`) are registered through the wheel's entry points
+  (`torch.distributed.backends`), not listed in `Backend.backend_list`: the deb must ship `torch-*.dist-info/entry_points.txt` (it does),
+  and a test must look there to know whether a backend exists.
+- A check that compares GPU and CPU index results needs tie-free input (rows that are permutations): random floats repeat often
+  enough in 5,000 draws for an unstable sort to differ legitimately.
+- The published asset is the reference for an old deb, not the local file: the local 2.13.0 deb differed from its release asset.
+  `publish-torch.sh` compares the channel copies with the digests GitHub reports.
 
 PyTorch traps found on 2.14.1:
 - 2.14 builds through scikit-build-core: `python -m build --wheel --no-isolation`; `setup.py bdist_wheel` is gone.

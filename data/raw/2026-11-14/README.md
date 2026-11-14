@@ -7,3 +7,7 @@ output hashes), the two queue logs, the publish log, and the texts sent to mxxm-
 
 All 16K, 8K, 4K and 2K depths here are correctness smoke values (R2.2): comparable build to build, never serving results.
 `np4-ab.progress.txt` is a disturbed run (report section 6): do not use its means.
+
+The `torch-*` files and `publish-torch.log` belong to `reports/2026-11-14-pytorch-2.15.0.md` (the same day's PyTorch 2.15.0
+package): the build log, the package test and channel-install result lines, the full output of the stack check and of the
+operator check on 2.14.1 and on 2.15.0, and the release notes as published.
