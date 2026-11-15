@@ -1,0 +1,23 @@
+2026-11-15T00:12:26+00:00 [swap] arm pkg: pkg:libggml-base pkg:libggml-cpu pkg:libggml-hip pkg:libggml pkg:libllama-batched-bench-impl pkg:libllama-common pkg:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-15T00:12:27+00:00 [swap] arm llama: pkg:libggml-base pkg:libggml-cpu pkg:libggml-hip pkg:libggml ref:libllama-batched-bench-impl ref:libllama-common ref:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-15T00:12:27+00:00 [swap] arm all: ref:libggml-base ref:libggml-cpu ref:libggml-hip ref:libggml ref:libllama-batched-bench-impl ref:libllama-common ref:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-15T00:12:27+00:00 [swap] arm r100: ref:libggml-base ref:libggml-cpu ref:libggml-hip ref:libggml ref:libllama-batched-bench-impl ref:libllama-common ref:libllama ; 26 ROCm libraries under /opt/rocm/core-10.0
+2026-11-15T00:12:27+00:00 [swap] n=3, arms: pkg llama all r100; load 0.55 1.29 1.80
+2026-11-15T00:12:41+00:00 [swap] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1194/2508/2507/2507
+2026-11-15T00:12:42+00:00 [swap] block 1 order: all r100 pkg llama
+2026-11-15T00:18:58+00:00 [swap] all b1: decode 24.6741, prefill 806.6
+2026-11-15T00:25:16+00:00 [swap] r100 b1: decode 24.7828, prefill 806.6
+2026-11-15T00:31:32+00:00 [swap] pkg b1: decode 24.5546, prefill 806.4
+2026-11-15T00:37:48+00:00 [swap] llama b1: decode 24.6914, prefill 806.2
+2026-11-15T00:37:48+00:00 [swap] block 2 order: r100 all pkg llama
+2026-11-15T00:44:06+00:00 [swap] r100 b2: decode 24.7864, prefill 806.4
+2026-11-15T00:50:23+00:00 [swap] all b2: decode 24.6409, prefill 805.8
+2026-11-15T00:56:39+00:00 [swap] pkg b2: decode 24.5316, prefill 805.8
+2026-11-15T01:02:56+00:00 [swap] llama b2: decode 24.7218, prefill 806.5
+2026-11-15T01:02:56+00:00 [swap] block 3 order: all pkg r100 llama
+2026-11-15T01:09:12+00:00 [swap] all b3: decode 24.6397, prefill 806.0
+2026-11-15T01:15:29+00:00 [swap] pkg b3: decode 24.5358, prefill 806.0
+2026-11-15T01:21:47+00:00 [swap] r100 b3: decode 24.8345, prefill 807.4
+2026-11-15T01:28:03+00:00 [swap] llama b3: decode 24.6314, prefill 805.7
+2026-11-15T01:28:03+00:00 [swap] decode per slot by arm: pkg [24.5546 24.5316 24.5358] llama [24.6914 24.7218 24.6314] all [24.6741 24.6409 24.6397] r100 [24.7828 24.7864 24.8345] 
+2026-11-15T01:28:03+00:00 [swap] === PKG-SWAP DONE ===

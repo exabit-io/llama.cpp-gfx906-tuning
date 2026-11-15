@@ -23,7 +23,19 @@ Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) 
 
 The code is a separate repository: **https://github.com/exabit-io/mx-llama.cpp**. **The substrate since 2026-11-14** is `merge-v1.0.0` (`a73c601e6`) = mxxm-t's fork at `cdc81dae4` merged with llama.cpp v1.0.0 (`b1b770d`, b12359) plus two HIP fixes, offered to mxxm-t as [PR #24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (PR #17, #22 and #23, the v0.5.0, v0.7.0 and v0.9.0 merges, were closed unmerged). Branches: `master` = `gfx906-single` = `gfx906-multi` = `df2c6e5c5` (substrate + RCCL default + the patches binned for both profiles), `gfx906-candidates` (our unbinned patches), `merge-v1.0.0` (the pure substrate, until merged). How a release is taken through the stack: `RELEASE-RUNBOOK.md`. `exabit-io/llama.cpp` is retired history (archived 2026-09-24, read-only). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`.
 
-## Status — 2026-11-14
+## Status — 2026-11-14 (evening): ROCm 10.1
+
+The box runs the ROCm 10.1 stream (HIP 7.16, LLVM 24), installed beside 10.0. Both packages are rebuilt for it and
+installed from their rolling channels. mx-llama.cpp compiled by 10.1's LLVM 24 is correct but slower at prefill (1.4 % at
+4 x 64K, 4.1 % at 1 x 255K), entirely in the head-256 flash-attention tile kernel; the 10.1 runtime does not touch
+prefill. The llama package for 10.1 is therefore compiled with 10.0's toolchain. It passes the design-point acceptance:
+prefill equals ROCm 10.0's (805.7 against 806.0 tok/s at 4 x 64K, 410.2 against 410.2 at 1 x 255K), decode is 0.97 % and
+0.74 % lower (24.546 against 24.787 tok/s per slot, 31.698 against 31.935), under the 2 % floor. Of the 4 x 64K
+difference about 0.6 % is the 10.1 runtime and 0.4 % the deb's host flag (`-march=native` on `libllama`). PyTorch 2.15.0
+on 10.1 is unchanged, and its channel now carries a sympy 1.14.0 backport that repairs `torch.export` and `torch.compile`
+on Ubuntu 24.04. `reports/2026-11-14-rocm-10.1.md`.
+
+## Status — 2026-11-14 (morning): llama.cpp v1.0.0
 
 llama.cpp v1.0.0: merged into mxxm-t's master and offered as PR #24 (replacing #23), the 18 Exabit commits rebased onto it without a port. Perplexity and
 every fold-check value are unchanged from v0.9.0 (16K/6 5.6093 on `master`); `test-backend-ops` passes 20388/20388 where stock v1.0.0 aborts on gfx906

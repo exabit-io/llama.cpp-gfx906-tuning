@@ -1,0 +1,7 @@
+2026-11-14T18:57:20+00:00 [mixed] start: /root/build-master-v100r (compiled by /opt/rocm/core-10.0/lib/llvm/bin/clang++) on /opt/rocm/core-10.1/lib/libamdhip64.so.7.16.26385-0000000
+2026-11-14T19:11:33+00:00 [mixed] pr-test rc=0
+2026-11-14T19:11:33+00:00 [mixed]   allreduce path:  (empty = RCCL up)
+2026-11-14T19:16:25+00:00 [mixed] fold-check rc=0
+2026-11-14T19:21:04+00:00 [mixed] ctx-check rc=0
+2026-11-14T19:21:43+00:00 [mixed] MTP np1 rc=0: combined long : prompt 2089 tok 723.7 tok/s | gen 137 tok 65.37 tok/s | accepted 81/112 | sha e9ba62f015f6;combined run 1: prompt 11 tok 34.5 tok/s | gen 256 tok 72.77 tok/s | accepted 154/201 | sha 5f4e46d94562;combined run 2: prompt 11 tok 39.8 tok/s | gen 256 tok 73.49 tok/s | accepted 154/201 | sha 5f4e46d94562;combined run 3: prompt 11 tok 34.7 tok/s | gen 256 tok 74.01 tok/s | accepted 154/201 | sha 5f4e46d94562;
+2026-11-14T19:21:43+00:00 [mixed] === MIXED SUITE DONE ===

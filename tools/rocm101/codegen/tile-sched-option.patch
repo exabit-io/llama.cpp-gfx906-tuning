@@ -1,0 +1,47 @@
+diff --git a/ggml/CMakeLists.txt b/ggml/CMakeLists.txt
+index 7aae90b60..ea8c920df 100644
+--- a/ggml/CMakeLists.txt
++++ b/ggml/CMakeLists.txt
+@@ -228,6 +228,9 @@ option(GGML_HIP_EXPORT_METRICS              "ggml: enable kernel perf metrics ou
+ # 'both' in round 1b (2026-09-25) as part of the stack with norm-add-fusion, gdn-producer-fold, dpp-warp-reductions and
+ # mmvq-q8-fastpath: +2.53% decode at 4x64K, +2.57% at 1x255K on Qwen3.8-27B Q8_0, four MI50. -DGGML_HIP_GFX906_MAX_ILP=OFF opts out.
+ option(GGML_HIP_GFX906_MAX_ILP              "ggml: gfx906: -mllvm -amdgpu-sched-strategy=max-ilp" ON)
++# The scheduler strategy of the flash-attention tile kernels alone (they are the prefill kernels): auto, or a value of
++# -amdgpu-sched-strategy (max-ilp, iterative-ilp, max-memory-clause, ...), or none for the compiler's default.
++set(GGML_HIP_GFX906_TILE_SCHED "auto" CACHE STRING "ggml: gfx906: -amdgpu-sched-strategy of the flash-attention tile kernels")
+ option(GGML_MUSA_GRAPHS                     "ggml: use MUSA graph, experimental, unstable"    OFF)
+ option(GGML_MUSA_MUDNN_COPY                 "ggml: enable muDNN for accelerated copy"         OFF)
+ option(GGML_VULKAN                          "ggml: use Vulkan"                                OFF)
+diff --git a/ggml/src/ggml-hip/CMakeLists.txt b/ggml/src/ggml-hip/CMakeLists.txt
+index b5c0b6563..09a28e9b0 100644
+--- a/ggml/src/ggml-hip/CMakeLists.txt
++++ b/ggml/src/ggml-hip/CMakeLists.txt
+@@ -118,7 +118,27 @@ if (GGML_HIP_EXPORT_METRICS)
+ endif()
+ 
+ if (GGML_HIP_GFX906_MAX_ILP AND "gfx906" IN_LIST CMAKE_HIP_ARCHITECTURES)
+-    set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} -mllvm -amdgpu-sched-strategy=max-ilp")
++    # Per source, so that the flash-attention tile kernels can take another strategy than the rest. Under max-ilp
++    # LLVM 24 (ROCm 10.1) spills 12-16 vector registers in the head-256, 32-column tile kernels (LLVM 23: 1-5); these
++    # are the prefill kernels. auto = iterative-ilp from LLVM 24 on, which spills none there, and max-ilp before.
++    set(_tile_sched "${GGML_HIP_GFX906_TILE_SCHED}")
++    if (_tile_sched STREQUAL "auto")
++        if (CMAKE_HIP_COMPILER_VERSION VERSION_GREATER_EQUAL 24)
++            set(_tile_sched "iterative-ilp")
++        else()
++            set(_tile_sched "max-ilp")
++        endif()
++    endif()
++    message(STATUS "gfx906: max-ilp scheduler; flash-attention tile kernels: ${_tile_sched}")
++    foreach(src IN LISTS GGML_SOURCES_ROCM)
++        if (src MATCHES "template-instances/fattn-tile")
++            if (NOT _tile_sched STREQUAL "none")
++                set_property(SOURCE ${src} APPEND PROPERTY COMPILE_OPTIONS -mllvm -amdgpu-sched-strategy=${_tile_sched})
++            endif()
++        else()
++            set_property(SOURCE ${src} APPEND PROPERTY COMPILE_OPTIONS -mllvm -amdgpu-sched-strategy=max-ilp)
++        endif()
++    endforeach()
+ endif()
+ 
+ if (NOT GGML_CUDA_FA)

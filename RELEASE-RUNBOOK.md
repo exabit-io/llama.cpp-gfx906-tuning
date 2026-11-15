@@ -12,9 +12,9 @@ from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `re
 | Pure substrate | branch `merge-v1.0.0` = `a73c601e6` = merge of v1.0.0 (`b1b770d`, b12359) onto mxxm-t `cdc81dae4` + HIP top-k ballot fix + HIP `PAD_REFLECT_1D` launch-size fix; PR [mxxm-t/mx-llama.cpp#24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (supersedes #23, closed) |
 | The build | tag `gfx906/v1.0.0/r0/master` = `df2c6e5c5` = substrate + the 18 Exabit commits; branches `master` = `gfx906-single` = `gfx906-multi` |
 | Unbinned pool | tag `gfx906/v1.0.0/r0/candidates` = `5c01f4ffd`; branch `gfx906-candidates` |
-| ROCm | 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, rocBLAS 5.6) |
-| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261114.df2c6e5c5.gfx906.20261018172427-1 from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.0` for the notes) |
-| Installed PyTorch | deb `python3-torch-gfx906` 2.15.0+gfx906.20261018172427-1 (torchvision 0.30.0, torchaudio 2.11.0) from the ROLLING channel `python3-torch-gfx906` on `exabit-io/resize-amdgpu-bars`, with `python3-typing-extensions` 4.16.0-0exabit1 from the same channel (per-version release `pytorch-2.15.0-gfx906-rocm10.0`); work dir `/root/pytorch-gfx906-rocm10-2.15.0/` |
+| ROCm | runtime **10.1.0-gfx906+20261018172427** (HIP 7.16.26385, LLVM 24, RCCL 2.30.7) in `/opt/rocm/core-10.1`; 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, LLVM 23) stays installed in `/opt/rocm/core-10.0` as the llama package's compiler |
+| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261114.df2c6e5c5.rocm10.1.gfx906.20261018172427-1 (compiled by ROCm 10.0's toolchain, runtime ROCm 10.1) from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.1`; the 10.0 build of the same commit is `...-rocm10.0`) |
+| Installed PyTorch | deb `python3-torch-gfx906` 2.15.0+rocm10.1.gfx906.20261018172427-1 (torchvision 0.30.0, torchaudio 2.11.0) from the ROLLING channel `python3-torch-gfx906`, with `python3-typing-extensions` 4.16.0-0exabit1 and `python3-sympy` 1.14.0-2~24.04.exabit1 from the same channel (per-version release `pytorch-2.15.0-gfx906-rocm10.1`); work dir `/root/pytorch-gfx906-rocm10.1-2.15.0/` |
 | RCCL topology | generated at boot by package `gfx906-rccl-topology`: its unit writes `/var/cache/gfx906-rccl-topology/topology.xml`, its conffile `/etc/rccl.conf` points RCCL at it (source `tools/gfx906-rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
 
 Previous cycles: v0.7.0 `reports/2026-10-22-v070-rebase.md`, v0.9.0 `reports/2026-11-06-v090-rebase.md`; this cycle: `reports/2026-11-14-v100-rebase.md`.
@@ -184,7 +184,40 @@ files, dependency checks, `stack_check.py` and `torch-ops-check.py`), `publish-t
 `dogfood-torch.sh OUT`. Read the upstream release notes first (`gh api repos/pytorch/pytorch/releases/tags/vX.Y.Z -q .body`): the
 ROCm, Distributed, Release Engineering and Developers sections name what changes for a source build.
 
+### A new ROCm stream (10.1, 2026-11-14)
+
+A stream change is a platform change: nothing built by the new toolchain is published before it passes the design points.
+
+1. Record the state, move the apt pin, install the new stream beside the old one (`ROCM-SETUP.md`, last section;
+   `/root/rocm101-migration-20261114/README.md`). The alternatives switch `/opt/rocm` by themselves.
+2. Build the same commit against each stream with every ROCm path explicit (`tools/rocm101/build-rocm.sh SRC BUILD LOG
+   /opt/rocm/core-X`), and check which libraries each build loads (`ldd` under the run's environment): a 10.0-toolchain
+   build has no ROCm path of its own, the 10.1 link driver embeds its own as `DT_RPATH`.
+3. Correctness on the new stream (`suite-101.sh`), then the design-point A/B with the rule written first (`rocm-ab.sh`,
+   `rocm-ab-stats.py`: n = 5 per arm per axis, 3.2 h).
+4. If it regresses: `rocm-cross.sh` separates compiler from runtime (two cells per arm); `codegen/swaplink.py` + `screen.sh`
+   find the object (a relinked library with one group of objects from the other compiler, loaded with `LD_PRELOAD`; 4 min
+   per arm at 1 x 128K); `codegen/trycc.py` / `tileexp.py` recompile one source with other flags or table values and
+   read the kernel's register use from the code object. Spilled registers were NOT a predictor of speed in the 10.1 case.
+5. The packages: version `...rocm<stream>.gfx906.<stamp>` (two streams can carry one stamp); the llama deb takes
+   `ROCMSTREAM` (runtime: Depends and `DT_RPATH`) and `COMPILERSTREAM` (toolchain) separately; test the package
+   (`deb-test-llama-101.sh`), then accept it on the installed package with the same rule (`rocm-ab2.sh`).
+   A difference between the package and a source build is located by swapping shared libraries, not by rebuilding:
+   `pkg-swap.sh` preloads all of the package's libraries by full path with one group taken from the other build (6 min
+   per arm at 4 x 64K; ranges of 3-4 runs separated 0.4 %). That is how the deb's host flag was found.
+6. Before publishing a package that pulls the new runtime onto nodes, test the old packages on it (`suite-mixed.sh`):
+   that is the state of every node between the two upgrades.
+
+Backports of Ubuntu packages (`tools/backports/build-backport.sh DSC BUILD_DEPS`): fetch the newer series' source with
+`apt-get source` through a private apt configuration (verified against the Ubuntu archive key), rebuild in the clean noble
+chroot `/var/cache/exabit-backports/noble-buildd` (mmdebstrap), version `<newer>~24.04.exabit1`, publish into the channel
+of the package that needs it. Check the newer package's binary relations first: Ubuntu 26.04's setuptools breaks
+wheel < 0.46 and depends on eight de-vendored libraries, which is why it was not backported.
+
 PyTorch traps found on 2.15.0:
+- **A declared requirement that noble does not satisfy is tested, not assumed harmless** (`torch-pydeps-check.py`: export with dynamic
+  shapes, symbolic tracing, `torch.compile` on the CPU, C++ extensions through ninja and through setuptools). sympy 1.12 broke the first
+  three in 2.15; the first 2.15.0 notes said nothing needed the newer one and had to be corrected.
 - **Compare the wheel's `Requires-Dist` with what noble ships before building the deb, and import the staged tree with the system
   interpreter** (`sys.path.insert(0, STAGE/usr/lib/python3/dist-packages)`). 2.15 needs typing_extensions >= 4.13.0 at `import torch`
   (noble: 4.10.0); the build venv has its own copy and passes everything. The channel carries a `python3-typing-extensions` backport

@@ -1,0 +1,19 @@
+2026-11-15T01:31:14+00:00 [swap] arm pkg: pkg:libggml-base pkg:libggml-cpu pkg:libggml-hip pkg:libggml pkg:libllama-batched-bench-impl pkg:libllama-common pkg:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-15T01:31:15+00:00 [swap] arm llama: pkg:libggml-base pkg:libggml-cpu pkg:libggml-hip pkg:libggml ref:libllama-batched-bench-impl ref:libllama-common ref:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-15T01:31:16+00:00 [swap] arm llaman: pkg:libggml-base pkg:libggml-cpu pkg:libggml-hip pkg:libggml alt:libllama-batched-bench-impl alt:libllama-common alt:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-15T01:31:16+00:00 [swap] n=3, arms: pkg llama llaman; load 6.86 5.12 3.37
+2026-11-15T01:31:30+00:00 [swap] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1189/2513/2509/2492
+2026-11-15T01:31:30+00:00 [swap] block 1 order: llama llaman pkg
+2026-11-15T01:37:46+00:00 [swap] llama b1: decode 24.6361, prefill 806.0
+2026-11-15T01:44:03+00:00 [swap] llaman b1: decode 24.5528, prefill 805.3
+2026-11-15T01:50:20+00:00 [swap] pkg b1: decode 24.5929, prefill 805.5
+2026-11-15T01:50:20+00:00 [swap] block 2 order: llama llaman pkg
+2026-11-15T01:56:37+00:00 [swap] llama b2: decode 24.6628, prefill 805.4
+2026-11-15T02:02:54+00:00 [swap] llaman b2: decode 24.5622, prefill 805.4
+2026-11-15T02:09:11+00:00 [swap] pkg b2: decode 24.5328, prefill 805.5
+2026-11-15T02:09:11+00:00 [swap] block 3 order: llama pkg llaman
+2026-11-15T02:15:28+00:00 [swap] llama b3: decode 24.6717, prefill 805.1
+2026-11-15T02:21:45+00:00 [swap] pkg b3: decode 24.5252, prefill 804.8
+2026-11-15T02:28:02+00:00 [swap] llaman b3: decode 24.5605, prefill 805.2
+2026-11-15T02:28:02+00:00 [swap] decode per slot by arm: pkg [24.5929 24.5328 24.5252] llama [24.6361 24.6628 24.6717] llaman [24.5528 24.5622 24.5605] 
+2026-11-15T02:28:02+00:00 [swap] === PKG-SWAP DONE ===

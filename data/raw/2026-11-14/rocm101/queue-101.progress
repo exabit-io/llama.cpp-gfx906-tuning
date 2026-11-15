@@ -1,0 +1,5 @@
+2026-11-14T15:02:58+00:00 [queue] start; load 2.54 14.89 30.78
+2026-11-14T15:06:39+00:00 [queue] torch deb-test rc=0
+2026-11-14T15:13:38+00:00 [queue] llama deb-test rc=0
+2026-11-14T18:13:22+00:00 [queue] rocm-ab rc=0
+2026-11-14T18:13:22+00:00 [queue] === QUEUE DONE ===

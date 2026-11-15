@@ -1,0 +1,39 @@
+Format: 1.8
+Date: Sat, 14 Nov 2026 14:39:50 +0000
+Source: sympy
+Binary: isympy-common isympy3 python-sympy-doc python3-sympy
+Built-For-Profiles: noudeb nocheck nodoc
+Architecture: all
+Version: 1.14.0-2~24.04.exabit1
+Distribution: noble
+Urgency: medium
+Maintainer: Debian Science Maintainers <debian-science-maintainers@lists.alioth.debian.org>
+Changed-By: Exabit Networks <packages@exabit.io>
+Description:
+ isympy-common - Python shell for SymPy
+ isympy3    - Python3 shell for SymPy
+ python-sympy-doc - Computer Algebra System (CAS) in Python - Documentation
+ python3-sympy - Computer Algebra System (CAS) in Python (Python 3)
+Changes:
+ sympy (1.14.0-2~24.04.exabit1) noble; urgency=medium
+ .
+   * Backport of sympy 1.14.0-2 (Ubuntu 26.04) to Ubuntu 24.04 by Exabit,
+     Inc.: no source changes; built with profiles 'nocheck nodoc'.
+Checksums-Sha1:
+ 4bffaac2720a7be0b43a67175162133fa8472e80 233290 isympy-common_1.14.0-2~24.04.exabit1_all.deb
+ e5b0a6009c4eb48d7e25d7cb2bc8817db31c486e 7046 isympy3_1.14.0-2~24.04.exabit1_all.deb
+ 577e932a2365a6e2e73e69574f36f1177672a538 9532 python-sympy-doc_1.14.0-2~24.04.exabit1_all.deb
+ f6966988bd7a98adf4de7eda57fed586a4ed3e2b 4321510 python3-sympy_1.14.0-2~24.04.exabit1_all.deb
+ 857b2839fea2afa999fa4603fb5f0f6fb29a7243 7705 sympy_1.14.0-2~24.04.exabit1_amd64.buildinfo
+Checksums-Sha256:
+ 164d36691fd4809d6d7483df85f06d9117d0c328c54fd063f137467de1dce4eb 233290 isympy-common_1.14.0-2~24.04.exabit1_all.deb
+ b307b82bb037c997f827b61869eab4f6759ac340abd570cc78152cd793526d62 7046 isympy3_1.14.0-2~24.04.exabit1_all.deb
+ 5f629fa582be304b708eea7e6f8b80da7391e1eb25effc30d1a8bc73e0399ac5 9532 python-sympy-doc_1.14.0-2~24.04.exabit1_all.deb
+ 01e6188da2707f2198ab80decbfe83408df8fabe2e3949b667be244265954df8 4321510 python3-sympy_1.14.0-2~24.04.exabit1_all.deb
+ db6f2210124e0fb4426ad65e78ed57686d8f529396ca0dfa11c932570aebb070 7705 sympy_1.14.0-2~24.04.exabit1_amd64.buildinfo
+Files:
+ 64cccf1e4ca13d189a57d4f02cd21636 233290 python optional isympy-common_1.14.0-2~24.04.exabit1_all.deb
+ 3f6dcfeba2e519444d637d90faf06c3e 7046 python optional isympy3_1.14.0-2~24.04.exabit1_all.deb
+ dc240e384691b805f5098f5e8e0f649b 9532 doc optional python-sympy-doc_1.14.0-2~24.04.exabit1_all.deb
+ 66e8e07db39d18795e40e4d75fe63837 4321510 python optional python3-sympy_1.14.0-2~24.04.exabit1_all.deb
+ ddeae8fd56a2c57109a579816d4de53d 7705 python optional sympy_1.14.0-2~24.04.exabit1_amd64.buildinfo

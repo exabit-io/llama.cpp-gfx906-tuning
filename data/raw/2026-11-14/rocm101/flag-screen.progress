@@ -1,0 +1,14 @@
+2026-11-15T02:51:36+00:00 [flags] arm base: host libraries from /root/build-master-v100r/bin; flags: CMAKE_CXX_FLAGS= CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:37+00:00 [flags] arm native: host libraries from /root/build-master-v100rn/bin; flags: CMAKE_CXX_FLAGS=-march=native CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:37+00:00 [flags] arm skx: host libraries from /root/build-flag-skx/bin; flags: CMAKE_CXX_FLAGS=-march=skylake-avx512 CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:38+00:00 [flags] arm v4: host libraries from /root/build-flag-v4/bin; flags: CMAKE_CXX_FLAGS=-march=x86-64-v4 CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:39+00:00 [flags] arm tintel: host libraries from /root/build-flag-tintel/bin; flags: CMAKE_CXX_FLAGS=-march=native -mtune=intel CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:39+00:00 [flags] arm novec: host libraries from /root/build-flag-novec/bin; flags: CMAKE_CXX_FLAGS=-march=native -fno-tree-vectorize CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:40+00:00 [flags] arm o2: host libraries from /root/build-flag-o2/bin; flags: CMAKE_CXX_FLAGS= CMAKE_CXX_FLAGS_RELEASE=-O2 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:41+00:00 [flags] arm nosemi: host libraries from /root/build-flag-nosemi/bin; flags: CMAKE_CXX_FLAGS=-fno-semantic-interposition CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic-functions 
+2026-11-15T02:51:42+00:00 [flags] arm lto: host libraries from /root/build-flag-lto/bin; flags: CMAKE_CXX_FLAGS=-flto=auto CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS= 
+2026-11-15T02:51:42+00:00 [flags] arm ltonosemi: host libraries from /root/build-flag-ltonosemi/bin; flags: CMAKE_CXX_FLAGS=-flto=auto -fno-semantic-interposition CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic-functions 
+2026-11-15T02:51:43+00:00 [flags] arm pgo: host libraries from /root/build-flag-pgo/bin; flags: CMAKE_CXX_FLAGS=-flto=auto -fno-semantic-interposition -fprofile-use -fprofile-correction -Wno-missing-profile CMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG CMAKE_SHARED_LINKER_FLAGS=-Wl,-Bsymbolic-functions 
+2026-11-15T02:51:43+00:00 [flags] n=3, arms: base native skx v4 tintel novec o2 nosemi lto ltonosemi pgo; load 9.71 8.73 8.92
+2026-11-15T02:51:57+00:00 [flags] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1186/2481/2492/2514
+2026-11-15T02:51:57+00:00 [flags] block 1 order: ltonosemi tintel nosemi o2 novec pgo native lto v4 base skx

@@ -1,0 +1,37 @@
+HIP version: 7.15.26333-0000000
+
+==hipconfig
+HIP_PATH           :/opt/rocm/core-10.0
+ROCM_PATH          :/opt/rocm
+HIP_COMPILER       :clang
+HIP_PLATFORM       :amd
+HIP_RUNTIME        :rocclr
+CPP_CONFIG         : -D__HIP_PLATFORM_HCC__= -D__HIP_PLATFORM_AMD__= -I/opt/rocm/core-10.0/include -I/include
+
+==hip-clang
+HIP_CLANG_PATH     :/opt/rocm/lib/llvm/bin
+AMD clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 8f497e0992fb7513f7f78a6f6b6f1056c375e961)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /opt/rocm/core-10.0/lib/llvm/bin
+sh: 1: /opt/rocm/lib/llvm/bin/llc: not found
+hip-clang-cxxflags :
+sh: 1: /opt/rocm/bin/rocm_agent_enumerator: not found
+ -O3
+hip-clang-ldflags :
+sh: 1: /opt/rocm/bin/rocm_agent_enumerator: not found
+--driver-mode=g++ -O3 -Llib --hip-link
+
+== Environment Variables
+PATH =/root/.local/bin:/opt/llama.cpp/bin:/opt/rocm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+HIP_PATH=/opt/rocm
+
+== Linux Kernel
+Hostname      :
+macpro2019-01
+Linux macpro2019-01 7.0.0-42-generic #42~24.04.1+barfix5 SMP PREEMPT_DYNAMIC Fri Nov  6 14:53:53 UTC  x86_64 x86_64 x86_64 GNU/Linux
+Distributor ID:	Ubuntu
+Description:	Ubuntu 24.04.5 LTS
+Release:	24.04
+Codename:	noble
+

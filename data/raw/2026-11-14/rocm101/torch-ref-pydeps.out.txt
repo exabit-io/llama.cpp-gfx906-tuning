@@ -1,0 +1,8 @@
+torch 2.15.0+gfx906.20261018172427  sympy 1.14.0  setuptools 68.1.2  typing_extensions 4.16.0  python 3.12.3
+ok   export_dynamic_shapes: dynamic batch export runs at new sizes; range constraints 2 (1.2 s)
+ok   symbolic_fx_trace: symbolic trace with 17 nodes generalises to new shapes (0.1 s)
+ok   shape_env_sympy: simplify(2*s0 + 1) = 2*s0 + 1; bound_sympy gives [5, 21] (0.0 s)
+ok   compile_cpu_dynamic: torch.compile(dynamic=True) on the CPU compiles and reruns at a second shape (1.4 s)
+FAIL cpp_extension_ninja: RuntimeError: Ninja is required to load C++ extensions (pip install ninja to get it)
+ok   cpp_extension_setuptools: C++ extension built and called (25.9 s)
+pydeps_check: 5 passed, 1 failed

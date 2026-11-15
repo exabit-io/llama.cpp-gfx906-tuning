@@ -1,0 +1,121 @@
+#!/bin/bash
+# flag-screen.sh -- host-compiler flags and 4 x 64K decode. pkg-swap.sh found that 0.4 % of the package's decode deficit is
+# its host flag: the reference configuration with only CMAKE_C_FLAGS/CMAKE_CXX_FLAGS=-march=native added decodes at 24.558
+# tok/s per slot against 24.657 without it (n = 3 each, libllama + libllama-common + the bench library swapped). The lead
+# asked what other flags do (x86-64-v4, skylake-avx512, -mtune=intel, LTO, others).
+#
+# Method (pkg-swap.sh's): the installed package's llama-batched-bench and its GPU library, with the six host libraries
+# (libggml-base, libggml, libggml-cpu, libllama, libllama-common, libllama-batched-bench-impl) of one variant build
+# preloaded by full path. One source commit, one GPU library, the ROCm 10.1 runtime in every arm; only the host compiler
+# flags differ (flag-builds.sh has the list). GGML_NATIVE=ON in every variant, so libggml-cpu's SIMD kernels keep
+# -march=native whatever the arm says; all layers are on the GPUs in this cell anyway.
+#   base  no host flags (/root/build-master-v100r)        native  -march=native (/root/build-master-v100rn, the deb's flags)
+#   skx v4 tintel novec o2 nosemi lto ltonosemi pgo        /root/build-flag-<arm>
+# Cell: rocm-ab2.sh's multi-user cell (Qwen3.8-27B Q8_0, 4 x 64K, -sm tensor, f16 KV, 125 W, RCCL + gated custom AR, -ntg 1024).
+#
+# READING, WRITTEN BEFORE THE FIRST CELL: a screen, not an acceptance test. n = N blocks (default 3), every arm once per
+# block in a seeded random order. Statistic: mean decode per slot. The two controls bound what is known: base and native
+# were 0.10 tok/s apart with ranges 0.04 wide. An arm "matches base" or "matches native" when its range overlaps that
+# control's and not the other's; "better than base" only if every run is above every base run. Anything that would change
+# the package is then confirmed separately on a built package (rocm-ab2.sh's rule).
+set -u
+W=/root/rocm101-migration-20261114; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf
+TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-fa-fallback.sh
+N=${N:-3}; ARMS=${ARMS:-"base native skx v4 tintel novec o2 nosemi lto ltonosemi pgo"}; TAG=${TAG:-flag-screen}
+P=$W/$TAG.progress; TSV=$W/$TAG.tsv; DONE=$W/.$TAG-done; O=$W/$TAG; mkdir -p $O
+log(){ echo "$(date -Is) [flags] $*" | tee -a $P; }
+kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
+rm -f $DONE; echo $$ > $W/$TAG.pid
+PK=/opt/mx-llama.cpp/lib; RT=/opt/rocm/core-10.1; EXE=/opt/mx-llama.cpp/bin/llama-batched-bench
+HOST="libggml-base.so.1 libggml.so.1 libggml-cpu.so.1 libllama.so.1 libllama-common.so.1 libllama-batched-bench-impl.so"
+arm_dir(){ case $1 in base) echo /root/build-master-v100r/bin;; native) echo /root/build-master-v100rn/bin;; *) echo /root/build-flag-$1/bin;; esac; }
+want(){ # want ARM -> the seven libraries of the arm by resolved full path, one per line
+  local d l; d=$(arm_dir $1)
+  for l in $HOST; do readlink -f $d/$l; done
+  readlink -f $PK/libggml-hip.so.1
+}
+preload(){ want "$1" | tr '\n' ':' | sed 's/:$//'; }
+[ "$(git -C /root/wt-master-v100 rev-parse HEAD)" = "$(cat /usr/share/doc/mx-llama-cpp-gfx906/SOURCE-COMMIT)" ] \
+  || { log "FATAL: the package and the variant builds are not the same commit"; touch $DONE; exit 1; }
+for a in $ARMS; do
+  d=$(arm_dir $a)
+  for l in $HOST; do [ -f $d/$l ] || { log "FATAL: arm $a has no $d/$l"; touch $DONE; exit 1; }; done
+  [ "$(grep -m1 -oE 'CMAKE_HOME_DIRECTORY:INTERNAL=.*' ${d%/bin}/CMakeCache.txt | cut -d= -f2)" = /root/wt-master-v100 ] || { log "FATAL: arm $a was not built from /root/wt-master-v100"; touch $DONE; exit 1; }
+  got=$(LD_LIBRARY_PATH=$RT/lib LD_PRELOAD=$(preload $a) ldd $EXE 2>/dev/null | awk '{ if ($2 == "=>") print $3; else print $1 }' | grep -E '/lib(ggml|llama)' | xargs -r -n1 readlink -f | sort -u)
+  exp=$(want $a | sort -u)
+  [ "$got" = "$exp" ] || { log "FATAL: arm $a maps other libraries than intended: $(echo "$got" | tr '\n' ' ')"; touch $DONE; exit 1; }
+  nro=$(LD_LIBRARY_PATH=$RT/lib LD_PRELOAD=$(preload $a) ldd $EXE | awk '$3 ~ /^\/opt\/rocm/ {print $3}' | xargs -r -n1 readlink -f | wc -l)
+  bad=$(LD_LIBRARY_PATH=$RT/lib LD_PRELOAD=$(preload $a) ldd $EXE | awk '$3 ~ /^\/opt\/rocm/ {print $3}' | xargs -r -n1 readlink -f | grep -vc "^$RT/")
+  [ "$bad" = 0 ] && [ "$nro" -gt 5 ] || { log "FATAL: arm $a resolves $bad of $nro ROCm libraries outside $RT"; touch $DONE; exit 1; }
+  log "arm $a: host libraries from $d; flags: $(grep -E '^CMAKE_(C|CXX)_FLAGS(_RELEASE)?:|^CMAKE_SHARED_LINKER_FLAGS:' ${d%/bin}/CMakeCache.txt | grep -v '^CMAKE_C_' | cut -d: -f1,2 | sed 's/:STRING=/=/' | tr '\n' ' ')"
+done
+log "n=$N, arms: $ARMS; load $(cut -d' ' -f1-3 /proc/loadavg)"
+
+. $R/gpu-test-env.sh
+export GGML_CUDA_ALLREDUCE=nccl GGML_ENABLE_CUSTOM_AR=1 GGML_TP_AR_MAX_NE=20481 HSA_FORCE_FINE_GRAIN_PCIE=1
+BPID=""
+cleanup(){ trap - INT TERM EXIT; kpid "${BPID:-}"; kpid "${SAMP:-}"; kpid "${WDOG:-}"; kpid "${SMCL:-}"; restore; log "STOPPED (trap)"; touch $DONE; exit 1; }
+trap cleanup INT TERM EXIT
+setmax; start_sampler $W/$TAG-clocks.txt
+QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$W/$TAG-smc.log SCLK_GUARD=1 nohup $R/clamp-watchdog-v2.sh >> $W/$TAG-watchdog.out 2>&1 &
+WDOG=$!
+nohup $R/smc-log.sh $W/$TAG-smc.log >/dev/null 2>&1 &
+SMCL=$!
+sleep 6
+log "$(state_line)"
+cell(){ # cell ARM BLOCK
+  local arm=$1 blk=$2 s=4 d=65536
+  local out=$O/multi-$arm-$blk.md child got exp
+  env LD_LIBRARY_PATH=$RT/lib LD_PRELOAD="$(preload $arm)" AMD_COMGR_CACHE_DIR=/root/.cache/comgr-flags timeout 7200 \
+    $EXE -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
+    -fa on -ctk f16 -ctv f16 -b 2048 -ub 2048 -c $(( s*(d+1280) )) -npp $d -ntg 1024 -npl $s \
+    > $out 2>${out%.md}.log &
+  BPID=$!
+  sleep 45      # the libraries are mapped long before; the model is still loading
+  child=$(pgrep -P $BPID | head -1)
+  got=$(awk '$6 ~ /\/lib(ggml|llama)/ {print $6}' /proc/${child:-0}/maps 2>/dev/null | sort -u)
+  exp=$(want $arm | sort -u)
+  echo "$got" > ${out%.md}.maps
+  wait $BPID
+  local rc=$?
+  BPID=""
+  if [ "$got" != "$exp" ]; then
+    log "WRONG LIBRARIES in $arm b$blk -- discarded: $(echo "$got" | tr '\n' ' ')"; printf "multi\t%s\t%s\tWRONGLIBS\tWRONGLIBS\n" "$arm" "$blk" >> $TSV; return 0
+  fi
+  if ! $NF "${out%.md}.log" >/dev/null 2>&1; then
+    log "FA FALLBACK in $arm b$blk -- discarded"; printf "multi\t%s\t%s\tFALLBACK\tFALLBACK\n" "$arm" "$blk" >> $TSV; return 0
+  fi
+  if grep -qiE 'NCCL init failed|probe AllReduce failed' "${out%.md}.log"; then
+    log "RCCL NOT UP in $arm b$blk -- discarded"; printf "multi\t%s\t%s\tNORCCL\tNORCCL\n" "$arm" "$blk" >> $TSV; return 0
+  fi
+  local m
+  if ! m=$(python3 -I $CM "$out" $d $s 2>>$P); then
+    log "CELL FAILED (rc=$rc): $arm b$blk"; printf "multi\t%s\t%s\tFAILED\tFAILED\n" "$arm" "$blk" >> $TSV; return 0
+  fi
+  printf "multi\t%s\t%s\t%s\n" "$arm" "$blk" "$m" >> $TSV
+  log "$arm b$blk: $(echo "$m" | awk -F'\t' '{printf "decode %.4f, prefill %.1f",$1,$2}')"
+}
+summary(){
+  python3 -I - $TSV <<'EOF' 2>&1 | tee -a $P
+import statistics as st, sys
+d = {}
+for l in open(sys.argv[1]):
+    a = l.rstrip("\n").split("\t")
+    try: d.setdefault(a[1], []).append(float(a[3]))
+    except ValueError: pass
+b = st.mean(d["base"]) if "base" in d else None
+for k, x in sorted(d.items(), key=lambda kv: -st.mean(kv[1])):
+    rel = f", {100 * (st.mean(x) / b - 1):+.2f} % vs base" if b else ""
+    print(f"[flags] {k:10s} n={len(x)} mean {st.mean(x):.4f} ({min(x):.4f}-{max(x):.4f}), step {1000 / st.mean(x):.3f} ms{rel}")
+EOF
+}
+for blk in $(seq 1 $N); do
+  order=$(python3 -I -c 'import random,sys; a=sys.argv[2:]; random.Random(int(sys.argv[1])).shuffle(a); print(" ".join(a))' "$(( 20261116 + blk ))" $ARMS)
+  log "block $blk order: $order"
+  for a in $order; do cell $a $blk; done
+  log "=== block $blk DONE"
+  summary
+done
+trap - INT TERM EXIT
+kpid "${SAMP:-}"; kpid "${WDOG:-}"; kpid "${SMCL:-}"
+restore; touch $DONE; log "=== FLAG-SCREEN DONE ==="

@@ -1,0 +1,13 @@
+2026-11-14T19:45:52+00:00 [screen] ctl: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/ctl/libggml-hip.so preloaded
+2026-11-14T19:45:52+00:00 [screen] tile256: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/tile256/libggml-hip.so preloaded
+2026-11-14T19:45:52+00:00 [screen] fattn: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/fattn/libggml-hip.so preloaded
+2026-11-14T19:45:52+00:00 [screen] mm: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/mm/libggml-hip.so preloaded
+2026-11-14T19:45:52+00:00 [screen] gdn: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/gdn/libggml-hip.so preloaded
+2026-11-14T19:45:52+00:00 [screen] rest: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/rest/libggml-hip.so preloaded
+2026-11-14T19:50:05+00:00 [screen] 1 x 131072 ctl b1: decode 40.1443, prefill 589.2
+2026-11-14T19:53:59+00:00 [screen] 1 x 131072 tile256 b1: decode 39.9938, prefill 604.3
+2026-11-14T19:57:53+00:00 [screen] 1 x 131072 fattn b1: decode 40.0751, prefill 604.3
+2026-11-14T20:01:52+00:00 [screen] 1 x 131072 mm b1: decode 39.7269, prefill 588.0
+2026-11-14T20:05:52+00:00 [screen] 1 x 131072 gdn b1: decode 40.0250, prefill 586.7
+2026-11-14T20:09:52+00:00 [screen] 1 x 131072 rest b1: decode 40.0626, prefill 587.6
+2026-11-14T20:09:52+00:00 [screen] === SCREEN swap128k DONE ===

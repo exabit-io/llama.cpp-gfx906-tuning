@@ -1,6 +1,6 @@
 # ROCm 7.14 (TheRock) + PyTorch + llama.cpp on the Mac Pro 7,1 gfx906 dies
 
-> **Written for ROCm 7.14.** The box runs **ROCm 10.0** since 2026-09-19 (`/opt/rocm/core-10.0`; 7.14 purged; migration record `/root/rocm10-migration-20260919/`). The steps below are the 7.14 record.
+> **Written for ROCm 7.14.** The box runs **ROCm 10.1** since 2026-11-14 (`/opt/rocm/core-10.1`, beside 10.0 in `/opt/rocm/core-10.0`; record `/root/rocm101-migration-20261114/`, section at the end) and ran 10.0 from 2026-09-19 (7.14 purged; record `/root/rocm10-migration-20260919/`). The steps below are the 7.14 record.
 
 Set up 2026-09-03. Ubuntu 24.04.4, kernel 7.0.0-30-generic, 4x Vega 20
 (2x Radeon Pro Vega II Duo MPX, PCI 0b/0e/1b/1e:00.0), every die BAR0 = 32 GiB
@@ -139,3 +139,19 @@ with `apt upgrade`): `mx-llama-cpp-gfx906` 1.0.0 from the channel `mx-llama-cpp-
 `python3-typing-extensions` 4.16.0 backport PyTorch 2.15 needs on Ubuntu 24.04 (`reports/2026-11-14-pytorch-2.15.0.md`).
 
 How both are built, tested and published: `RELEASE-RUNBOOK.md` section 7.
+
+## 2026-11-14: ROCm 10.1 beside 10.0
+
+The gfx906 repository's newest stream is `10.1.0-gfx906+20261018172427` (HIP 7.16.26385, LLVM 24, RCCL 2.30.7). Streams
+install side by side under `/opt/rocm/core-<stream>`; `/opt/rocm/{lib,bin,include,llvm,...}` and the tools in `/usr/bin`
+are alternatives that follow the newest one.
+
+    # /etc/apt/preferences.d/rocm-gfx906:  Package: amdrocm*  /  Pin: version 10.1.0-gfx906*  /  Pin-Priority: 1001
+    apt-get install $(apt-mark showmanual | grep -E '^amdrocm.*10\.0' | sed 's/10\.0/10.1/g')    # 64 new packages, none removed
+    apt-get install amdrocm-amdsmi amdrocm-blas amdrocm-llvm amdrocm-rand amdrocm-runtime          # the unversioned names follow the pin
+
+No reboot. 10.0 stays installed on the build host: mx-llama.cpp is compiled with its toolchain (LLVM 24 generates a slower
+flash-attention tile kernel) and runs on the 10.1 runtime. A node needs only the 10.1 runtime packages, which the two
+Exabit packages pull in as dependencies. ROCm 10.1 has no `rocm-smi`; use `amd-smi`. Details and measurements:
+`reports/2026-11-14-rocm-10.1.md`; scripts `tools/rocm101/`.
+

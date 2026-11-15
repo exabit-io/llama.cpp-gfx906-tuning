@@ -1,0 +1,17 @@
+2026-11-14T23:32:21+00:00 [swap] arm pkg: pkg:libggml-base pkg:libggml-cpu pkg:libggml-hip pkg:libggml pkg:libllama-batched-bench-impl pkg:libllama-common pkg:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-14T23:32:22+00:00 [swap] arm llama: pkg:libggml-base pkg:libggml-cpu pkg:libggml-hip pkg:libggml ref:libllama-batched-bench-impl ref:libllama-common ref:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-14T23:32:23+00:00 [swap] arm ggml: pkg:libggml-hip pkg:libllama-batched-bench-impl pkg:libllama-common pkg:libllama ref:libggml-base ref:libggml-cpu ref:libggml ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-14T23:32:24+00:00 [swap] arm hip: pkg:libggml-base pkg:libggml-cpu pkg:libggml pkg:libllama-batched-bench-impl pkg:libllama-common pkg:libllama ref:libggml-hip ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-14T23:32:24+00:00 [swap] arm all: ref:libggml-base ref:libggml-cpu ref:libggml-hip ref:libggml ref:libllama-batched-bench-impl ref:libllama-common ref:libllama ; 26 ROCm libraries under /opt/rocm/core-10.1
+2026-11-14T23:32:24+00:00 [swap] arm r100: ref:libggml-base ref:libggml-cpu ref:libggml-hip ref:libggml ref:libllama-batched-bench-impl ref:libllama-common ref:libllama ; 26 ROCm libraries under /opt/rocm/core-10.0
+2026-11-14T23:32:24+00:00 [swap] n=1, arms: pkg llama ggml hip all r100; load 1.35 2.36 2.38
+2026-11-14T23:32:38+00:00 [swap] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1199/2514/2505/2485
+2026-11-14T23:32:38+00:00 [swap] block 1 order: pkg ggml all hip r100 llama
+2026-11-14T23:38:55+00:00 [swap] pkg b1: decode 24.6059, prefill 806.5
+2026-11-14T23:45:11+00:00 [swap] ggml b1: decode 24.5558, prefill 806.5
+2026-11-14T23:51:28+00:00 [swap] all b1: decode 24.6818, prefill 806.2
+2026-11-14T23:57:45+00:00 [swap] hip b1: decode 24.5906, prefill 806.0
+2026-11-15T00:04:03+00:00 [swap] r100 b1: decode 24.8146, prefill 806.3
+2026-11-15T00:10:19+00:00 [swap] llama b1: decode 24.6866, prefill 805.9
+2026-11-15T00:10:19+00:00 [swap] decode per slot by arm: pkg [24.6059] llama [24.6866] ggml [24.5558] hip [24.5906] all [24.6818] r100 [24.8146] 
+2026-11-15T00:10:19+00:00 [swap] === PKG-SWAP DONE ===

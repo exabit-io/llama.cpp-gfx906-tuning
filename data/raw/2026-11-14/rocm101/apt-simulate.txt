@@ -1,0 +1,163 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  libfwupd2 libgusb2
+Use 'apt autoremove' to remove them.
+The following additional packages will be installed:
+  amdrocm-decode-dev10.1 amdrocm-decode10.1 amdrocm-emulation10.1
+  amdrocm-hipfile-dev10.1 amdrocm-hipfile10.1 amdrocm-jpeg-dev10.1
+  amdrocm-jpeg10.1 amdrocm-rdc10.1 amdrocm-rocshmem-dev10.1
+  amdrocm-rocshmem10.1 amdrocm-rpp-dev10.1 amdrocm-rpp10.1 amdrocm-threads10.1
+The following NEW packages will be installed:
+  amdrocm-amdsmi10.1 amdrocm-base10.1 amdrocm-blas-dev10.1
+  amdrocm-blas-host10.1 amdrocm-blas10.1 amdrocm-blas10.1-gfx906
+  amdrocm-ccl-dev10.1 amdrocm-core-dev10.1-gfx906 amdrocm-core-sdk10.1
+  amdrocm-core-sdk10.1-gfx906 amdrocm-core10.1-gfx906 amdrocm-debugger10.1
+  amdrocm-decode-dev10.1 amdrocm-decode10.1 amdrocm-developer-tools10.1
+  amdrocm-dnn-dev10.1 amdrocm-dnn-host10.1 amdrocm-dnn10.1-gfx906
+  amdrocm-emulation10.1 amdrocm-fft-dev10.1 amdrocm-fft-host10.1
+  amdrocm-fft10.1-gfx906 amdrocm-hipblas-common-dev10.1
+  amdrocm-hipfile-dev10.1 amdrocm-hipfile10.1 amdrocm-hipify10.1
+  amdrocm-hpc-sdk10.1-gfx906 amdrocm-hpc10.1-gfx906 amdrocm-jpeg-dev10.1
+  amdrocm-jpeg10.1 amdrocm-llvm-dev10.1 amdrocm-llvm10.1
+  amdrocm-math-common10.1 amdrocm-opencl-dev10.1 amdrocm-opencl10.1
+  amdrocm-profiler-base10.1 amdrocm-profiler10.1 amdrocm-rand-dev10.1
+  amdrocm-rand-host10.1 amdrocm-rand10.1 amdrocm-rand10.1-gfx906
+  amdrocm-rccl-dev10.1 amdrocm-rccl-host10.1 amdrocm-rccl10.1-gfx906
+  amdrocm-rdc10.1 amdrocm-rocalution-dev10.1 amdrocm-rocalution-host10.1
+  amdrocm-rocalution10.1-gfx906 amdrocm-rocshmem-dev10.1 amdrocm-rocshmem10.1
+  amdrocm-rpp-dev10.1 amdrocm-rpp10.1 amdrocm-runtime-dev10.1
+  amdrocm-runtime10.1 amdrocm-solver-dev10.1 amdrocm-solver-host10.1
+  amdrocm-solver10.1-gfx906 amdrocm-sparse-dev10.1 amdrocm-sparse-host10.1
+  amdrocm-sparse10.1-gfx906 amdrocm-sysdeps10.1 amdrocm-threads10.1
+  amdrocm10.1 amdrocm10.1-gfx906
+0 upgraded, 64 newly installed, 0 to remove and 9 not upgraded.
+Inst amdrocm-sysdeps10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-amdsmi10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-llvm10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64]) []
+Inst amdrocm-runtime10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64]) []
+Inst amdrocm-base10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-llvm-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-runtime-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-hipblas-common-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-blas-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-profiler-base10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-blas-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-math-common10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-solver-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-sparse-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-sparse10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64]) []
+Inst amdrocm-solver10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64]) []
+Inst amdrocm-blas10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-blas10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-ccl-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rand-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rand10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-fft-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-fft10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-dnn-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-dnn10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rccl-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rccl10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rocshmem10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-hipify10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-hipfile10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-decode10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-jpeg10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rpp10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-core10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-fft-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-sparse-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-solver-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rand-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-opencl10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-opencl-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rccl-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rocshmem-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-dnn-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-hipfile-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-decode-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-jpeg-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-threads10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rpp-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-core-dev10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-profiler10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-emulation10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-debugger10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-developer-tools10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rdc10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-core-sdk10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-core-sdk10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rocalution-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rocalution10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-hpc10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rocalution-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-hpc-sdk10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm-rand10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Inst amdrocm10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-sysdeps10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-amdsmi10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-llvm10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-runtime10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-base10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-llvm-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-runtime-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-hipblas-common-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-blas-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-profiler-base10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-blas-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-math-common10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-solver-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-sparse-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-sparse10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-solver10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-blas10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-blas10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-ccl-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rand-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rand10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-fft-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-fft10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-dnn-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-dnn10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rccl-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rccl10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rocshmem10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-hipify10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-hipfile10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-decode10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-jpeg10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rpp10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-core10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-fft-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-sparse-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-solver-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rand-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-opencl10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-opencl-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rccl-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rocshmem-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-dnn-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-hipfile-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-decode-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-jpeg-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-threads10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rpp-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-core-dev10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-profiler10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-emulation10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-debugger10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-developer-tools10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rdc10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-core-sdk10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-core-sdk10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rocalution-host10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rocalution10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-hpc10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rocalution-dev10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-hpc-sdk10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm-rand10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm10.1-gfx906 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])
+Conf amdrocm10.1 (10.1.0-gfx906+20261018172427 ubuntu noble:noble [amd64])

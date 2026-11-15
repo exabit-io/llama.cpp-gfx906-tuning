@@ -1,0 +1,5 @@
+2026-11-14T20:16:33+00:00 [screen] occ1: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/occ1/libggml-hip.so preloaded
+2026-11-14T20:16:33+00:00 [screen] k64: /root/build-tile-max-ilp on /opt/rocm/core-10.1 with /root/swap/k64/libggml-hip.so preloaded
+2026-11-14T20:21:14+00:00 [screen] 1 x 131072 occ1 b1: decode 40.0313, prefill 523.1
+2026-11-14T20:25:13+00:00 [screen] 1 x 131072 k64 b1: decode 40.0626, prefill 588.8
+2026-11-14T20:25:13+00:00 [screen] === SCREEN tile128k DONE ===

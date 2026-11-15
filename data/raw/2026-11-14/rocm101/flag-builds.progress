@@ -1,0 +1,14 @@
+2026-11-15T02:31:18+00:00 [flagb] skx rc=0: BUILD rc=0 elapsed=99s warnings=7 errors=0; llama-context.cpp compiled with: -march=skylake-avx512 -O3; libllama ymm 5018 zmm 0
+2026-11-15T02:32:59+00:00 [flagb] v4 rc=0: BUILD rc=0 elapsed=100s warnings=7 errors=0; llama-context.cpp compiled with: -march=x86-64-v4 -O3; libllama ymm 2076 zmm 3830
+2026-11-15T02:34:44+00:00 [flagb] tintel rc=0: BUILD rc=0 elapsed=103s warnings=6 errors=0; llama-context.cpp compiled with: -march=native -mtune=intel -O3; libllama ymm 3073 zmm 3740
+2026-11-15T02:36:19+00:00 [flagb] novec rc=0: BUILD rc=0 elapsed=93s warnings=6 errors=0; llama-context.cpp compiled with: -march=native -fno-tree-vectorize -O3; libllama ymm 1136 zmm 0
+2026-11-15T02:37:50+00:00 [flagb] o2 rc=0: BUILD rc=0 elapsed=89s warnings=6 errors=0; llama-context.cpp compiled with: -O2; libllama ymm 0 zmm 0
+2026-11-15T02:39:29+00:00 [flagb] nosemi rc=0: BUILD rc=0 elapsed=97s warnings=6 errors=0; llama-context.cpp compiled with: -fno-semantic-interposition -O3; libllama ymm 0 zmm 0
+2026-11-15T02:40:47+00:00 [flagb] lto rc=0: BUILD rc=0 elapsed=77s warnings=7 errors=0; llama-context.cpp compiled with: -flto=auto -O3; libllama ymm 0 zmm 0
+2026-11-15T02:42:08+00:00 [flagb] ltonosemi rc=0: BUILD rc=0 elapsed=80s warnings=7 errors=0; llama-context.cpp compiled with: -flto=auto -fno-semantic-interposition -O3; libllama ymm 0 zmm 0
+2026-11-15T02:43:39+00:00 [flagb] pgo rc=0: BUILD rc=0 elapsed=88s warnings=6 errors=0; llama-context.cpp compiled with: -flto=auto -fno-semantic-interposition -fprofile-generate -fprofile-update=atomic -O3; libllama ymm 0 zmm 0
+2026-11-15T02:43:39+00:00 [flagb] pgo training run: 4 x 64K on the instrumented build
+2026-11-15T02:50:02+00:00 [flagb] pgo training rc=0, 131 profile files; | 65536 |   1024 |    4 | 266240 |  325.691 |   804.89 |   45.740 |    89.55 |  371.431 |   716.79 |
+2026-11-15T02:51:14+00:00 [flagb] pgo rc=0: BUILD rc=0 elapsed=71s warnings=2 errors=0; llama-context.cpp compiled with: -flto=auto -fno-semantic-interposition -fprofile-use -fprofile-correction -O3; libllama ymm 0 zmm 0
+2026-11-15T02:51:14+00:00 [flagb] profile warnings in the pgo build: 0
+2026-11-15T02:51:14+00:00 [flagb] === FLAG BUILDS DONE ===

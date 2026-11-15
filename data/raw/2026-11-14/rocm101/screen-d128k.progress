@@ -1,0 +1,9 @@
+2026-11-14T19:21:45+00:00 [screen] r100: /root/build-master-v100r on /opt/rocm/core-10.0
+2026-11-14T19:21:45+00:00 [screen] r101: /root/build-master-v101 on /opt/rocm/core-10.1
+2026-11-14T19:21:45+00:00 [screen] ilp: /root/build-tile-iterative-ilp on /opt/rocm/core-10.1
+2026-11-14T19:21:45+00:00 [screen] none: /root/build-tile-none on /opt/rocm/core-10.1
+2026-11-14T19:25:56+00:00 [screen] 1 x 131072 r100 b1: decode 40.0814, prefill 602.2
+2026-11-14T19:29:56+00:00 [screen] 1 x 131072 r101 b1: decode 40.2073, prefill 586.7
+2026-11-14T19:33:59+00:00 [screen] 1 x 131072 ilp b1: decode 40.0626, prefill 579.7
+2026-11-14T19:38:02+00:00 [screen] 1 x 131072 none b1: decode 39.9875, prefill 580.6
+2026-11-14T19:38:02+00:00 [screen] === SCREEN d128k DONE ===

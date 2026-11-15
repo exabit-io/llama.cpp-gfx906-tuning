@@ -1,0 +1,7 @@
+2026-11-14T18:17:13+00:00 [cross] c100-r101: /root/build-master-v100r on /opt/rocm/core-10.1 (26 ROCm libraries, hip 7.16.26385-0000000)
+2026-11-14T18:17:13+00:00 [cross] c101-r100: /root/build-master-v101x on /opt/rocm/core-10.0 (26 ROCm libraries, hip 7.15.26333-0000000)
+2026-11-14T18:28:46+00:00 [cross] single c100-r101: decode 31.8983, prefill 410.8
+2026-11-14T18:40:40+00:00 [cross] single c101-r100: decode 32.1436, prefill 392.2
+2026-11-14T18:46:57+00:00 [cross] multi c100-r101: decode 24.7230, prefill 805.1
+2026-11-14T18:53:20+00:00 [cross] multi c101-r100: decode 24.8218, prefill 795.3
+2026-11-14T18:53:20+00:00 [cross] === ROCM-CROSS DONE ===

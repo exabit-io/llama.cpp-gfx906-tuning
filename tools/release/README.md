@@ -14,7 +14,7 @@ clamp watchdog by PID.
 | `dio-check.sh OUT NAME=BUILD...` | `-lm dio` buffered-fallback count across builds |
 | `mtp-deb.sh` | MTP on the installed deb, idle host, 3 requests |
 | `queue1.sh` / `queue2.sh` / `queue3.sh` | the v0.7.0 cycle's GPU queues (as run) |
-| `build-mx-llama-deb.sh SRC` | the `mx-llama-cpp-gfx906` deb from a clean worktree of master |
+| `build-mx-llama-deb.sh SRC` | the `mx-llama-cpp-gfx906` deb from a clean worktree of master; `ROCMSTREAM` (runtime: Depends and DT_RPATH, default 10.1) and `COMPILERSTREAM` (toolchain, default 10.0) are separate since ROCm 10.1 |
 | `build-torch-2.14.1.sh`, `build-torch-deb-2.14.1.sh`, `torch-stack-check.py` | PyTorch 2.14.1 wheels, the `python3-torch-gfx906` deb, and its GPU/CPU check |
 | `publish.sh LLAMA_DEB TORCH_DEB` | sign both debs, tag resize-amdgpu-bars, one signed flat apt release per package |
 | `round2-smoke.sh` | second-round smoke tests on the abliterated models |
@@ -38,3 +38,7 @@ clamp watchdog by PID.
 | `torch-ops-check.py` | GPU against CPU, one check per ROCm library, sort/topk, attention, a short training run, and the NCCL backends over the four dies; exit code = failed checks |
 | `publish-torch.sh DEB`, `dogfood-torch.sh OUT` | PyTorch: sign, tag, per-version release, rolling channel `python3-torch-gfx906`; then switch the box to the channel and verify the chain |
 | `raw-copy.sh`, `docs-update.py` | v1.0.0: copy the cycle's result lines into `data/raw/2026-11-14/`; move this repository's statements of the code state to the new cycle (run once) |
+| `build-torch-2.15.0-rocm10.1.sh`, `build-torch-deb-2.15.0-rocm10.1.sh`, `torch-deb-test-rocm10.1.sh`, `dogfood-torch-rocm10.1.sh` | PyTorch 2.15.0 for ROCm 10.1: the 2.15.0 scripts with the stream in the paths and the version, `python3-sympy (>= 1.13.3)` in Depends |
+| `torch-pydeps-check.py` | CPU-only check of what PyTorch's declared Python requirements are needed for: export with dynamic shapes, symbolic tracing, `torch.compile`, C++ extensions through ninja and through setuptools |
+| `../rocm101/` | the ROCm 10.1 migration: stream A/B, compiler/runtime cross-over, object and library swap screens, host-flag screen, the 10.1 package tests and publish scripts (`../rocm101/README.md`) |
+| `../backports/build-backport.sh DSC BUILD_DEPS` | rebuild a newer Ubuntu series' source package for noble in a clean chroot (used for `python3-sympy` 1.14.0) |

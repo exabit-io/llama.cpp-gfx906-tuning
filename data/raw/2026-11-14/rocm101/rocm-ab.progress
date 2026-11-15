@@ -1,0 +1,54 @@
+2026-11-14T15:13:38+00:00 [ab] r100: /root/build-master-v100r, 26 ROCm libraries, all under /opt/rocm/core-10.0; hip 7.15.26333-0000000; source /root/wt-master-v100
+2026-11-14T15:13:38+00:00 [ab] r101: /root/build-master-v101, 26 ROCm libraries, all under /opt/rocm/core-10.1; hip 7.16.26385-0000000; source /root/wt-master-v100
+2026-11-14T15:13:38+00:00 [ab] arms comparable: CMAKE_BUILD_TYPE:STRING=Release GGML_CUDA_FA_QUANTS:STRING=all GGML_HIP_GFX906_MAX_ILP:BOOL=ON GGML_HIP_GRAPHS:BOOL=ON GGML_HIP_RCCL:BOOL=ON GGML_NATIVE:BOOL=ON ; n=5, axes: multi single; load 1.25 4.02 17.14
+2026-11-14T15:13:52+00:00 [ab] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1200/2507/2494/2490
+2026-11-14T15:13:52+00:00 [ab] === axis multi: 2 arms x 5 blocks
+2026-11-14T15:13:52+00:00 [ab] block 1 order: r100 r101
+2026-11-14T15:20:15+00:00 [ab] multi r100 b1: decode 24.3433, prefill 804.8
+2026-11-14T15:26:38+00:00 [ab] multi r101 b1: decode 24.7098, prefill 794.8
+2026-11-14T15:26:38+00:00 [ab] block 2 order: r101 r100
+2026-11-14T15:33:00+00:00 [ab] multi r101 b2: decode 24.7098, prefill 796.1
+2026-11-14T15:39:19+00:00 [ab] multi r100 b2: decode 24.7846, prefill 807.5
+2026-11-14T15:39:19+00:00 [ab] block 3 order: r101 r100
+2026-11-14T15:45:42+00:00 [ab] multi r101 b3: decode 24.6515, prefill 794.4
+2026-11-14T15:52:02+00:00 [ab] multi r100 b3: decode 24.8345, prefill 806.1
+2026-11-14T15:52:02+00:00 [ab] block 4 order: r101 r100
+2026-11-14T15:58:25+00:00 [ab] multi r101 b4: decode 24.6967, prefill 795.5
+2026-11-14T16:04:45+00:00 [ab] multi r100 b4: decode 24.7726, prefill 805.7
+2026-11-14T16:04:45+00:00 [ab] block 5 order: r101 r100
+2026-11-14T16:11:08+00:00 [ab] multi r101 b5: decode 24.6860, prefill 793.4
+2026-11-14T16:17:28+00:00 [ab] multi r100 b5: decode 24.6237, prefill 806.3
+2026-11-14T16:17:28+00:00 [ab] === axis multi DONE
+[stats] multi decode: r100 n=5 [24.3433 24.7846 24.8345 24.7726 24.6237] | r101 n=5 [24.7098 24.7098 24.6515 24.6967 24.6860]
+[stats] multi prefill: r100 n=5 [804.8 807.5 806.1 805.7 806.3] | r101 n=5 [794.8 796.1 794.4 795.5 793.4]
+[stats] multi decode: mean r100 24.6717 -> r101 24.6908, effect +0.08 %, p 0.9286, q 1.0000 (family of 4)
+[stats] multi prefill: mean r100 806.0572 -> r101 794.8363, effect -1.39 %, p 0.0079, q 0.0317 (family of 4)
+[stats] axis multi: neutral
+2026-11-14T16:17:28+00:00 [ab] === axis single: 2 arms x 5 blocks
+2026-11-14T16:17:28+00:00 [ab] block 1 order: r101 r100
+2026-11-14T16:29:16+00:00 [ab] single r101 b1: decode 31.9142, prefill 393.3
+2026-11-14T16:40:38+00:00 [ab] single r100 b1: decode 31.9720, prefill 410.2
+2026-11-14T16:40:38+00:00 [ab] block 2 order: r101 r100
+2026-11-14T16:52:27+00:00 [ab] single r101 b2: decode 32.0080, prefill 392.7
+2026-11-14T17:03:49+00:00 [ab] single r100 b2: decode 31.9600, prefill 410.2
+2026-11-14T17:03:49+00:00 [ab] block 3 order: r100 r101
+2026-11-14T17:15:12+00:00 [ab] single r100 b3: decode 31.9351, prefill 410.2
+2026-11-14T17:27:03+00:00 [ab] single r101 b3: decode 31.9720, prefill 391.8
+2026-11-14T17:27:03+00:00 [ab] block 4 order: r100 r101
+2026-11-14T17:38:26+00:00 [ab] single r100 b4: decode 31.8943, prefill 409.9
+2026-11-14T17:50:13+00:00 [ab] single r101 b4: decode 31.9321, prefill 393.6
+2026-11-14T17:50:13+00:00 [ab] block 5 order: r101 r100
+2026-11-14T18:01:59+00:00 [ab] single r101 b5: decode 31.9610, prefill 393.9
+2026-11-14T18:13:22+00:00 [ab] single r100 b5: decode 31.9591, prefill 410.0
+2026-11-14T18:13:22+00:00 [ab] === axis single DONE
+[stats] multi decode: r100 n=5 [24.3433 24.7846 24.8345 24.7726 24.6237] | r101 n=5 [24.7098 24.7098 24.6515 24.6967 24.6860]
+[stats] multi prefill: r100 n=5 [804.8 807.5 806.1 805.7 806.3] | r101 n=5 [794.8 796.1 794.4 795.5 793.4]
+[stats] single decode: r100 n=5 [31.9720 31.9600 31.9351 31.8943 31.9591] | r101 n=5 [31.9142 32.0080 31.9720 31.9321 31.9610]
+[stats] single prefill: r100 n=5 [410.2 410.2 410.2 409.9 410.0] | r101 n=5 [393.3 392.7 391.8 393.6 393.9]
+[stats] multi decode: mean r100 24.6717 -> r101 24.6908, effect +0.08 %, p 0.9286, q 0.9286 (family of 4)
+[stats] multi prefill: mean r100 806.0572 -> r101 794.8363, effect -1.39 %, p 0.0079, q 0.0317 (family of 4)
+[stats] axis multi: neutral
+[stats] single decode: median r100 31.9591 -> r101 31.9610, effect +0.01 %, p 0.7143, q 0.9286 (family of 4)
+[stats] single prefill: median r100 410.2113 -> r101 393.2673, effect -4.13 %, p 0.0476, q 0.0952 (family of 4)
+[stats] axis single: REGRESSES
+2026-11-14T18:13:22+00:00 [ab] === ROCM-AB DONE ===
