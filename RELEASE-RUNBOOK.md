@@ -164,7 +164,7 @@ upstream's workflows on the fork (that is where the `bNNNNN` tags on exabit-io c
 
 | Step | mx-llama.cpp | PyTorch |
 |---|---|---|
-| build | `build-mx-llama-deb.sh <clean worktree of master>` (refuses a dirty tree; `-march=native`, DT_RPATH check, Depends from ELF NEEDED + the matching `-gfx906` kernel packages) | `build-torch.sh` (clone `vX.Y.Z` with submodules into `src/` first) then `build-deb.sh` |
+| build | `build-mx-llama-deb.sh <clean worktree of master>` (refuses a dirty tree; CMake Release defaults for the host code with `GGML_NATIVE=ON`, no global `-march=native` since 2026-11-15; DT_RPATH check, Depends from ELF NEEDED + the matching `-gfx906` kernel packages) | `build-torch.sh` (clone `vX.Y.Z` with submodules into `src/` first) then `build-deb.sh` |
 | test before publishing | `apt-get install ./deb`, then `SKIP_TBO=1 pr-test.sh /opt/mx-llama.cpp OUT`; rerun MTP on an idle host (a parallel compile cut it from 74.4 to 54.7 t/s) | `stack_check.py` with the build venv, then with `/usr/bin/python3 -I` after `apt-get install ./deb`; compare with the previous package (same check) |
 | publish | `publish.sh LLAMA_DEB TORCH_DEB` (signs the debs, tags resize-amdgpu-bars `origin/main`, runs `/root/local-apt/github-release-pkg.sh` once per package) | same call |
 | dogfood | point `/etc/apt/sources.list.d/*.sources` at the new releases, `apt-get clean; apt-get install --reinstall ...`, verify InRelease signature -> Packages SHA256 -> deb SHA256 -> embedded origin signature, rerun the checks | same |
@@ -208,7 +208,10 @@ A stream change is a platform change: nothing built by the new toolchain is publ
    `flag-screen.sh` screens host compiler flags the same way (variants built by `flag-builds.sh`). Its result of
    2026-11-15: nothing beats CMake's Release defaults with `-march=native` only where `GGML_NATIVE` puts it; a global
    `-march=native` costs 0.4 % of 4 x 64K decode, 512-bit vectorization 0.6-0.8 %, `-O2` 1.3 %; LTO and PGO gain nothing.
-   The next llama package build drops `-DCMAKE_C_FLAGS`/`-DCMAKE_CXX_FLAGS=-march=native` and is accepted with `rocm-ab2.sh`.
+   `build-mx-llama-deb.sh` no longer sets `-DCMAKE_C_FLAGS`/`-DCMAKE_CXX_FLAGS=-march=native` (2026-11-15); the next package is
+   accepted with `rocm-ab2.sh`. `rt-swap.sh` does the same for the ROCm libraries (which library of a runtime stream costs
+   decode): every ROCm library preloaded by full path, one group taken from the other stream. One library preloaded alone is
+   not a swap: the ROCm libraries carry `DT_RPATH=$ORIGIN` and pull their whole tree in.
 6. Before publishing a package that pulls the new runtime onto nodes, test the old packages on it (`suite-mixed.sh`):
    that is the state of every node between the two upgrades.
 

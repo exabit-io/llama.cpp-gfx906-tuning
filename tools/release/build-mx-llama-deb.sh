@@ -3,7 +3,10 @@
 # default 10.1; ROCm streams install side by side under /opt/rocm/core-<stream>, so every ROCm path here names the stream).
 #
 # The tree's own defaults (GGML_HIP_RCCL=ON, GGML_CUDA_FA_QUANTS=all, GGML_TP_AR_MAX_NE=20481, max-ilp scheduler) plus
-# -march=native on the host side (Cascade Lake, Mac Pro 7,1: AVX512F/DQ/BW/VL/CD + VNNI). Installs into /opt/mx-llama.cpp
+# GGML_NATIVE=ON, which compiles ggml's CPU backend for the build machine (Cascade Lake, Mac Pro 7,1: AVX512F/DQ/BW/VL/CD
+# + VNNI). No global -march=native: on libllama and libllama-common it cost 0.4 % of 4 x 64K decode (auto-vectorized
+# loops), and no other host flag set of eleven beat CMake's Release defaults (tuning repository,
+# reports/2026-11-14-rocm-10.1.md sections 5.1 and 5.2). Installs into /opt/mx-llama.cpp
 # with DT_RPATH (not RUNPATH) on its own lib dir and then on the ROCm stream's lib dir, so no other llama.cpp/ggml install
 # on the box (ld.so.conf.d entries, LD_LIBRARY_PATH) can shadow its libraries and the binaries load the ROCm they were
 # built against whatever /opt/rocm's alternatives point at. HOST-CPU HEAVY: never beside a loaded four-die GPU job.
@@ -43,7 +46,7 @@ rm -rf $B; mkdir -p $B
 ROCM_PATH=$ROCMC HIP_PATH=$ROCMC cmake -S $SRC -B $B -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=$ROCMC \
   -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PREFIX \
   -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx906 -DCMAKE_HIP_ARCHITECTURES=gfx906 -DCMAKE_HIP_COMPILER=$ROCMC/lib/llvm/bin/clang++ \
-  -DGGML_NATIVE=ON -DCMAKE_C_FLAGS="-march=native" -DCMAKE_CXX_FLAGS="-march=native" \
+  -DGGML_NATIVE=ON \
   -DLLAMA_BUILD_TESTS=OFF -DLLAMA_CURL=OFF \
   "-DCMAKE_INSTALL_RPATH=$PREFIX/lib;$ROCM/lib" -DCMAKE_SKIP_BUILD_RPATH=OFF \
   -DCMAKE_EXE_LINKER_FLAGS="-Wl,--disable-new-dtags" -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--disable-new-dtags" \
@@ -127,8 +130,8 @@ Description: llama.cpp for AMD gfx906 (mx-llama.cpp + Exabit patches) on ROCm $R
  Built for ROCm $ROCMSTREAM.0-gfx906+$ROCMSTAMP (compiled with ROCm $COMPILERSTREAM's
  toolchain) for gfx906 (Radeon VII, Instinct
  MI50/MI60, Radeon Pro Vega II) with the tree's defaults: RCCL on, every
- flash-attention KV quant pair compiled, -march=native for Cascade Lake
- (AVX512 + VNNI, Mac Pro 7,1). The CPU code needs AVX-512.
+ flash-attention KV quant pair compiled, the CPU backend built for Cascade
+ Lake (AVX512 + VNNI, Mac Pro 7,1). The CPU code needs AVX-512.
  .
  Installs into $PREFIX (bin/ and lib/, DT_RPATH on lib/ and on
  $ROCM/lib); nothing is placed on the default PATH.
@@ -147,7 +150,7 @@ sed -n '1,200p' $SRC/LICENSE >> $STAGE/usr/share/doc/$PKG/copyright
 printf '%s (%s) noble; urgency=medium\n\n  * exabit-io/mx-llama.cpp master %s (llama.cpp v%s %s), ROCm %s.0-gfx906+%s.\n\n -- Exabit Networks <packages@exabit.io>  %s\n' \
   "$PKG" "$DEBVER" "$SHA9" "$UPV" "$BNUM" "$ROCMSTREAM" "$ROCMSTAMP" "$(date -R)" | gzip -9n > $STAGE/usr/share/doc/$PKG/changelog.Debian.gz
 echo "$SHA" > $STAGE/usr/share/doc/$PKG/SOURCE-COMMIT
-printf 'source: exabit-io/mx-llama.cpp %s (llama.cpp v%s %s)\nruntime: ROCm %s.0-gfx906+%s (%s), loaded through DT_RPATH\ncompiler: ROCm %s toolchain, %s\nhost flags: -march=native (%s)\n' \
+printf 'source: exabit-io/mx-llama.cpp %s (llama.cpp v%s %s)\nruntime: ROCm %s.0-gfx906+%s (%s), loaded through DT_RPATH\ncompiler: ROCm %s toolchain, %s\nhost flags: CMake Release defaults; ggml CPU backend -march=native (%s) through GGML_NATIVE\n' \
   "$SHA" "$UPV" "$BNUM" "$ROCMSTREAM" "$ROCMSTAMP" "$ROCM" "$COMPILERSTREAM" "$CLANGV" "$(gcc -march=native -Q --help=target 2>/dev/null | awk '/^ *-march=/{print $2; exit}')" > $STAGE/usr/share/doc/$PKG/BUILD-INFO
 
 DEB=$OUT/${PKG}_${DEBVER//+/.}_amd64.deb
