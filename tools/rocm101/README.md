@@ -39,7 +39,7 @@ AMD clang 24.0.0git (10.0: 23.0.0git), RCCL 2.30.7 (10.0: 2.30.4), amd_smi 27.1.
 | `deb-test-llama-101.sh`, `rocm-ab2.sh` | the package as published (10.0 compiler, 10.1 runtime), n=5 per arm | ACCEPTED: prefill = 10.0 (805.7 / 410.2 tok/s), decode -0.97 % at 4x64K and -0.74 % at 1x255K, under the 2 % floor |
 | `publish-llama-101.sh`, `dogfood-llama-101.sh` | release `mx-llama-cpp-1.0.0-gfx906-rocm10.1`, rolling channel, reinstall from the channel | published 2026-11-15 00:12 UTC; chain verified |
 | `pkg-swap.sh` (three sessions) | where the package's decode difference is: its libraries swapped for a source build's by `LD_PRELOAD` | 0.6 % the ROCm 10.1 runtime, 0.4 % the deb's `-march=native` on `libllama`/`libllama-common` |
-| `flag-builds.sh`, `flag-screen.sh` | other host compiler flags (lead's question): skylake-avx512, x86-64-v4, `-mtune=intel`, no vectorizer, `-O2`, no semantic interposition, LTO, PGO | see the report, section 5.2 |
+| `flag-builds.sh`, `flag-screen.sh` | other host compiler flags (lead's question): skylake-avx512, x86-64-v4, `-mtune=intel`, no vectorizer, `-O2`, no semantic interposition, LTO, PGO | n = 3 per arm, 33 cells, none discarded: no arm beats no flags (24.672); `-march=native` -0.41 %, the 512-bit arms -0.62 and -0.77 %, `-O2` -1.29 %; vectorizer off = no flags; LTO and PGO gain nothing (report, section 5.2) |
 | `publish-torch-101.sh`, `/root/pytorch-gfx906-rocm10.1-2.15.0/`, `/root/backports-noble/` | PyTorch 2.15.0 for ROCm 10.1 and the `python3-sympy` 1.14.0 backport | published 2026-11-14 into the channel `python3-torch-gfx906` |
 
 Builds: `/root/build-master-v100r` (10.0, the reference of every comparison), `/root/build-master-v101` (10.1),

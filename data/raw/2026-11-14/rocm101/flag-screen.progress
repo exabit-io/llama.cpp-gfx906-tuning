@@ -12,3 +12,75 @@
 2026-11-15T02:51:43+00:00 [flags] n=3, arms: base native skx v4 tintel novec o2 nosemi lto ltonosemi pgo; load 9.71 8.73 8.92
 2026-11-15T02:51:57+00:00 [flags] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1186/2481/2492/2514
 2026-11-15T02:51:57+00:00 [flags] block 1 order: ltonosemi tintel nosemi o2 novec pgo native lto v4 base skx
+2026-11-15T02:58:13+00:00 [flags] ltonosemi b1: decode 24.6160, prefill 807.6
+2026-11-15T03:04:29+00:00 [flags] tintel b1: decode 24.4666, prefill 806.8
+2026-11-15T03:10:46+00:00 [flags] nosemi b1: decode 24.6391, prefill 806.5
+2026-11-15T03:17:03+00:00 [flags] o2 b1: decode 24.3624, prefill 806.5
+2026-11-15T03:23:19+00:00 [flags] novec b1: decode 24.6646, prefill 806.7
+2026-11-15T03:29:35+00:00 [flags] pgo b1: decode 24.5882, prefill 806.7
+2026-11-15T03:35:52+00:00 [flags] native b1: decode 24.6047, prefill 807.0
+2026-11-15T03:42:09+00:00 [flags] lto b1: decode 24.6041, prefill 805.8
+2026-11-15T03:48:26+00:00 [flags] v4 b1: decode 24.5064, prefill 805.8
+2026-11-15T03:54:43+00:00 [flags] base b1: decode 24.6622, prefill 805.6
+2026-11-15T04:00:59+00:00 [flags] skx b1: decode 24.5687, prefill 806.7
+2026-11-15T04:00:59+00:00 [flags] === block 1 DONE
+[flags] novec      n=1 mean 24.6646 (24.6646-24.6646), step 40.544 ms, +0.01 % vs base
+[flags] base       n=1 mean 24.6622 (24.6622-24.6622), step 40.548 ms, +0.00 % vs base
+[flags] nosemi     n=1 mean 24.6391 (24.6391-24.6391), step 40.586 ms, -0.09 % vs base
+[flags] ltonosemi  n=1 mean 24.6160 (24.6160-24.6160), step 40.624 ms, -0.19 % vs base
+[flags] native     n=1 mean 24.6047 (24.6047-24.6047), step 40.643 ms, -0.23 % vs base
+[flags] lto        n=1 mean 24.6041 (24.6041-24.6041), step 40.644 ms, -0.24 % vs base
+[flags] pgo        n=1 mean 24.5882 (24.5882-24.5882), step 40.670 ms, -0.30 % vs base
+[flags] skx        n=1 mean 24.5687 (24.5687-24.5687), step 40.702 ms, -0.38 % vs base
+[flags] v4         n=1 mean 24.5064 (24.5064-24.5064), step 40.806 ms, -0.63 % vs base
+[flags] tintel     n=1 mean 24.4666 (24.4666-24.4666), step 40.872 ms, -0.79 % vs base
+[flags] o2         n=1 mean 24.3624 (24.3624-24.3624), step 41.047 ms, -1.22 % vs base
+2026-11-15T04:00:59+00:00 [flags] block 2 order: lto skx tintel ltonosemi nosemi o2 base native novec v4 pgo
+2026-11-15T04:07:15+00:00 [flags] lto b2: decode 24.6118, prefill 806.7
+2026-11-15T04:13:32+00:00 [flags] skx b2: decode 24.5581, prefill 806.8
+2026-11-15T04:19:49+00:00 [flags] tintel b2: decode 24.4795, prefill 806.0
+2026-11-15T04:26:06+00:00 [flags] ltonosemi b2: decode 24.5646, prefill 806.1
+2026-11-15T04:32:22+00:00 [flags] nosemi b2: decode 24.6658, prefill 806.7
+2026-11-15T04:38:39+00:00 [flags] o2 b2: decode 24.3549, prefill 806.3
+2026-11-15T04:44:56+00:00 [flags] base b2: decode 24.6533, prefill 806.5
+2026-11-15T04:51:12+00:00 [flags] native b2: decode 24.5811, prefill 806.1
+2026-11-15T04:57:29+00:00 [flags] novec b2: decode 24.6515, prefill 806.0
+2026-11-15T05:03:45+00:00 [flags] v4 b2: decode 24.5052, prefill 805.9
+2026-11-15T05:10:02+00:00 [flags] pgo b2: decode 24.5516, prefill 806.5
+2026-11-15T05:10:02+00:00 [flags] === block 2 DONE
+[flags] novec      n=2 mean 24.6581 (24.6515-24.6646), step 40.555 ms, +0.00 % vs base
+[flags] base       n=2 mean 24.6578 (24.6533-24.6622), step 40.555 ms, +0.00 % vs base
+[flags] nosemi     n=2 mean 24.6524 (24.6391-24.6658), step 40.564 ms, -0.02 % vs base
+[flags] lto        n=2 mean 24.6080 (24.6041-24.6118), step 40.637 ms, -0.20 % vs base
+[flags] native     n=2 mean 24.5929 (24.5811-24.6047), step 40.662 ms, -0.26 % vs base
+[flags] ltonosemi  n=2 mean 24.5903 (24.5646-24.6160), step 40.666 ms, -0.27 % vs base
+[flags] pgo        n=2 mean 24.5699 (24.5516-24.5882), step 40.700 ms, -0.36 % vs base
+[flags] skx        n=2 mean 24.5634 (24.5581-24.5687), step 40.711 ms, -0.38 % vs base
+[flags] v4         n=2 mean 24.5058 (24.5052-24.5064), step 40.807 ms, -0.62 % vs base
+[flags] tintel     n=2 mean 24.4730 (24.4666-24.4795), step 40.861 ms, -0.75 % vs base
+[flags] o2         n=2 mean 24.3586 (24.3549-24.3624), step 41.053 ms, -1.21 % vs base
+2026-11-15T05:10:02+00:00 [flags] block 3 order: novec native pgo o2 ltonosemi tintel skx base v4 lto nosemi
+2026-11-15T05:16:18+00:00 [flags] novec b3: decode 24.6646, prefill 806.3
+2026-11-15T05:22:34+00:00 [flags] native b3: decode 24.5281, prefill 806.5
+2026-11-15T05:28:50+00:00 [flags] pgo b3: decode 24.5811, prefill 806.9
+2026-11-15T05:35:07+00:00 [flags] o2 b3: decode 24.3410, prefill 807.2
+2026-11-15T05:41:22+00:00 [flags] ltonosemi b3: decode 24.5965, prefill 807.4
+2026-11-15T05:47:39+00:00 [flags] tintel b3: decode 24.4988, prefill 806.8
+2026-11-15T05:53:55+00:00 [flags] skx b3: decode 24.6195, prefill 807.4
+2026-11-15T06:00:10+00:00 [flags] base b3: decode 24.7003, prefill 807.7
+2026-11-15T06:06:27+00:00 [flags] v4 b3: decode 24.5481, prefill 807.5
+2026-11-15T06:12:43+00:00 [flags] lto b3: decode 24.6610, prefill 807.4
+2026-11-15T06:18:59+00:00 [flags] nosemi b3: decode 24.6866, prefill 807.6
+2026-11-15T06:18:59+00:00 [flags] === block 3 DONE
+[flags] base       n=3 mean 24.6719 (24.6533-24.7003), step 40.532 ms, +0.00 % vs base
+[flags] nosemi     n=3 mean 24.6638 (24.6391-24.6866), step 40.545 ms, -0.03 % vs base
+[flags] novec      n=3 mean 24.6602 (24.6515-24.6646), step 40.551 ms, -0.05 % vs base
+[flags] lto        n=3 mean 24.6257 (24.6041-24.6610), step 40.608 ms, -0.19 % vs base
+[flags] ltonosemi  n=3 mean 24.5923 (24.5646-24.6160), step 40.663 ms, -0.32 % vs base
+[flags] skx        n=3 mean 24.5821 (24.5581-24.6195), step 40.680 ms, -0.36 % vs base
+[flags] pgo        n=3 mean 24.5737 (24.5516-24.5882), step 40.694 ms, -0.40 % vs base
+[flags] native     n=3 mean 24.5713 (24.5281-24.6047), step 40.698 ms, -0.41 % vs base
+[flags] v4         n=3 mean 24.5199 (24.5052-24.5481), step 40.783 ms, -0.62 % vs base
+[flags] tintel     n=3 mean 24.4816 (24.4666-24.4988), step 40.847 ms, -0.77 % vs base
+[flags] o2         n=3 mean 24.3527 (24.3410-24.3624), step 41.063 ms, -1.29 % vs base
+2026-11-15T06:18:59+00:00 [flags] === FLAG-SCREEN DONE ===

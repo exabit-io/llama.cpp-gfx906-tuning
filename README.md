@@ -31,7 +31,9 @@ installed from their rolling channels. mx-llama.cpp compiled by 10.1's LLVM 24 i
 prefill. The llama package for 10.1 is therefore compiled with 10.0's toolchain. It passes the design-point acceptance:
 prefill equals ROCm 10.0's (805.7 against 806.0 tok/s at 4 x 64K, 410.2 against 410.2 at 1 x 255K), decode is 0.97 % and
 0.74 % lower (24.546 against 24.787 tok/s per slot, 31.698 against 31.935), under the 2 % floor. Of the 4 x 64K
-difference about 0.6 % is the 10.1 runtime and 0.4 % the deb's host flag (`-march=native` on `libllama`). PyTorch 2.15.0
+difference about 0.6 % is the 10.1 runtime and 0.4 % the deb's host flag (`-march=native` on `libllama`); a screen of ten
+other host flag sets (skylake-avx512, x86-64-v4, `-mtune=intel`, LTO, profile-guided, `-O2` and others, n = 3 each) found
+none better than building without the flag, and `-O2` 1.3 % worse. PyTorch 2.15.0
 on 10.1 is unchanged, and its channel now carries a sympy 1.14.0 backport that repairs `torch.export` and `torch.compile`
 on Ubuntu 24.04. `reports/2026-11-14-rocm-10.1.md`.
 

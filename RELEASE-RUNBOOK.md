@@ -205,6 +205,10 @@ A stream change is a platform change: nothing built by the new toolchain is publ
    A difference between the package and a source build is located by swapping shared libraries, not by rebuilding:
    `pkg-swap.sh` preloads all of the package's libraries by full path with one group taken from the other build (6 min
    per arm at 4 x 64K; ranges of 3-4 runs separated 0.4 %). That is how the deb's host flag was found.
+   `flag-screen.sh` screens host compiler flags the same way (variants built by `flag-builds.sh`). Its result of
+   2026-11-15: nothing beats CMake's Release defaults with `-march=native` only where `GGML_NATIVE` puts it; a global
+   `-march=native` costs 0.4 % of 4 x 64K decode, 512-bit vectorization 0.6-0.8 %, `-O2` 1.3 %; LTO and PGO gain nothing.
+   The next llama package build drops `-DCMAKE_C_FLAGS`/`-DCMAKE_CXX_FLAGS=-march=native` and is accepted with `rocm-ab2.sh`.
 6. Before publishing a package that pulls the new runtime onto nodes, test the old packages on it (`suite-mixed.sh`):
    that is the state of every node between the two upgrades.
 
