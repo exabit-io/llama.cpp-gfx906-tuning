@@ -54,12 +54,27 @@ AMD clang 24.0.0git (10.0: 23.0.0git), RCCL 2.30.7 (10.0: 2.30.4), amd_smi 27.1.
 | `pkg-resid.sh` | is any of the `-r1` package's 4x64K decode difference its own? reference on 10.0, the package's program with the reference's libraries on 10.1, the package; n = 5, rule fixed before data | NO: runtime 0.49 %, package -0.08 % (overlapping); stage 2 not run; closed (report 5.7) |
 | `gpu-opt24-builds.sh`, `gpu-opt24-builds-all.sh`, `gpu-opt24-screen.sh` | the GPU compile-option survey again with the shipping compiler (10.1's clang 24) at BOTH design points; controls with a known sign in each pass | in progress 2026-11-16 (report 5.8 when done) |
 | `llvm-bisect/` (`prep.sh`, `step.sh`, `run.sh`, `confirm.sh`, `fixcheck.sh`, `bisect-screen.sh`, `fixrule-screen.sh`), `codegen/llccross.py` | which LLVM change makes the head-256 tile kernel spill: `llc` built per commit in `/root/llvm-bisect`, clang 23's bitcode compiled, reloads in the hot loop counted; then the objects timed | first bad commit `80df471b75d0` (machine LICM's pressure limit wraps on AMDGPU); upstream fix `1d7d16b94c61` is not in ROCm 10.1's release branch; timing confirms (604.1 / 588.7 controls; parent 600.6, first bad 589.3, revert 600.5, fix 601.0); the tree's rule adds 1.0 % on a fixed compiler and stays (report 4.2, 4.3). `llvm-bisect/ISSUE-DRAFT.md` + `repro/`: report for ROCm, not filed |
-| `deb-test-llama-100.sh`, `rocm-ab4.sh`, `publish-llama-100r1.sh`, `dogfood-llama-100.sh` | the ROCm 10.0-stream package rebuilt from 290fc642a without the global host flag: package test, acceptance against the reference on the same runtime, release, install by version from the channel and back to the newest | in progress 2026-11-16 (report 5.9 when done) |
+| `deb-test-llama-100.sh`, `rocm-ab4.sh`, `publish-llama-100r1.sh`, `dogfood-llama-100.sh` | the ROCm 10.0-stream package rebuilt from 290fc642a without the global host flag: package test, acceptance against the reference on the same runtime, release, install by version from the channel and back to the newest | DONE 2026-11-16: every kernel byte-identical to the reference build; package test clean (PPL 5.6093, MTP 154/201, hashes equal to the 10.1 package, 26 of 26 ROCm libraries from core-10.0 whatever the environment names); acceptance n = 5 neutral on both axes (-0.01 % / -0.04 % at 4 x 64K, -0.05 % / -0.03 % at 1 x 255K); release `mx-llama-cpp-1.0.0-gfx906-rocm10.0-r1`, in the channel below the 10.1 build; dogfooded; box back on the 10.1 `-r1` package (report 5.9) |
+| `codegen/loopscan.py`, `codegen/tilescan.py`, `tilethr/` | static: scratch reloads inside loops in every device function, clang 23 against clang 24 (10,323 functions); the tile object's 34 kernels at every VGPR threshold | 10,056 unchanged, fewer in 216, more in 51; the FP8-V vec kernels 146 -> 623 (not the LICM bug: stays with `-disable-machine-licm` and every threshold); **threshold 90 puts 20 reloads into the loop of `<4,2>`, `<2,4>`, `<1,8>`**; 88 and 85 leave none in any kernel (report 5.10; `loopscan-c23-c24.txt`, `tilethr/tilescan-thresholds.txt`) |
+| `mtp-depth.sh` (no decode data: raw prompt ended at 1 token), `mtp-depth2.sh` | MTP decode at 117.7K depth, `--spec-draft-n-max 3` (verification runs `<4,2>`), five tile objects under the installed `llama-server`, n = 3 shuffled, rule in the header | clang 23 46.28, clang 24 46.33, threshold 90 (`-r1`) **45.48 (-1.84 %)**, 88 48.59, 85 48.36 tok/s; prefill 608.5 / 594.2 / 610.1 / 611.4 / 612.2; rule's outcome: replace 90 by 85 (report 5.11) |
+| `tile-thr-confirm.sh` | the replacement at the two design-point kernels: reference, 90, 85, 88 (only `libggml-hip.so` differs), n = 3 shuffled at 4x64K and 1x128K, rule in the header | 85 PASSES and is taken: prefill +0.34 % / +0.40 % over 90 (every sample), +0.48 % / +0.65 % over clang 23; decode level against both at 4x64K, +0.40 % over clang 23 at 1x128K; fork commit `224b73e24` (branch `hip-llvm24-tile-vgpr85`, worktree `/root/wt-master-t85`) (report 5.11) |
+| `hostcc-builds.sh`, `hostcc-screen.sh` | another HOST compiler (section 5.2's open question): gcc 13.3 with and without OpenMP, Ubuntu clang 19, ROCm 10.1's clang 24; six host libraries preloaded under the installed `-r1` package, 4x64K, n = 3 shuffled, rule in the header | NO: clang 19 24.587 (-0.70 %), clang 24 24.556 (-0.82 %) against gcc 24.760, every run below both gcc arms; OpenMP worth 0.06 %; prefill equal; gcc 13 stays (report 5.13). Needs the package of the SAME commit installed: run it before installing a new deb |
+| `fp8-kv.sh` (`screen.sh` with `KVK`/`KVV`/`ARMKV`) | an FP8 KV cache (`f8_e4m3`/`f8_e4m3`) at 4x64K: clang 23 against the `-r1` GPU code, and FP8 against f16; n = 3 shuffled, rule in the header | clang 24 costs FP8 nothing (decode 13.135 against 13.143, level; prefill +0.15 %); **FP8 halves decode: 13.13 against 24.76 tok/s per slot (-46.9 %)**, prefill +0.76 %; no option sought, not a throughput configuration; quality not measured (report 5.12) |
+| `/root/mx-llama-deb/build-mx-llama-deb.sh /root/wt-master-t85`, `codegen/maskcmp.py`, `deb-test-llama-101.sh deb-test-llama-r2`, `smoke-r2-prefill/` | package `-r2` (master 224b73e24: threshold 85): build, GPU code against the `-r1` source build, package test (installs the deb) | 10,735 device functions: 23 with other instructions, all in the head-256 tile object; 1,592 differ in one `s_add_u32` immediate (source directory name in the string pool); 9,120 identical. Package test clean: PPL 5.6093, every hash equal to `-r1`'s, MTP 154/201, 55 ELF with the RPATH, 0 of 26 ROCm libraries outside core-10.1. Its 8K first-prompt prefill read 722 against `-r1`'s 749 of the day before; back to back 731.3 / 731.2 against 730.7 / 730.3: session, not package |
+| `mtp-accept.sh` | acceptance part 1, MTP at depth on the INSTALLED package: its own GPU library, `-r1`'s, the clang 23 tile object; n = 3 shuffled, rule in the header (decode above `-r1` in every run by 3 % or more) | PASSED: 48.250 (48.222-48.301) against `-r1` 45.140 (45.073-45.183) = +6.89 %, clang 23 46.067; prefill 610.2 / 608.2 / 607.2; same text and draft counts in all 9 cells (report 5.11) |
+| `rocm-ab5.sh` (`rocm-ab-stats.py`) | acceptance part 2, the two design points on the installed package against `/root/build-master-v100r` on 10.0; n = 5 per arm per axis, the survey's rule | ACCEPTED, both axes neutral: 4 x 64K decode 24.728 against 24.829 (-0.40 %, q 0.016), prefill 811.0 against 808.3 (+0.34 %); 1 x 255K decode 32.054 against 32.035 (+0.06 %), prefill 414.6 against 411.1 (+0.84 %, q 0.063); 20 runs, none discarded (report 5.11) |
+| `tbo-r2.sh` | `test-backend-ops` on the package's GPU code: the `-r1` source build's test binary with the installed `libggml-hip.so` preloaded, one process per die, library read back from `/proc/<pid>/maps` | PASSED: 20388/20388 on each of four dies; 5,721 `FLASH_ATTN_EXT` cases, 165 with head size 256 |
+| `publish-llama-r2.sh`, `dogfood-llama-101.sh` | fork `master` = `gfx906-single` = `gfx906-multi` = 224b73e24 and tag `gfx906/v1.0.0/r2/master` pushed; release `mx-llama-cpp-1.0.0-gfx906-rocm10.1-r2`, rolling channel (7 versions), reinstall from the channel | published 2026-11-16 19:22 UTC; chain verified (InRelease, Packages hash, deb hash, origin signature, identical to the local build). `dogfood-llama-101.sh` wants an ABSOLUTE output directory: a relative one lost every log line after its `cd` and printed false MISMATCH lines (`dogfood-llama-r2.relpath-attempt/`); fixed in the script (backup `.pre-abs`) |
 
 Builds: `/root/build-master-v100r` (10.0, the reference of every comparison), `/root/build-master-v101` (10.1),
 `/root/build-master-v100rn` (reference + `-march=native` host flags), `/root/build-flag-*` (host-flag variants),
 `/root/build-v101-t90` (master 290fc642a by 10.1: the GPU code of the `-r1` package), `/root/build-gpuopt-*` (the survey's
-variants), `/root/build-v101-trk` (the trackers option on every source: a record, never to be shipped). The
+variants), `/root/build-v101-trk` (the trackers option on every source: a record, never to be shipped),
+`/root/build-hostcc-{gccnoomp,c19,c24}` (host-compiler variants of 290fc642a), `/root/build-gpuopt24-*` (the clang 24
+survey's variants), `/root/swap/{c23,c24,v90,v88,v85}` (GPU libraries that differ only in the head-256 tile object:
+the ROCm 10.1 build's objects with that one exchanged by `codegen/drvexp.py`). Source worktrees: `/root/wt-master-v100`
+(df2c6e5c5), `/root/wt-master-t90` (290fc642a, `-r1`), `/root/wt-master-t85` (224b73e24, `-r2`; its package build tree is
+`/root/mx-llama-deb/build`, and `/root/swap/{pkg,r1}` are the two packages' GPU libraries for `mtp-accept.sh`). The
 cross-over builds, the scheduler variants of the tile kernels and the object-swap libraries were scratch and are
 rebuilt by their scripts (`rocm-cross.sh`, `screen.sh`, `codegen/swaplink.py`).
 
@@ -87,10 +102,37 @@ rebuilt by their scripts (`rocm-cross.sh`, `screen.sh`, `codegen/swaplink.py`).
   `codegen/fncmp.py` (which functions), `codegen/loopstat.py` (spill reloads inside loops). Byte-identical GPU code is
   not timed. `codegen/trycc.py` recompiles one source with extra flags; `codegen/swaplink.py` relinks the GPU library
   with one object exchanged; `codegen/ircross.py` runs one compiler's bitcode through another's code generator.
+- **A per-object compile option changes every kernel of the object, and each batch size runs another kernel.** For
+  the attention tile instances (`fattn-tile.cuh`, `launch_fattn_tile_switch_ncols1`; Qwen3.8-27B: head 256,
+  `ncols2 = 2`): one query token per stream runs `<1,2>`, two `<2,2>`, three or four `<4,2>`, five to eight `<8,2>`,
+  nine or more `<16,2>`. `llama-batched-bench` exercises `<16,2>` (prefill) and `<1,2>` (decode) only; MTP
+  verification with `--spec-draft-n-max 3` runs `<4,2>`. Read an option on all of them before timing it:
+  `codegen/tilescan.py OBJ...` (the tile object's kernels, reloads in loops / loop size) and
+  `codegen/loopscan.py BUILD_A BUILD_B` (every device function of two builds; `TMPDIR` on a real disk). MTP at depth
+  is timed with `mtp-depth2.sh` (five swap libraries under the installed `llama-server`, 117.7K-token prompt, 5 min
+  per cell).
+- **Server cells.** Send the text as a chat message (`/v1/chat/completions`): a raw `/completion` prompt of text plus
+  question makes this model end at once (1 token, `stop_type eos`), which is how `mtp-depth.sh` ran 15 cells without
+  a decoded token. Check `predicted_n` against what was asked in every request. When the tail of a cached prompt
+  changes, the server evaluates 2,050 tokens again, not only the new ones. **A first-cell watcher waits for the TSV's
+  first line or the done flag**, never for a text pattern in the progress file (the pattern missed the failure line).
 - **A package is accepted on the installed deb**, at both design points, n = 5 per arm, against
-  `/root/build-master-v100r` on the 10.0 runtime (`rocm-ab3.sh`, 3 h; it refuses an existing TSV). Order of a release:
-  build (`build-mx-llama-deb.sh`), `deb-test-llama-101.sh`, acceptance, push the fork commit and tag, channel notes,
-  `publish-llama-r1.sh`, `dogfood-llama-101.sh`, `raw-copy-101.sh`, report, commit the tuning repository.
+  `/root/build-master-v100r` on the 10.0 runtime (`rocm-ab5.sh`, 3 h; it refuses an existing TSV), AND, when the
+  change touches a tile object, at MTP depth (`mtp-accept.sh`, 45 min: the package's own GPU library against the
+  previous build's). Order of a release (`-r2` is the model): build (`build-mx-llama-deb.sh SRC`),
+  `deb-test-llama-101.sh OUT` (installs the deb from the file), both acceptances, `tbo-r2.sh` (the package ships no
+  tests: the previous source build's `test-backend-ops` with the package's GPU library preloaded), push the fork
+  commit to `master`/`gfx906-single`/`gfx906-multi` and the annotated tag, release notes and channel notes without
+  placeholders, `publish-llama-r2.sh DEB` (it checks tag and master on the remote), `dogfood-llama-101.sh OUT`,
+  `raw-copy-101.sh`, report, commit the tuning repository. Run `hostcc-screen.sh` or anything else that needs the
+  OLD package installed before the deb test.
+- **Comparing the GPU code of two builds from different source directories**: `codegen/fncmp.py` reports every
+  function that references a string as different (the directory name is in the string pool, strings move, each
+  PC-relative `s_add_u32` immediate changes). `codegen/maskcmp.py A.so B.so` masks those immediates and separates
+  "other instructions" from "one constant". Strip the `// addr:` comments from `llvm-objdump` output before any
+  textual comparison (`--no-leading-addr` keeps them), or every function differs.
+- **A smoke value is not a result.** The package test's 8K first-prompt prefill read 722 tok/s for `-r2` and 749
+  for `-r1` a day apart; back to back (`smoke-r2-prefill/`) they are 731 and 731.
 
 `raw-copy-101.sh` copies the result lines into the tuning repository; `docs-update-101.py` moved its statements of the
 platform state to ROCm 10.1 (run once).

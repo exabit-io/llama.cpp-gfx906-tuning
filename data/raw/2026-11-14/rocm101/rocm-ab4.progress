@@ -1,0 +1,56 @@
+2026-11-16T05:33:50+00:00 [ab] r100: /root/build-master-v100r, 26 ROCm libraries, all under /opt/rocm/core-10.0; hip 7.15.26333-0000000; compiled by /opt/rocm/core-10.0/lib/llvm/bin/clang++
+2026-11-16T05:33:50+00:00 [ab] pkg: /opt/mx-llama.cpp, 26 ROCm libraries, all under /opt/rocm/core-10.0; hip 7.15.26333-0000000; compiled by /opt/rocm/core-10.0/lib/llvm/bin/clang++
+2026-11-16T05:33:50+00:00 [ab] package commit 290fc642a = reference df2c6e5c5 + a change to ggml/src/ggml-hip/CMakeLists.txt only
+2026-11-16T05:33:50+00:00 [ab] package: 1.0.0+git20261115.290fc642a.rocm10.0.gfx906.20261018172427-1; source: exabit-io/mx-llama.cpp 290fc642ac23fc8ec73c745f40cd315c7ff32d8c (llama.cpp v1.0.0 b12359);runtime: ROCm 10.0.0-gfx906+20261018172427 (/opt/rocm/core-10.0), loaded through DT_RPATH;compiler: ROCm 10.0 toolchain, AMD clang version 23.0.0git (https://github.com/ROCm/llvm-project.git 8f497e0992f
+2026-11-16T05:33:50+00:00 [ab] arms comparable: CMAKE_BUILD_TYPE:STRING=Release GGML_CUDA_FA_QUANTS:STRING=all GGML_HIP_GFX906_MAX_ILP:BOOL=ON GGML_HIP_GRAPHS:BOOL=ON GGML_HIP_RCCL:BOOL=ON GGML_NATIVE:BOOL=ON ; n=5, axes: multi single; load 2.03 3.94 3.97
+2026-11-16T05:34:04+00:00 [ab] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1198/2500/2489/2500
+2026-11-16T05:34:04+00:00 [ab] === axis multi: 2 arms x 5 blocks
+2026-11-16T05:34:04+00:00 [ab] block 1 order: pkg r100
+2026-11-16T05:40:23+00:00 [ab] multi pkg b1: decode 24.8508, prefill 806.3
+2026-11-16T05:46:41+00:00 [ab] multi r100 b1: decode 24.8882, prefill 808.3
+2026-11-16T05:46:41+00:00 [ab] block 2 order: pkg r100
+2026-11-16T05:52:58+00:00 [ab] multi pkg b2: decode 24.8773, prefill 808.5
+2026-11-16T05:59:16+00:00 [ab] multi r100 b2: decode 24.8683, prefill 808.2
+2026-11-16T05:59:16+00:00 [ab] block 3 order: pkg r100
+2026-11-16T06:05:33+00:00 [ab] multi pkg b3: decode 24.8610, prefill 807.9
+2026-11-16T06:11:50+00:00 [ab] multi r100 b3: decode 24.8483, prefill 807.7
+2026-11-16T06:11:50+00:00 [ab] block 4 order: r100 pkg
+2026-11-16T06:18:08+00:00 [ab] multi r100 b4: decode 24.8128, prefill 808.3
+2026-11-16T06:24:25+00:00 [ab] multi pkg b4: decode 24.8676, prefill 808.0
+2026-11-16T06:24:25+00:00 [ab] block 5 order: pkg r100
+2026-11-16T06:30:42+00:00 [ab] multi pkg b5: decode 24.8176, prefill 807.9
+2026-11-16T06:37:00+00:00 [ab] multi r100 b5: decode 24.8689, prefill 807.8
+2026-11-16T06:37:00+00:00 [ab] === axis multi DONE
+[stats] multi decode: r100 n=5 [24.8882 24.8683 24.8483 24.8128 24.8689] | pkg n=5 [24.8508 24.8773 24.8610 24.8676 24.8176]
+[stats] multi prefill: r100 n=5 [808.3 808.2 807.7 808.3 807.8] | pkg n=5 [806.3 808.5 807.9 808.0 807.9]
+[stats] multi decode: mean r100 24.8573 -> pkg 24.8549, effect -0.01 %, p 0.8730, q 1.0000 (family of 4)
+[stats] multi prefill: mean r100 808.0610 -> pkg 807.7265, effect -0.04 %, p 0.5635, q 1.0000 (family of 4)
+[stats] axis multi: neutral
+2026-11-16T06:37:00+00:00 [ab] === axis single: 2 arms x 5 blocks
+2026-11-16T06:37:00+00:00 [ab] block 1 order: r100 pkg
+2026-11-16T06:48:20+00:00 [ab] single r100 b1: decode 32.0581, prefill 411.0
+2026-11-16T06:59:40+00:00 [ab] single pkg b1: decode 32.1053, prefill 411.2
+2026-11-16T06:59:40+00:00 [ab] block 2 order: r100 pkg
+2026-11-16T07:11:00+00:00 [ab] single r100 b2: decode 32.0070, prefill 410.9
+2026-11-16T07:22:20+00:00 [ab] single pkg b2: decode 31.9910, prefill 410.8
+2026-11-16T07:22:20+00:00 [ab] block 3 order: pkg r100
+2026-11-16T07:33:40+00:00 [ab] single pkg b3: decode 32.0140, prefill 410.9
+2026-11-16T07:45:00+00:00 [ab] single r100 b3: decode 32.0401, prefill 410.9
+2026-11-16T07:45:00+00:00 [ab] block 4 order: pkg r100
+2026-11-16T07:56:20+00:00 [ab] single pkg b4: decode 32.0712, prefill 410.9
+2026-11-16T08:07:40+00:00 [ab] single r100 b4: decode 32.1376, prefill 411.1
+2026-11-16T08:07:40+00:00 [ab] block 5 order: r100 pkg
+2026-11-16T08:19:00+00:00 [ab] single r100 b5: decode 32.0571, prefill 411.2
+2026-11-16T08:30:19+00:00 [ab] single pkg b5: decode 32.0421, prefill 411.0
+2026-11-16T08:30:19+00:00 [ab] === axis single DONE
+[stats] multi decode: r100 n=5 [24.8882 24.8683 24.8483 24.8128 24.8689] | pkg n=5 [24.8508 24.8773 24.8610 24.8676 24.8176]
+[stats] multi prefill: r100 n=5 [808.3 808.2 807.7 808.3 807.8] | pkg n=5 [806.3 808.5 807.9 808.0 807.9]
+[stats] single decode: r100 n=5 [32.0581 32.0070 32.0401 32.1376 32.0571] | pkg n=5 [32.1053 31.9910 32.0140 32.0712 32.0421]
+[stats] single prefill: r100 n=5 [411.0 410.9 410.9 411.1 411.2] | pkg n=5 [411.2 410.8 410.9 410.9 411.0]
+[stats] multi decode: mean r100 24.8573 -> pkg 24.8549, effect -0.01 %, p 0.8730, q 1.0000 (family of 4)
+[stats] multi prefill: mean r100 808.0610 -> pkg 807.7265, effect -0.04 %, p 0.5635, q 1.0000 (family of 4)
+[stats] axis multi: neutral
+[stats] single decode: median r100 32.0571 -> pkg 32.0421, effect -0.05 %, p 1.0000, q 1.0000 (family of 4)
+[stats] single prefill: median r100 411.0088 -> pkg 410.8962, effect -0.03 %, p 0.3810, q 1.0000 (family of 4)
+[stats] axis single: neutral
+2026-11-16T08:30:19+00:00 [ab] === ROCM-AB4 DONE ===

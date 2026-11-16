@@ -1,0 +1,11 @@
+2026-11-16T15:29:08+00:00 [mtp-modes] combined long : prompt 2089 tok 722.3 tok/s | gen 137 tok 64.77 tok/s | accepted 81/112 | sha e9ba62f015f6
+2026-11-16T15:29:12+00:00 [mtp-modes] combined run 1: prompt 11 tok 36.0 tok/s | gen 256 tok 73.23 tok/s | accepted 154/201 | sha 5f4e46d94562
+2026-11-16T15:29:16+00:00 [mtp-modes] combined run 2: prompt 11 tok 39.5 tok/s | gen 256 tok 73.11 tok/s | accepted 154/201 | sha 5f4e46d94562
+2026-11-16T15:29:20+00:00 [mtp-modes] combined run 3: prompt 11 tok 34.0 tok/s | gen 256 tok 73.26 tok/s | accepted 154/201 | sha 5f4e46d94562
+2026-11-16T15:29:20+00:00 [mtp-modes] combined rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-16T15:29:39+00:00 [mtp-modes] host long : prompt 2089 tok 722.0 tok/s | gen 137 tok 68.11 tok/s | accepted 81/112 | sha e9ba62f015f6
+2026-11-16T15:29:43+00:00 [mtp-modes] host run 1: prompt 11 tok 39.8 tok/s | gen 256 tok 73.14 tok/s | accepted 154/201 | sha 5f4e46d94562
+2026-11-16T15:29:47+00:00 [mtp-modes] host run 2: prompt 11 tok 38.4 tok/s | gen 256 tok 73.07 tok/s | accepted 154/201 | sha 5f4e46d94562
+2026-11-16T15:29:51+00:00 [mtp-modes] host run 3: prompt 11 tok 32.8 tok/s | gen 256 tok 73.29 tok/s | accepted 154/201 | sha 5f4e46d94562
+2026-11-16T15:29:51+00:00 [mtp-modes] host rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-16T15:29:56+00:00 [mtp-modes] === MTP-MODES DONE ===

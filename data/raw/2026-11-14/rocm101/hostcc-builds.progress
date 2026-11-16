@@ -1,0 +1,6 @@
+2026-11-16T08:33:41+00:00 [hostcc] gccnoomp rc=0: BUILD rc=0 elapsed=40s warnings=18 errors=0; C /usr/bin/cc, C++ /usr/bin/c++; OpenMP OFF; producer of libllama: GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0;; libllama ymm 0 zmm 0
+2026-11-16T08:33:59+00:00 [hostcc] c19 rc=2: BUILD rc=2 elapsed=18s warnings=18 errors=0; C /usr/bin/clang-19, C++ /usr/bin/clang++-19; OpenMP OFF; producer of libllama: ; libllama ymm 0 zmm 0
+2026-11-16T08:35:22+00:00 [hostcc] gccnoomp rc=0: BUILD rc=0 elapsed=1s warnings=0 errors=0; C /usr/bin/cc, C++ /usr/bin/c++; OpenMP OFF; producer of libllama: GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0;; libllama ymm 0 zmm 0
+2026-11-16T08:37:05+00:00 [hostcc] c19 rc=0: BUILD rc=0 elapsed=101s warnings=18 errors=0; C /usr/bin/clang-19, C++ /usr/bin/clang++-19; OpenMP OFF; producer of libllama: clang version 19.1.1 (1ubuntu1~24.04.2);GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0;; libllama ymm 0 zmm 0
+2026-11-16T08:38:37+00:00 [hostcc] c24 rc=0: BUILD rc=0 elapsed=90s warnings=18 errors=0; C /opt/rocm/core-10.1/lib/llvm/bin/clang, C++ /opt/rocm/core-10.1/lib/llvm/bin/clang++; OpenMP OFF; producer of libllama: clang version 24.0.0git (https://github.com/ROCm/llvm-project.git d6f6cb691863e9258034ab48c1dfce21689d5606);; libllama ymm 0 zmm 0
+2026-11-16T08:38:37+00:00 [hostcc] === HOSTCC BUILDS DONE ===

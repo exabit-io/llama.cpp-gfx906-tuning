@@ -1,5 +1,11 @@
 # Draft report for ROCm/llvm-project (not filed)
 
+Checked 2026-11-16 07:30 UTC: ROCm/llvm-project has issues enabled; a search of its issues for `216372`, `213584`,
+`getRegPressureSetLimit` and "pressure limit" returns nothing; the tip of `release/therock-10.1` is still
+`d6f6cb691863` (2026-09-07). Check both again before filing. Everything below this line is the text to file.
+
+---
+
 Title: `release/therock-10.1` has #213584 (MachineLICM uses RegisterClassInfo limits) without its fix #216372: VGPR pressure limit wraps to ~4e9 on AMDGPU
 
 ## Summary

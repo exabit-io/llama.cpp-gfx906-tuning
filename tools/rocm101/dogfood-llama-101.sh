@@ -3,7 +3,7 @@
 # from it, and verify the chain: InRelease signature -> Packages SHA256 -> deb SHA256 -> origin signature inside the deb.
 set -u
 export LC_ALL=C
-O=$1; mkdir -p $O
+mkdir -p "$1"; O=$(readlink -f "$1")   # absolute: the script changes directory below (a relative OUT lost the log lines after it, 2026-11-16)
 SRC=/etc/apt/sources.list.d/mx-llama-cpp-gfx906.sources
 BASE=https://github.com/exabit-io/resize-amdgpu-bars/releases/download/mx-llama-cpp-gfx906
 KR=/etc/apt/keyrings/exabit-apt.gpg
@@ -27,12 +27,12 @@ log "installed: $(dpkg-query -W -f='${Version} ${Status}' mx-llama-cpp-gfx906)"
 T=$(mktemp -d); cd $T
 curl -fsSL -o InRelease $BASE/InRelease; curl -fsSL -o Packages $BASE/Packages
 gpg --no-default-keyring --keyring $KR --verify InRelease > gpg.out 2>&1; log "InRelease signature: $(grep -E 'Good signature|BAD' gpg.out | cut -c1-100)"
-want=$(sha256sum Packages | cut -d' ' -f1); grep -q " $want .* Packages\$" InRelease && log "Packages SHA256 is in InRelease" || log "Packages SHA256 NOT in InRelease"
+want=$(sha256sum Packages | cut -d' ' -f1); if grep -q " $want .* Packages\$" InRelease; then log "Packages SHA256 is in InRelease"; else log "Packages SHA256 NOT in InRelease"; fi
 V=$(dpkg-query -W -f='${Version}' mx-llama-cpp-gfx906)
 FN=$(awk -v v="$V" '/^Package: /{p=$2} /^Version: /{ver=$2} /^Filename: /{f=$2} /^SHA256: /{s=$2} /^$/{if (p=="mx-llama-cpp-gfx906" && ver==v) print f, s}' Packages)
 [ -n "$FN" ] || { log "installed version $V is NOT in the channel's Packages"; exit 1; }
 set -- $FN; curl -fsSL -o pkg.deb $BASE/$1; got=$(sha256sum pkg.deb | cut -d' ' -f1)
-[ "$got" = "$2" ] && log "deb SHA256 matches Packages ($1)" || log "deb SHA256 MISMATCH ($1)"
+if [ "$got" = "$2" ]; then log "deb SHA256 matches Packages ($1)"; else log "deb SHA256 MISMATCH ($1)"; fi
 mem=$(ar t pkg.deb | tr '\n' ' '); ar x pkg.deb
 cat debian-binary control.tar.* data.tar.* | gpg --no-default-keyring --keyring $KR --verify _gpgorigin - > origin.out 2>&1; log "origin signature in the deb (members: $mem): $(grep -E 'Good signature|BAD' origin.out | cut -c1-100)"
 log "local build == channel deb: $(cmp -s pkg.deb "$(cat /root/mx-llama-deb/last-deb.txt)" && echo identical || echo DIFFERENT)"

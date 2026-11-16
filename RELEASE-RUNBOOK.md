@@ -10,10 +10,10 @@ from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `re
 |---|---|
 | Code repository | `github.com/exabit-io/mx-llama.cpp`; local clone `/root/exabit-llama.cpp`, remote `exabit-mx`; upstream fork remote `mxxm` (mxxm-t/mx-llama.cpp), `upstream` (ggml-org) |
 | Pure substrate | branch `merge-v1.0.0` = `a73c601e6` = merge of v1.0.0 (`b1b770d`, b12359) onto mxxm-t `cdc81dae4` + HIP top-k ballot fix + HIP `PAD_REFLECT_1D` launch-size fix; PR [mxxm-t/mx-llama.cpp#24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (supersedes #23, closed) |
-| The build | tag `gfx906/v1.0.0/r1/master` = `290fc642a` = substrate + the 18 Exabit commits (`gfx906/v1.0.0/r0/master` = `df2c6e5c5`) + the LLVM 24 rule for the head-256 tile instance; branches `master` = `gfx906-single` = `gfx906-multi` |
+| The build | tag `gfx906/v1.0.0/r2/master` = `224b73e24` = substrate + the 18 Exabit commits (`gfx906/v1.0.0/r0/master` = `df2c6e5c5`) + the LLVM 24 rule for the head-256 tile instance (`r1` = `290fc642a`, threshold 90) + its threshold moved to 85 (MTP decode at depth); branches `master` = `gfx906-single` = `gfx906-multi` |
 | Unbinned pool | tag `gfx906/v1.0.0/r0/candidates` = `5c01f4ffd`; branch `gfx906-candidates` |
 | ROCm | runtime **10.1.0-gfx906+20261018172427** (HIP 7.16.26385, LLVM 24, RCCL 2.30.7) in `/opt/rocm/core-10.1`; 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, LLVM 23) is still installed in `/opt/rocm/core-10.0` (reference builds; the llama package is compiled by 10.1 since 2026-11-15) |
-| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261115.290fc642a.rocm10.1.gfx906.20261018172427-1 (compiled by and run on ROCm 10.1, no global `-march=native`) from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.1-r1`; `...-rocm10.1` is the first 10.1 build, `df2c6e5c5` compiled by ROCm 10.0's toolchain; `...-rocm10.0` the 10.0 build) |
+| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1 (compiled by and run on ROCm 10.1, no global `-march=native`) from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.1-r2`; `...-rocm10.1-r1` is `290fc642a`, the rule at 90; `...-rocm10.0-r1` the same commit by ROCm 10.0's compiler; `...-rocm10.1` is the first 10.1 build, `df2c6e5c5` compiled by ROCm 10.0's toolchain; `...-rocm10.0` the 10.0 build) |
 | Installed PyTorch | deb `python3-torch-gfx906` 2.15.0+rocm10.1.gfx906.20261018172427-1 (torchvision 0.30.0, torchaudio 2.11.0) from the ROLLING channel `python3-torch-gfx906`, with `python3-typing-extensions` 4.16.0-0exabit1 and `python3-sympy` 1.14.0-2~24.04.exabit1 from the same channel (per-version release `pytorch-2.15.0-gfx906-rocm10.1`); work dir `/root/pytorch-gfx906-rocm10.1-2.15.0/` |
 | RCCL topology | generated at boot by package `gfx906-rccl-topology`: its unit writes `/var/cache/gfx906-rccl-topology/topology.xml`, its conffile `/etc/rccl.conf` points RCCL at it (source `tools/gfx906-rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
 
@@ -203,6 +203,17 @@ A stream change is a platform change: nothing built by the new toolchain is publ
    other's code generator: middle end or code generator?), `drv-test.sh` (the driver's offload pipeline, with and
    without LTO), then single code-generator options on the one object, and `gpu-opt-confirm.sh` (reference, plain new
    compiler, candidate; n = 3 shuffled at 4 x 64K and 1 x 128K; rule in its header) before any package is built.
+   When the code generator is the cause, find the commit with `llc` alone (`tools/rocm101/llvm-bisect/`, 2026-11-16):
+   `clang --version` of a ROCm compiler names its ROCm/llvm-project commit; `prep.sh` makes a blobless clone and the merge
+   base, `step.sh` builds `llc` (AMDGPU only, own ccache directory, 4-10 min) at the checked-out commit, compiles the
+   kernel's optimized bitcode (from `codegen/ircross.py`) and applies a static criterion (`codegen/loopstat.py`: reloads
+   in the hot loop), `run.sh` validates both endpoints and runs `git bisect` (13 steps for 10,434 commits, 1.2 h).
+   **Before writing any report, check whether upstream already fixed it** (`confirm.sh`: the one-line revert on the ROCm
+   commit, and `llc` at llvm/llvm-project `main`; `git log <ROCm's upstream base>..main -- <the files>` finds the fix
+   faster than a second bisect; `git branch -r --contains <fix>` tells which ROCm release branches have it). Then time
+   the objects: `codegen/llccross.py` puts an `llc` object into a library through ROCm 10.0's own driver jobs
+   (`bisect-screen.sh`, `fixrule-screen.sh`). The 10.1 case: a bug from 2026-08-03, fixed upstream on 2026-08-19, with
+   ROCm 10.1's branch cut on 2026-08-13 (report `2026-11-14-rocm-10.1.md` sections 4.2, 4.3).
 5. The packages: version `...rocm<stream>.gfx906.<stamp>` (two streams can carry one stamp); the llama deb takes
    `ROCMSTREAM` (runtime: Depends and `DT_RPATH`) and `COMPILERSTREAM` (toolchain, default the runtime's; a source
    without the LLVM 24 tile rule is refused with clang 24 or newer) separately; test the package
@@ -220,6 +231,33 @@ A stream change is a platform change: nothing built by the new toolchain is publ
    not a swap: the ROCm libraries carry `DT_RPATH=$ORIGIN` and pull their whole tree in.
 6. Before publishing a package that pulls the new runtime onto nodes, test the old packages on it (`suite-mixed.sh`):
    that is the state of every node between the two upgrades.
+7. A build of the same commit for the OLDER stream (`ROCMSTREAM=10.0 build-mx-llama-deb.sh SRC`, 2026-11-16), for nodes
+   that stay on it: its version sorts below the newer stream's build of that commit, and it must not become the
+   channel's newest version (`publish-llama-100r1.sh` refuses that). Test it (`deb-test-llama-100.sh`: the package must
+   load its own stream although `/opt/rocm` and `LD_LIBRARY_PATH` name the other), accept it against the reference on
+   the same runtime (`rocm-ab4.sh`), publish, then `dogfood-llama-100.sh OUT VERSION`: install by version from the
+   channel, verify the chain, and install the newest again so the box ends on what it runs. The channel notes carry
+   the install-by-version and `apt-mark hold` lines. Comparing GPU code of clang 23 builds from two source directories:
+   `devcmp.py` reports 136 objects as different because the error printer `no_device_code` embeds `__FILE__`; use
+   `fncmp.py` and read which functions differ.
+8. **A per-object compile option is read on every kernel of the object, and accepted on every kernel the service
+   runs** (2026-11-16; report sections 5.10, 5.11). The tile rule of `-r1` (threshold 90) was chosen on the prefill
+   kernel and accepted with `llama-batched-bench`, which runs two of the object's 34 kernels (`<16,2>` prefill, `<1,2>`
+   decode). It put 20 reloads into the loop of `<4,2>`, the kernel that verifies three drafted tokens, and cost MTP
+   decode 1.8 % at depth; `-r2` (threshold 85) is the correction. Before timing an option: `codegen/tilescan.py OBJ...`
+   (every kernel of a tile object: reloads in loops / loop size; `codegen/trycc.py` makes the objects) and
+   `codegen/loopscan.py BUILD_A BUILD_B` (every device function of two builds). Timing MTP at depth:
+   `mtp-depth2.sh` (swap libraries under the installed `llama-server`, 117.7K-token chat prompt, 4.7 min per cell,
+   decode compared only between cells with the same text and draft counts). A package whose GPU code changes in the
+   tile object is accepted with BOTH `rocm-ab5.sh` (design points, 3 h) and `mtp-accept.sh` (the installed package
+   against the previous package's GPU library, 45 min); the confirmation before the build is `tile-thr-confirm.sh`.
+   `hostcc-screen.sh` and `mtp-accept.sh` compare against the package that is installed, so they run before the new
+   deb is installed and after it, respectively. The package ships no tests: `tbo-r2.sh` runs the previous source
+   build's `test-backend-ops` with the installed package's `libggml-hip.so` preloaded (one process per die, the
+   mapped library read back; 20388/20388 x4 for `-r2`). The GPU code of the package and of a source build from
+   another directory is compared with `codegen/maskcmp.py` (`fncmp.py` alone reports every function that references
+   a string). `-r2`'s whole sequence, in order, is the row block of 2026-11-16 in `tools/rocm101/README.md`;
+   `dogfood-llama-101.sh` takes an absolute output directory.
 
 Backports of Ubuntu packages (`tools/backports/build-backport.sh DSC BUILD_DEPS`): fetch the newer series' source with
 `apt-get source` through a private apt configuration (verified against the Ubuntu archive key), rebuild in the clean noble

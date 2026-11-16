@@ -1,0 +1,17 @@
+2026-11-16T14:18:53+00:00 [screen] c23f8: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-master-v100r/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-16T14:18:53+00:00 [screen] r1f8: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-16T14:18:53+00:00 [screen] r1f16: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-16T14:18:53+00:00 [screen] KV cache types: f8_e4m3 / f8_e4m3; per arm: r1f16=f16/f16
+2026-11-16T14:19:07+00:00 [screen] block 1 order: r1f16 c23f8 r1f8 
+2026-11-16T14:25:22+00:00 [screen] 4 x 65536 r1f16 b1: decode 24.7798, prefill 810.9
+2026-11-16T14:32:12+00:00 [screen] 4 x 65536 c23f8 b1: decode 13.1390, prefill 815.3
+2026-11-16T14:39:00+00:00 [screen] 4 x 65536 r1f8 b1: decode 13.1461, prefill 816.8
+2026-11-16T14:39:00+00:00 [screen] block 2 order: c23f8 r1f8 r1f16 
+2026-11-16T14:45:50+00:00 [screen] 4 x 65536 c23f8 b2: decode 13.1462, prefill 815.1
+2026-11-16T14:52:39+00:00 [screen] 4 x 65536 r1f8 b2: decode 13.1265, prefill 815.7
+2026-11-16T14:58:54+00:00 [screen] 4 x 65536 r1f16 b2: decode 24.7600, prefill 809.7
+2026-11-16T14:58:54+00:00 [screen] block 3 order: c23f8 r1f16 r1f8 
+2026-11-16T15:05:44+00:00 [screen] 4 x 65536 c23f8 b3: decode 13.1434, prefill 814.3
+2026-11-16T15:12:00+00:00 [screen] 4 x 65536 r1f16 b3: decode 24.7385, prefill 809.1
+2026-11-16T15:18:48+00:00 [screen] 4 x 65536 r1f8 b3: decode 13.1312, prefill 815.8
+2026-11-16T15:18:48+00:00 [screen] === SCREEN fp8kv DONE ===

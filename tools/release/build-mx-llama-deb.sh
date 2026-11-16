@@ -15,8 +15,9 @@
 # DEBREV (default 1): the Debian revision; raise it when the same commit is packaged again with another build recipe.
 # COMPILERSTREAM (default: ROCMSTREAM): the ROCm stream whose toolchain compiles and links the package; the package
 # depends on, and loads, ROCMSTREAM's runtime. ROCm 10.1's LLVM 24 generates a slower head-256 flash-attention tile kernel
-# (prefill -1.4 % at 4x64K, -4.1 % at 1x255K) unless that object is compiled with -amdgpu-vgpr-threshold-percent=90. The
-# tree does that since 290fc642a (ggml/src/ggml-hip/CMakeLists.txt), and with it the 10.1-compiled package passed the
+# (prefill -1.4 % at 4x64K, -4.1 % at 1x255K) unless that object is compiled with -amdgpu-vgpr-threshold-percent=NN. The
+# tree does that since 290fc642a (ggml/src/ggml-hip/CMakeLists.txt; 90 there, 85 since 224b73e24 because 90 cost MTP
+# decode at depth: report sections 5.10, 5.11), and with it the 10.1-compiled package passed the
 # design-point A/B on 2026-11-15 (tuning repository, reports/2026-11-14-rocm-10.1.md section 5.6). A source without the
 # rule is refused with an LLVM >= 24 toolchain: build it with COMPILERSTREAM=10.0 (LLVM 23 code runs on the 10.1 runtime,
 # same library sonames; needs ROCm 10.0 installed). A later LLVM, or a changed tile kernel, needs the A/B again.

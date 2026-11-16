@@ -1,0 +1,12 @@
+2026-11-16T15:24:47+00:00 [deb] deb /root/mx-llama-deb/mx-llama-cpp-gfx906_1.0.0.git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1_amd64.deb (1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1); installed now: 1.0.0+git20261115.290fc642a.rocm10.1.gfx906.20261018172427-1; load 2.23 7.58 5.44
+2026-11-16T15:24:50+00:00 [deb] apt-get install rc=0 -> 1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1
+2026-11-16T15:24:50+00:00 [deb] ELF files 55, without DT_RPATH=/opt/mx-llama.cpp/lib:/opt/rocm/core-10.1/lib: 0
+2026-11-16T15:24:50+00:00 [deb] isolation with LD_LIBRARY_PATH=/root/build-stock-v100/bin:/opt/rocm/core-10.0/lib: ggml/llama libraries outside /opt/mx-llama.cpp/lib: 0; ROCm libraries outside /opt/rocm/core-10.1: 0 of 26
+2026-11-16T15:24:51+00:00 [deb] native: zmm instructions in libggml-cpu 10488, vpdpbusd 1189
+2026-11-16T15:24:51+00:00 [deb] defaults: CMAKE_CXX_FLAGS:STRING= CMAKE_C_FLAGS:STRING= GGML_CUDA_FA_QUANTS:STRING=all GGML_HIP_GFX906_MAX_ILP:BOOL=ON GGML_HIP_RCCL:BOOL=ON hip_DIR:PATH=/opt/rocm/core-10.1/lib/cmake/hip 
+2026-11-16T15:24:51+00:00 [deb] version: version: 1.0.0-dev (build 12586, commit 224b73e24); source 224b73e246811862a3d9f5d0af133bbbbd796515; Depends: amdrocm-blas10.1-gfx906 (>= 10.1.0-gfx906+20261018172427), amdrocm-blas-host10.1 (>= 10.1.0-gfx906+20261018172427), amdrocm-rccl10.1-gfx906 (>= 10.1.0-gfx906+20261018172427), amdrocm-rccl-host10.1 (>= 10.1.0-gfx906+20261018172427), amdrocm-runtime10.1 (>= 10.1.0-gfx906+20261018172427), libc6, libgcc-s1, libgomp1, libssl3t64, libstdc++6
+2026-11-16T15:28:45+00:00 [deb] pr-test deb rc=0
+2026-11-16T15:28:45+00:00 [deb]   allreduce path:  (empty = RCCL up)
+2026-11-16T15:29:56+00:00 [deb] deb MTP np1 rc=0: 73.23 tok/s | accepted 154/201;73.11 tok/s | accepted 154/201;73.26 tok/s | accepted 154/201;73.14 tok/s | accepted 154/201;73.07 tok/s | accepted 154/201;73.29 tok/s | accepted 154/201;
+2026-11-16T15:30:34+00:00 [deb] deb MTP np4 rc=0: 75.78 tok/s | accepted 154/200;75.72 tok/s | accepted 154/200;76.14 tok/s | accepted 154/200;
+2026-11-16T15:30:34+00:00 [deb] === DEB TEST DONE ===

@@ -1,0 +1,44 @@
+2026-11-16T15:34:10+00:00 [mtpacc] package 1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1 (source 224b73e24); pkg = /opt/mx-llama.cpp/lib/libggml-hip.so.1.0.0, r1 = /root/build-v101-t90/bin/libggml-hip.so.1.0.0; tile rule in the package build:       1 amdgpu-vgpr-threshold-percent=85 
+2026-11-16T15:34:10+00:00 [mtpd] arm pkg: /opt/mx-llama.cpp/lib/libggml-hip.so.1.0.0 (94799392 bytes)
+2026-11-16T15:34:10+00:00 [mtpd] arm r1: /root/build-v101-t90/bin/libggml-hip.so.1.0.0 (98283552 bytes)
+2026-11-16T15:34:10+00:00 [mtpd] arm c23: /root/swap/c23/libggml-hip.so.1.0.0 (98275448 bytes)
+2026-11-16T15:34:10+00:00 [mtpd] n=3, arms: pkg r1 c23; prompt 500000 characters, 768 tokens per request; load 0.62 2.08 3.52
+2026-11-16T15:34:24+00:00 [mtpd] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1200/2507/2508/2489
+2026-11-16T15:34:24+00:00 [mtpd] block 1 order: pkg r1 c23
+2026-11-16T15:38:59+00:00 [mtpd] pkg b1: MTP decode 48.3013 (50.3188 50.7351 43.8499), prefill 608.515 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T15:43:38+00:00 [mtpd] r1 b1: MTP decode 45.0728 (47.2614 47.2163 40.7406), prefill 608.613 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T15:48:15+00:00 [mtpd] c23 b1: MTP decode 46.0373 (48.2808 48.2009 41.6302), prefill 607.141 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T15:48:15+00:00 [mtpd] === block 1 DONE
+[mtpd] pkg  MTP decode n=1 48.301 (48.301-48.301); prefill n=1 608.5 (608.5-608.5)
+[mtpd] r1   MTP decode n=1 45.073 (45.073-45.073); prefill n=1 608.6 (608.6-608.6)
+[mtpd] c23  MTP decode n=1 46.037 (46.037-46.037); prefill n=1 607.1 (607.1-607.1)
+[mtpd] pkg: MTP decode against c23 up (+4.92 %), prefill against c23 up (+0.23 %)
+[mtpd] r1: MTP decode against c23 down (-2.10 %), prefill against c23 up (+0.24 %)
+2026-11-16T15:48:15+00:00 [mtpd] block 2 order: r1 pkg c23
+2026-11-16T15:52:54+00:00 [mtpd] r1 b2: MTP decode 45.1651 (47.4253 47.2030 40.8671), prefill 607.908 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T15:57:28+00:00 [mtpd] pkg b2: MTP decode 48.2269 (50.4576 50.5222 43.7009), prefill 611.394 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T16:02:06+00:00 [mtpd] c23 b2: MTP decode 46.0448 (48.2967 48.1728 41.6648), prefill 607.603 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T16:02:06+00:00 [mtpd] === block 2 DONE
+[mtpd] pkg  MTP decode n=2 48.264 (48.227-48.301); prefill n=2 610.0 (608.5-611.4)
+[mtpd] r1   MTP decode n=2 45.119 (45.073-45.165); prefill n=2 608.3 (607.9-608.6)
+[mtpd] c23  MTP decode n=2 46.041 (46.037-46.045); prefill n=2 607.4 (607.1-607.6)
+[mtpd] pkg: MTP decode against c23 up (+4.83 %), prefill against c23 up (+0.43 %)
+[mtpd] r1: MTP decode against c23 down (-2.00 %), prefill against c23 up (+0.15 %)
+2026-11-16T16:02:06+00:00 [mtpd] block 3 order: c23 pkg r1
+2026-11-16T16:06:44+00:00 [mtpd] c23 b3: MTP decode 46.1189 (48.4314 48.2390 41.6864), prefill 606.921 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T16:11:18+00:00 [mtpd] pkg b3: MTP decode 48.2216 (50.5026 50.5153 43.6470), prefill 610.572 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T16:15:57+00:00 [mtpd] r1 b3: MTP decode 45.1828 (47.5476 47.1982 40.8027), prefill 608.177 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T16:15:57+00:00 [mtpd] === block 3 DONE
+[mtpd] pkg  MTP decode n=3 48.250 (48.222-48.301); prefill n=3 610.2 (608.5-611.4)
+[mtpd] r1   MTP decode n=3 45.140 (45.073-45.183); prefill n=3 608.2 (607.9-608.6)
+[mtpd] c23  MTP decode n=3 46.067 (46.037-46.119); prefill n=3 607.2 (606.9-607.6)
+[mtpd] pkg: MTP decode against c23 up (+4.74 %), prefill against c23 up (+0.48 %)
+[mtpd] r1: MTP decode against c23 down (-2.01 %), prefill against c23 up (+0.17 %)
+2026-11-16T16:15:57+00:00 [mtpd] === MTP-DEPTH DONE ===
+2026-11-16T16:15:57+00:00 [mtpacc] mtp-depth2.sh rc=0
+[mtpacc] pkg  MTP decode n=3 48.250 (48.222-48.301); prefill n=3 610.2 (608.5-611.4)
+[mtpacc] r1   MTP decode n=3 45.140 (45.073-45.183); prefill n=3 608.2 (607.9-608.6)
+[mtpacc] c23  MTP decode n=3 46.067 (46.037-46.119); prefill n=3 607.2 (606.9-607.6)
+[mtpacc] pkg against r1: MTP decode +6.89 % up; prefill +0.32 % level
+[mtpacc] verdict: PASSED
+2026-11-16T16:15:57+00:00 [mtpacc] === MTP ACCEPTANCE DONE ===

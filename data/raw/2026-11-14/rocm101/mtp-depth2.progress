@@ -1,0 +1,67 @@
+2026-11-16T09:42:41+00:00 [mtpd] arm c23: /root/swap/c23/libggml-hip.so.1.0.0 (98275448 bytes)
+2026-11-16T09:42:41+00:00 [mtpd] arm c24: /root/swap/c24/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T09:42:41+00:00 [mtpd] arm v90: /root/swap/v90/libggml-hip.so.1.0.0 (98283528 bytes)
+2026-11-16T09:42:41+00:00 [mtpd] arm v88: /root/swap/v88/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T09:42:42+00:00 [mtpd] arm v85: /root/swap/v85/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T09:42:42+00:00 [mtpd] n=3, arms: c23 c24 v90 v88 v85; prompt 500000 characters, 768 tokens per request; load 0.52 0.91 1.22
+2026-11-16T09:42:56+00:00 [mtpd] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1191/2503/2491/2514
+2026-11-16T09:42:56+00:00 [mtpd] block 1 order: c24 c23 v88 v90 v85
+2026-11-16T09:46:45+00:00 [mtpd] REQUEST 1 FAILED: c24 b1 generated 752 tokens, not 768
+2026-11-16T09:47:04+00:00 [mtpd] STOPPED (trap)
+2026-11-16T09:47:42+00:00 [mtpd] restart: the first start stopped in its first cell (see the header); questions and the length check changed, nothing else
+2026-11-16T09:47:42+00:00 [mtpd] arm c23: /root/swap/c23/libggml-hip.so.1.0.0 (98275448 bytes)
+2026-11-16T09:47:42+00:00 [mtpd] arm c24: /root/swap/c24/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T09:47:42+00:00 [mtpd] arm v90: /root/swap/v90/libggml-hip.so.1.0.0 (98283528 bytes)
+2026-11-16T09:47:43+00:00 [mtpd] arm v88: /root/swap/v88/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T09:47:43+00:00 [mtpd] arm v85: /root/swap/v85/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T09:47:43+00:00 [mtpd] n=3, arms: c23 c24 v90 v88 v85; prompt 500000 characters, 768 tokens per request; load 0.57 0.93 1.15
+2026-11-16T09:47:57+00:00 [mtpd] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1197/2501/2497/2487
+2026-11-16T09:47:57+00:00 [mtpd] block 1 order: c24 c23 v88 v90 v85
+2026-11-16T09:52:40+00:00 [mtpd] c24 b1: MTP decode 46.2723 (48.3910 48.4774 41.9486), prefill 594.656 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T09:57:17+00:00 [mtpd] c23 b1: MTP decode 46.3017 (48.5728 48.4751 41.8573), prefill 608.744 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:01:51+00:00 [mtpd] v88 b1: MTP decode 48.6447 (50.9077 51.0341 43.9922), prefill 611.882 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:06:28+00:00 [mtpd] v90 b1: MTP decode 45.4966 (47.8308 47.5534 41.1057), prefill 610.125 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:11:02+00:00 [mtpd] v85 b1: MTP decode 48.3233 (50.5972 50.6641 43.7087), prefill 612.036 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:11:02+00:00 [mtpd] === block 1 DONE
+[mtpd] c24  MTP decode n=1 46.272 (46.272-46.272); prefill n=1 594.7 (594.7-594.7)
+[mtpd] c23  MTP decode n=1 46.302 (46.302-46.302); prefill n=1 608.7 (608.7-608.7)
+[mtpd] v88  MTP decode n=1 48.645 (48.645-48.645); prefill n=1 611.9 (611.9-611.9)
+[mtpd] v90  MTP decode n=1 45.497 (45.497-45.497); prefill n=1 610.1 (610.1-610.1)
+[mtpd] v85  MTP decode n=1 48.323 (48.323-48.323); prefill n=1 612.0 (612.0-612.0)
+[mtpd] control: c24 against c23 on prefill: down (-2.31 %)
+[mtpd] v88: MTP decode against c24 up (+5.13 %), MTP decode against c23 up (+5.06 %), prefill against c23 up (+0.52 %), prefill against c24 up (+2.90 %)
+[mtpd] v90: MTP decode against c24 down (-1.68 %), MTP decode against c23 down (-1.74 %), prefill against c23 up (+0.23 %), prefill against c24 up (+2.60 %)
+[mtpd] v85: MTP decode against c24 up (+4.43 %), MTP decode against c23 up (+4.37 %), prefill against c23 up (+0.54 %), prefill against c24 up (+2.92 %)
+2026-11-16T10:11:02+00:00 [mtpd] block 2 order: v85 c24 v90 v88 c23
+2026-11-16T10:15:36+00:00 [mtpd] v85 b2: MTP decode 48.4135 (50.6593 50.7238 43.8574), prefill 612.281 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:20:19+00:00 [mtpd] c24 b2: MTP decode 46.4554 (48.9280 48.4942 41.9439), prefill 594.359 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:24:56+00:00 [mtpd] v90 b2: MTP decode 45.5229 (47.8409 47.5913 41.1364), prefill 610.021 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:29:30+00:00 [mtpd] v88 b2: MTP decode 48.5641 (50.8353 50.9554 43.9017), prefill 611.305 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:34:07+00:00 [mtpd] c23 b2: MTP decode 46.2752 (48.5476 48.4196 41.8583), prefill 608.791 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:34:07+00:00 [mtpd] === block 2 DONE
+[mtpd] c24  MTP decode n=2 46.364 (46.272-46.455); prefill n=2 594.5 (594.4-594.7)
+[mtpd] c23  MTP decode n=2 46.288 (46.275-46.302); prefill n=2 608.8 (608.7-608.8)
+[mtpd] v88  MTP decode n=2 48.604 (48.564-48.645); prefill n=2 611.6 (611.3-611.9)
+[mtpd] v90  MTP decode n=2 45.510 (45.497-45.523); prefill n=2 610.1 (610.0-610.1)
+[mtpd] v85  MTP decode n=2 48.368 (48.323-48.413); prefill n=2 612.2 (612.0-612.3)
+[mtpd] control: c24 against c23 on prefill: down (-2.34 %)
+[mtpd] v88: MTP decode against c24 up (+4.83 %), MTP decode against c23 up (+5.00 %), prefill against c23 up (+0.46 %), prefill against c24 up (+2.87 %)
+[mtpd] v90: MTP decode against c24 down (-1.84 %), MTP decode against c23 down (-1.68 %), prefill against c23 up (+0.21 %), prefill against c24 up (+2.62 %)
+[mtpd] v85: MTP decode against c24 up (+4.32 %), MTP decode against c23 up (+4.49 %), prefill against c23 up (+0.56 %), prefill against c24 up (+2.97 %)
+2026-11-16T10:34:07+00:00 [mtpd] block 3 order: v85 v90 c24 c23 v88
+2026-11-16T10:38:41+00:00 [mtpd] v85 b3: MTP decode 48.3354 (50.6356 50.6114 43.7591), prefill 612.150 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:43:19+00:00 [mtpd] v90 b3: MTP decode 45.4234 (47.6445 47.5113 41.1145), prefill 610.298 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:48:02+00:00 [mtpd] c24 b3: MTP decode 46.2691 (48.5300 48.4154 41.8620), prefill 593.712 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:52:40+00:00 [mtpd] c23 b3: MTP decode 46.2477 (48.4908 48.4141 41.8382), prefill 608.010 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:57:14+00:00 [mtpd] v88 b3: MTP decode 48.5471 (50.8425 50.7733 44.0255), prefill 611.021 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-16T10:57:14+00:00 [mtpd] === block 3 DONE
+[mtpd] c24  MTP decode n=3 46.332 (46.269-46.455); prefill n=3 594.2 (593.7-594.7)
+[mtpd] c23  MTP decode n=3 46.275 (46.248-46.302); prefill n=3 608.5 (608.0-608.8)
+[mtpd] v88  MTP decode n=3 48.585 (48.547-48.645); prefill n=3 611.4 (611.0-611.9)
+[mtpd] v90  MTP decode n=3 45.481 (45.423-45.523); prefill n=3 610.1 (610.0-610.3)
+[mtpd] v85  MTP decode n=3 48.357 (48.323-48.413); prefill n=3 612.2 (612.0-612.3)
+[mtpd] control: c24 against c23 on prefill: down (-2.35 %)
+[mtpd] v88: MTP decode against c24 up (+4.86 %), MTP decode against c23 up (+4.99 %), prefill against c23 up (+0.47 %), prefill against c24 up (+2.89 %)
+[mtpd] v90: MTP decode against c24 down (-1.84 %), MTP decode against c23 down (-1.72 %), prefill against c23 up (+0.27 %), prefill against c24 up (+2.68 %)
+[mtpd] v85: MTP decode against c24 up (+4.37 %), MTP decode against c23 up (+4.50 %), prefill against c23 up (+0.60 %), prefill against c24 up (+3.01 %)
+2026-11-16T10:57:14+00:00 [mtpd] === MTP-DEPTH DONE ===

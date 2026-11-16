@@ -1,0 +1,14 @@
+2026-11-16T05:27:38+00:00 [deb] deb /root/mx-llama-deb/mx-llama-cpp-gfx906_1.0.0.git20261115.290fc642a.rocm10.0.gfx906.20261018172427-1_amd64.deb (1.0.0+git20261115.290fc642a.rocm10.0.gfx906.20261018172427-1); installed now: 1.0.0+git20261115.290fc642a.rocm10.1.gfx906.20261018172427-1; load 5.35 8.24 4.86
+2026-11-16T05:27:41+00:00 [deb] apt-get install rc=0 -> 1.0.0+git20261115.290fc642a.rocm10.0.gfx906.20261018172427-1
+2026-11-16T05:27:41+00:00 [deb] ELF files 55, without DT_RPATH=/opt/mx-llama.cpp/lib:/opt/rocm/core-10.0/lib: 0
+2026-11-16T05:27:41+00:00 [deb] isolation with LD_LIBRARY_PATH=/root/build-stock-v100/bin:/opt/rocm/core-10.1/lib: ggml/llama libraries outside /opt/mx-llama.cpp/lib: 0; ROCm libraries outside /opt/rocm/core-10.0: 0 of 26
+2026-11-16T05:27:42+00:00 [deb] native: zmm instructions in libggml-cpu 10488, vpdpbusd 1189
+2026-11-16T05:27:42+00:00 [deb] defaults: CMAKE_CXX_FLAGS:STRING= CMAKE_C_FLAGS:STRING= GGML_CUDA_FA_QUANTS:STRING=all GGML_HIP_GFX906_MAX_ILP:BOOL=ON GGML_HIP_RCCL:BOOL=ON hip_DIR:PATH=/opt/rocm/core-10.0/lib/cmake/hip 
+2026-11-16T05:27:42+00:00 [deb] version: version: 1.0.0-dev (build 12585, commit 290fc642a); source 290fc642ac23fc8ec73c745f40cd315c7ff32d8c; Depends: amdrocm-blas10.0-gfx906 (>= 10.0.0-gfx906+20261018172427), amdrocm-blas-host10.0 (>= 10.0.0-gfx906+20261018172427), amdrocm-rccl10.0-gfx906 (>= 10.0.0-gfx906+20261018172427), amdrocm-rccl-host10.0 (>= 10.0.0-gfx906+20261018172427), amdrocm-runtime10.0 (>= 10.0.0-gfx906+20261018172427), libc6, libgcc-s1, libgomp1, libssl3t64, libstdc++6
+2026-11-16T05:31:46+00:00 [deb] pr-test deb rc=0
+2026-11-16T05:31:46+00:00 [deb]   allreduce path:  (empty = RCCL up)
+2026-11-16T05:33:06+00:00 [deb] deb MTP np1 rc=0: 74.22 tok/s | accepted 154/201;74.11 tok/s | accepted 154/201;74.66 tok/s | accepted 154/201;73.84 tok/s | accepted 154/201;73.96 tok/s | accepted 154/201;73.24 tok/s | accepted 154/201;
+2026-11-16T05:33:50+00:00 [deb] deb MTP np4 rc=0: 76.78 tok/s | accepted 154/200;76.79 tok/s | accepted 154/200;76.59 tok/s | accepted 154/200;
+2026-11-16T05:33:50+00:00 [deb] === DEB TEST DONE ===
+2026-11-16T05:33:50+00:00 [chain] package test clean: starting rocm-ab4.sh
+2026-11-16T08:30:19+00:00 [chain] rocm-ab4 rc=0

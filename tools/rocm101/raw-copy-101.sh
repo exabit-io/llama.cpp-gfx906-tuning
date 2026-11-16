@@ -23,6 +23,15 @@ for r in pkg-resid pkg-resid2 gpu-opt24-builds gpu-opt24-screen screen-gpuopt24m
          screen-gpuconf24m screen-gpuconf24s rocm-ab4 screen-bisect screen-fixrule; do
   for e in tsv progress; do [ -f $W/$r.$e ] && install -m 0644 $W/$r.$e $D/$r.$e; done
 done
+# 2026-11-16, second half: the static scans (reloads inside loops, the tile object at each threshold), MTP at depth
+# (two sessions), the head-256 rule's second confirmation, host compilers, the FP8 KV cache
+for r in mtp-depth mtp-depth2 hostcc-builds hostcc-screen fp8-kv screen-fp8kv tile-thr-confirm screen-thr64 screen-thr128 rocm-ab5 mtp-accept; do
+  for e in tsv progress; do [ -f $W/$r.$e ] && install -m 0644 $W/$r.$e $D/$r.$e; done
+done
+for f in loopscan-c23-c24 loopscan-c23-r1 loopscan-c24-r1 loopscan-c23-nolicm loopscan-c23-v90 loopscan-c23-v80; do
+  [ -f $W/$f.txt ] && install -m 0644 $W/$f.txt $D/$f.txt
+done
+[ -f $W/tilethr/tilescan-thresholds.txt ] && install -m 0644 $W/tilethr/tilescan-thresholds.txt $D/tilescan-thresholds.txt
 [ -f $W/llvm-bisect/steps.log ] && install -m 0644 $W/llvm-bisect/steps.log $D/llvm-bisect-steps.txt
 [ -f $W/llvm-bisect/bisect.log ] && install -m 0644 $W/llvm-bisect/bisect.log $D/llvm-bisect-log.txt
 for f in bisect-screen fixrule-screen; do [ -f $W/llvm-bisect/$f.out ] && grep -E '^\[' $W/llvm-bisect/$f.out > $D/llvm-$f.txt; done
@@ -37,17 +46,20 @@ for a in rocr100 rt101; do [ -f $W/rt-perf/multi-$a-1.perfstat ] && install -m 0
 # correctness suites and package tests
 for r in suite-101 suite-mixed queue-101 suite-t90; do [ -f $W/$r.progress ] && install -m 0644 $W/$r.progress $D/$r.progress; done
 for d in pr-test-101 pr-test-mixed deb-test-llama-101 deb-test-llama-101/pr-test deb-test-llama-hybrid deb-test-llama-hybrid/pr-test dogfood-llama-101 \
-         pr-test-t90 deb-test-llama-r1 deb-test-llama-r1/pr-test dogfood-llama-r1; do
+         pr-test-t90 deb-test-llama-r1 deb-test-llama-r1/pr-test dogfood-llama-r1 deb-test-llama-r2 deb-test-llama-r2/pr-test dogfood-llama-r2 \
+         tbo-r2; do
   [ -f $W/$d/progress ] && install -m 0644 $W/$d/progress $D/${d//\//-}.progress.txt
 done
 for f in fold-101.out fold-mixed.out ctx-101.out ctx-mixed.out fold-t90.out ctx-t90.out; do [ -f $W/$f ] && install -m 0644 $W/$f $D/${f%.out}.progress.txt; done
-for d in deb-test-llama-101 deb-test-llama-hybrid deb-test-llama-r1; do
+# the -r2 smoke check (package and -r1 source build back to back): the [mtp-modes] lines of each server start
+for f in pkg-1 r1-1 pkg-2 r1-2; do [ -f $W/smoke-r2-prefill/$f.out ] && grep -E '\[mtp-modes\]' $W/smoke-r2-prefill/$f.out > $D/smoke-r2-prefill-$f.progress.txt; done
+for d in deb-test-llama-101 deb-test-llama-hybrid deb-test-llama-r1 deb-test-llama-r2; do
   for m in mtp-np1 mtp-np4; do [ -f $W/$d/$m.out ] && grep -E '\[mtp-modes\]' $W/$d/$m.out > $D/$d-$m.progress.txt; done
 done
 # the system before and after
 for f in packages-before.tsv manual-before.txt want-10.1.txt apt-simulate.txt alternatives-before.txt alternatives-after.txt \
          sonames-10.0.txt sonames-10.1.txt hipconfig-10.0.txt ldd-llama-before.txt publish-llama-101.log publish-torch-101.log \
-         publish-llama-r1.log; do
+         publish-llama-r1.log publish-llama-r2.log maskcmp-r1-r2.txt; do
   [ -f $W/$f ] && install -m 0644 $W/$f $D/$f
 done
 # PyTorch on ROCm 10.1 and the sympy backport
@@ -58,5 +70,6 @@ for f in new-ops.out new-stack.out new-pydeps.out ref-pydeps.out; do [ -f $T/deb
 # the notes as published
 install -m 0644 /root/mx-llama-deb/release-notes-1.0.0-rocm10.1.final.md $D/release-notes-mx-llama-cpp-1.0.0-rocm10.1.md
 [ -f /root/mx-llama-deb/release-notes-1.0.0-rocm10.1-r1.final.md ] && install -m 0644 /root/mx-llama-deb/release-notes-1.0.0-rocm10.1-r1.final.md $D/release-notes-mx-llama-cpp-1.0.0-rocm10.1-r1.md
+[ -f /root/mx-llama-deb/release-notes-1.0.0-rocm10.1-r2.final.md ] && install -m 0644 /root/mx-llama-deb/release-notes-1.0.0-rocm10.1-r2.final.md $D/release-notes-mx-llama-cpp-1.0.0-rocm10.1-r2.md
 [ -f $T/release-notes.final.md ] && install -m 0644 $T/release-notes.final.md $D/release-notes-pytorch-2.15.0-rocm10.1.md
 ls $D | wc -l

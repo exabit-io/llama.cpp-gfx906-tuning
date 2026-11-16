@@ -1,0 +1,43 @@
+2026-11-16T13:03:26+00:00 [hostcc] arm base: host libraries from /root/build-v101-t90/bin; C++ compiler /usr/bin/c++, OpenMP ON, host flags []
+2026-11-16T13:03:27+00:00 [hostcc] arm gccnoomp: host libraries from /root/build-hostcc-gccnoomp/bin; C++ compiler /usr/bin/c++, OpenMP OFF, host flags []
+2026-11-16T13:03:27+00:00 [hostcc] arm c19: host libraries from /root/build-hostcc-c19/bin; C++ compiler /usr/bin/clang++-19, OpenMP OFF, host flags []
+2026-11-16T13:03:28+00:00 [hostcc] arm c24: host libraries from /root/build-hostcc-c24/bin; C++ compiler /opt/rocm/core-10.1/lib/llvm/bin/clang++, OpenMP OFF, host flags []
+2026-11-16T13:03:28+00:00 [hostcc] n=3, arms: base gccnoomp c19 c24; load 0.81 1.39 1.68
+2026-11-16T13:03:42+00:00 [hostcc] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1191/2510/2505/2512
+2026-11-16T13:03:42+00:00 [hostcc] block 1 order: c24 gccnoomp c19 base
+2026-11-16T13:09:57+00:00 [hostcc] c24 b1: decode 24.5752, prefill 810.3
+2026-11-16T13:16:12+00:00 [hostcc] gccnoomp b1: decode 24.7433, prefill 810.0
+2026-11-16T13:22:27+00:00 [hostcc] c19 b1: decode 24.6071, prefill 810.2
+2026-11-16T13:28:42+00:00 [hostcc] base b1: decode 24.7510, prefill 809.6
+2026-11-16T13:28:42+00:00 [hostcc] === block 1 DONE
+[hostcc] base      n=1 decode 24.7510 (24.7510-24.7510), step 40.402 ms, +0.00 % vs base; prefill 809.6 (809.6-809.6), +0.00 %
+[hostcc] gccnoomp  n=1 decode 24.7433 (24.7433-24.7433), step 40.415 ms, -0.03 % vs base; prefill 810.0 (810.0-810.0), +0.04 %
+[hostcc] c19       n=1 decode 24.6071 (24.6071-24.6071), step 40.639 ms, -0.58 % vs base; prefill 810.2 (810.2-810.2), +0.07 %
+[hostcc] c24       n=1 decode 24.5752 (24.5752-24.5752), step 40.691 ms, -0.71 % vs base; prefill 810.3 (810.3-810.3), +0.08 %
+[hostcc] c19: down against both gcc arms
+[hostcc] c24: down against both gcc arms
+2026-11-16T13:28:42+00:00 [hostcc] block 2 order: c19 gccnoomp base c24
+2026-11-16T13:34:58+00:00 [hostcc] c19 b2: decode 24.5434, prefill 809.3
+2026-11-16T13:41:13+00:00 [hostcc] gccnoomp b2: decode 24.7480, prefill 809.4
+2026-11-16T13:47:27+00:00 [hostcc] base b2: decode 24.7642, prefill 809.4
+2026-11-16T13:53:43+00:00 [hostcc] c24 b2: decode 24.5552, prefill 809.4
+2026-11-16T13:53:43+00:00 [hostcc] === block 2 DONE
+[hostcc] base      n=2 decode 24.7576 (24.7510-24.7642), step 40.392 ms, +0.00 % vs base; prefill 809.5 (809.4-809.6), +0.00 %
+[hostcc] gccnoomp  n=2 decode 24.7457 (24.7433-24.7480), step 40.411 ms, -0.05 % vs base; prefill 809.7 (809.4-810.0), +0.02 %
+[hostcc] c19       n=2 decode 24.5753 (24.5434-24.6071), step 40.691 ms, -0.74 % vs base; prefill 809.8 (809.3-810.2), +0.03 %
+[hostcc] c24       n=2 decode 24.5652 (24.5552-24.5752), step 40.708 ms, -0.78 % vs base; prefill 809.9 (809.4-810.3), +0.04 %
+[hostcc] c19: down against both gcc arms
+[hostcc] c24: down against both gcc arms
+2026-11-16T13:53:43+00:00 [hostcc] block 3 order: base gccnoomp c24 c19
+2026-11-16T13:59:58+00:00 [hostcc] base b3: decode 24.7660, prefill 809.2
+2026-11-16T14:06:13+00:00 [hostcc] gccnoomp b3: decode 24.7463, prefill 809.4
+2026-11-16T14:12:27+00:00 [hostcc] c24 b3: decode 24.5387, prefill 810.8
+2026-11-16T14:18:42+00:00 [hostcc] c19 b3: decode 24.6101, prefill 810.5
+2026-11-16T14:18:42+00:00 [hostcc] === block 3 DONE
+[hostcc] base      n=3 decode 24.7604 (24.7510-24.7660), step 40.387 ms, +0.00 % vs base; prefill 809.4 (809.2-809.6), +0.00 %
+[hostcc] gccnoomp  n=3 decode 24.7459 (24.7433-24.7480), step 40.411 ms, -0.06 % vs base; prefill 809.6 (809.4-810.0), +0.02 %
+[hostcc] c19       n=3 decode 24.5869 (24.5434-24.6101), step 40.672 ms, -0.70 % vs base; prefill 810.0 (809.3-810.5), +0.08 %
+[hostcc] c24       n=3 decode 24.5564 (24.5387-24.5752), step 40.723 ms, -0.82 % vs base; prefill 810.2 (809.4-810.8), +0.09 %
+[hostcc] c19: down against both gcc arms
+[hostcc] c24: down against both gcc arms
+2026-11-16T14:18:42+00:00 [hostcc] === HOSTCC-SCREEN DONE ===

@@ -1,0 +1,20 @@
+2026-11-16T12:14:11+00:00 [screen] ref: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-master-v100r/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-16T12:14:11+00:00 [screen] v90: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/swap/v90/libggml-hip.so.1.0.0 preloaded
+2026-11-16T12:14:11+00:00 [screen] v85: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/swap/v85/libggml-hip.so.1.0.0 preloaded
+2026-11-16T12:14:11+00:00 [screen] v88: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/swap/v88/libggml-hip.so.1.0.0 preloaded
+2026-11-16T12:14:25+00:00 [screen] block 1 order: ref v90 v85 v88 
+2026-11-16T12:18:19+00:00 [screen] 1 x 131072 ref b1: decode 39.8940, prefill 604.5
+2026-11-16T12:22:12+00:00 [screen] 1 x 131072 v90 b1: decode 40.2452, prefill 605.9
+2026-11-16T12:26:04+00:00 [screen] 1 x 131072 v85 b1: decode 40.1695, prefill 608.6
+2026-11-16T12:29:56+00:00 [screen] 1 x 131072 v88 b1: decode 40.1317, prefill 606.9
+2026-11-16T12:29:56+00:00 [screen] block 2 order: v90 ref v85 v88 
+2026-11-16T12:33:49+00:00 [screen] 1 x 131072 v90 b2: decode 40.2263, prefill 605.7
+2026-11-16T12:37:43+00:00 [screen] 1 x 131072 ref b2: decode 40.0063, prefill 604.2
+2026-11-16T12:41:35+00:00 [screen] 1 x 131072 v85 b2: decode 40.1191, prefill 608.2
+2026-11-16T12:45:28+00:00 [screen] 1 x 131072 v88 b2: decode 40.2263, prefill 607.1
+2026-11-16T12:45:28+00:00 [screen] block 3 order: ref v85 v88 v90 
+2026-11-16T12:49:21+00:00 [screen] 1 x 131072 ref b3: decode 39.9938, prefill 604.2
+2026-11-16T12:53:14+00:00 [screen] 1 x 131072 v85 b3: decode 40.0814, prefill 607.9
+2026-11-16T12:57:06+00:00 [screen] 1 x 131072 v88 b3: decode 40.1947, prefill 607.2
+2026-11-16T13:00:59+00:00 [screen] 1 x 131072 v90 b3: decode 40.1569, prefill 605.8
+2026-11-16T13:00:59+00:00 [screen] === SCREEN thr128 DONE ===

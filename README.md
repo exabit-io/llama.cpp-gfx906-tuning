@@ -21,7 +21,33 @@ Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) 
 | `reference/` | section maps of the AMD Vega 7nm ISA, Infinity Fabric Link and Instinct tuning guides, and the LLVM AMDGPU backend guide (`reference/README.md`) |
 | `CLAUDE.md` | conventions for future sessions in this folder |
 
-The code is a separate repository: **https://github.com/exabit-io/mx-llama.cpp**. **The substrate since 2026-11-14** is `merge-v1.0.0` (`a73c601e6`) = mxxm-t's fork at `cdc81dae4` merged with llama.cpp v1.0.0 (`b1b770d`, b12359) plus two HIP fixes, offered to mxxm-t as [PR #24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (PR #17, #22 and #23, the v0.5.0, v0.7.0 and v0.9.0 merges, were closed unmerged). Branches: `master` = `gfx906-single` = `gfx906-multi` = `290fc642a` (substrate + RCCL default + the patches binned for both profiles + the LLVM 24 rule for the head-256 tile instance; tag `gfx906/v1.0.0/r1/master`), `gfx906-candidates` (our unbinned patches), `merge-v1.0.0` (the pure substrate, until merged). How a release is taken through the stack: `RELEASE-RUNBOOK.md`. `exabit-io/llama.cpp` is retired history (archived 2026-09-24, read-only). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`.
+The code is a separate repository: **https://github.com/exabit-io/mx-llama.cpp**. **The substrate since 2026-11-14** is `merge-v1.0.0` (`a73c601e6`) = mxxm-t's fork at `cdc81dae4` merged with llama.cpp v1.0.0 (`b1b770d`, b12359) plus two HIP fixes, offered to mxxm-t as [PR #24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (PR #17, #22 and #23, the v0.5.0, v0.7.0 and v0.9.0 merges, were closed unmerged). Branches: `master` = `gfx906-single` = `gfx906-multi` = `224b73e24` (substrate + RCCL default + the patches binned for both profiles + the LLVM 24 rule for the head-256 tile instance, threshold 85; tag `gfx906/v1.0.0/r2/master`; `r1` = `290fc642a` had the rule at 90), `gfx906-candidates` (our unbinned patches), `merge-v1.0.0` (the pure substrate, until merged). How a release is taken through the stack: `RELEASE-RUNBOOK.md`. `exabit-io/llama.cpp` is retired history (archived 2026-09-24, read-only). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`.
+
+## Status — 2026-11-16: package `-r2`, MTP decode at depth +6.9 %
+
+The open items of the ROCm 10.1 report were worked as a queue (`reports/2026-11-14-rocm-10.1.md`, sections 5.8 to 5.13
+and 7). The first one changed the shipped package:
+
+- **A per-object compiler option changes every kernel of the object, and each batch shape runs another kernel.** The
+  rule's threshold 90 (`-r1`) had been chosen and accepted on the prefill kernel and the one-token decode kernel, the
+  only two that `llama-batched-bench` runs. A static scan of every kernel showed 20 scratch reloads in the loop of the
+  kernel that verifies three drafted tokens, and MTP decode at 117.7K tokens of context (`--spec-draft-n-max 3`, what
+  `settings/launch.sh` uses) was 45.48 tok/s against 46.33 for the same compiler without the rule. Threshold 85 leaves
+  no reload in a loop of any of the object's 34 kernels: 48.36 tok/s, prefill 612.2 against 610.1 (n = 3 each, same
+  text and draft counts in every cell).
+- **Package `1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1` (`-r2`)**: master `224b73e24`, one number
+  changed. On the installed package, MTP decode at depth 48.25 tok/s against 45.14 with `-r1`'s GPU library (+6.89 %,
+  n = 3); at the design points against the ROCm 10.0 source build (n = 5 per arm) prefill 811.0 against 808.3 tok/s at
+  4 x 64K and 414.6 against 411.1 at 1 x 255K, decode 24.728 against 24.829 tok/s per slot (-0.40 %, the runtime) and
+  32.054 against 32.035; `test-backend-ops` 20388/20388 on four dies. Published into the rolling channel and installed
+  from it.
+- **An FP8 KV cache** halves decode at 4 x 64K (13.13 against 24.76 tok/s per slot) with either compiler: a capacity
+  lever, not a throughput configuration.
+- **The host compiler stays gcc 13**: clang 19 and ROCm's clang 24 on the host libraries are 0.70 % and 0.82 % slower.
+- **GPU compile options with the shipping compiler (clang 24), both design points**: <!-- SURVEY24-STATUS -->the survey was running when this was
+  written (report section 5.8 when it is done).<!-- /SURVEY24-STATUS -->
+
+An acceptance now has three cells: the two design points and MTP at depth (`tools/rocm101/mtp-accept.sh`).
 
 ## Status — 2026-11-15: the llama package is compiled by ROCm 10.1
 

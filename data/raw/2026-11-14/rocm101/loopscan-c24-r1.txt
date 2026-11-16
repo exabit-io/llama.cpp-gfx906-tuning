@@ -1,0 +1,14 @@
+215 objects, 10735 functions in both builds; reloads inside loops: more in B for 3, fewer for 6 (threshold 1), unchanged for 10726
+functions with any reload inside a loop: A 324, B 318
+per object (functions with more / fewer, instructions added / removed):
+  ti/fattn-tile-instance-dkq256-dv256.cu.o                   +3 / -6 functions, +57 / -31 reloads
+by function (change; reloads in loops A -> B; spills in loops; instructions; largest loop):
+ +19  reloads   1 ->  20  spills   0 ->   0  insns  1627 ->  1692  loop  1138 ->  1168  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi1ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+ +19  reloads   1 ->  20  spills   0 ->   0  insns  1632 ->  1697  loop  1138 ->  1168  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi2ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+ +19  reloads   1 ->  20  spills   0 ->   0  insns  1631 ->  1696  loop  1138 ->  1168  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi4ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  1690 ->  1668  loop  1039 ->  1036  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi2ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  1691 ->  1669  loop  1039 ->  1036  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi4ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  1663 ->  1645  loop  1039 ->  1036  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi8ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -7  reloads   7 ->   0  spills   0 ->   0  insns  2866 ->  2846  loop  1895 ->  1892  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi4ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -8  reloads   8 ->   0  spills   0 ->   0  insns  2829 ->  2806  loop  1897 ->  1892  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi8ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+ -10  reloads  10 ->   0  spills   0 ->   0  insns  2883 ->  2837  loop  1906 ->  1894  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_

@@ -20,7 +20,8 @@ cell, offload/config sweeps, Flash-Next performance numbers, new tooling, report
 
 > **2026-11-14 — substrate moved again (v0.9.0 on 2026-11-06, v1.0.0 today).** Substrate = `merge-v1.0.0` (`a73c601e6`) = mxxm-t master
 > `cdc81dae4` + llama.cpp v1.0.0 + two HIP fixes, offered as [mxxm-t/mx-llama.cpp#24](https://github.com/mxxm-t/mx-llama.cpp/pull/24)
-> (#22 and #23 closed unmerged). `master` = `gfx906-single` = `gfx906-multi` = `290fc642a` since 2026-11-15 (tag `gfx906/v1.0.0/r1/master`: `df2c6e5c5` + the LLVM 24
+> (#22 and #23 closed unmerged). `master` = `gfx906-single` = `gfx906-multi` = `224b73e24` since 2026-11-16 (tag `gfx906/v1.0.0/r2/master`: `290fc642a` with the rule's threshold 90 -> 85;
+> `290fc642a` = tag `gfx906/v1.0.0/r1/master` = `df2c6e5c5` + the LLVM 24
 > rule for the head-256 tile instance, `reports/2026-11-14-rocm-10.1.md`; `df2c6e5c5` = the same 18 Exabit commits; PPL 16K/6 5.6093,
 > unchanged from v0.9.0); `gfx906-candidates` = `5c01f4ffd`. Tags `gfx906/v1.0.0/r0/*`, `gfx906/v0.9.0/r0/*`. Installed build: deb
 > `mx-llama-cpp-gfx906` 1.0.0 from the rolling channel. Details: memory `mx-llama-cpp-v100-pr`, work dir /root/rebase-v100,

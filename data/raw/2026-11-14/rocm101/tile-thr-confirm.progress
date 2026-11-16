@@ -1,0 +1,21 @@
+2026-11-16T10:58:58+00:00 [thrconf] 4 arms, 3 blocks: about 123 min
+[thrconf] == 4 x 65536
+[thrconf]   decode  ref n=3 24.7624 (24.7546-24.7762)
+[thrconf]     v90  n=3 24.7437 (24.7039-24.7690)  against ref -0.08 % level
+[thrconf]     v85  n=3 24.7602 (24.7486-24.7822)  against ref -0.01 % level; against v90 +0.07 % level
+[thrconf]     v88  n=3 24.7309 (24.6943-24.7504)  against ref -0.13 % down; against v90 -0.05 % level
+[thrconf]   prefill ref n=3 808.2 (807.7-809.0)
+[thrconf]     v90  n=3 809.3 (809.3-809.4)  against ref +0.14 % up
+[thrconf]     v85  n=3 812.1 (811.4-812.4)  against ref +0.48 % up; against v90 +0.34 % up
+[thrconf]     v88  n=3 811.1 (810.8-811.3)  against ref +0.35 % up; against v90 +0.21 % up
+[thrconf] == 1 x 131072
+[thrconf]   decode  ref n=3 39.9647 (39.8940-40.0063)
+[thrconf]     v90  n=3 40.2095 (40.1569-40.2452)  against ref +0.61 % up
+[thrconf]     v85  n=3 40.1233 (40.0814-40.1695)  against ref +0.40 % up; against v90 -0.21 % level
+[thrconf]     v88  n=3 40.1842 (40.1317-40.2263)  against ref +0.55 % up; against v90 -0.06 % level
+[thrconf]   prefill ref n=3 604.3 (604.2-604.5)
+[thrconf]     v90  n=3 605.8 (605.7-605.9)  against ref +0.25 % up
+[thrconf]     v85  n=3 608.2 (607.9-608.6)  against ref +0.65 % up; against v90 +0.40 % up
+[thrconf]     v88  n=3 607.1 (606.9-607.2)  against ref +0.46 % up; against v90 +0.21 % up
+[thrconf] verdict: v85 passes, v88 passes -> threshold 85
+2026-11-16T13:00:59+00:00 [thrconf] === THRESHOLD CONFIRMATION DONE ===

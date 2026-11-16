@@ -1,0 +1,407 @@
+215 objects, 10323 functions in both builds; reloads inside loops: more in B for 61, fewer for 245 (threshold 1), unchanged for 10017
+functions with any reload inside a loop: A 356, B 312
+per object (functions with more / fewer, instructions added / removed):
+  ti/fattn-vec-instance-f8_e4m3-f8_e4m3.cu.o                 +2 / -1 functions, +963 / -4 reloads
+  ti/fattn-vec-instance-f16-bf16.cu.o                        +0 / -4 functions, +0 / -768 reloads
+  ti/fattn-vec-instance-f8_e4m3-bf16.cu.o                    +0 / -5 functions, +0 / -762 reloads
+  ti/fattn-vec-instance-bf16-bf16.cu.o                       +0 / -4 functions, +0 / -760 reloads
+  ti/fattn-vec-instance-q4_0-bf16.cu.o                       +0 / -4 functions, +0 / -760 reloads
+  ti/fattn-vec-instance-q4_1-bf16.cu.o                       +0 / -4 functions, +0 / -760 reloads
+  ti/fattn-vec-instance-q5_0-bf16.cu.o                       +0 / -4 functions, +0 / -760 reloads
+  ti/fattn-vec-instance-q5_1-bf16.cu.o                       +0 / -4 functions, +0 / -760 reloads
+  ti/fattn-vec-instance-q8_0-bf16.cu.o                       +0 / -4 functions, +0 / -760 reloads
+  ti/fattn-vec-instance-q4_1-f8_e4m3.cu.o                    +2 / -0 functions, +666 / +0 reloads
+  ti/fattn-vec-instance-f8_e4m3-f16.cu.o                     +0 / -5 functions, +0 / -540 reloads
+  ti/fattn-vec-instance-q4_0-f8_e4m3.cu.o                    +2 / -0 functions, +539 / +0 reloads
+  ti/fattn-vec-instance-f16-f16.cu.o                         +0 / -4 functions, +0 / -502 reloads
+  ti/fattn-vec-instance-bf16-f16.cu.o                        +0 / -2 functions, +0 / -500 reloads
+  ti/fattn-vec-instance-q4_0-f16.cu.o                        +0 / -2 functions, +0 / -500 reloads
+  ti/fattn-vec-instance-q4_1-f16.cu.o                        +0 / -2 functions, +0 / -500 reloads
+  ti/fattn-vec-instance-q5_0-f16.cu.o                        +0 / -2 functions, +0 / -500 reloads
+  ti/fattn-vec-instance-q5_1-f16.cu.o                        +0 / -2 functions, +0 / -500 reloads
+  ti/fattn-vec-instance-q8_0-f16.cu.o                        +0 / -2 functions, +0 / -500 reloads
+  ti/fattn-vec-instance-f8_e4m3-q5_0.cu.o                    +0 / -5 functions, +0 / -489 reloads
+  ti/fattn-vec-instance-bf16-q5_0.cu.o                       +0 / -2 functions, +0 / -476 reloads
+  ti/fattn-vec-instance-f16-q5_0.cu.o                        +0 / -2 functions, +0 / -476 reloads
+  ti/fattn-vec-instance-q4_0-q5_0.cu.o                       +0 / -2 functions, +0 / -476 reloads
+  ti/fattn-vec-instance-q4_1-q5_0.cu.o                       +0 / -2 functions, +0 / -476 reloads
+  ti/fattn-vec-instance-q5_0-q5_0.cu.o                       +0 / -2 functions, +0 / -476 reloads
+  ti/fattn-vec-instance-q5_1-q5_0.cu.o                       +0 / -2 functions, +0 / -476 reloads
+  ti/fattn-vec-instance-q8_0-q5_0.cu.o                       +0 / -2 functions, +0 / -476 reloads
+  mmvq.cu.o                                                  +0 / -10 functions, +0 / -475 reloads
+  ti/fattn-vec-instance-f8_e4m3-q5_1.cu.o                    +0 / -5 functions, +0 / -401 reloads
+  ti/fattn-vec-instance-bf16-q5_1.cu.o                       +0 / -2 functions, +0 / -388 reloads
+  ti/fattn-vec-instance-f16-q5_1.cu.o                        +0 / -2 functions, +0 / -388 reloads
+  ti/fattn-vec-instance-q4_0-q5_1.cu.o                       +0 / -2 functions, +0 / -388 reloads
+  ti/fattn-vec-instance-q4_1-q5_1.cu.o                       +0 / -2 functions, +0 / -388 reloads
+  ti/fattn-vec-instance-q5_0-q5_1.cu.o                       +0 / -2 functions, +0 / -388 reloads
+  ti/fattn-vec-instance-q5_1-q5_1.cu.o                       +0 / -2 functions, +0 / -388 reloads
+  ti/fattn-vec-instance-q8_0-q5_1.cu.o                       +0 / -2 functions, +0 / -388 reloads
+  ti/mmq-instance-nvfp4.cu.o                                 +10 / -0 functions, +126 / +0 reloads
+  ti/fattn-tile-instance-dkq112-dv112.cu.o                   +1 / -7 functions, +19 / -91 reloads
+  ti/mmq-instance-q8_0.cu.o                                  +6 / -0 functions, +97 / +0 reloads
+  ti/mmq-instance-q2_k.cu.o                                  +0 / -10 functions, +0 / -68 reloads
+  ti/mmq-instance-iq2_xxs.cu.o                               +5 / -0 functions, +66 / +0 reloads
+  ti/fattn-tile-instance-dkq256-dv256.cu.o                   +3 / -3 functions, +57 / -6 reloads
+  wkv.cu.o                                                   +1 / -3 functions, +22 / -32 reloads
+  ti/fattn-vec-instance-q5_1-f8_e4m3.cu.o                    +2 / -0 functions, +42 / +0 reloads
+  ti/fattn-vec-instance-q5_0-f8_e4m3.cu.o                    +2 / -0 functions, +41 / +0 reloads
+  q8_repack/mul-mat-id.cu.o                                  +2 / -0 functions, +39 / +0 reloads
+  q8_repack/mul-mat.cu.o                                     +0 / -11 functions, +0 / -32 reloads
+  ti/fattn-tile-instance-dkq96-dv96.cu.o                     +2 / -7 functions, +2 / -29 reloads
+  ti/fattn-vec-instance-f8_e4m3-q4_1.cu.o                    +0 / -5 functions, +0 / -22 reloads
+  ti/fattn-vec-instance-f8_e4m3-q8_0.cu.o                    +0 / -5 functions, +0 / -22 reloads
+  ti/fattn-tile-instance-dkq64-dv64.cu.o                     +2 / -4 functions, +3 / -17 reloads
+  ti/fattn-tile-instance-dkq512-dv512.cu.o                   +0 / -5 functions, +0 / -18 reloads
+  ti/fattn-tile-instance-dkq80-dv80.cu.o                     +2 / -5 functions, +4 / -13 reloads
+  ti/fattn-vec-instance-f8_e4m3-q4_0.cu.o                    +0 / -5 functions, +0 / -16 reloads
+  ti/mmq-instance-q4_k.cu.o                                  +0 / -2 functions, +0 / -16 reloads
+  gla.cu.o                                                   +1 / -1 functions, +14 / -1 reloads
+  ti/fattn-tile-instance-dkq72-dv72.cu.o                     +2 / -0 functions, +14 / +0 reloads
+  q8_repack/buffer.cu.o                                      +0 / -1 functions, +0 / -13 reloads
+  ti/fattn-tile-instance-dkq192-dv128.cu.o                   +0 / -3 functions, +0 / -13 reloads
+  ti/fattn-tile-instance-dkq128-dv128.cu.o                   +3 / -1 functions, +10 / -2 reloads
+  lightning-indexer.cu.o                                     +7 / -3 functions, +7 / -3 reloads
+  ti/fattn-vec-instance-bf16-f8_e4m3.cu.o                    +2 / -0 functions, +10 / +0 reloads
+  ti/mmq-instance-q4_1.cu.o                                  +1 / -1 functions, +7 / -3 reloads
+  ti/mmq-instance-q3_k.cu.o                                  +0 / -2 functions, +0 / -8 reloads
+  ti/fattn-tile-instance-dkq576-dv512.cu.o                   +0 / -3 functions, +0 / -6 reloads
+  ti/mmq-instance-iq2_s.cu.o                                 +0 / -2 functions, +0 / -6 reloads
+  ti/mmq-instance-iq2_xs.cu.o                                +0 / -2 functions, +0 / -6 reloads
+  ti/mmq-instance-q5_k.cu.o                                  +0 / -1 functions, +0 / -6 reloads
+  ti/mmq-instance-q6_k.cu.o                                  +0 / -1 functions, +0 / -5 reloads
+  ti/fattn-tile-instance-dkq320-dv256.cu.o                   +1 / -0 functions, +4 / +0 reloads
+  ti/fattn-vec-instance-bf16-q4_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-bf16-q4_1.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-bf16-q8_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-f16-q4_0.cu.o                        +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-f16-q4_1.cu.o                        +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-f16-q8_0.cu.o                        +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q4_0-q4_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q4_0-q4_1.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q4_0-q8_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q4_1-q4_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q4_1-q4_1.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q4_1-q8_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q5_0-q4_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q5_0-q4_1.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q5_0-q8_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q5_1-q4_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q5_1-q4_1.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q5_1-q8_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q8_0-q4_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q8_0-q4_1.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/fattn-vec-instance-q8_0-q8_0.cu.o                       +0 / -2 functions, +0 / -4 reloads
+  ti/mmq-instance-q4_0.cu.o                                  +0 / -1 functions, +0 / -3 reloads
+  ti/mmq-instance-q5_1.cu.o                                  +0 / -1 functions, +0 / -3 reloads
+  conv3d.cu.o                                                +0 / -2 functions, +0 / -2 reloads
+  ti/fattn-vec-instance-f16-f8_e4m3.cu.o                     +0 / -1 functions, +0 / -1 reloads
+  ti/mmq-instance-iq1_s.cu.o                                 +0 / -1 functions, +0 / -1 reloads
+  ti/mmq-instance-q2_0.cu.o                                  +0 / -1 functions, +0 / -1 reloads
+by function (change; reloads in loops A -> B; spills in loops; instructions; largest loop):
++484  reloads 146 -> 630  spills 109 -> 156  insns 12373 -> 13572  loop 11138 -> 11585  ti/fattn-vec-instance-f8_e4m3-f8_e4m3.cu flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP
++479  reloads 151 -> 630  spills 110 -> 156  insns 12701 -> 13874  loop 11463 -> 11887  ti/fattn-vec-instance-f8_e4m3-f8_e4m3.cu flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_43ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP
++333  reloads   8 -> 341  spills  69 -> 207  insns  8319 ->  9250  loop  6846 ->  7597  ti/fattn-vec-instance-q4_1-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
++333  reloads   8 -> 341  spills  69 -> 207  insns  8605 ->  9555  loop  7111 ->  7900  ti/fattn-vec-instance-q4_1-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_43ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
++270  reloads   8 -> 278  spills  69 -> 222  insns  8391 ->  9178  loop  6897 ->  7547  ti/fattn-vec-instance-q4_0-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_43ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
++269  reloads   8 -> 277  spills  69 -> 219  insns  8106 ->  8870  loop  6633 ->  7241  ti/fattn-vec-instance-q4_0-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+ +27  reloads   0 ->  27  spills   0 ->  22  insns  1725 ->  1901  loop  1658 ->  1826  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi64ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ +27  reloads   0 ->  27  spills   0 ->  22  insns  1725 ->  1901  loop  1658 ->  1826  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi64ELb1EL9ggml_prec40ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ +26  reloads   0 ->  26  spills   0 ->  22  insns  1690 ->  1836  loop  1621 ->  1760  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi64ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ +26  reloads   0 ->  26  spills   0 ->  22  insns  1690 ->  1836  loop  1621 ->  1760  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi64ELb0EL9ggml_prec40ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ +24  reloads   0 ->  24  spills   0 ->  18  insns  1233 ->  1325  loop  1173 ->  1254  ti/mmq-instance-q8_0.cu.o                mul_mat_qIL9ggml_type8ELi48ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+ +23  reloads  50 ->  73  spills  45 ->  69  insns  1429 ->  1473  loop   946 ->   993  q8_repack/mul-mat-id.cu.o                mmq_gemm_repacked_w32ILb1ELi1ELi8EL9ggml_type12EEvPKhPK10block_q8_1PfjjjPKiS8_S8
+ +22  reloads   8 ->  30  spills  69 ->  23  insns  9192 ->  9236  loop  7665 ->  7661  ti/fattn-vec-instance-q5_0-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_43ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+ +22  reloads   8 ->  30  spills  69 ->  23  insns  9291 ->  9330  loop  7850 ->  7862  ti/fattn-vec-instance-q5_1-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_43ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+ +22  reloads   0 ->  22  spills   0 ->  16  insns  1806 ->  1958  loop  1746 ->  1887  ti/mmq-instance-iq2_xxs.cu.o             mul_mat_qIL9ggml_type16ELi64ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ +22  reloads 317 -> 339  spills 232 -> 232  insns  2366 ->  3243  loop  1849 ->  1884  wkv.cu.o                                 rwkv_wkv7_f32ILi128EEviiiiPKfS1_S1_S1_S1_S1_S1_Pf
+ +20  reloads   8 ->  28  spills  69 ->  22  insns  9009 ->  9027  loop  7585 ->  7560  ti/fattn-vec-instance-q5_1-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+ +20  reloads   0 ->  20  spills   0 ->  16  insns  1550 ->  1689  loop  1490 ->  1618  ti/mmq-instance-q8_0.cu.o                mul_mat_qIL9ggml_type8ELi64ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+ +19  reloads  99 -> 118  spills  52 ->  77  insns  3893 ->  3940  loop  2399 ->  3092  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi8ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+ +19  reloads   1 ->  20  spills   0 ->   0  insns  1616 ->  1692  loop  1120 ->  1168  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi1ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+ +19  reloads   1 ->  20  spills   0 ->   0  insns  1622 ->  1697  loop  1120 ->  1168  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi2ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+ +19  reloads   1 ->  20  spills   0 ->   0  insns  1621 ->  1696  loop  1120 ->  1168  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi4ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+ +19  reloads   8 ->  27  spills  69 ->  22  insns  8923 ->  8932  loop  7398 ->  7360  ti/fattn-vec-instance-q5_0-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+ +18  reloads   0 ->  18  spills   0 ->  18  insns  1770 ->  1852  loop  1711 ->  1788  ti/mmq-instance-iq2_xxs.cu.o             mul_mat_qIL9ggml_type16ELi48ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ +17  reloads   0 ->  17  spills   0 ->  15  insns  1080 ->  1135  loop  1020 ->  1064  ti/mmq-instance-q8_0.cu.o                mul_mat_qIL9ggml_type8ELi40ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+ +17  reloads   0 ->  17  spills   0 ->  17  insns  1861 ->  2011  loop  1800 ->  1939  ti/mmq-instance-q8_0.cu.o                mul_mat_qIL9ggml_type8ELi80ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+ +16  reloads  60 ->  76  spills  49 ->  64  insns  1546 ->  1579  loop  1004 ->  1037  q8_repack/mul-mat-id.cu.o                mmq_gemm_repacked_w32ILb1ELi1ELi8EL9ggml_type13EEvPKhPK10block_q8_1PfjjjPKiS8_S8
+ +14  reloads  51 ->  65  spills  33 ->  54  insns   833 ->  1497  loop   470 ->   533  gla.cu.o                                 gated_linear_attn_f32ILi64EEviiiifPKfS1_S1_S1_S1_Pf
+ +14  reloads   0 ->  14  spills   0 ->  14  insns  1559 ->  1606  loop  1500 ->  1542  ti/mmq-instance-iq2_xxs.cu.o             mul_mat_qIL9ggml_type16ELi40ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ +12  reloads   0 ->  12  spills   0 ->  12  insns  1334 ->  1379  loop  1275 ->  1315  ti/mmq-instance-q8_0.cu.o                mul_mat_qIL9ggml_type8ELi80ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+ +10  reloads   0 ->  10  spills   0 ->   0  insns  3255 ->  3329  loop  1035 ->  1043  ti/fattn-tile-instance-dkq72-dv72.cu.o   flash_attn_tileILi72ELi72ELi32ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  +7  reloads   8 ->  15  spills  69 ->  21  insns  8713 ->  8710  loop  7454 ->  7415  ti/fattn-vec-instance-bf16-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_43ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP
+  +7  reloads   0 ->   7  spills   0 ->   7  insns  1134 ->  1142  loop  1075 ->  1078  ti/mmq-instance-iq2_xxs.cu.o             mul_mat_qIL9ggml_type16ELi24ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  +7  reloads   0 ->   7  spills   0 ->   7  insns   816 ->   805  loop   757 ->   741  ti/mmq-instance-q4_1.cu.o                mul_mat_qIL9ggml_type3ELi40ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  +7  reloads   0 ->   7  spills   0 ->   7  insns   930 ->   950  loop   870 ->   879  ti/mmq-instance-q8_0.cu.o                mul_mat_qIL9ggml_type8ELi32ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  +5  reloads   0 ->   5  spills   0 ->   0  insns  3215 ->  3310  loop  1141 ->  1149  ti/fattn-tile-instance-dkq128-dv128.cu.o flash_attn_tileILi128ELi128ELi16ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  +5  reloads   0 ->   5  spills   0 ->   5  insns  1188 ->  1217  loop  1128 ->  1146  ti/mmq-instance-iq2_xxs.cu.o             mul_mat_qIL9ggml_type16ELi32ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  +4  reloads   0 ->   4  spills   0 ->   0  insns  4237 ->  4285  loop  3575 ->  3608  ti/fattn-tile-instance-dkq320-dv256.cu.o flash_attn_tileILi320ELi256ELi1ELi32ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  +4  reloads   0 ->   4  spills   0 ->   0  insns  2026 ->  2104  loop   579 ->   583  ti/fattn-tile-instance-dkq72-dv72.cu.o   flash_attn_tileILi72ELi72ELi16ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  +4  reloads   0 ->   4  spills   0 ->   3  insns   939 ->   945  loop   870 ->   868  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi8ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  +4  reloads   0 ->   4  spills   0 ->   3  insns   939 ->   945  loop   870 ->   868  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi8ELb0EL9ggml_prec40ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  +3  reloads  12 ->  15  spills   0 ->   0  insns  9849 ->  9937  loop  3949 ->  3985  ti/fattn-tile-instance-dkq128-dv128.cu.o flash_attn_tileILi128ELi128ELi64ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  +3  reloads   0 ->   3  spills   0 ->   0  insns  2238 ->  2285  loop   647 ->   652  ti/fattn-tile-instance-dkq80-dv80.cu.o   flash_attn_tileILi80ELi80ELi16ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  +3  reloads   8 ->  11  spills  69 ->  21  insns  8181 ->  8168  loop  6927 ->  6883  ti/fattn-vec-instance-bf16-f8_e4m3.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP
+  +3  reloads   0 ->   3  spills   0 ->   3  insns  1396 ->  1414  loop  1327 ->  1338  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi48ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  +3  reloads   0 ->   3  spills   0 ->   3  insns  1396 ->  1414  loop  1327 ->  1338  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi48ELb0EL9ggml_prec40ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  +3  reloads   0 ->   3  spills   0 ->   3  insns   947 ->   955  loop   880 ->   879  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  +3  reloads   0 ->   3  spills   0 ->   3  insns   947 ->   955  loop   880 ->   879  ti/mmq-instance-nvfp4.cu.o               mul_mat_qIL9ggml_type40ELi8ELb1EL9ggml_prec40ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  +2  reloads  20 ->  22  spills   0 ->   0  insns 11180 -> 11199  loop  4564 ->  4546  ti/fattn-tile-instance-dkq128-dv128.cu.o flash_attn_tileILi128ELi128ELi64ELi1ELb1EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  +2  reloads   0 ->   2  spills   0 ->   6  insns  1792 ->  1887  loop   522 ->   526  ti/fattn-tile-instance-dkq64-dv64.cu.o   flash_attn_tileILi64ELi64ELi4ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  +1  reloads   7 ->   8  spills   4 ->   4  insns  1843 ->  1918  loop  1410 ->  1474  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl32EL9ggml_type0EEvPKfPKcS2_PK6__ha
+  +1  reloads  37 ->  38  spills   2 ->   2  insns  1995 ->  2070  loop  1460 ->  1524  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl32EL9ggml_type1EEvPKfPKcS2_PK6__ha
+  +1  reloads  37 ->  38  spills   2 ->   2  insns  2108 ->  2183  loop  1474 ->  1538  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl32EL9ggml_type2EEvPKfPKcS2_PK6__ha
+  +1  reloads  37 ->  38  spills   2 ->   2  insns  1995 ->  2070  loop  1460 ->  1524  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl32EL9ggml_type30EEvPKfPKcS2_PK6__h
+  +1  reloads  37 ->  38  spills   2 ->   2  insns  2104 ->  2179  loop  1460 ->  1524  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl32EL9ggml_type3EEvPKfPKcS2_PK6__ha
+  +1  reloads  37 ->  38  spills   2 ->   2  insns  2232 ->  2307  loop  1460 ->  1524  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl32EL9ggml_type6EEvPKfPKcS2_PK6__ha
+  +1  reloads  37 ->  38  spills   2 ->   2  insns  2196 ->  2271  loop  1460 ->  1524  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl32EL9ggml_type7EEvPKfPKcS2_PK6__ha
+  +1  reloads   0 ->   1  spills   0 ->   0  insns   749 ->   782  loop   317 ->   335  ti/fattn-tile-instance-dkq64-dv64.cu.o   flash_attn_tileILi64ELi64ELi1ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  +1  reloads  55 ->  56  spills   0 ->   0  insns  3713 ->  3750  loop  1177 ->  1184  ti/fattn-tile-instance-dkq80-dv80.cu.o   flash_attn_tileILi80ELi80ELi32ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  +1  reloads   1 ->   2  spills   0 ->   0  insns  2309 ->  2340  loop   676 ->   682  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi16ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  +1  reloads  93 ->  94  spills  60 ->  53  insns  3894 ->  3860  loop  2317 ->  2295  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -1  reloads   1 ->   0  spills   1 ->   0  insns  2197 ->  2206  loop  1948 ->  1802  conv3d.cu.o                              conv3d_implicit_gemm_f16ILi0ELi0ELi0ELb0EEvPK6__halfS2_Pf13conv3d_paramsib
+  -1  reloads   1 ->   0  spills   1 ->   0  insns  1511 ->  1520  loop  1264 ->  1117  conv3d.cu.o                              conv3d_implicit_gemm_f16ILi1ELi1ELi1ELb0EEvPK6__halfS2_Pf13conv3d_paramsib
+  -1  reloads 287 -> 286  spills 211 -> 210  insns  2273 ->  3643  loop  1398 ->  1384  gla.cu.o                                 gated_linear_attn_f32ILi128EEviiiifPKfS1_S1_S1_S1_Pf
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  1234 ->  1274  loop    69 ->    71  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl4EL9ggml_type0EEvPKfPKcS2_PK6__hal
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  1275 ->  1315  loop    69 ->    71  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl4EL9ggml_type1EEvPKfPKcS2_PK6__hal
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  1275 ->  1315  loop    69 ->    71  lightning-indexer.cu.o                   lightning_indexer_kernel_vecILi8ELi64ELl128ELl4EL9ggml_type30EEvPKfPKcS2_PK6__ha
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  2193 ->  2185  loop  1212 ->  1219  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type11ELi15ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+  -1  reloads   1 ->   0  spills   0 ->   0  insns   777 ->   768  loop   420 ->   420  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi5ELi2ELi64EL9ggml_type14EEvPKhPK10block_q8_1Pf
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  3929 ->  3939  loop  3158 ->  3183  ti/fattn-tile-instance-dkq512-dv512.cu.o flash_attn_tileILi512ELi512ELi2ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  3929 ->  3940  loop  3158 ->  3183  ti/fattn-tile-instance-dkq512-dv512.cu.o flash_attn_tileILi512ELi512ELi4ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  4136 ->  4156  loop  3343 ->  3368  ti/fattn-tile-instance-dkq576-dv512.cu.o flash_attn_tileILi576ELi512ELi1ELi16ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  -1  reloads   1 ->   0  spills   0 ->   0  insns  4141 ->  4152  loop  3343 ->  3368  ti/fattn-tile-instance-dkq576-dv512.cu.o flash_attn_tileILi576ELi512ELi4ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -1  reloads  34 ->  33  spills   2 ->   1  insns  2076 ->  2073  loop  1143 ->  1140  ti/fattn-tile-instance-dkq80-dv80.cu.o   flash_attn_tileILi80ELi80ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -1  reloads  33 ->  32  spills   1 ->   1  insns  2023 ->  2057  loop  1135 ->  1132  ti/fattn-tile-instance-dkq80-dv80.cu.o   flash_attn_tileILi80ELi80ELi4ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -1  reloads  32 ->  31  spills   1 ->   1  insns  2012 ->  2022  loop  1135 ->  1132  ti/fattn-tile-instance-dkq80-dv80.cu.o   flash_attn_tileILi80ELi80ELi8ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -1  reloads   1 ->   0  spills  20 ->  16  insns  2237 ->  2133  loop   936 ->   930  ti/fattn-vec-instance-f16-f16.cu.o       flash_attn_ext_vecILi128ELi2EL9ggml_type1ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -1  reloads   1 ->   0  spills  20 ->  16  insns  2757 ->  2672  loop  1456 ->  1464  ti/fattn-vec-instance-f16-f16.cu.o       flash_attn_ext_vecILi128ELi2EL9ggml_type1ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -1  reloads   1 ->   0  spills  63 ->   0  insns  3056 ->  2848  loop  1899 ->  1808  ti/fattn-vec-instance-f16-f8_e4m3.cu.o   flash_attn_ext_vecILi64ELi2EL9ggml_type1ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -1  reloads   1 ->   0  spills   1 ->   0  insns   710 ->   714  loop   647 ->   654  ti/mmq-instance-iq1_s.cu.o               mul_mat_qIL9ggml_type19ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -1  reloads  11 ->  10  spills  11 ->  10  insns  1778 ->  1775  loop  1713 ->  1709  ti/mmq-instance-q2_0.cu.o                mul_mat_qIL9ggml_type42ELi16ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  -1  reloads   1 ->   0  spills   1 ->   0  insns   784 ->   775  loop   721 ->   715  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi8ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  2157 ->  2134  loop  1118 ->  1113  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type17ELi16ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+  -2  reloads 138 -> 136  spills 122 -> 120  insns  1690 ->  1684  loop  1208 ->  1204  q8_repack/mul-mat.cu.o                   mmq_gemm_repacked_w32ILb0ELi1ELi8EL9ggml_type13EEvPKhPK10block_q8_1PfjjjPKiS8_S8
+  -2  reloads   2 ->   0  spills   0 ->   0  insns   835 ->   830  loop   375 ->   375  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi7ELi2ELi64EL9ggml_type12EEvPKhPK10block_q8_1Pf
+  -2  reloads   2 ->   0  spills   0 ->   0  insns   905 ->   922  loop   403 ->   416  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi8ELi2ELi64EL9ggml_type20EEvPKhPK10block_q8_1Pf
+  -2  reloads   2 ->   0  spills   0 ->   0  insns   908 ->   926  loop   408 ->   422  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi8ELi2ELi64EL9ggml_type39EEvPKhPK10block_q8_1Pf
+  -2  reloads   2 ->   0  spills   0 ->   0  insns   892 ->   880  loop   394 ->   397  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi8ELi2ELi64EL9ggml_type7EEvPKhPK10block_q8_1Pfj
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  5173 ->  5190  loop  3787 ->  3799  ti/fattn-tile-instance-dkq128-dv128.cu.o flash_attn_tileILi128ELi128ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  1681 ->  1668  loop  1035 ->  1036  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi2ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  1682 ->  1669  loop  1035 ->  1036  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi4ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  1665 ->  1645  loop  1035 ->  1036  ti/fattn-tile-instance-dkq256-dv256.cu.o flash_attn_tileILi256ELi256ELi8ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -2  reloads   2 ->   0  spills   0 ->   0  insns  3868 ->  3878  loop  2581 ->  2597  ti/fattn-tile-instance-dkq64-dv64.cu.o   flash_attn_tileILi64ELi64ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -2  reloads  57 ->  55  spills   0 ->   0  insns  3826 ->  3867  loop  1236 ->  1238  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi32ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -2  reloads 146 -> 144  spills  94 ->  54  insns  7004 ->  7136  loop  2898 ->  2434  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi64ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4841 ->  4632  loop  3586 ->  3360  ti/fattn-vec-instance-bf16-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5374 ->  5167  loop  4114 ->  3890  ti/fattn-vec-instance-bf16-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4796 ->  4586  loop  3541 ->  3314  ti/fattn-vec-instance-bf16-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5329 ->  5121  loop  4069 ->  3844  ti/fattn-vec-instance-bf16-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads  10 ->   8  spills 260 ->  10  insns  4532 ->  4323  loop  3280 ->  3054  ti/fattn-vec-instance-bf16-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads  10 ->   8  spills 260 ->  10  insns  5065 ->  4858  loop  3808 ->  3584  ti/fattn-vec-instance-bf16-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4332 ->  4124  loop  3162 ->  2940  ti/fattn-vec-instance-f16-q4_0.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4865 ->  4660  loop  3690 ->  3471  ti/fattn-vec-instance-f16-q4_0.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4284 ->  4076  loop  3117 ->  2895  ti/fattn-vec-instance-f16-q4_1.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4817 ->  4611  loop  3645 ->  3425  ti/fattn-vec-instance-f16-q4_1.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 260 ->  10  insns  4020 ->  3810  loop  2856 ->  2632  ti/fattn-vec-instance-f16-q8_0.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 260 ->  10  insns  4553 ->  4346  loop  3384 ->  3163  ti/fattn-vec-instance-f16-q8_0.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads 137 -> 135  spills 307 ->  10  insns  8875 ->  8689  loop  7698 ->  7006  ti/fattn-vec-instance-f8_e4m3-q4_0.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads 141 -> 139  spills 308 ->  10  insns  9188 ->  9003  loop  8011 ->  7316  ti/fattn-vec-instance-f8_e4m3-q4_0.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads 139 -> 137  spills 308 ->  10  insns  8837 ->  8654  loop  7660 ->  6969  ti/fattn-vec-instance-f8_e4m3-q4_1.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads 159 -> 157  spills  49 ->   0  insns  6042 ->  6080  loop  5123 ->  4334  ti/fattn-vec-instance-f8_e4m3-q5_1.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads 130 -> 128  spills 307 ->  10  insns  8558 ->  8373  loop  7382 ->  6690  ti/fattn-vec-instance-f8_e4m3-q8_0.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4661 ->  4415  loop  3344 ->  3102  ti/fattn-vec-instance-q4_0-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4931 ->  4687  loop  3609 ->  3369  ti/fattn-vec-instance-q4_0-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4618 ->  4371  loop  3299 ->  3056  ti/fattn-vec-instance-q4_0-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4888 ->  4643  loop  3564 ->  3323  ti/fattn-vec-instance-q4_0-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4358 ->  4110  loop  3040 ->  2796  ti/fattn-vec-instance-q4_0-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4628 ->  4382  loop  3305 ->  3063  ti/fattn-vec-instance-q4_0-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4871 ->  4625  loop  3554 ->  3312  ti/fattn-vec-instance-q4_1-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5140 ->  4896  loop  3818 ->  3578  ti/fattn-vec-instance-q4_1-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4828 ->  4581  loop  3509 ->  3266  ti/fattn-vec-instance-q4_1-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5098 ->  4853  loop  3774 ->  3533  ti/fattn-vec-instance-q4_1-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4568 ->  4320  loop  3250 ->  3006  ti/fattn-vec-instance-q4_1-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4838 ->  4592  loop  3515 ->  3273  ti/fattn-vec-instance-q4_1-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5392 ->  5147  loop  4050 ->  3809  ti/fattn-vec-instance-q5_0-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5657 ->  5413  loop  4313 ->  4073  ti/fattn-vec-instance-q5_0-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5349 ->  5103  loop  4005 ->  3763  ti/fattn-vec-instance-q5_0-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5614 ->  5369  loop  4268 ->  4027  ti/fattn-vec-instance-q5_0-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5088 ->  4841  loop  3746 ->  3503  ti/fattn-vec-instance-q5_0-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5353 ->  5107  loop  4009 ->  3767  ti/fattn-vec-instance-q5_0-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5577 ->  5335  loop  4259 ->  4021  ti/fattn-vec-instance-q5_1-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5846 ->  5606  loop  4523 ->  4287  ti/fattn-vec-instance-q5_1-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5533 ->  5291  loop  4213 ->  3975  ti/fattn-vec-instance-q5_1-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5802 ->  5562  loop  4477 ->  4241  ti/fattn-vec-instance-q5_1-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5271 ->  5028  loop  3953 ->  3714  ti/fattn-vec-instance-q5_1-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  5541 ->  5300  loop  4218 ->  3981  ti/fattn-vec-instance-q5_1-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4577 ->  4331  loop  3260 ->  3018  ti/fattn-vec-instance-q8_0-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4846 ->  4602  loop  3524 ->  3284  ti/fattn-vec-instance-q8_0-q4_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4534 ->  4287  loop  3215 ->  2972  ti/fattn-vec-instance-q8_0-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4803 ->  4558  loop  3479 ->  3238  ti/fattn-vec-instance-q8_0-q4_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4273 ->  4025  loop  2956 ->  2712  ti/fattn-vec-instance-q8_0-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -2  reloads  10 ->   8  spills 262 ->  10  insns  4542 ->  4296  loop  3220 ->  2978  ti/fattn-vec-instance-q8_0-q8_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -3  reloads   3 ->   0  spills   0 ->   0  insns   872 ->   860  loop   463 ->   457  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi6ELi2ELi64EL9ggml_type14EEvPKhPK10block_q8_1Pf
+  -3  reloads   5 ->   2  spills   0 ->   0  insns   967 ->   954  loop   505 ->   498  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi7ELi2ELi64EL9ggml_type14EEvPKhPK10block_q8_1Pf
+  -3  reloads   7 ->   4  spills   0 ->   0  insns  1060 ->  1049  loop   545 ->   540  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi8ELi2ELi64EL9ggml_type14EEvPKhPK10block_q8_1Pf
+  -3  reloads   3 ->   0  spills   0 ->   0  insns  1230 ->  1206  loop   768 ->   771  ti/fattn-tile-instance-dkq192-dv128.cu.o flash_attn_tileILi192ELi128ELi1ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -3  reloads   3 ->   0  spills   0 ->   0  insns  1014 ->   997  loop   472 ->   472  ti/fattn-tile-instance-dkq64-dv64.cu.o   flash_attn_tileILi64ELi64ELi4ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -3  reloads   3 ->   0  spills   3 ->   0  insns   988 ->   980  loop   924 ->   920  ti/mmq-instance-iq2_s.cu.o               mul_mat_qIL9ggml_type22ELi8ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -3  reloads   3 ->   0  spills   3 ->   0  insns  1002 ->   992  loop   939 ->   932  ti/mmq-instance-iq2_s.cu.o               mul_mat_qIL9ggml_type22ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -3  reloads   3 ->   0  spills   3 ->   0  insns   933 ->   921  loop   869 ->   861  ti/mmq-instance-iq2_xs.cu.o              mul_mat_qIL9ggml_type17ELi8ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -3  reloads   3 ->   0  spills   3 ->   0  insns   947 ->   932  loop   884 ->   872  ti/mmq-instance-iq2_xs.cu.o              mul_mat_qIL9ggml_type17ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -3  reloads   3 ->   0  spills   3 ->   0  insns   812 ->   804  loop   748 ->   743  ti/mmq-instance-q3_k.cu.o                mul_mat_qIL9ggml_type11ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -3  reloads   3 ->   0  spills   3 ->   0  insns   713 ->   700  loop   649 ->   640  ti/mmq-instance-q4_0.cu.o                mul_mat_qIL9ggml_type2ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm_
+  -3  reloads   3 ->   0  spills   3 ->   0  insns   712 ->   700  loop   648 ->   640  ti/mmq-instance-q4_1.cu.o                mul_mat_qIL9ggml_type3ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm_
+  -3  reloads   3 ->   0  spills   3 ->   0  insns   842 ->   835  loop   778 ->   774  ti/mmq-instance-q5_1.cu.o                mul_mat_qIL9ggml_type7ELi8ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm_
+  -4  reloads   6 ->   2  spills   0 ->   0  insns   927 ->   920  loop   417 ->   412  q8_repack/mul-mat.cu.o                   mul_mat_vec_repacked_ncILi2ELi1ELi8ELi2ELi64EL9ggml_type12EEvPKhPK10block_q8_1Pf
+  -4  reloads  81 ->  77  spills  12 ->  12  insns  4159 ->  4179  loop  1384 ->  1373  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi32ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  2651 ->  2641  loop  2096 ->  2111  ti/fattn-tile-instance-dkq512-dv512.cu.o flash_attn_tileILi512ELi512ELi1ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  2657 ->  2644  loop  2097 ->  2111  ti/fattn-tile-instance-dkq512-dv512.cu.o flash_attn_tileILi512ELi512ELi2ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  2782 ->  2777  loop  2215 ->  2235  ti/fattn-tile-instance-dkq576-dv512.cu.o flash_attn_tileILi576ELi512ELi1ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  1037 ->  1020  loop   473 ->   472  ti/fattn-tile-instance-dkq64-dv64.cu.o   flash_attn_tileILi64ELi64ELi2ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -4  reloads  37 ->  33  spills   2 ->   1  insns  2141 ->  2128  loop  1207 ->  1195  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -4  reloads  36 ->  32  spills   1 ->   1  insns  2087 ->  2112  loop  1198 ->  1187  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi4ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -4  reloads  35 ->  31  spills   1 ->   1  insns  2076 ->  2077  loop  1198 ->  1187  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi8ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -4  reloads  86 ->  82  spills  53 ->  53  insns  3711 ->  3716  loop  2288 ->  2263  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi8ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  3875 ->  3903  loop  3036 ->  2635  ti/fattn-vec-instance-f8_e4m3-f8_e4m3.cu flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_43ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  4714 ->  4754  loop  3812 ->  3517  ti/fattn-vec-instance-f8_e4m3-q4_0.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  4983 ->  5025  loop  4081 ->  3783  ti/fattn-vec-instance-f8_e4m3-q4_0.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_2ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  3016 ->  3041  loop  2180 ->  1885  ti/fattn-vec-instance-f8_e4m3-q4_0.cu.o  flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_2ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  4672 ->  4712  loop  3770 ->  3474  ti/fattn-vec-instance-f8_e4m3-q4_1.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  4941 ->  4983  loop  4039 ->  3740  ti/fattn-vec-instance-f8_e4m3-q4_1.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  3023 ->  3048  loop  2187 ->  1891  ti/fattn-vec-instance-f8_e4m3-q4_1.cu.o  flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_3ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -4  reloads 160 -> 156  spills  49 ->   0  insns  6372 ->  6410  loop  5453 ->  4692  ti/fattn-vec-instance-f8_e4m3-q5_0.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  3616 ->  3628  loop  2737 ->  2219  ti/fattn-vec-instance-f8_e4m3-q5_0.cu.o  flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -4  reloads 164 -> 160  spills  50 ->   0  insns  6350 ->  6386  loop  5431 ->  4636  ti/fattn-vec-instance-f8_e4m3-q5_1.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  3610 ->  3618  loop  2731 ->  2187  ti/fattn-vec-instance-f8_e4m3-q5_1.cu.o  flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  4788 ->  4825  loop  3859 ->  3383  ti/fattn-vec-instance-f8_e4m3-q8_0.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  5071 ->  5124  loop  4142 ->  3652  ti/fattn-vec-instance-f8_e4m3-q8_0.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -4  reloads   4 ->   0  spills   0 ->   0  insns  2961 ->  2986  loop  2125 ->  1830  ti/fattn-vec-instance-f8_e4m3-q8_0.cu.o  flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_8ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -4  reloads  14 ->  10  spills  14 ->  10  insns  1518 ->  1520  loop  1455 ->  1456  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi40ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  -5  reloads   7 ->   2  spills   0 ->   0  insns  2215 ->  2226  loop  1365 ->  1360  ti/fattn-tile-instance-dkq192-dv128.cu.o flash_attn_tileILi192ELi128ELi2ELi16ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  -5  reloads   7 ->   2  spills   0 ->   0  insns  2216 ->  2227  loop  1365 ->  1360  ti/fattn-tile-instance-dkq192-dv128.cu.o flash_attn_tileILi192ELi128ELi4ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -5  reloads  88 ->  83  spills  53 ->  52  insns  3729 ->  3682  loop  2171 ->  2162  ti/fattn-tile-instance-dkq80-dv80.cu.o   flash_attn_tileILi80ELi80ELi16ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -5  reloads 144 -> 139  spills  88 ->  46  insns  6784 ->  6860  loop  2785 ->  2316  ti/fattn-tile-instance-dkq80-dv80.cu.o   flash_attn_tileILi80ELi80ELi64ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -5  reloads   5 ->   0  spills   5 ->   0  insns   993 ->   978  loop   930 ->   918  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi24ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  -5  reloads   5 ->   0  spills   5 ->   0  insns   792 ->   779  loop   727 ->   718  ti/mmq-instance-q3_k.cu.o                mul_mat_qIL9ggml_type11ELi8ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -5  reloads   5 ->   0  spills   5 ->   0  insns   852 ->   842  loop   787 ->   781  ti/mmq-instance-q6_k.cu.o                mul_mat_qIL9ggml_type14ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -6  reloads  51 ->  45  spills   4 ->   2  insns  2304 ->  2281  loop  1346 ->  1324  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi16ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  -6  reloads  50 ->  44  spills   2 ->   2  insns  2249 ->  2265  loop  1338 ->  1318  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi4ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -6  reloads  49 ->  43  spills   2 ->   2  insns  2240 ->  2232  loop  1338 ->  1318  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi8ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -6  reloads 140 -> 134  spills 140 -> 134  insns  2808 ->  2798  loop  2744 ->  2733  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi64ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  -6  reloads   6 ->   0  spills   6 ->   0  insns   824 ->   805  loop   760 ->   745  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -6  reloads   6 ->   0  spills   6 ->   0  insns   882 ->   850  loop   818 ->   789  ti/mmq-instance-q5_k.cu.o                mul_mat_qIL9ggml_type13ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -7  reloads   8 ->   1  spills  12 ->  12  insns  2577 ->  2573  loop   770 ->   778  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi16ELi1ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+  -7  reloads   7 ->   0  spills   7 ->   0  insns   759 ->   742  loop   695 ->   681  ti/mmq-instance-q4_k.cu.o                mul_mat_qIL9ggml_type12ELi8ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+  -7  reloads 139 -> 132  spills 135 -> 128  insns  2081 ->  3273  loop  1132 ->  1124  wkv.cu.o                                 rwkv_wkv_f32ILi128EEviiiiPKfS1_S1_S1_S1_S1_Pf
+  -8  reloads 117 -> 109  spills 109 -> 101  insns  1548 ->  1528  loop  1129 ->  1112  q8_repack/mul-mat.cu.o                   mmq_gemm_repacked_w32ILb0ELi1ELi8EL9ggml_type12EEvPKhPK10block_q8_1PfjjjPKiS8_S8
+  -8  reloads   8 ->   0  spills   0 ->   0  insns  3002 ->  3002  loop  2417 ->  2434  ti/fattn-tile-instance-dkq512-dv512.cu.o flash_attn_tileILi512ELi512ELi1ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_t
+  -8  reloads   8 ->   0  spills   0 ->   0  insns  1039 ->  1029  loop   475 ->   477  ti/fattn-tile-instance-dkq64-dv64.cu.o   flash_attn_tileILi64ELi64ELi1ELi8ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_typ
+  -8  reloads   8 ->   0  spills   0 ->   0  insns  2938 ->  2963  loop  2022 ->  1686  ti/fattn-vec-instance-f8_e4m3-bf16.cu.o  flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -8  reloads   8 ->   0  spills   0 ->   0  insns  2778 ->  2803  loop  1862 ->  1526  ti/fattn-vec-instance-f8_e4m3-f16.cu.o   flash_attn_ext_vecILi64ELi2EL9ggml_type43ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+  -8  reloads 145 -> 137  spills 309 ->  10  insns  9154 ->  8960  loop  7977 ->  7272  ti/fattn-vec-instance-f8_e4m3-q4_1.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_3ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -8  reloads 161 -> 153  spills  49 ->   0  insns  6141 ->  6104  loop  5217 ->  4390  ti/fattn-vec-instance-f8_e4m3-q5_0.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -8  reloads 138 -> 130  spills 307 ->  10  insns  8878 ->  8683  loop  7700 ->  6997  ti/fattn-vec-instance-f8_e4m3-q8_0.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_8ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+  -8  reloads  14 ->   6  spills  14 ->   6  insns  1292 ->  1288  loop  1229 ->  1225  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi32ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  -8  reloads 140 -> 132  spills 140 -> 132  insns  2764 ->  2761  loop  2699 ->  2695  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi64ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+  -8  reloads 111 -> 103  spills  72 ->  60  insns  1051 ->  1488  loop   795 ->   810  wkv.cu.o                                 rwkv_wkv7_f32ILi64EEviiiiPKfS1_S1_S1_S1_S1_S1_Pf
+  -9  reloads   9 ->   0  spills   6 ->   0  insns  4204 ->  2688  loop  3464 ->  1939  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi11ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+  -9  reloads  91 ->  82  spills  53 ->  51  insns  3828 ->  3776  loop  2299 ->  2264  ti/fattn-tile-instance-dkq96-dv96.cu.o   flash_attn_tileILi96ELi96ELi16ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_ty
+  -9  reloads   9 ->   0  spills   9 ->   0  insns   809 ->   784  loop   744 ->   723  ti/mmq-instance-q4_k.cu.o                mul_mat_qIL9ggml_type12ELi8ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_mm
+ -10  reloads  15 ->   5  spills  15 ->   5  insns  1298 ->  1278  loop  1234 ->  1214  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi16ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ -10  reloads  14 ->   4  spills  14 ->   4  insns  1334 ->  1312  loop  1271 ->  1249  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi16ELb1EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ -10  reloads  13 ->   3  spills  13 ->   3  insns  1267 ->  1251  loop  1202 ->  1187  ti/mmq-instance-q2_k.cu.o                mul_mat_qIL9ggml_type10ELi32ELb0EL9ggml_prec30ELb0EEvPKcS3_PKiS5_PK25ggml_cuda_m
+ -13  reloads  29 ->  16  spills  98 ->  64  insns  2643 ->  2535  loop  2583 ->  2498  q8_repack/buffer.cu.o                    repack_q6k_kernelPKhPhllllllllll
+ -16  reloads  16 ->   0  spills   0 ->   0  insns  4200 ->  4241  loop  3117 ->  2725  ti/fattn-vec-instance-f8_e4m3-f16.cu.o   flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+ -16  reloads  16 ->   0  spills   0 ->   0  insns  4469 ->  4511  loop  3386 ->  2991  ti/fattn-vec-instance-f8_e4m3-f16.cu.o   flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+ -17  reloads  69 ->  52  spills  65 ->  48  insns  1073 ->  1532  loop   582 ->   563  wkv.cu.o                                 rwkv_wkv_f32ILi64EEviiiiPKfS1_S1_S1_S1_S1_Pf
+ -25  reloads  25 ->   0  spills  20 ->   0  insns  5338 ->  3438  loop  4402 ->  2507  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi7ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_arg
+ -28  reloads 126 ->  98  spills  57 ->  51  insns  4125 ->  4021  loop  2429 ->  2424  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi32ELi2ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+ -32  reloads  32 ->   0  spills  29 ->   0  insns  4616 ->  2915  loop  3816 ->  2105  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi12ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+ -34  reloads 128 ->  94  spills  56 ->  51  insns  4098 ->  3965  loop  2412 ->  2414  ti/fattn-tile-instance-dkq112-dv112.cu.o flash_attn_tileILi112ELi112ELi16ELi4ELb0EEvPKcS1_S1_S1_S1_PKiS3_PfP15HIP_vector_
+ -55  reloads  55 ->   0  spills  52 ->   0  insns  5024 ->  3140  loop  4165 ->  2270  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi13ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+ -57  reloads  57 ->   0  spills  52 ->   0  insns  6161 ->  3893  loop  5105 ->  2831  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi8ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_arg
+ -79  reloads  79 ->   0  spills  76 ->   0  insns  5427 ->  3360  loop  3922 ->  2429  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi14ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+-102  reloads 102 ->   0  spills  99 ->   0  insns  5879 ->  3581  loop  4264 ->  2590  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi15ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+-113  reloads 124 ->  11  spills 122 ->   8  insns  6326 ->  3838  loop  4625 ->  2775  mmvq.cu.o                                mul_mat_vec_qIL9ggml_type40ELi16ELb0ELb0ELb0EEvPKvS2_PKi31ggml_cuda_mm_fusion_ar
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3191 ->  2976  loop  1854 ->  1615  ti/fattn-vec-instance-bf16-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type30ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3724 ->  3514  loop  2382 ->  2163  ti/fattn-vec-instance-bf16-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type30ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-124  reloads 140 ->  16  spills 141 -> 140  insns  4914 ->  4698  loop  3848 ->  3216  ti/fattn-vec-instance-f8_e4m3-bf16.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-124  reloads 140 ->  16  spills 141 -> 140  insns  5183 ->  4969  loop  4117 ->  3482  ti/fattn-vec-instance-f8_e4m3-bf16.cu.o  flash_attn_ext_vecILi128ELi2EL9ggml_type43ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-124  reloads 140 ->  16  spills 141 -> 140  insns  2994 ->  2744  loop  1639 ->  1390  ti/fattn-vec-instance-q4_0-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type2ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3263 ->  3015  loop  1903 ->  1656  ti/fattn-vec-instance-q4_0-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type2ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3112 ->  2863  loop  1754 ->  1506  ti/fattn-vec-instance-q4_1-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type3ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3381 ->  3134  loop  2018 ->  1772  ti/fattn-vec-instance-q4_1-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type3ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3382 ->  3133  loop  2020 ->  1771  ti/fattn-vec-instance-q5_0-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type6ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3651 ->  3404  loop  2284 ->  2037  ti/fattn-vec-instance-q5_0-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type6ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3478 ->  3237  loop  2119 ->  1878  ti/fattn-vec-instance-q5_1-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type7ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3747 ->  3508  loop  2383 ->  2144  ti/fattn-vec-instance-q5_1-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type7ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  2946 ->  2692  loop  1580 ->  1335  ti/fattn-vec-instance-q8_0-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type8ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-124  reloads 140 ->  16  spills 141 -> 140  insns  3203 ->  2963  loop  1842 ->  1601  ti/fattn-vec-instance-q8_0-bf16.cu.o     flash_attn_ext_vecILi128ELi2EL9ggml_type8ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-128  reloads 131 ->   3  spills 140 -> 140  insns  2804 ->  2586  loop  1614 ->  1386  ti/fattn-vec-instance-f16-bf16.cu.o      flash_attn_ext_vecILi128ELi2EL9ggml_type1ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-128  reloads 131 ->   3  spills 140 -> 140  insns  3337 ->  3122  loop  2142 ->  1917  ti/fattn-vec-instance-f16-bf16.cu.o      flash_attn_ext_vecILi128ELi2EL9ggml_type1ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6017 ->  5679  loop  4758 ->  4403  ti/fattn-vec-instance-bf16-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6550 ->  6214  loop  5286 ->  4933  ti/fattn-vec-instance-bf16-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-194  reloads 202 ->   8  spills 262 -> 262  insns  5505 ->  5168  loop  4334 ->  3983  ti/fattn-vec-instance-f16-q5_1.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6038 ->  5704  loop  4862 ->  4514  ti/fattn-vec-instance-f16-q5_1.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 347 -> 153  spills 312 -> 262  insns 10091 ->  9779  loop  8914 ->  8085  ti/fattn-vec-instance-f8_e4m3-q5_1.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-194  reloads 202 ->   8  spills 262 -> 262  insns  5840 ->  5466  loop  4516 ->  4145  ti/fattn-vec-instance-q4_0-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6110 ->  5737  loop  4781 ->  4412  ti/fattn-vec-instance-q4_0-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6055 ->  5680  loop  4731 ->  4360  ti/fattn-vec-instance-q4_1-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6325 ->  5952  loop  4996 ->  4627  ti/fattn-vec-instance-q4_1-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6571 ->  6197  loop  5222 ->  4852  ti/fattn-vec-instance-q5_0-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6836 ->  6463  loop  5485 ->  5116  ti/fattn-vec-instance-q5_0-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6755 ->  6384  loop  5430 ->  5063  ti/fattn-vec-instance-q5_1-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  7024 ->  6655  loop  5694 ->  5329  ti/fattn-vec-instance-q5_1-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  5756 ->  5381  loop  4432 ->  4061  ti/fattn-vec-instance-q8_0-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_7ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-194  reloads 202 ->   8  spills 262 -> 262  insns  6025 ->  5652  loop  4696 ->  4327  ti/fattn-vec-instance-q8_0-q5_1.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-197  reloads 363 -> 166  spills 318 -> 262  insns 10413 -> 10117  loop  9238 ->  8414  ti/fattn-vec-instance-f8_e4m3-q5_1.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_7ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-235  reloads 395 -> 160  spills 314 -> 262  insns 10614 -> 10218  loop  9438 ->  8519  ti/fattn-vec-instance-f8_e4m3-q5_0.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6225 ->  5798  loop  4968 ->  4524  ti/fattn-vec-instance-bf16-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6758 ->  6333  loop  5496 ->  5054  ti/fattn-vec-instance-bf16-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-238  reloads 246 ->   8  spills 262 -> 262  insns  5713 ->  5287  loop  4544 ->  4104  ti/fattn-vec-instance-f16-q5_0.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6246 ->  5823  loop  5072 ->  4635  ti/fattn-vec-instance-f16-q5_0.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 387 -> 149  spills 311 -> 262  insns 10296 ->  9889  loop  9119 ->  8198  ti/fattn-vec-instance-f8_e4m3-q5_0.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6048 ->  5584  loop  4726 ->  4266  ti/fattn-vec-instance-q4_0-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6318 ->  5856  loop  4991 ->  4533  ti/fattn-vec-instance-q4_0-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6258 ->  5794  loop  4936 ->  4476  ti/fattn-vec-instance-q4_1-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6533 ->  6071  loop  5206 ->  4748  ti/fattn-vec-instance-q4_1-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6779 ->  6316  loop  5432 ->  4973  ti/fattn-vec-instance-q5_0-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  7044 ->  6582  loop  5695 ->  5237  ti/fattn-vec-instance-q5_0-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6963 ->  6503  loop  5640 ->  5184  ti/fattn-vec-instance-q5_1-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  7232 ->  6774  loop  5904 ->  5450  ti/fattn-vec-instance-q5_1-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  5964 ->  5500  loop  4642 ->  4182  ti/fattn-vec-instance-q8_0-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_6ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-238  reloads 246 ->   8  spills 262 -> 262  insns  6233 ->  5771  loop  4906 ->  4448  ti/fattn-vec-instance-q8_0-q5_0.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_6ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-249  reloads 427 -> 178  spills 345 -> 282  insns  7950 ->  7789  loop  6451 ->  5741  ti/fattn-vec-instance-f8_e4m3-f16.cu.o   flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4084 ->  3673  loop  2485 ->  2057  ti/fattn-vec-instance-bf16-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4615 ->  4208  loop  3011 ->  2587  ti/fattn-vec-instance-bf16-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-250  reloads 282 ->  32  spills 284 -> 282  insns  3577 ->  3134  loop  2059 ->  1607  ti/fattn-vec-instance-f16-f16.cu.o       flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4110 ->  3693  loop  2587 ->  2163  ti/fattn-vec-instance-f16-f16.cu.o       flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  3909 ->  3467  loop  2239 ->  1803  ti/fattn-vec-instance-q4_0-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4178 ->  3738  loop  2503 ->  2069  ti/fattn-vec-instance-q4_0-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4123 ->  3678  loop  2452 ->  2014  ti/fattn-vec-instance-q4_1-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4393 ->  3950  loop  2718 ->  2281  ti/fattn-vec-instance-q4_1-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4632 ->  4189  loop  2943 ->  2506  ti/fattn-vec-instance-q5_0-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4896 ->  4455  loop  3205 ->  2770  ti/fattn-vec-instance-q5_0-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4838 ->  4382  loop  3168 ->  2718  ti/fattn-vec-instance-q5_1-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  5107 ->  4653  loop  3432 ->  2984  ti/fattn-vec-instance-q5_1-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  3821 ->  3378  loop  2152 ->  1715  ti/fattn-vec-instance-q8_0-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_1ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-250  reloads 282 ->  32  spills 284 -> 282  insns  4091 ->  3650  loop  2417 ->  1982  ti/fattn-vec-instance-q8_0-f16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP15
+-251  reloads 425 -> 174  spills 344 -> 282  insns  8249 ->  8075  loop  6750 ->  6025  ti/fattn-vec-instance-f8_e4m3-f16.cu.o   flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_1ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-253  reloads 431 -> 178  spills 349 -> 288  insns  8868 ->  8431  loop  7369 ->  6383  ti/fattn-vec-instance-f8_e4m3-bf16.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-253  reloads 427 -> 174  spills 347 -> 288  insns  9158 ->  8718  loop  7659 ->  6668  ti/fattn-vec-instance-f8_e4m3-bf16.cu.o  flash_attn_ext_vecILi256ELi2EL9ggml_type43ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4778 ->  4313  loop  3179 ->  2697  ti/fattn-vec-instance-bf16-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-256  reloads 288 ->  32  spills 288 -> 288  insns  5311 ->  4849  loop  3707 ->  3228  ti/fattn-vec-instance-bf16-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type30ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4266 ->  3801  loop  2748 ->  2276  ti/fattn-vec-instance-f16-bf16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4799 ->  4337  loop  3276 ->  2807  ti/fattn-vec-instance-f16-bf16.cu.o      flash_attn_ext_vecILi256ELi2EL9ggml_type1ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4607 ->  4107  loop  2937 ->  2443  ti/fattn-vec-instance-q4_0-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4878 ->  4380  loop  3203 ->  2711  ti/fattn-vec-instance-q4_0-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type2ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4820 ->  4318  loop  3150 ->  2654  ti/fattn-vec-instance-q4_1-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  5090 ->  4590  loop  3415 ->  2921  ti/fattn-vec-instance-q4_1-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type3ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  5330 ->  4829  loop  3641 ->  3146  ti/fattn-vec-instance-q5_0-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  5595 ->  5095  loop  3904 ->  3410  ti/fattn-vec-instance-q5_0-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type6ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  5524 ->  5022  loop  3854 ->  3358  ti/fattn-vec-instance-q5_1-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  5793 ->  5293  loop  4118 ->  3624  ti/fattn-vec-instance-q5_1-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type7ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4519 ->  4018  loop  2850 ->  2355  ti/fattn-vec-instance-q8_0-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_30ELb0EEvPKcS2_S2_S2_S2_PKiS4_PfP1
+-256  reloads 288 ->  32  spills 288 -> 288  insns  4789 ->  4290  loop  3115 ->  2622  ti/fattn-vec-instance-q8_0-bf16.cu.o     flash_attn_ext_vecILi256ELi2EL9ggml_type8ELS0_30ELb1EEvPKcS2_S2_S2_S2_PKiS4_PfP1

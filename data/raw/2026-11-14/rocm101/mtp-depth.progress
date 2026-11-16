@@ -1,0 +1,31 @@
+2026-11-16T08:44:05+00:00 [mtpd] arm c23: /root/swap/c23/libggml-hip.so.1.0.0 (98275448 bytes)
+2026-11-16T08:44:05+00:00 [mtpd] arm c24: /root/swap/c24/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T08:44:05+00:00 [mtpd] arm v90: /root/swap/v90/libggml-hip.so.1.0.0 (98283528 bytes)
+2026-11-16T08:44:05+00:00 [mtpd] arm v88: /root/swap/v88/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T08:44:06+00:00 [mtpd] arm v85: /root/swap/v85/libggml-hip.so.1.0.0 (98279432 bytes)
+2026-11-16T08:44:06+00:00 [mtpd] n=3, arms: c23 c24 v90 v88 v85; prompt 500000 characters, 512 tokens per request; load 0.23 3.42 4.08
+2026-11-16T08:44:20+00:00 [mtpd] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1182/2516/2510/2508
+2026-11-16T08:44:20+00:00 [mtpd] block 1 order: c24 v85 v90 c23 v88
+2026-11-16T08:48:00+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): c24 b1
+2026-11-16T08:51:40+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v85 b1
+2026-11-16T08:55:20+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v90 b1
+2026-11-16T08:59:01+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): c23 b1
+2026-11-16T09:02:41+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v88 b1
+2026-11-16T09:02:46+00:00 [mtpd] === block 1 DONE
+2026-11-16T09:02:46+00:00 [mtpd] block 2 order: c23 c24 v85 v88 v90
+2026-11-16T09:06:22+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): c23 b2
+2026-11-16T09:10:08+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): c24 b2
+2026-11-16T09:13:48+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v85 b2
+2026-11-16T09:17:28+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v88 b2
+2026-11-16T09:21:08+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v90 b2
+2026-11-16T09:21:13+00:00 [mtpd] === block 2 DONE
+2026-11-16T09:21:13+00:00 [mtpd] block 3 order: v90 c23 v85 c24 v88
+2026-11-16T09:24:48+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v90 b3
+2026-11-16T09:28:29+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): c23 b3
+2026-11-16T09:32:09+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v85 b3
+2026-11-16T09:35:55+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): c24 b3
+2026-11-16T09:39:35+00:00 [mtpd] REQUEST 2 re-evaluated 2050 prompt tokens (the slot did not keep the text): v88 b3
+2026-11-16T09:39:41+00:00 [mtpd] === block 3 DONE
+2026-11-16T09:39:41+00:00 [mtpd] === MTP-DEPTH DONE ===
+2026-11-16T09:40:34+00:00 [mtpd] NOTE written before any timing of this session was read: every cell stopped after request 2 because the script's own check (requests 2-3 re-evaluate at most 2000 prompt tokens) was 50 tokens too tight: the server re-evaluated 2050 of about 115K, so the slot DID keep the text. Requests 1 and 2 of all 15 cells are complete in mtp-depth/. They are read with metric A' = mean of the two requests' decode rate (instead of three) and the header's rule otherwise unchanged; because that is a deviation, a reading that would CHANGE the rule is not acted on without a full rerun of the corrected script, and a reading within 0.2 % of the 0.5 % line also gets the rerun.
+2026-11-16T09:41:26+00:00 [mtpd] CORRECTION of the note above: requests 1 and 2 hold NO decode. Every request stopped with stop_type eos after 1 token and empty content (the raw /completion prompt, text + question, makes the model end the text at once), so metric A does not exist in this session and questions (1) to (3) are not answered by it. Metric B (prefill of 117,677 tokens, one sample per cell, n=3 per arm) is complete and valid. The rerun (mtp-depth2.sh) sends the text through /v1/chat/completions.

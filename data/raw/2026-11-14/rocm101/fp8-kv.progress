@@ -1,0 +1,16 @@
+2026-11-16T14:18:53+00:00 [fp8] /root/build-master-v100r/bin/libggml-hip.so.1.0.0: producer clang version 23.0.0;, 95879888 bytes
+2026-11-16T14:18:53+00:00 [fp8] /root/build-v101-t90/bin/libggml-hip.so.1.0.0: producer clang version 24.0.0;, 98283552 bytes
+2026-11-16T14:18:53+00:00 [fp8] 3 arms, 3 blocks, 4 x 65536
+[fp8] decode  c23f8  n=3 13.1429 (13.1390-13.1462)
+[fp8] decode  r1f8   n=3 13.1346 (13.1265-13.1461)
+[fp8] decode  r1f16  n=3 24.7594 (24.7385-24.7798)
+[fp8] decode  r1f8 against c23f8: level, -0.06 %
+[fp8] decode  r1f8 against r1f16: down, -46.95 %
+[fp8] decode  c23f8 against r1f16: down, -46.92 %
+[fp8] prefill c23f8  n=3 814.9 (814.3-815.3)
+[fp8] prefill r1f8   n=3 816.1 (815.7-816.8)
+[fp8] prefill r1f16  n=3 809.9 (809.1-810.9)
+[fp8] prefill r1f8 against c23f8: up, +0.15 %
+[fp8] prefill r1f8 against r1f16: up, +0.76 %
+[fp8] prefill c23f8 against r1f16: up, +0.61 %
+2026-11-16T15:18:48+00:00 [fp8] === FP8 KV DONE ===
