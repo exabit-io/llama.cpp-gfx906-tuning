@@ -1,0 +1,47 @@
+2026-11-15T16:30:17+00:00 [gpuopt] calls0: GPU code differs in 136 objects
+2026-11-15T16:30:17+00:00 [gpuopt] dividx: GPU code differs in 68 objects
+2026-11-15T16:30:17+00:00 [gpuopt] ifcvt: GPU code identical to the reference in every object, not timed
+2026-11-15T16:30:17+00:00 [gpuopt] inlthr: GPU code identical to the reference in every object, not timed
+2026-11-15T16:30:18+00:00 [gpuopt] lsv0: GPU code differs in 205 objects
+2026-11-15T16:30:18+00:00 [gpuopt] noslp: GPU code differs in 102 objects
+2026-11-15T16:30:18+00:00 [gpuopt] novec: GPU code differs in 103 objects
+2026-11-15T16:30:18+00:00 [gpuopt] o2: GPU code differs in 175 objects
+2026-11-15T16:30:19+00:00 [gpuopt] pa64: GPU code differs in 30 objects
+2026-11-15T16:30:19+00:00 [gpuopt] relax: GPU code differs in 142 objects
+2026-11-15T16:30:19+00:00 [gpuopt] schdef: GPU code differs in 206 objects
+2026-11-15T16:30:19+00:00 [gpuopt] schiilp: no library, skipped
+2026-11-15T16:30:19+00:00 [gpuopt] schiocc: GPU code differs in 206 objects
+2026-11-15T16:30:20+00:00 [gpuopt] schmem: GPU code differs in 206 objects
+2026-11-15T16:30:20+00:00 [gpuopt] sgl0: GPU code differs in 140 objects
+2026-11-15T16:30:20+00:00 [gpuopt] spillspd: GPU code identical to the reference in every object, not timed
+2026-11-15T16:30:20+00:00 [gpuopt] tid: GPU code differs in 182 objects
+2026-11-15T16:30:21+00:00 [gpuopt] trk: GPU code differs in 177 objects
+2026-11-15T16:30:21+00:00 [gpuopt] unrollf: GPU code identical to the reference in every object, not timed
+2026-11-15T16:30:21+00:00 [gpuopt] unrollhi: GPU code differs in 18 objects
+2026-11-15T16:30:21+00:00 [gpuopt] unrolllo: GPU code differs in 11 objects
+2026-11-15T16:30:21+00:00 [gpuopt] c24: extra arm /root/build-master-v101/bin/libggml-hip.so
+2026-11-15T16:30:21+00:00 [gpuopt] c24t90: extra arm /root/build-v101-t90/bin/libggml-hip.so
+2026-11-15T16:30:21+00:00 [gpuopt] c24v90: extra arm /root/build-v101-v90/bin/libggml-hip.so
+2026-11-15T16:30:21+00:00 [gpuopt] 16 variants + 3 extra + 3 reference cells, about 138 min
+reference: decode 24.7750 24.7355 24.7427 (mean 24.7511), prefill 810.3 808.3 807.9 (mean 808.8)
+  tid       decode 24.7930 (+0.17 %) level  prefill 808.2 (-0.07 %) level
+  calls0    decode 24.7888 (+0.15 %) level  prefill 809.3 (+0.05 %) level
+  dividx    decode 24.7870 (+0.15 %) level  prefill 809.0 (+0.02 %) level
+  unrollhi  decode 24.7720 (+0.08 %) level  prefill 200.1 (-75.26 %) down 
+  pa64      decode 24.7522 (+0.00 %) level  prefill 808.5 (-0.04 %) level
+  unrolllo  decode 24.7475 (-0.01 %) level  prefill 809.3 (+0.06 %) level
+  noslp     decode 24.7373 (-0.06 %) level  prefill 808.8 (+0.00 %) level
+  relax     decode 24.7301 (-0.08 %) level  prefill 808.0 (-0.10 %) level
+  novec     decode 24.7283 (-0.09 %) level  prefill 808.1 (-0.09 %) level
+  c24v90    decode 24.7271 (-0.10 %) level  prefill 809.5 (+0.09 %) level
+  sgl0      decode 24.7235 (-0.11 %) level  prefill 809.3 (+0.06 %) level
+  c24       decode 24.7140 (-0.15 %) level  prefill 797.3 (-1.43 %) down 
+  o2        decode 24.7092 (-0.17 %) level  prefill 780.3 (-3.53 %) down 
+  c24t90    decode 24.6717 (-0.32 %) down   prefill 809.1 (+0.03 %) level
+  schdef    decode 24.6420 (-0.44 %) down   prefill 795.2 (-1.69 %) down 
+  schiocc   decode 24.6409 (-0.45 %) down   prefill 381.7 (-52.81 %) down 
+  schmem    decode 24.1629 (-2.38 %) down   prefill 808.8 (+0.00 %) level
+  trk       decode 23.9931 (-3.06 %) down   prefill 809.0 (+0.02 %) level
+  lsv0      decode 20.0435 (-19.02 %) down   prefill 681.7 (-15.71 %) down 
+to the confirmation pass: none
+2026-11-15T19:12:19+00:00 [gpuopt] === GPU-OPT SCREEN PASS 1 DONE ===

@@ -1,0 +1,16 @@
+2026-11-15T19:13:45+00:00 [screen] ref: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-master-v100r/bin/libggml-hip.so preloaded
+2026-11-15T19:13:45+00:00 [screen] c24: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-master-v101/bin/libggml-hip.so preloaded
+2026-11-15T19:13:45+00:00 [screen] c24t90: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so preloaded
+2026-11-15T19:13:59+00:00 [screen] block 1 order: c24 ref c24t90 
+2026-11-15T19:20:19+00:00 [screen] 4 x 65536 c24 b1: decode 24.6967, prefill 797.5
+2026-11-15T19:26:34+00:00 [screen] 4 x 65536 ref b1: decode 24.7068, prefill 808.1
+2026-11-15T19:32:49+00:00 [screen] 4 x 65536 c24t90 b1: decode 24.6872, prefill 809.6
+2026-11-15T19:32:49+00:00 [screen] block 2 order: c24t90 c24 ref 
+2026-11-15T19:39:04+00:00 [screen] 4 x 65536 c24t90 b2: decode 24.7074, prefill 809.4
+2026-11-15T19:45:24+00:00 [screen] 4 x 65536 c24 b2: decode 24.7253, prefill 797.4
+2026-11-15T19:51:39+00:00 [screen] 4 x 65536 ref b2: decode 24.6973, prefill 808.3
+2026-11-15T19:51:39+00:00 [screen] block 3 order: c24t90 ref c24 
+2026-11-15T19:57:54+00:00 [screen] 4 x 65536 c24t90 b3: decode 24.6890, prefill 809.6
+2026-11-15T20:04:10+00:00 [screen] 4 x 65536 ref b3: decode 24.7146, prefill 808.3
+2026-11-15T20:10:30+00:00 [screen] 4 x 65536 c24 b3: decode 24.7241, prefill 797.3
+2026-11-15T20:10:30+00:00 [screen] === SCREEN gpuconf64 DONE ===

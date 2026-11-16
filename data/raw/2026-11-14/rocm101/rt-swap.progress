@@ -1,0 +1,72 @@
+2026-11-15T10:47:08+00:00 [rt] arm rt101: from 10.0: 0 of 26 ROCm libraries: 
+2026-11-15T10:47:08+00:00 [rt] arm rt100: from 10.0: 26 of 26 ROCm libraries: libamd_comgr.so.3.3.0 libamdhip64.so.7.15.26333-0000000 libamd_smi.so.27.0.0 libclang-cpp.so.23.0git libhipblaslt.so.1.4 libhipblas.so.3.6 libhsa-runtime64.so.1
+2026-11-15T10:47:08+00:00 [rt] arm plain101: from 10.0: 0 of 26 ROCm libraries: 
+2026-11-15T10:47:09+00:00 [rt] arm rccl100: from 10.0: 1 of 26 ROCm libraries: librccl.so.1.0 
+2026-11-15T10:47:09+00:00 [rt] arm hip100: from 10.0: 1 of 26 ROCm libraries: libamdhip64.so.7.15.26333-0000000 
+2026-11-15T10:47:09+00:00 [rt] arm rocr100: from 10.0: 1 of 26 ROCm libraries: libhsa-runtime64.so.1.21.0 
+2026-11-15T10:47:10+00:00 [rt] arm blas100: from 10.0: 6 of 26 ROCm libraries: libhipblaslt.so.1.4 libhipblas.so.3.6 liborigami.so.1.0 librocblas.so.5.6 librocroller.so.1.0.0 librocsolver.so.0.11 
+2026-11-15T10:47:10+00:00 [rt] arm comgr100: from 10.0: 3 of 26 ROCm libraries: libamd_comgr.so.3.3.0 libclang-cpp.so.23.0git libLLVM.so.23.0git 
+2026-11-15T10:47:10+00:00 [rt] arm misc100: from 10.0: 14 of 26 ROCm libraries: libamd_smi.so.27.0.0 librocm-core.so.1.0.100000 librocm_kpack.so.0.1.0 librocm_sysdeps_drm_amdgpu.so.1 librocm_sysdeps_drm.so.2 librocm_sysdeps_elf.so.1 librocm
+2026-11-15T10:47:10+00:00 [rt] n=3, arms: rt101 rt100 plain101 rccl100 hip100 rocr100 blas100 comgr100 misc100; depth 65536, ntg 1024; boot 2026-11-15 09:33:59; cmdline pci=realloc pci=pcie_bus_perf ; load 0.99 2.14 7.17
+2026-11-15T10:47:24+00:00 [rt] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1199/2511/2505/2499
+2026-11-15T10:47:24+00:00 [rt] block 1 order: rt100 misc100 blas100 hip100 comgr100 rocr100 plain101 rccl100 rt101
+2026-11-15T10:53:42+00:00 [rt] rt100 b1: decode 24.8393, prefill 808.8
+2026-11-15T10:59:56+00:00 [rt] misc100 b1: decode 24.7894, prefill 809.5
+2026-11-15T11:06:11+00:00 [rt] blas100 b1: decode 24.7714, prefill 808.7
+2026-11-15T11:12:28+00:00 [rt] hip100 b1: decode 24.7140, prefill 808.1
+2026-11-15T11:18:43+00:00 [rt] comgr100 b1: decode 24.6581, prefill 807.7
+2026-11-15T11:24:59+00:00 [rt] rocr100 b1: decode 24.8044, prefill 808.2
+2026-11-15T11:31:14+00:00 [rt] plain101 b1: decode 24.7021, prefill 807.8
+2026-11-15T11:37:29+00:00 [rt] rccl100 b1: decode 24.7433, prefill 808.3
+2026-11-15T11:43:44+00:00 [rt] rt101 b1: decode 24.7510, prefill 808.2
+2026-11-15T11:43:44+00:00 [rt] === block 1 DONE
+[rt] rt100     n=1 decode 24.8393 (24.8393-24.8393), step 40.259 ms, +0.36 % vs rt101; prefill 808.8
+[rt] rocr100   n=1 decode 24.8044 (24.8044-24.8044), step 40.315 ms, +0.22 % vs rt101; prefill 808.2
+[rt] misc100   n=1 decode 24.7894 (24.7894-24.7894), step 40.340 ms, +0.15 % vs rt101; prefill 809.5
+[rt] blas100   n=1 decode 24.7714 (24.7714-24.7714), step 40.369 ms, +0.08 % vs rt101; prefill 808.7
+[rt] rt101     n=1 decode 24.7510 (24.7510-24.7510), step 40.402 ms, +0.00 % vs rt101; prefill 808.2
+[rt] rccl100   n=1 decode 24.7433 (24.7433-24.7433), step 40.415 ms, -0.03 % vs rt101; prefill 808.3
+[rt] hip100    n=1 decode 24.7140 (24.7140-24.7140), step 40.463 ms, -0.15 % vs rt101; prefill 808.1
+[rt] plain101  n=1 decode 24.7021 (24.7021-24.7021), step 40.482 ms, -0.20 % vs rt101; prefill 807.8
+[rt] comgr100  n=1 decode 24.6581 (24.6581-24.6581), step 40.555 ms, -0.38 % vs rt101; prefill 807.7
+2026-11-15T11:43:44+00:00 [rt] block 2 order: rocr100 comgr100 misc100 rccl100 rt101 rt100 blas100 plain101 hip100
+2026-11-15T11:49:59+00:00 [rt] rocr100 b2: decode 24.7894, prefill 808.2
+2026-11-15T11:56:14+00:00 [rt] comgr100 b2: decode 24.7230, prefill 808.5
+2026-11-15T12:02:29+00:00 [rt] misc100 b2: decode 24.7152, prefill 808.1
+2026-11-15T12:08:44+00:00 [rt] rccl100 b2: decode 24.7630, prefill 808.6
+2026-11-15T12:14:59+00:00 [rt] rt101 b2: decode 24.7313, prefill 808.4
+2026-11-15T12:21:16+00:00 [rt] rt100 b2: decode 24.8254, prefill 809.2
+2026-11-15T12:27:31+00:00 [rt] blas100 b2: decode 24.7486, prefill 809.9
+2026-11-15T12:33:45+00:00 [rt] plain101 b2: decode 24.7480, prefill 809.3
+2026-11-15T12:40:02+00:00 [rt] hip100 b2: decode 24.7253, prefill 809.6
+2026-11-15T12:40:02+00:00 [rt] === block 2 DONE
+[rt] rt100     n=2 decode 24.8324 (24.8254-24.8393), step 40.270 ms, +0.37 % vs rt101; prefill 809.0
+[rt] rocr100   n=2 decode 24.7969 (24.7894-24.8044), step 40.328 ms, +0.23 % vs rt101; prefill 808.2
+[rt] blas100   n=2 decode 24.7600 (24.7486-24.7714), step 40.388 ms, +0.08 % vs rt101; prefill 809.3
+[rt] rccl100   n=2 decode 24.7531 (24.7433-24.7630), step 40.399 ms, +0.05 % vs rt101; prefill 808.5
+[rt] misc100   n=2 decode 24.7523 (24.7152-24.7894), step 40.400 ms, +0.04 % vs rt101; prefill 808.8
+[rt] rt101     n=2 decode 24.7412 (24.7313-24.7510), step 40.418 ms, +0.00 % vs rt101; prefill 808.3
+[rt] plain101  n=2 decode 24.7251 (24.7021-24.7480), step 40.445 ms, -0.07 % vs rt101; prefill 808.6
+[rt] hip100    n=2 decode 24.7197 (24.7140-24.7253), step 40.454 ms, -0.09 % vs rt101; prefill 808.9
+[rt] comgr100  n=2 decode 24.6905 (24.6581-24.7230), step 40.501 ms, -0.20 % vs rt101; prefill 808.1
+2026-11-15T12:40:02+00:00 [rt] block 3 order: misc100 rocr100 rt101 comgr100 hip100 rccl100 plain101 blas100 rt100
+2026-11-15T12:46:17+00:00 [rt] misc100 b3: decode 24.7582, prefill 809.4
+2026-11-15T12:52:31+00:00 [rt] rocr100 b3: decode 24.8369, prefill 809.4
+2026-11-15T12:58:46+00:00 [rt] rt101 b3: decode 24.7624, prefill 809.7
+2026-11-15T13:05:01+00:00 [rt] comgr100 b3: decode 24.7457, prefill 810.0
+2026-11-15T13:11:17+00:00 [rt] hip100 b3: decode 24.7457, prefill 808.8
+2026-11-15T13:17:32+00:00 [rt] rccl100 b3: decode 24.7642, prefill 809.9
+2026-11-15T13:23:47+00:00 [rt] plain101 b3: decode 24.7540, prefill 809.4
+2026-11-15T13:30:01+00:00 [rt] blas100 b3: decode 24.7516, prefill 808.9
+2026-11-15T13:36:18+00:00 [rt] rt100 b3: decode 24.8140, prefill 808.8
+2026-11-15T13:36:18+00:00 [rt] === block 3 DONE
+[rt] rt100     n=3 decode 24.8263 (24.8140-24.8393), step 40.280 ms, +0.32 % vs rt101; prefill 808.9
+[rt] rocr100   n=3 decode 24.8102 (24.7894-24.8369), step 40.306 ms, +0.25 % vs rt101; prefill 808.6
+[rt] blas100   n=3 decode 24.7572 (24.7486-24.7714), step 40.392 ms, +0.04 % vs rt101; prefill 809.2
+[rt] rccl100   n=3 decode 24.7568 (24.7433-24.7642), step 40.393 ms, +0.03 % vs rt101; prefill 808.9
+[rt] misc100   n=3 decode 24.7543 (24.7152-24.7894), step 40.397 ms, +0.02 % vs rt101; prefill 809.0
+[rt] rt101     n=3 decode 24.7483 (24.7313-24.7624), step 40.407 ms, +0.00 % vs rt101; prefill 808.8
+[rt] plain101  n=3 decode 24.7347 (24.7021-24.7540), step 40.429 ms, -0.05 % vs rt101; prefill 808.8
+[rt] hip100    n=3 decode 24.7283 (24.7140-24.7457), step 40.439 ms, -0.08 % vs rt101; prefill 808.8
+[rt] comgr100  n=3 decode 24.7089 (24.6581-24.7457), step 40.471 ms, -0.16 % vs rt101; prefill 808.7
+2026-11-15T13:36:18+00:00 [rt] === RT-SWAP DONE ===

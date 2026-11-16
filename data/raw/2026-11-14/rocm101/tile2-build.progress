@@ -1,0 +1,48 @@
+2026-11-15T14:24:59+00:00 [tile2] c23none      clang 23     device step: -emit-obj | -amdgpu-internalize-symbols    kernels: 4x8: 0 spilled, 88 vgprs, stack 0; 8x4: 0 spilled, 87 vgprs, stack 0; 16x2: 1 spilled, 128 vgprs, stack 8    /root/swap/c23none: 1 of 215 HIP objects from /root/swap/donor-c23none 
+2026-11-15T14:24:59+00:00 [tile2] x23on23      optimizer clang 23, code generator clang 23     kernels: 4x8: 5 spilled, 128 vgprs, stack 24; 8x4: 4 spilled, 128 vgprs, stack 20; 16x2: 1 spilled, 128 vgprs, stack 8    /root/swap/x23on23: 1 of 215 HIP objects from /root/swap/donor-x23on23 
+2026-11-15T14:24:59+00:00 [tile2] x24on24      optimizer clang 24, code generator clang 24     kernels: 4x8: 12 spilled, 128 vgprs, stack 52; 8x4: 12 spilled, 128 vgprs, stack 52; 16x2: 16 spilled, 128 vgprs, stack 68    /root/swap/x24on24: 1 of 215 HIP objects from /root/swap/donor-x24on24 
+2026-11-15T14:24:59+00:00 [tile2] x23on24      optimizer clang 23, code generator clang 24     kernels: 4x8: 10 spilled, 128 vgprs, stack 44; 8x4: 14 spilled, 128 vgprs, stack 60; 16x2: 18 spilled, 128 vgprs, stack 76    /root/swap/x23on24: 1 of 215 HIP objects from /root/swap/donor-x23on24 
+2026-11-15T14:24:59+00:00 [tile2] x24on23      optimizer clang 24, code generator clang 23     kernels: 4x8: 5 spilled, 128 vgprs, stack 24; 8x4: 4 spilled, 128 vgprs, stack 20; 16x2: 1 spilled, 128 vgprs, stack 8    /root/swap/x24on23: 1 of 215 HIP objects from /root/swap/donor-x24on23 
+2026-11-15T14:24:59+00:00 [tile2] v95          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=95    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=95    kernels: 4x8: 0 spilled, 128 vgprs, stack 0; 8x4: 0 spilled, 127 vgprs, stack 0; 16x2: 9 spilled, 128 vgprs, stack 40    /root/swap/v95: 1 of 215 HIP objects from /root/swap/donor-v95 
+2026-11-15T14:24:59+00:00 [tile2] v90          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=90    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=90    kernels: 4x8: 2 spilled, 128 vgprs, stack 12; 8x4: 1 spilled, 128 vgprs, stack 8; 16x2: 0 spilled, 123 vgprs, stack 0    /root/swap/v90: 1 of 215 HIP objects from /root/swap/donor-v90 
+2026-11-15T14:24:59+00:00 [tile2] v85          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=85    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=85    kernels: 4x8: 0 spilled, 115 vgprs, stack 0; 8x4: 0 spilled, 112 vgprs, stack 0; 16x2: 0 spilled, 120 vgprs, stack 0    /root/swap/v85: 1 of 215 HIP objects from /root/swap/donor-v85 
+2026-11-15T14:24:59+00:00 [tile2] v80          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=80    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=80    kernels: 4x8: 0 spilled, 110 vgprs, stack 0; 8x4: 0 spilled, 109 vgprs, stack 0; 16x2: 0 spilled, 111 vgprs, stack 0    /root/swap/v80: 1 of 215 HIP objects from /root/swap/donor-v80 
+2026-11-15T14:24:59+00:00 [tile2] v75          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=75    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=75    kernels: 4x8: 0 spilled, 106 vgprs, stack 0; 8x4: 0 spilled, 105 vgprs, stack 0; 16x2: 0 spilled, 105 vgprs, stack 0    /root/swap/v75: 1 of 215 HIP objects from /root/swap/donor-v75 
+2026-11-15T14:24:59+00:00 [tile2] v70          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=70    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=70    kernels: 4x8: 0 spilled, 100 vgprs, stack 0; 8x4: 0 spilled, 99 vgprs, stack 0; 16x2: 0 spilled, 99 vgprs, stack 0    /root/swap/v70: 1 of 215 HIP objects from /root/swap/donor-v70 
+2026-11-15T14:24:59+00:00 [tile2] v60          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=60    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=60    kernels: 4x8: 0 spilled, 84 vgprs, stack 0; 8x4: 0 spilled, 83 vgprs, stack 0; 16x2: 0 spilled, 89 vgprs, stack 0    /root/swap/v60: 1 of 215 HIP objects from /root/swap/donor-v60 
+2026-11-15T14:24:59+00:00 [tile2] v50          clang 24 -mllvm -amdgpu-vgpr-threshold-percent=50    device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp -amdgpu-vgpr-threshold-percent=50    kernels: 4x8: 0 spilled, 77 vgprs, stack 0; 8x4: 0 spilled, 76 vgprs, stack 0; 16x2: 0 spilled, 79 vgprs, stack 0    /root/swap/v50: 1 of 215 HIP objects from /root/swap/donor-v50 
+code object                                   insns  loops | hot loop: insns   gload  reload   spill  waits   lds v_mov
+drv-c23.elf                                    2836      5 |            1883      10       0       0      9   208     0
+drv-c24.elf                                    2883      6 |            1906      10      10       0     13   208     0
+drv-c24old.elf                                 2883      6 |            1906      10      10       0     13   208     0
+drv-c23none.elf                                2836      5 |            1883      10       0       0      9   208     0
+drv-x23on23.elf                                2836      5 |            1883      10       0       0      9   208     0
+drv-x24on24.elf                                2883      6 |            1906      10      10       0     13   208     0
+drv-x23on24.elf                                2892      6 |            1910      10      11       0     14   208     0
+drv-x24on23.elf                                2833      5 |            1880      10       0       0      9   208     0
+drv-v95.elf                                    2870      6 |            1902      10       4       0     11   208     0
+drv-v90.elf                                    2837      6 |            1894      10       0       0      9   208     0
+drv-v85.elf                                    2841      6 |            1898      10       0       0      9   208     0
+drv-v80.elf                                    2846      6 |            1902      10       0       0      9   208     0
+drv-v75.elf                                    2843      6 |            1901      10       0       0      9   208     0
+drv-v70.elf                                    2846      6 |            1904      10       0       0      9   208     0
+drv-v60.elf                                    2853      6 |            1911      10       0       0      9   208     0
+drv-v50.elf                                    2858      6 |            1916      10       0       0     10   208     0
+hot loop of the 16x2 kernel, instruction text compared with the two controls (1.000 = identical):
+  drv-c23.elf            drv-c23.elf 1.000 (same)   drv-c24.elf 0.100
+  drv-c24.elf            drv-c23.elf 0.099   drv-c24.elf 1.000 (same)
+  drv-c24old.elf         drv-c23.elf 0.099   drv-c24.elf 1.000 (same)
+  drv-c23none.elf        drv-c23.elf 0.105   drv-c24.elf 0.093
+  drv-x23on23.elf        drv-c23.elf 1.000 (same)   drv-c24.elf 0.100
+  drv-x24on24.elf        drv-c23.elf 0.099   drv-c24.elf 1.000 (same)
+  drv-x23on24.elf        drv-c23.elf 0.096   drv-c24.elf 0.550
+  drv-x24on23.elf        drv-c23.elf 0.731   drv-c24.elf 0.100
+  drv-v95.elf            drv-c23.elf 0.095   drv-c24.elf 0.477
+  drv-v90.elf            drv-c23.elf 0.122   drv-c24.elf 0.103
+  drv-v85.elf            drv-c23.elf 0.108   drv-c24.elf 0.099
+  drv-v80.elf            drv-c23.elf 0.108   drv-c24.elf 0.102
+  drv-v75.elf            drv-c23.elf 0.107   drv-c24.elf 0.103
+  drv-v70.elf            drv-c23.elf 0.094   drv-c24.elf 0.098
+  drv-v60.elf            drv-c23.elf 0.098   drv-c24.elf 0.110
+  drv-v50.elf            drv-c23.elf 0.086   drv-c24.elf 0.088
+2026-11-15T14:25:00+00:00 [tile2] === TILE2 BUILDS DONE ===

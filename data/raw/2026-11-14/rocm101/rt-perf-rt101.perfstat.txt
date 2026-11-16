@@ -1,0 +1,14 @@
+# started on Sun Nov 15 15:46:54 2026
+
+
+ Performance counter stats for process id '523349':
+
+        577,518.22 msec task-clock                                                            
+         1,380,026      context-switches                                                      
+               871      cpu-migrations                                                        
+            50,986      syscalls:sys_enter_ioctl                                              
+           174,833      syscalls:sys_enter_futex                                              
+             5,593      syscalls:sys_enter_poll                                               
+
+     330.354029991 seconds time elapsed
+

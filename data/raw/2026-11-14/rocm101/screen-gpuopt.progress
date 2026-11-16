@@ -1,0 +1,45 @@
+2026-11-15T16:30:21+00:00 [screen] base1: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-master-v100r/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] calls0: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-calls0/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] dividx: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-dividx/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] lsv0: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-lsv0/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] noslp: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-noslp/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] novec: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-novec/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] o2: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-o2/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] pa64: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-pa64/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] relax: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-relax/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] base2: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-master-v100r/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] schdef: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-schdef/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] schiocc: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-schiocc/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] schmem: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-schmem/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] sgl0: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-sgl0/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] tid: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-tid/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] trk: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-trk/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] unrollhi: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-unrollhi/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] unrolllo: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-gpuopt-unrolllo/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] c24: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-master-v101/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] c24t90: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so preloaded
+2026-11-15T16:30:22+00:00 [screen] c24v90: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-v101-v90/bin/libggml-hip.so preloaded
+2026-11-15T16:30:23+00:00 [screen] base3: /root/build-master-v100r on /opt/rocm/core-10.1 with /root/build-master-v100r/bin/libggml-hip.so preloaded
+2026-11-15T16:36:51+00:00 [screen] 4 x 65536 base1 b1: decode 24.7750, prefill 810.3
+2026-11-15T16:43:06+00:00 [screen] 4 x 65536 calls0 b1: decode 24.7888, prefill 809.3
+2026-11-15T16:49:21+00:00 [screen] 4 x 65536 dividx b1: decode 24.7870, prefill 809.0
+2026-11-15T16:56:47+00:00 [screen] 4 x 65536 lsv0 b1: decode 20.0435, prefill 681.7
+2026-11-15T17:03:02+00:00 [screen] 4 x 65536 noslp b1: decode 24.7373, prefill 808.8
+2026-11-15T17:09:18+00:00 [screen] 4 x 65536 novec b1: decode 24.7283, prefill 808.1
+2026-11-15T17:15:45+00:00 [screen] 4 x 65536 o2 b1: decode 24.7092, prefill 780.3
+2026-11-15T17:22:01+00:00 [screen] 4 x 65536 pa64 b1: decode 24.7522, prefill 808.5
+2026-11-15T17:28:17+00:00 [screen] 4 x 65536 relax b1: decode 24.7301, prefill 808.0
+2026-11-15T17:34:32+00:00 [screen] 4 x 65536 base2 b1: decode 24.7355, prefill 808.3
+2026-11-15T17:40:54+00:00 [screen] 4 x 65536 schdef b1: decode 24.6420, prefill 795.2
+2026-11-15T17:53:12+00:00 [screen] 4 x 65536 schiocc b1: decode 24.6409, prefill 381.7
+2026-11-15T17:59:29+00:00 [screen] 4 x 65536 schmem b1: decode 24.1629, prefill 808.8
+2026-11-15T18:05:44+00:00 [screen] 4 x 65536 sgl0 b1: decode 24.7235, prefill 809.3
+2026-11-15T18:11:59+00:00 [screen] 4 x 65536 tid b1: decode 24.7930, prefill 808.2
+2026-11-15T18:18:16+00:00 [screen] 4 x 65536 trk b1: decode 23.9931, prefill 809.0
+2026-11-15T18:40:58+00:00 [screen] 4 x 65536 unrollhi b1: decode 24.7720, prefill 200.1
+2026-11-15T18:47:13+00:00 [screen] 4 x 65536 unrolllo b1: decode 24.7475, prefill 809.3
+2026-11-15T18:53:33+00:00 [screen] 4 x 65536 c24 b1: decode 24.7140, prefill 797.3
+2026-11-15T18:59:49+00:00 [screen] 4 x 65536 c24t90 b1: decode 24.6717, prefill 809.1
+2026-11-15T19:06:04+00:00 [screen] 4 x 65536 c24v90 b1: decode 24.7271, prefill 809.5
+2026-11-15T19:12:19+00:00 [screen] 4 x 65536 base3 b1: decode 24.7427, prefill 807.9
+2026-11-15T19:12:19+00:00 [screen] === SCREEN gpuopt DONE ===

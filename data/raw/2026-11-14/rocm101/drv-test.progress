@@ -1,0 +1,22 @@
+2026-11-15T13:36:53+00:00 [drv] c23          clang 23     device step: -emit-obj | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp    kernels: 4x8: 5 spilled, 128 vgprs, stack 24; 8x4: 4 spilled, 128 vgprs, stack 20; 16x2: 1 spilled, 128 vgprs, stack 8    /root/swap/c23: 1 of 215 HIP objects from /root/swap/donor-c23 
+2026-11-15T13:36:53+00:00 [drv] c24          clang 24     device step: -emit-llvm-bc -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp    kernels: 4x8: 12 spilled, 128 vgprs, stack 52; 8x4: 12 spilled, 128 vgprs, stack 52; 16x2: 16 spilled, 128 vgprs, stack 68    /root/swap/c24: 1 of 215 HIP objects from /root/swap/donor-c24 
+2026-11-15T13:36:53+00:00 [drv] c24old       clang 24 --no-offload-new-driver    device step: -emit-obj | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp    kernels: 4x8: 12 spilled, 128 vgprs, stack 52; 8x4: 12 spilled, 128 vgprs, stack 52; 16x2: 16 spilled, 128 vgprs, stack 68    /root/swap/c24old: 1 of 215 HIP objects from /root/swap/donor-c24old 
+2026-11-15T13:36:53+00:00 [drv] c24nol       clang 24 -fno-offload-lto    device step: -emit-obj | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp    kernels: 4x8: 12 spilled, 128 vgprs, stack 52; 8x4: 12 spilled, 128 vgprs, stack 52; 16x2: 16 spilled, 128 vgprs, stack 68    /root/swap/c24nol: 1 of 215 HIP objects from /root/swap/donor-c24nol 
+2026-11-15T13:36:53+00:00 [drv] c23lto       clang 23 --offload-new-driver -foffload-lto=full    device step: -emit-llvm-bc -emit-llvm-uselists -flto=full -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp    kernels: 16x2: 1 spilled, 128 vgprs, stack 8; 4x8: 5 spilled, 128 vgprs, stack 24; 8x4: 4 spilled, 128 vgprs, stack 20    /root/swap/c23lto: 1 of 215 HIP objects from /root/swap/donor-c23lto 
+2026-11-15T13:36:53+00:00 [drv] c24thin      clang 24 -foffload-lto=thin    device step: -emit-llvm-bc -flto=thin -flto-unit | -amdgpu-internalize-symbols -amdgpu-sched-strategy=max-ilp    kernels: 4x8: 11 spilled, 128 vgprs, stack 48; 8x4: 16 spilled, 128 vgprs, stack 68; 16x2: 0 spilled, 85 vgprs, stack 0    /root/swap/c24thin: 1 of 215 HIP objects from /root/swap/donor-c24thin 
+code object                                   insns  loops | hot loop: insns   gload  reload   spill  waits   lds v_mov
+tile-v100r.elf                                 2836      5 |            1883      10       0       0      9   208     0
+tile-v101.elf                                  2883      6 |            1906      10      10       0     13   208     0
+drv-c23.elf                                    2836      5 |            1883      10       0       0      9   208     0
+drv-c24.elf                                    2883      6 |            1906      10      10       0     13   208     0
+drv-c24old.elf                                 2883      6 |            1906      10      10       0     13   208     0
+drv-c24nol.elf                                 2883      6 |            1906      10      10       0     13   208     0
+drv-c23lto.elf                                 2836      5 |            1883      10       0       0      9   208     0
+drv-c24thin.elf                                2826      6 |            1883      10       0       0      9   208     0
+2026-11-15T13:36:54+00:00 [drv] GPU code of c23: sha256 of .text 7dccc555ad1a7851 598748
+2026-11-15T13:36:54+00:00 [drv] GPU code of c24: sha256 of .text ef4a7e0756e3ec7e 605520
+2026-11-15T13:36:54+00:00 [drv] GPU code of c24old: sha256 of .text aaa59908141fe699 604752
+2026-11-15T13:36:54+00:00 [drv] GPU code of c24nol: sha256 of .text aaa59908141fe699 604752
+2026-11-15T13:36:54+00:00 [drv] GPU code of c23lto: sha256 of .text b4eed8dd2eb9d01b 598868
+2026-11-15T13:36:54+00:00 [drv] GPU code of c24thin: sha256 of .text 9e06d5989484ca2c 604248
+2026-11-15T14:24:30+00:00 [drv] === DRV TEST DONE ===

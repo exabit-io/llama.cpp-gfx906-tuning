@@ -3,6 +3,7 @@
 # tokens), N runs per arm, arms run in the given order within each block. For screening candidate builds before the
 # full design-point A/B: same model, flags and environment as rocm-ab.sh. Appends to screen-TAG.{progress,tsv}.
 # PRELOAD (optional): a libggml-hip.so to load instead of the build's own (object-swap experiments, swaplink.py).
+# SHUFFLE=1 in the environment: a fresh random arm order in every block (logged), for confirmation passes.
 set -u
 W=/root/rocm101-migration-20261114; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf
 TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-fa-fallback.sh
@@ -33,7 +34,9 @@ nohup $R/smc-log.sh $W/screen-$TAG-smc.log >/dev/null 2>&1 &
 SMCL=$!
 sleep 6
 for blk in $(seq 1 $N); do
-  for arm in $ARMS; do
+  order=$ARMS
+  if [ "${SHUFFLE:-0}" = 1 ]; then order=$(echo $ARMS | tr ' ' '\n' | shuf | tr '\n' ' '); log "block $blk order: $order"; fi
+  for arm in $order; do
     bd=${BD[$arm]}; rt=${RT[$arm]}; pl=${PL[$arm]}; out=$O/$arm-$blk.md
     env ${pl:+LD_PRELOAD=$pl} LD_LIBRARY_PATH=$bd/bin:$rt/lib AMD_COMGR_CACHE_DIR=/root/.cache/comgr-screen-$arm timeout 7200 \
       $bd/bin/llama-batched-bench -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \

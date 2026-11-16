@@ -1,0 +1,19 @@
+2026-11-15T13:36:54+00:00 [screen] c23: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/c23/libggml-hip.so preloaded
+2026-11-15T13:36:54+00:00 [screen] c24: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/c24/libggml-hip.so preloaded
+2026-11-15T13:36:54+00:00 [screen] c24old: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/c24old/libggml-hip.so preloaded
+2026-11-15T13:36:54+00:00 [screen] c24nol: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/c24nol/libggml-hip.so preloaded
+2026-11-15T13:36:54+00:00 [screen] c23lto: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/c23lto/libggml-hip.so preloaded
+2026-11-15T13:36:54+00:00 [screen] c24thin: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/c24thin/libggml-hip.so preloaded
+2026-11-15T13:41:01+00:00 [screen] 1 x 131072 c23 b1: decode 40.1254, prefill 605.7
+2026-11-15T13:45:00+00:00 [screen] 1 x 131072 c24 b1: decode 40.1695, prefill 590.3
+2026-11-15T13:48:57+00:00 [screen] 1 x 131072 c24old b1: decode 40.1065, prefill 591.0
+2026-11-15T13:52:56+00:00 [screen] 1 x 131072 c24nol b1: decode 40.0626, prefill 590.8
+2026-11-15T13:56:49+00:00 [screen] 1 x 131072 c23lto b1: decode 40.1632, prefill 605.2
+2026-11-15T14:00:50+00:00 [screen] 1 x 131072 c24thin b1: decode 40.0814, prefill 582.9
+2026-11-15T14:04:43+00:00 [screen] 1 x 131072 c23 b2: decode 40.2200, prefill 605.8
+2026-11-15T14:08:41+00:00 [screen] 1 x 131072 c24 b2: decode 40.0188, prefill 590.2
+2026-11-15T14:12:39+00:00 [screen] 1 x 131072 c24old b2: decode 40.1003, prefill 590.3
+2026-11-15T14:16:37+00:00 [screen] 1 x 131072 c24nol b2: decode 40.1443, prefill 590.6
+2026-11-15T14:20:30+00:00 [screen] 1 x 131072 c23lto b2: decode 40.0501, prefill 605.4
+2026-11-15T14:24:30+00:00 [screen] 1 x 131072 c24thin b2: decode 40.1569, prefill 583.1
+2026-11-15T14:24:30+00:00 [screen] === SCREEN drv128k DONE ===

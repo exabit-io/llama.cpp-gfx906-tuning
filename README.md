@@ -21,7 +21,27 @@ Four Radeon Pro Vega II dies (2 × Vega II Duo, 32 GB HBM2 each, one XGMI hive) 
 | `reference/` | section maps of the AMD Vega 7nm ISA, Infinity Fabric Link and Instinct tuning guides, and the LLVM AMDGPU backend guide (`reference/README.md`) |
 | `CLAUDE.md` | conventions for future sessions in this folder |
 
-The code is a separate repository: **https://github.com/exabit-io/mx-llama.cpp**. **The substrate since 2026-11-14** is `merge-v1.0.0` (`a73c601e6`) = mxxm-t's fork at `cdc81dae4` merged with llama.cpp v1.0.0 (`b1b770d`, b12359) plus two HIP fixes, offered to mxxm-t as [PR #24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (PR #17, #22 and #23, the v0.5.0, v0.7.0 and v0.9.0 merges, were closed unmerged). Branches: `master` = `gfx906-single` = `gfx906-multi` = `df2c6e5c5` (substrate + RCCL default + the patches binned for both profiles), `gfx906-candidates` (our unbinned patches), `merge-v1.0.0` (the pure substrate, until merged). How a release is taken through the stack: `RELEASE-RUNBOOK.md`. `exabit-io/llama.cpp` is retired history (archived 2026-09-24, read-only). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`.
+The code is a separate repository: **https://github.com/exabit-io/mx-llama.cpp**. **The substrate since 2026-11-14** is `merge-v1.0.0` (`a73c601e6`) = mxxm-t's fork at `cdc81dae4` merged with llama.cpp v1.0.0 (`b1b770d`, b12359) plus two HIP fixes, offered to mxxm-t as [PR #24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (PR #17, #22 and #23, the v0.5.0, v0.7.0 and v0.9.0 merges, were closed unmerged). Branches: `master` = `gfx906-single` = `gfx906-multi` = `290fc642a` (substrate + RCCL default + the patches binned for both profiles + the LLVM 24 rule for the head-256 tile instance; tag `gfx906/v1.0.0/r1/master`), `gfx906-candidates` (our unbinned patches), `merge-v1.0.0` (the pure substrate, until merged). How a release is taken through the stack: `RELEASE-RUNBOOK.md`. `exabit-io/llama.cpp` is retired history (archived 2026-09-24, read-only). mixa3607's `ML-gfx906` is a different project (ROCm builds + Docker presets, no llama.cpp source). Plan: `RE-RE-SURVEY-ACTION-PLAN.md`.
+
+## Status — 2026-11-15: the llama package is compiled by ROCm 10.1
+
+The three open questions of the ROCm 10.1 migration are answered (`reports/2026-11-14-rocm-10.1.md`, sections 4.1 and 5.3-5.6):
+
+- **LLVM 24's slow tile kernel**: the loss is made in the code generator (its scheduler leaves more vector registers live
+  than the kernel may use, and spills are reloaded in every iteration of the inner loop). One scheduler option on the one
+  object (`-mllvm -amdgpu-vgpr-threshold-percent=90`, applied by the tree since `290fc642a` when the compiler is clang 24 or
+  newer) removes it: with only the GPU library exchanged, prefill 808.2 / 797.4 / 809.5 tok/s at 4 x 64K and 605.2 / 590.0 /
+  606.8 at 1 x 128K for clang 23 / clang 24 / clang 24 with the rule (n = 3 each), decode level.
+- **The 10.1 runtime's decode cost** (0.3 % at 4 x 64K) is ROCr: its event thread sleeps between polls where 10.0's kept a
+  host core spinning. Nothing to change.
+- **GPU-side compile options**: sixteen single changes timed at 4 x 64K, none faster than the tree's flags, several far
+  slower (load-store vectorizer off -19 % decode, a high unroll threshold -75 % prefill).
+
+The package was rebuilt as `1.0.0+git20261115.290fc642a.rocm10.1.gfx906.20261018172427-1`: compiled by ROCm 10.1's toolchain,
+without the global `-march=native`. Design-point acceptance against the ROCm 10.0 source build (n = 5 per arm): prefill
+810.3 against 808.1 tok/s at 4 x 64K and 412.4 against 411.3 at 1 x 255K (+0.27 %, +0.28 %); decode 24.737 against 24.868
+tok/s per slot (-0.52 %) and 32.051 against 32.034 (+0.05 %); all under the 2 % floor. Published into the rolling channel
+and installed from it. Building the package no longer needs ROCm 10.0.
 
 ## Status — 2026-11-14 (evening): ROCm 10.1
 

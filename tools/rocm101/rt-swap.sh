@@ -14,13 +14,15 @@
 #   plain101  the 10.1 runtime through LD_LIBRARY_PATH alone, no preload (shows whether the preload itself costs anything)
 #   rccl100   10.1, but librccl.so.1 from 10.0 (RCCL 2.30.4 instead of 2.30.7)
 #   hip100    10.1, but libamdhip64.so.7 from 10.0 (HIP 7.15 instead of 7.16)
-#   rocr100   10.1, but libhsa-runtime64.so.1 from 10.0
+#   rocr100   10.1, but libhsa-runtime64.so.1 from 10.0 (with the profiling library it opens by name at run time)
 #   blas100   10.1, but the BLAS stack from 10.0 (rocblas, hipblas, hipblaslt, rocsolver, origami, rocroller)
 #   comgr100  10.1, but libamd_comgr.so.3 from 10.0 with its libLLVM and libclang-cpp 23
 #   misc100   10.1, but everything not named above from 10.0 (rocprofiler-register, roctx, amd_smi, rocm-core, kpack, sysdeps)
 # Each cell compares the ROCm files in /proc/<pid>/maps with the arm's list, file by file.
 # Cell: rocm-ab2.sh's multi-user cell (Qwen3.8-27B Q8_0, 4 x 64K, -sm tensor, f16 KV, 125 W, RCCL + gated custom AR,
 # -ntg 1024). DEPTH/NTG/MAPWAIT shrink it for a start-up smoke run of the mixed arms (never a result: below the 64K floor).
+# PERF=1 (with a TAG of its own, never the screen's) attaches perf record and perf stat to the bench once its libraries
+# are mapped: a profile of the host side for comparing two arms, not a timing.
 #
 # READING, WRITTEN BEFORE THE FIRST CELL: a screen, n = N blocks (default 3), every arm once per block in a seeded random
 # order, statistic the mean decode per slot. (1) If the ranges of rt100 and rt101 overlap, the runtime difference is not
@@ -39,7 +41,14 @@ log(){ echo "$(date -Is) [rt] $*" | tee -a $P; }
 kpid(){ [ -n "${1:-}" ] && [ "${1:-0}" -gt 1 ] 2>/dev/null && kill "$1" 2>/dev/null; return 0; }
 rm -f $DONE; echo $$ > $W/$TAG.pid
 RF=/root/build-master-v100r/bin; A=/opt/rocm/core-10.0/lib; B=/opt/rocm/core-10.1/lib; EXE=$RF/llama-batched-bench
-SONAMES=$(LD_LIBRARY_PATH=$RF:$B ldd $EXE | awk '$2 == "=>" && $3 ~ /^\/opt\/rocm\// {print $1}' | sort -u)
+# soname and resolved file of every ROCm library of the process, as the loader finds them in each tree (some sit in
+# lib/llvm/lib or lib/rocm_sysdeps/lib, reached through the libraries' own RPATH)
+MAPB=$(LD_LIBRARY_PATH=$RF:$B ldd $EXE | awk '$2 == "=>" && $3 ~ /^\/opt\/rocm\// {print $1, $3}' | sort -u)
+MAPA=$(LD_LIBRARY_PATH=$RF:$A ldd $EXE | awk '$2 == "=>" && $3 ~ /^\/opt\/rocm\// {print $1, $3}' | sort -u)
+SONAMES=$(echo "$MAPB" | cut -d' ' -f1)
+file_of(){ # file_of MAP SONAME_PREFIX -> the resolved file of the first soname with that prefix
+  echo "$1" | awk -v s="$2" 'index($1, s) == 1 {print $2; exit}' | xargs -r readlink -f
+}
 G_RCCL="librccl.so.1"; G_HIP="libamdhip64.so.7"; G_ROCR="libhsa-runtime64.so.1"; G_COMGR="libamd_comgr.so.3"
 G_BLAS="librocblas.so.5 libhipblas.so.3 libhipblaslt.so.1 librocsolver.so.0 liborigami.so.1 librocroller.so.1"
 has(){ [[ " $1 " == *" $2 "* ]]; }
@@ -52,13 +61,13 @@ in100(){ # in100 ARM SONAME -> 0 when the arm takes SONAME from the 10.0 tree
     *) return 1;;
   esac
 }
-paths(){ # paths ARM -> the full resolved path of every ROCm library of the arm, one per line
+paths(){ # paths ARM -> the resolved file of every ROCm library of the arm, one per line
   local arm=$1 s
   for s in $SONAMES; do
     case $s in
-      libLLVM.so.*|libclang-cpp.so.*)    # comgr's own LLVM: the version of the tree comgr comes from
-        if in100 $arm libamd_comgr.so.3; then readlink -f $A/${s%%.so.*}.so.23.0git; else readlink -f $B/$s; fi;;
-      *) if in100 $arm $s; then readlink -f $A/$s; else readlink -f $B/$s; fi;;
+      libLLVM.so.*|libclang-cpp.so.*)    # comgr's own LLVM: the one of the tree comgr comes from (other soname version)
+        if in100 $arm libamd_comgr.so.3; then file_of "$MAPA" "${s%%.so.*}.so."; else file_of "$MAPB" "$s"; fi;;
+      *) if in100 $arm $s; then file_of "$MAPA" "$s"; else file_of "$MAPB" "$s"; fi;;
     esac
   done
 }
@@ -69,10 +78,18 @@ arm_env(){ # arm_env ARM -> environment assignments, one per line
 # check_maps ARM FILE -> 0 when the ROCm files mapped (FILE, one resolved path per line) are exactly the arm's
 check_maps(){
   if [ "$1" = plain101 ]; then [ "$(grep -c '^/opt/rocm/core-10.0/' $2)" = 0 ] && [ "$(grep -c '^/opt/rocm/core-10.1/' $2)" -gt 5 ]
-  else [ "$(sort -u $2)" = "$(paths $1 | sort -u)" ]; fi
+  else
+    [ "$(grep -v 'libhsa-amd-aqlprofile64' $2 | sort -u)" = "$(paths $1 | sort -u)" ] || return 1
+    # ROCR opens its profiling library by name at run time, through its own RPATH (a differently named file in each
+    # tree): it must come from the tree ROCR comes from
+    local aq; aq=$(grep 'libhsa-amd-aqlprofile64' $2 | head -1)
+    if in100 $1 libhsa-runtime64.so.1; then case "$aq" in ""|/opt/rocm/core-10.0/*) return 0;; *) return 1;; esac
+    else case "$aq" in ""|/opt/rocm/core-10.1/*) return 0;; *) return 1;; esac; fi
+  fi
 }
 [ "$(echo "$SONAMES" | wc -l)" -gt 20 ] || { log "FATAL: ldd names only $(echo "$SONAMES" | wc -l) ROCm libraries"; touch $DONE; exit 1; }
 for a in $ARMS; do
+  [ "$(paths $a | wc -l)" = "$(echo "$SONAMES" | wc -l)" ] || { log "FATAL: arm $a: $(paths $a | wc -l) files for $(echo "$SONAMES" | wc -l) sonames"; touch $DONE; exit 1; }
   for f in $(paths $a); do [ -f "$f" ] || { log "FATAL: arm $a: no $f"; touch $DONE; exit 1; }; done
   log "arm $a: from 10.0: $(paths $a | grep -c "^${A%/lib}/") of $(paths $a | wc -l) ROCm libraries: $(paths $a | grep "^${A%/lib}/" | xargs -r -n1 basename | tr '\n' ' ' | cut -c1-160)"
 done
@@ -103,6 +120,10 @@ cell(){ # cell ARM BLOCK
   sleep $MAPWAIT      # the libraries are mapped long before; the model is still loading
   child=$(pgrep -P $BPID | head -1)
   awk '$6 ~ /^\/opt\/rocm\// {print $6}' /proc/${child:-0}/maps 2>/dev/null | xargs -r -n1 readlink -f | sort -u > ${out%.md}.maps
+  if [ "${PERF:-0}" = 1 ] && [ -n "$child" ]; then    # diagnostic runs only (their own TAG): where the host CPU time goes
+    perf record -q -F 499 -p "$child" -o ${out%.md}.perf.data > /dev/null 2>&1 &
+    perf stat -p "$child" -e task-clock,context-switches,cpu-migrations,syscalls:sys_enter_ioctl,syscalls:sys_enter_futex,syscalls:sys_enter_poll -o ${out%.md}.perfstat > /dev/null 2>&1 &
+  fi
   wait $BPID
   rc=$?
   BPID=""

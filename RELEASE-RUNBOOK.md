@@ -10,10 +10,10 @@ from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `re
 |---|---|
 | Code repository | `github.com/exabit-io/mx-llama.cpp`; local clone `/root/exabit-llama.cpp`, remote `exabit-mx`; upstream fork remote `mxxm` (mxxm-t/mx-llama.cpp), `upstream` (ggml-org) |
 | Pure substrate | branch `merge-v1.0.0` = `a73c601e6` = merge of v1.0.0 (`b1b770d`, b12359) onto mxxm-t `cdc81dae4` + HIP top-k ballot fix + HIP `PAD_REFLECT_1D` launch-size fix; PR [mxxm-t/mx-llama.cpp#24](https://github.com/mxxm-t/mx-llama.cpp/pull/24) (supersedes #23, closed) |
-| The build | tag `gfx906/v1.0.0/r0/master` = `df2c6e5c5` = substrate + the 18 Exabit commits; branches `master` = `gfx906-single` = `gfx906-multi` |
+| The build | tag `gfx906/v1.0.0/r1/master` = `290fc642a` = substrate + the 18 Exabit commits (`gfx906/v1.0.0/r0/master` = `df2c6e5c5`) + the LLVM 24 rule for the head-256 tile instance; branches `master` = `gfx906-single` = `gfx906-multi` |
 | Unbinned pool | tag `gfx906/v1.0.0/r0/candidates` = `5c01f4ffd`; branch `gfx906-candidates` |
-| ROCm | runtime **10.1.0-gfx906+20261018172427** (HIP 7.16.26385, LLVM 24, RCCL 2.30.7) in `/opt/rocm/core-10.1`; 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, LLVM 23) stays installed in `/opt/rocm/core-10.0` as the llama package's compiler |
-| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261114.df2c6e5c5.rocm10.1.gfx906.20261018172427-1 (compiled by ROCm 10.0's toolchain, runtime ROCm 10.1) from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.1`; the 10.0 build of the same commit is `...-rocm10.0`) |
+| ROCm | runtime **10.1.0-gfx906+20261018172427** (HIP 7.16.26385, LLVM 24, RCCL 2.30.7) in `/opt/rocm/core-10.1`; 10.0.0-gfx906+20261018172427 (HIP 7.15.26333, LLVM 23) is still installed in `/opt/rocm/core-10.0` (reference builds; the llama package is compiled by 10.1 since 2026-11-15) |
+| Installed llama.cpp | deb `mx-llama-cpp-gfx906` 1.0.0+git20261115.290fc642a.rocm10.1.gfx906.20261018172427-1 (compiled by and run on ROCm 10.1, no global `-march=native`) from the ROLLING channel `mx-llama-cpp-gfx906` on `exabit-io/resize-amdgpu-bars` (per-version release `mx-llama-cpp-1.0.0-gfx906-rocm10.1-r1`; `...-rocm10.1` is the first 10.1 build, `df2c6e5c5` compiled by ROCm 10.0's toolchain; `...-rocm10.0` the 10.0 build) |
 | Installed PyTorch | deb `python3-torch-gfx906` 2.15.0+rocm10.1.gfx906.20261018172427-1 (torchvision 0.30.0, torchaudio 2.11.0) from the ROLLING channel `python3-torch-gfx906`, with `python3-typing-extensions` 4.16.0-0exabit1 and `python3-sympy` 1.14.0-2~24.04.exabit1 from the same channel (per-version release `pytorch-2.15.0-gfx906-rocm10.1`); work dir `/root/pytorch-gfx906-rocm10.1-2.15.0/` |
 | RCCL topology | generated at boot by package `gfx906-rccl-topology`: its unit writes `/var/cache/gfx906-rccl-topology/topology.xml`, its conffile `/etc/rccl.conf` points RCCL at it (source `tools/gfx906-rccl-topology/`). Scripts do not set `NCCL_TOPO_FILE` |
 
@@ -198,10 +198,16 @@ A stream change is a platform change: nothing built by the new toolchain is publ
 4. If it regresses: `rocm-cross.sh` separates compiler from runtime (two cells per arm); `codegen/swaplink.py` + `screen.sh`
    find the object (a relinked library with one group of objects from the other compiler, loaded with `LD_PRELOAD`; 4 min
    per arm at 1 x 128K); `codegen/trycc.py` / `tileexp.py` recompile one source with other flags or table values and
-   read the kernel's register use from the code object. Spilled registers were NOT a predictor of speed in the 10.1 case.
+   read the kernel's register use from the code object. Spill counts alone did NOT predict speed across scheduler
+   strategies in the 10.1 case. What settled it: `codegen/ircross.py` (each compiler's optimized bitcode through the
+   other's code generator: middle end or code generator?), `drv-test.sh` (the driver's offload pipeline, with and
+   without LTO), then single code-generator options on the one object, and `gpu-opt-confirm.sh` (reference, plain new
+   compiler, candidate; n = 3 shuffled at 4 x 64K and 1 x 128K; rule in its header) before any package is built.
 5. The packages: version `...rocm<stream>.gfx906.<stamp>` (two streams can carry one stamp); the llama deb takes
-   `ROCMSTREAM` (runtime: Depends and `DT_RPATH`) and `COMPILERSTREAM` (toolchain) separately; test the package
-   (`deb-test-llama-101.sh`), then accept it on the installed package with the same rule (`rocm-ab2.sh`).
+   `ROCMSTREAM` (runtime: Depends and `DT_RPATH`) and `COMPILERSTREAM` (toolchain, default the runtime's; a source
+   without the LLVM 24 tile rule is refused with clang 24 or newer) separately; test the package
+   (`deb-test-llama-101.sh`), then accept it on the installed package with the same rule (`rocm-ab2.sh`; `rocm-ab3.sh`
+   when the package's commit differs from the reference's only in the HIP CMake file).
    A difference between the package and a source build is located by swapping shared libraries, not by rebuilding:
    `pkg-swap.sh` preloads all of the package's libraries by full path with one group taken from the other build (6 min
    per arm at 4 x 64K; ranges of 3-4 runs separated 0.4 %). That is how the deb's host flag was found.

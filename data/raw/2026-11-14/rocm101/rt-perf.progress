@@ -1,0 +1,11 @@
+2026-11-15T15:39:40+00:00 [rt] arm rt101: from 10.0: 0 of 26 ROCm libraries: 
+2026-11-15T15:39:40+00:00 [rt] arm rocr100: from 10.0: 1 of 26 ROCm libraries: libhsa-runtime64.so.1.21.0 
+2026-11-15T15:39:40+00:00 [rt] n=1, arms: rt101 rocr100; depth 65536, ntg 1024; boot 2026-11-15 09:33:59; cmdline pci=realloc pci=pcie_bus_perf ; load 0.67 1.47 2.09
+2026-11-15T15:39:54+00:00 [rt] kernel 7.0.0-42-generic; perf: high high high high ; governor performance; fans rpm: 1194/2509/2509/2487
+2026-11-15T15:39:54+00:00 [rt] block 1 order: rocr100 rt101
+2026-11-15T15:46:09+00:00 [rt] rocr100 b1: decode 24.8116, prefill 808.8
+2026-11-15T15:52:24+00:00 [rt] rt101 b1: decode 24.7726, prefill 808.8
+2026-11-15T15:52:24+00:00 [rt] === block 1 DONE
+[rt] rocr100   n=1 decode 24.8116 (24.8116-24.8116), step 40.304 ms, +0.16 % vs rt101; prefill 808.8
+[rt] rt101     n=1 decode 24.7726 (24.7726-24.7726), step 40.367 ms, +0.00 % vs rt101; prefill 808.8
+2026-11-15T15:52:24+00:00 [rt] === RT-SWAP DONE ===

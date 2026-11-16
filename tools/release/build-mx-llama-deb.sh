@@ -10,13 +10,16 @@
 # with DT_RPATH (not RUNPATH) on its own lib dir and then on the ROCm stream's lib dir, so no other llama.cpp/ggml install
 # on the box (ld.so.conf.d entries, LD_LIBRARY_PATH) can shadow its libraries and the binaries load the ROCm they were
 # built against whatever /opt/rocm's alternatives point at. HOST-CPU HEAVY: never beside a loaded four-die GPU job.
-# Version: <upstream>+git<date>.<sha>.rocm<stream>.gfx906.<ROCm build stamp>-1 (the stream is named because two streams can
-# carry the same stamp; it sorts above the earlier builds' <upstream>+git<date>.<sha>.gfx906.<stamp>).
-# COMPILERSTREAM (default 10.0): the ROCm stream whose toolchain compiles and links the package; the package still depends
-# on, and loads, ROCMSTREAM's runtime. Measured 2026-11-14 (rocm-ab.sh, rocm-cross.sh, swap screens): ROCm 10.1's LLVM 24
-# generates a slower head-256 flash-attention tile kernel (prefill -1.4 % at 4x64K, -4.1 % at 1x255K, decode unchanged), and
-# code from ROCm 10.0's LLVM 23 keeps its speed and passes the whole suite on the 10.1 runtime (same library sonames).
-# Set COMPILERSTREAM=$ROCMSTREAM once a newer compiler passes the design-point A/B.
+# Version: <upstream>+git<date>.<sha>.rocm<stream>.gfx906.<ROCm build stamp>-<DEBREV> (the stream is named because two
+# streams can carry the same stamp; it sorts above the earlier builds' <upstream>+git<date>.<sha>.gfx906.<stamp>).
+# DEBREV (default 1): the Debian revision; raise it when the same commit is packaged again with another build recipe.
+# COMPILERSTREAM (default: ROCMSTREAM): the ROCm stream whose toolchain compiles and links the package; the package
+# depends on, and loads, ROCMSTREAM's runtime. ROCm 10.1's LLVM 24 generates a slower head-256 flash-attention tile kernel
+# (prefill -1.4 % at 4x64K, -4.1 % at 1x255K) unless that object is compiled with -amdgpu-vgpr-threshold-percent=90. The
+# tree does that since 290fc642a (ggml/src/ggml-hip/CMakeLists.txt), and with it the 10.1-compiled package passed the
+# design-point A/B on 2026-11-15 (tuning repository, reports/2026-11-14-rocm-10.1.md section 5.6). A source without the
+# rule is refused with an LLVM >= 24 toolchain: build it with COMPILERSTREAM=10.0 (LLVM 23 code runs on the 10.1 runtime,
+# same library sonames; needs ROCm 10.0 installed). A later LLVM, or a changed tile kernel, needs the A/B again.
 set -euo pipefail
 SRC=${1:?usage: $0 SRC}
 OUT=/root/mx-llama-deb
@@ -24,7 +27,7 @@ B=$OUT/build
 PREFIX=/opt/mx-llama.cpp
 PKG=mx-llama-cpp-gfx906
 ROCMSTREAM=${ROCMSTREAM:-10.1}
-COMPILERSTREAM=${COMPILERSTREAM:-10.0}
+COMPILERSTREAM=${COMPILERSTREAM:-$ROCMSTREAM}
 ROCM=/opt/rocm/core-$ROCMSTREAM            # the runtime the package depends on and loads
 ROCMC=/opt/rocm/core-$COMPILERSTREAM       # the toolchain (compiler, headers, link libraries) it is built with
 [ -d $ROCM/lib ] || { echo "no ROCm $ROCMSTREAM under $ROCM" >&2; exit 1; }
@@ -38,8 +41,12 @@ UPV=$(git -C $SRC describe --tags --match 'v[0-9]*' --abbrev=0 HEAD); UPV=${UPV#
 BNUM=$(git -C $SRC describe --tags --match 'b[0-9]*' --abbrev=0 HEAD 2>/dev/null || echo b?)
 ROCMSTAMP=$(dpkg-query -W -f='${Version}' amdrocm-core$ROCMSTREAM-gfx906 | sed -E 's/.*\+//')
 VER="${UPV}+git${DATE}.${SHA9}.rocm${ROCMSTREAM}.gfx906.${ROCMSTAMP}"
-DEBVER="${VER}-1"
+DEBVER="${VER}-${DEBREV:-1}"
 CLANGV=$($ROCMC/lib/llvm/bin/clang++ --version | head -1)
+CLANGMAJ=$($ROCMC/lib/llvm/bin/clang++ -dumpversion | cut -d. -f1)
+if [ "$CLANGMAJ" -ge 24 ] && ! grep -q 'amdgpu-vgpr-threshold-percent' $SRC/ggml/src/ggml-hip/CMakeLists.txt; then
+  echo "$SRC has no LLVM 24 rule for the head-256 tile instance (290fc642a): use COMPILERSTREAM=10.0, not ROCm $COMPILERSTREAM's clang $CLANGMAJ" >&2; exit 1
+fi
 log "=== $PKG $DEBVER from $SRC ($SHA, upstream v$UPV $BNUM), runtime ROCm $ROCMSTREAM build $ROCMSTAMP ($ROCM), compiled by ROCm $COMPILERSTREAM ($CLANGV) ==="
 
 rm -rf $B; mkdir -p $B

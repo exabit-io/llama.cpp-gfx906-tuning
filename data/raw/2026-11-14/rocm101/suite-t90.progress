@@ -1,0 +1,6 @@
+2026-11-15T20:55:40+00:00 [suite] start: /root/build-v101-t90, /opt/rocm/core-10.1/lib/libamdhip64.so.7.16.26385-0000000
+2026-11-15T21:08:32+00:00 [suite] pr-test rc=0
+2026-11-15T21:08:32+00:00 [suite]   allreduce path:  (empty = RCCL up)
+2026-11-15T21:13:24+00:00 [suite] fold-check rc=0
+2026-11-15T21:17:02+00:00 [suite] ctx-check rc=0
+2026-11-15T21:17:02+00:00 [suite] === SUITE DONE ===
