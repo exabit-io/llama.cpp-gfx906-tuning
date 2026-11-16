@@ -82,9 +82,16 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   the operational rule is simply: never pass `--no-repack`. `survey/q8-repack.md`.
 - `review/2026-09-08/` is another contributor's review (optimizer patches, source corrections, modeling findings); `review/2026-09-08/RESPONSE.md` records what was applied, superseded or declined and why. Facts it established: gfx906 attention already uses `v_dot2_f32_f16`; the Q8_0×Q8_1 dot ignores the block sum; the fork differs from upstream across 81 files, so the +33% prefill is attributed to the tile table by inspection only.
 - Do not treat the Instinct tuning guide's EPYC BIOS items as applicable; the host is an Intel Xeon W.
-- **ROCm 10.1's toolchain (LLVM 24) needs the tile rule** (2026-11-14, revised 2026-11-15). Without it LLVM 24 costs prefill 1.4 % at 4x64K and
-  4.1 % at 1x255K (decode unchanged, output identical), all of it in `fattn-tile-instance-dkq256-dv256`: its code generator spills vector registers
-  inside the kernel's inner loop under `max-ilp`. `master` from `290fc642a` compiles that one object with `-mllvm -amdgpu-vgpr-threshold-percent=90`
+- **ROCm 10.1's toolchain (LLVM 24) needs the tile rule** (2026-11-14, revised 2026-11-15, cause bisected 2026-11-16). Without it ROCm 10.1's
+  compiler costs prefill 1.4 % at 4x64K and 4.1 % at 1x255K (decode unchanged, output identical), all of it in `fattn-tile-instance-dkq256-dv256`:
+  vector registers are spilled inside the kernel's inner loop under `max-ilp`. **Cause (report s.4.2): a compiler bug that upstream has already
+  fixed.** LLVM `80df471b75d0` (#213584, 2026-08-03) made machine LICM take its register-pressure limit from `RegisterClassInfo`, whose unsigned
+  subtraction wraps on AMDGPU (VGPR limit 128 becomes 4.29e9 in every kernel), so LICM hoists without a limit. The fix is `1d7d16b94c61` (#216372,
+  2026-08-19). ROCm 10.1's compiler (`d6f6cb691863`, the tip of ROCm/llvm-project `release/therock-10.1`, upstream base 2026-08-13) has the first
+  and not the second; `therock-10.2`/`10.3` have both; ROCm 10.0's has neither. Do not bisect it again, and there is nothing to report to LLVM
+  (a draft for ROCm with a one-function reproducer is in `tools/rocm101/llvm-bisect/`; filing is the lead's decision).
+  **The rule stays when the compiler is fixed** (s.4.3): on ROCm 10.1's compiler commit with the fix applied, the kernel without the rule is 0.6 %
+  under clang 23's and with the rule 0.4 % above (1x128K prefill, n=3). `master` from `290fc642a` compiles that one object with `-mllvm -amdgpu-vgpr-threshold-percent=90`
   when the HIP compiler is clang 24 or newer, and the package built that way passed the design-point acceptance (against the 10.0 source build, n=5:
   prefill +0.27 % / +0.28 %, decode -0.52 % at 4x64K and +0.05 % at 1x255K). **Do not compile a source WITHOUT the rule (`df2c6e5c5` and older, any
   other branch) with 10.1's toolchain for a build that is measured or shipped**: use ROCm 10.0's compiler for it
@@ -92,7 +99,10 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   tied to this kernel as LLVM 24 compiles it: a later LLVM or a changed tile kernel needs the two-cell check again (`tools/rocm101/gpu-opt-confirm.sh`),
   then the acceptance. Already tried and not a fix: `iterative-ilp` or the default scheduler for the tile kernels, tile-table nbatch_K 64, occupancy 1,
   the driver's offload pipeline with or without LTO (not the cause). **Never `-mllvm -amdgpu-use-amdgpu-trackers=1`**: it removes the spills too and
-  costs decode 3.1 % at 4x64K and 5.0 % at 1x128K on both compilers. `reports/2026-11-14-rocm-10.1.md` s.4, 4.1, 5.5, 5.6.
+  costs decode 3.1 % at 4x64K and 5.0 % at 1x128K on both compilers. `reports/2026-11-14-rocm-10.1.md` s.4, 4.1-4.3, 5.5, 5.6.
+  A code-generator question like this one is answered fastest with `llc` alone: `tools/rocm101/llvm-bisect/` (blobless clone of ROCm/llvm-project
+  in `/root/llvm-bisect`, `llc` per commit in 4-10 min, the kernel's bitcode from `codegen/ircross.py`, reloads counted by `codegen/loopstat.py`,
+  and `codegen/llccross.py` to put an `llc` object into a library for timing; `llc` at ROCm 10.0's commit reproduces clang 23's object byte for byte).
 - **Do not re-survey GPU-side compile options** (2026-11-15, same report s.5.4): sixteen single changes timed at 4x64K with the 10.0 compiler, none
   faster than the tree's flags (`-O3`, `max-ilp`). Losers: load-store vectorizer off -19 % decode, `-unroll-threshold=3000` -75 % prefill (through
   `q8_repack` mul-mat, not attention), `iterative-maxocc` -53 % prefill, `max-memory-clause` -2.4 % decode, `-O2` -3.5 % prefill, the default scheduler

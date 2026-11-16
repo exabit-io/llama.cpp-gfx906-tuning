@@ -1,0 +1,6 @@
+[fixrule] c23    prefill 604.5 (604.3 604.5 604.5) n=3
+[fixrule] llcX   prefill 600.9 (600.8 600.8 601.0) n=3
+[fixrule] llcXT  prefill 606.9 (606.8 606.8 607.1) n=3
+[fixrule] llcT   prefill 605.4 (605.1 605.5 605.6) n=3
+[fixrule] (1) llcX below c23 in every sample: -3.6 tok/s (-0.59 %)
+[fixrule] (2) the rule on the fixed compiler: ADDS (+6.0 tok/s)

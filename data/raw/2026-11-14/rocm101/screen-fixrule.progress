@@ -1,0 +1,20 @@
+2026-11-16T04:37:14+00:00 [screen] c23: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/c23/libggml-hip.so preloaded
+2026-11-16T04:37:14+00:00 [screen] llcX: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/llcX/libggml-hip.so preloaded
+2026-11-16T04:37:14+00:00 [screen] llcXT: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/llcXT/libggml-hip.so preloaded
+2026-11-16T04:37:14+00:00 [screen] llcT: /root/build-master-v101 on /opt/rocm/core-10.1 with /root/swap/llcT/libggml-hip.so preloaded
+2026-11-16T04:37:28+00:00 [screen] block 1 order: c23 llcXT llcT llcX 
+2026-11-16T04:41:22+00:00 [screen] 1 x 131072 c23 b1: decode 40.2073, prefill 604.5
+2026-11-16T04:45:14+00:00 [screen] 1 x 131072 llcXT b1: decode 40.1443, prefill 606.8
+2026-11-16T04:49:08+00:00 [screen] 1 x 131072 llcT b1: decode 40.1317, prefill 605.5
+2026-11-16T04:53:03+00:00 [screen] 1 x 131072 llcX b1: decode 40.0814, prefill 600.8
+2026-11-16T04:53:03+00:00 [screen] block 2 order: llcX llcT c23 llcXT 
+2026-11-16T04:56:58+00:00 [screen] 1 x 131072 llcX b2: decode 40.0751, prefill 601.0
+2026-11-16T05:00:51+00:00 [screen] 1 x 131072 llcT b2: decode 40.1191, prefill 605.1
+2026-11-16T05:04:45+00:00 [screen] 1 x 131072 c23 b2: decode 40.1821, prefill 604.5
+2026-11-16T05:08:37+00:00 [screen] 1 x 131072 llcXT b2: decode 40.1065, prefill 606.8
+2026-11-16T05:08:37+00:00 [screen] block 3 order: c23 llcX llcXT llcT 
+2026-11-16T05:12:31+00:00 [screen] 1 x 131072 c23 b3: decode 40.2452, prefill 604.3
+2026-11-16T05:16:26+00:00 [screen] 1 x 131072 llcX b3: decode 40.1191, prefill 600.8
+2026-11-16T05:20:19+00:00 [screen] 1 x 131072 llcXT b3: decode 40.1884, prefill 607.1
+2026-11-16T05:24:12+00:00 [screen] 1 x 131072 llcT b3: decode 40.2642, prefill 605.6
+2026-11-16T05:24:12+00:00 [screen] === SCREEN fixrule DONE ===

@@ -1,0 +1,58 @@
+2026-11-16T02:30:35+00:00 d6f6cb691863 2026-09-07 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 716s llc 5s 
+2026-11-16T02:41:16+00:00 8f497e0992fb 2026-07-28 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 597s llc 13s 
+2026-11-16T02:45:39+00:00 7f7028776eb2 2026-06-04 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 254s llc 6s 
+2026-11-16T02:45:39+00:00 endpoints: B rc=1 (expected 1), A rc=0 (expected 0), M rc=0 (expected 0)
+2026-11-16T02:57:34+00:00 671008554fa9 2026-07-11 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 684s llc 6s 
+2026-11-16T03:05:30+00:00 eae09240391b 2026-07-28 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 454s llc 5s 
+2026-11-16T03:11:57+00:00 f3bd40ce6ba5 2026-08-07 bad: 11 reloads in the hot loop [ 1915 10 11 0 14 208 0] build 370s llc 4s 
+2026-11-16T03:16:44+00:00 2a4acc46ea71 2026-08-02 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 277s llc 5s 
+2026-11-16T03:21:02+00:00 aeaa2aacad5f 2026-08-04 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 249s llc 5s 
+2026-11-16T03:24:57+00:00 b010a18d2b64 2026-08-03 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 228s llc 5s 
+2026-11-16T03:26:44+00:00 587ddb34f741 2026-08-03 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 101s llc 5s 
+2026-11-16T03:28:05+00:00 c99e6752b9f9 2026-08-03 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 76s llc 5s 
+2026-11-16T03:28:17+00:00 0e87f69d0c32 2026-08-03 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 7s llc 4s 
+2026-11-16T03:28:25+00:00 9baf14f77a63 2026-08-03 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 2s llc 5s 
+2026-11-16T03:28:32+00:00 8f1efc26e47f 2026-08-03 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 2s llc 4s 
+2026-11-16T03:28:39+00:00 80df471b75d0 2026-08-03 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 1s llc 5s 
+2026-11-16T03:28:46+00:00 2fe9fc90780d 2026-08-03 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 1s llc 5s 
+2026-11-16T03:28:46+00:00 bisect run rc=0
+running 'bash' '/root/rocm101-migration-20261114/llvm-bisect/step.sh'
+2026-11-16T03:28:46+00:00 2fe9fc90780d 2026-08-03 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 1s llc 5s 
+80df471b75d0736a8bc5d30f6e483bb0de302c7e is the first bad commit
+commit 80df471b75d0736a8bc5d30f6e483bb0de302c7e
+Author: Pengcheng Wang <wangpengcheng.pp@bytedance.com>
+Date:   Mon Aug 3 17:49:23 2026 +0800
+
+    Reland [MachineLICM] Use `RegisterClassInfo::getRegPressureSetLimit` (#213584)
+    
+    This relands #211715 which was reverted because of some failures
+    in experimental targets and one AMDGPU test `diverged-entry-basic.ll`.
+    
+    Below is the original commit message.
+    
+    ----
+    
+    This recommits #119826, which taught `MachineLICM` to use
+2026-11-16T03:30:39+00:00 == confirm: ROCm 10.1's compiler commit d6f6cb691863e9258034ab48c1dfce21689d5606
+2026-11-16T03:31:52+00:00 d6f6cb691863 2026-09-07 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 68s llc 5s label B2  
+2026-11-16T03:31:57+00:00 d6f6cb691863 2026-09-07 good: 0 reloads in the hot loop [ 1897 10 0 0 9 208 0] build 0s llc 5s label B-t90 flags -amdgpu-vgpr-threshold-percent=90 
+2026-11-16T03:32:02+00:00 d6f6cb691863 2026-09-07 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 0s llc 5s label B-sink flags -sink-insts-to-avoid-spills 
+2026-11-16T03:32:07+00:00 d6f6cb691863 2026-09-07 good: 0 reloads in the hot loop [ 1911 10 0 0 10 208 0] build 0s llc 5s label B-nolicm flags -disable-machine-licm 
+2026-11-16T03:32:12+00:00 d6f6cb691863 2026-09-07 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 0s llc 5s label B-cheap flags -hoist-cheap-insts 
+2026-11-16T03:32:17+00:00 d6f6cb691863 2026-09-07 good: 0 reloads in the hot loop [ 1902 10 0 0 10 208 0] build 0s llc 5s label B-defsched  sched ''
+2026-11-16T03:32:30+00:00 d6f6cb691863 2026-09-07 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 8s llc 5s label B-revert  
+2026-11-16T03:32:35+00:00 d6f6cb691863 2026-09-07 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 0s llc 5s label B-revert-defsched  sched ''
+2026-11-16T03:32:35+00:00 == confirm: llvm/llvm-project main
+2026-11-16T03:32:37+00:00 llvm/llvm-project main is e668aa98b09be2e8defd0b2fcc8817748882360b (2026-11-16); contains 80df471b75d0: yes
+2026-11-16T03:38:47+00:00 e668aa98b09b 2026-11-16 good: 0 reloads in the hot loop [ 1882 10 0 0 9 208 0] build 312s llc 4s label U  
+2026-11-16T03:39:00+00:00 e668aa98b09b 2026-11-16 good: 0 reloads in the hot loop [ 1882 10 0 0 9 208 0] build 8s llc 5s label U-revert  
+2026-11-16T03:39:00+00:00 == confirm done
+2026-11-16T03:40:31+00:00 == fixcheck: candidate fix 1d7d16b94c614a1ce2ce90bb19edd1e71115f999
+2026-11-16T03:41:49+00:00 d6f6cb691863 2026-09-07 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 69s llc 5s label B-fix  
+2026-11-16T03:41:54+00:00 d6f6cb691863 2026-09-07 good: 0 reloads in the hot loop [ 1888 10 0 0 9 208 0] build 1s llc 4s label B-fix-t90 flags -amdgpu-vgpr-threshold-percent=90 
+2026-11-16T03:42:08+00:00 d6f6cb691863 2026-09-07 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 8s llc 5s label B-print  
+2026-11-16T03:42:08+00:00 limits MachineLICM works with in the 16x2 kernel on ROCm 10.1's compiler commit: AGPR_32 tri=128 rci=128;SReg_32 tri=102 rci=52;VGPR_32 tri=128 rci=4294965632;
+2026-11-16T03:42:08+00:00 functions with a limit that differs: 75 of 75
+2026-11-16T03:47:13+00:00 f2d08fa4c21e 2026-08-19 bad: 11 reloads in the hot loop [ 1910 10 11 0 14 208 0] build 289s llc 5s label FXp  
+2026-11-16T03:47:23+00:00 1d7d16b94c61 2026-08-19 good: 0 reloads in the hot loop [ 1883 10 0 0 9 208 0] build 4s llc 5s label FX  
+2026-11-16T03:47:23+00:00 == fixcheck done

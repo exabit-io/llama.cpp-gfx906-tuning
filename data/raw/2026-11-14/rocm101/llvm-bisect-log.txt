@@ -1,0 +1,30 @@
+# bad: [d6f6cb691863e9258034ab48c1dfce21689d5606] [gpurun] Remove old offload/utils/gpurun
+# good: [7f7028776eb2c1232ea951bde8b08fb2ffc63346] [Clang][OpenMP] Deprecate -fopenmp-target-xteam-scan and -fopenmp-target-xteam-no-loop-scan (#2704)
+git bisect start 'd6f6cb691863e9258034ab48c1dfce21689d5606' '7f7028776eb2c1232ea951bde8b08fb2ffc63346'
+# good: [671008554fa9f0b43ee77f7807a43204f4d6ff8b] merge main into amd-staging (#3317)
+git bisect good 671008554fa9f0b43ee77f7807a43204f4d6ff8b
+# good: [eae09240391b592e89719ca53c1b45ab4e124772] [clang][Sema] Preserve CV qualifiers when applying pointer and funcref attributes (#211709)
+git bisect good eae09240391b592e89719ca53c1b45ab4e124772
+# bad: [f3bd40ce6ba5a971b12fb5a268c5719ecbceff7d] [ValueLattice][SCCP] Consider provenance for predicate-derived pointer constants (#160083)
+git bisect bad f3bd40ce6ba5a971b12fb5a268c5719ecbceff7d
+# good: [2a4acc46ea711175ef5cfe6ea5a795f62221084a] [SLP][NFC]Add extra test for alt opcodes vectorization with copyables, NFC
+git bisect good 2a4acc46ea711175ef5cfe6ea5a795f62221084a
+# bad: [aeaa2aacad5fef1b700a80c4e555e6effa55935e] [OpenMP] Propagate PRESENT to pointee entries in mapper codegen (#210214)
+git bisect bad aeaa2aacad5fef1b700a80c4e555e6effa55935e
+# bad: [b010a18d2b648cab83c83967ff26b8fde11acdc6] [mlir][ODS] Allow parameters on side-effect resources (#213792)
+git bisect bad b010a18d2b648cab83c83967ff26b8fde11acdc6
+# bad: [587ddb34f741ffb8fbcbc258fcfea373463f392f] [SPIR-V] Parse parameterized Memory Access operands with a shared helper (#209262)
+git bisect bad 587ddb34f741ffb8fbcbc258fcfea373463f392f
+# good: [c99e6752b9f9e1867af88c07ee44f837bc6e4311] [ARM][MVE] Match canonical saturating negation patterns (#213085)
+git bisect good c99e6752b9f9e1867af88c07ee44f837bc6e4311
+# bad: [0e87f69d0c327612590f73b715c657c5096383c2] [AArch64][GlobalISel] Select narrow GPR constants (#204322)
+git bisect bad 0e87f69d0c327612590f73b715c657c5096383c2
+# good: [9baf14f77a632e6863c599228213620e0362c321] [TLI] Update `getWCharSize` documentation (NFC) (#213622)
+git bisect good 9baf14f77a632e6863c599228213620e0362c321
+# bad: [8f1efc26e47f6a3c7b2c623b5de44b99529e3a02] [Transforms][Utils] Preserve branch weights in LoopSplitUtils (#213626)
+git bisect bad 8f1efc26e47f6a3c7b2c623b5de44b99529e3a02
+# bad: [80df471b75d0736a8bc5d30f6e483bb0de302c7e] Reland [MachineLICM] Use `RegisterClassInfo::getRegPressureSetLimit` (#213584)
+git bisect bad 80df471b75d0736a8bc5d30f6e483bb0de302c7e
+# good: [2fe9fc90780d65935e075fecbffd3d5103c83838] [mlir][bufferization] Handle arith.select-based deallocs in static memory planner (#209106)
+git bisect good 2fe9fc90780d65935e075fecbffd3d5103c83838
+# first bad commit: [80df471b75d0736a8bc5d30f6e483bb0de302c7e] Reland [MachineLICM] Use `RegisterClassInfo::getRegPressureSetLimit` (#213584)

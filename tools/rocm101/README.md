@@ -17,7 +17,9 @@ are in `/root/rocm101-migration-20261114/` on the box. Previous migration: `/roo
 | test environment | `/root/rocm-tests/bench/gpu-test-env.sh`: `rocm-smi --setperflevel` replaced by a sysfs write (backup `.pre-rocm101`) | |
 | build chroot | `mmdebstrap` installed; noble chroot `/var/cache/exabit-backports/noble-buildd` (for the sympy backport) | `install-mmdebstrap.log`, `/root/backports-noble/` |
 
-ROCm 10.0 is still installed (`/opt/rocm/core-10.0`): it holds the compiler the llama package is built with.
+ROCm 10.0 is still installed (`/opt/rocm/core-10.0`). Until 2026-11-15 its compiler built the llama package; since the
+`-r1` package (master 290fc642a) the package is compiled by 10.1, and 10.0 is kept for the reference builds
+(`/root/build-master-v100r` is the reference arm of every acceptance) and for sources without the LLVM 24 tile rule.
 Rollback of the stream: set the pin back to `10.0.0-gfx906*`, `apt-get install` the five unversioned names at 10.0.0, and
 `update-alternatives --set` the links (or remove the 10.1 packages; the alternatives fall back by themselves).
 
@@ -49,6 +51,10 @@ AMD clang 24.0.0git (10.0: 23.0.0git), RCCL 2.30.7 (10.0: 2.30.4), amd_smi 27.1.
 | `suite-t90.sh`, `deb-test-llama-101.sh`, `rocm-ab3.sh` | master 290fc642a compiled by 10.1: correctness suite, package test, design-point acceptance of the installed package (n = 5 per arm) | every value and hash as before; ACCEPTED: prefill +0.27 % / +0.28 %, decode -0.52 % at 4x64K and +0.05 % at 1x255K (report, section 5.6) |
 | `publish-llama-r1.sh`, `dogfood-llama-101.sh` | release `mx-llama-cpp-1.0.0-gfx906-rocm10.1-r1`, rolling channel, reinstall from the channel | published 2026-11-16 00:15 UTC; chain verified |
 | `publish-torch-101.sh`, `/root/pytorch-gfx906-rocm10.1-2.15.0/`, `/root/backports-noble/` | PyTorch 2.15.0 for ROCm 10.1 and the `python3-sympy` 1.14.0 backport | published 2026-11-14 into the channel `python3-torch-gfx906` |
+| `pkg-resid.sh` | is any of the `-r1` package's 4x64K decode difference its own? reference on 10.0, the package's program with the reference's libraries on 10.1, the package; n = 5, rule fixed before data | NO: runtime 0.49 %, package -0.08 % (overlapping); stage 2 not run; closed (report 5.7) |
+| `gpu-opt24-builds.sh`, `gpu-opt24-builds-all.sh`, `gpu-opt24-screen.sh` | the GPU compile-option survey again with the shipping compiler (10.1's clang 24) at BOTH design points; controls with a known sign in each pass | in progress 2026-11-16 (report 5.8 when done) |
+| `llvm-bisect/` (`prep.sh`, `step.sh`, `run.sh`, `confirm.sh`, `fixcheck.sh`, `bisect-screen.sh`, `fixrule-screen.sh`), `codegen/llccross.py` | which LLVM change makes the head-256 tile kernel spill: `llc` built per commit in `/root/llvm-bisect`, clang 23's bitcode compiled, reloads in the hot loop counted; then the objects timed | first bad commit `80df471b75d0` (machine LICM's pressure limit wraps on AMDGPU); upstream fix `1d7d16b94c61` is not in ROCm 10.1's release branch; timing confirms (604.1 / 588.7 controls; parent 600.6, first bad 589.3, revert 600.5, fix 601.0); the tree's rule adds 1.0 % on a fixed compiler and stays (report 4.2, 4.3). `llvm-bisect/ISSUE-DRAFT.md` + `repro/`: report for ROCm, not filed |
+| `deb-test-llama-100.sh`, `rocm-ab4.sh`, `publish-llama-100r1.sh`, `dogfood-llama-100.sh` | the ROCm 10.0-stream package rebuilt from 290fc642a without the global host flag: package test, acceptance against the reference on the same runtime, release, install by version from the channel and back to the newest | in progress 2026-11-16 (report 5.9 when done) |
 
 Builds: `/root/build-master-v100r` (10.0, the reference of every comparison), `/root/build-master-v101` (10.1),
 `/root/build-master-v100rn` (reference + `-march=native` host flags), `/root/build-flag-*` (host-flag variants),
@@ -56,6 +62,35 @@ Builds: `/root/build-master-v100r` (10.0, the reference of every comparison), `/
 variants), `/root/build-v101-trk` (the trackers option on every source: a record, never to be shipped). The
 cross-over builds, the scheduler variants of the tile kernels and the object-swap libraries were scratch and are
 rebuilt by their scripts (`rocm-cross.sh`, `screen.sh`, `codegen/swaplink.py`).
+
+## How these measurements are run (for the next agent)
+
+- **One GPU job at a time, and nothing heavy on the host beside it.** A timing cell uses all four dies; builds, `perf
+  report`, `fio`, a large `git clone` or an apt install on the host move decode by tenths of a percent (the runtime's
+  0.3 % is one host thread's sleep). Every script here refuses to start while `llama-batched-bench` runs
+  (`pgrep -x llama-batched-b`). Do not test with `pgrep -f NAME` from a command line that contains NAME: it matches
+  its own shell.
+- **Cells and their cost** (model load included): 4 x 64K with `-ntg 1024` 6.3 min; 1 x 128K with `-ntg 256` 4 min;
+  1 x 255K (`260864`) with `-ntg 1024` 11.3 min. 64K is the floor for any result; smaller depths are smoke tests.
+- **Every session carries its own reference arm.** The same build read 24.67, 24.79 and 24.87 tok/s per slot in
+  sessions days apart (boots, cards added, kernel parameters). Values from two sessions are never subtracted; effects
+  are, with that caveat stated.
+- **The reading rule is written into the script header before the first cell** (what counts as up, down, level; what
+  each outcome leads to). A one-sample pass needs a positive control whose sign is known (`schdef` in the survey).
+- **Screens**: `screen.sh TAG DEPTH SLOTS NTG N ARM=BUILD:ROCMTREE[:LIBGGML-HIP] ...` (`SHUFFLE=1` for a fresh random
+  order per block). An arm is a build's programs on a ROCm tree, optionally with another `libggml-hip.so` preloaded;
+  this is how compiler variants are compared with everything else held fixed. Output `screen-TAG.tsv`.
+- **Library swaps** (`pkg-swap.sh`, `pkg-resid.sh`, `rt-swap.sh`): preload ALL of a program's libraries by full path
+  with one group taken from another build or ROCm tree; the loaded set is read back from `/proc/<pid>/maps` in every
+  cell. Resolves 0.3-0.4 % at n = 3-4.
+- **Before timing a compiler variant, compare its code**: `codegen/devcmp.py REF BUILD` (which GPU objects differ),
+  `codegen/fncmp.py` (which functions), `codegen/loopstat.py` (spill reloads inside loops). Byte-identical GPU code is
+  not timed. `codegen/trycc.py` recompiles one source with extra flags; `codegen/swaplink.py` relinks the GPU library
+  with one object exchanged; `codegen/ircross.py` runs one compiler's bitcode through another's code generator.
+- **A package is accepted on the installed deb**, at both design points, n = 5 per arm, against
+  `/root/build-master-v100r` on the 10.0 runtime (`rocm-ab3.sh`, 3 h; it refuses an existing TSV). Order of a release:
+  build (`build-mx-llama-deb.sh`), `deb-test-llama-101.sh`, acceptance, push the fork commit and tag, channel notes,
+  `publish-llama-r1.sh`, `dogfood-llama-101.sh`, `raw-copy-101.sh`, report, commit the tuning repository.
 
 `raw-copy-101.sh` copies the result lines into the tuning repository; `docs-update-101.py` moved its statements of the
 platform state to ROCm 10.1 (run once).

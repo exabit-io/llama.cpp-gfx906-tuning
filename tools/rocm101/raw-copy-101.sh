@@ -17,6 +17,21 @@ for r in rt-swap rt-perf drv-test screen-drv128k tile2-build screen-tile2 gpu-op
          gpu-opt-confirm screen-gpuconf64 screen-gpuconf128 rocm-ab3; do
   for e in tsv progress; do [ -f $W/$r.$e ] && install -m 0644 $W/$r.$e $D/$r.$e; done
 done
+# 2026-11-16: the package's own decode share (pkg-resid), the survey again with the shipping compiler at both design
+# points (gpu-opt24-*), the LLVM bisect of the tile kernel's cause, the ROCm 10.0-stream package's acceptance (rocm-ab4)
+for r in pkg-resid pkg-resid2 gpu-opt24-builds gpu-opt24-screen screen-gpuopt24m screen-gpuopt24s gpu-opt24-confirm \
+         screen-gpuconf24m screen-gpuconf24s rocm-ab4 screen-bisect screen-fixrule; do
+  for e in tsv progress; do [ -f $W/$r.$e ] && install -m 0644 $W/$r.$e $D/$r.$e; done
+done
+[ -f $W/llvm-bisect/steps.log ] && install -m 0644 $W/llvm-bisect/steps.log $D/llvm-bisect-steps.txt
+[ -f $W/llvm-bisect/bisect.log ] && install -m 0644 $W/llvm-bisect/bisect.log $D/llvm-bisect-log.txt
+for f in bisect-screen fixrule-screen; do [ -f $W/llvm-bisect/$f.out ] && grep -E '^\[' $W/llvm-bisect/$f.out > $D/llvm-$f.txt; done
+for d in deb-test-llama-100r1 deb-test-llama-100r1/pr-test dogfood-llama-100r1; do
+  [ -f $W/$d/progress ] && install -m 0644 $W/$d/progress $D/${d//\//-}.progress.txt
+done
+for m in mtp-np1 mtp-np4; do [ -f $W/deb-test-llama-100r1/$m.out ] && grep -E '\[mtp-modes\]' $W/deb-test-llama-100r1/$m.out > $D/deb-test-llama-100r1-$m.progress.txt; done
+[ -f $W/publish-llama-100r1.log ] && install -m 0644 $W/publish-llama-100r1.log $D/publish-llama-100r1.log
+[ -f /root/mx-llama-deb/release-notes-1.0.0-rocm10.0-r1.final.md ] && install -m 0644 /root/mx-llama-deb/release-notes-1.0.0-rocm10.0-r1.final.md $D/release-notes-mx-llama-cpp-1.0.0-rocm10.0-r1.md
 for a in rocr100 rt101; do [ -f $W/rt-perf/multi-$a-1.perfstat ] && install -m 0644 $W/rt-perf/multi-$a-1.perfstat $D/rt-perf-$a.perfstat.txt; done
 [ -f $W/rt-perf-profile.txt ] && install -m 0644 $W/rt-perf-profile.txt $D/rt-perf-profile.txt
 # correctness suites and package tests
