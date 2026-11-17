@@ -1,0 +1,6 @@
+2026-11-17T02:52:34+00:00 [fp8ppl] package 1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1; free space 894G
+2026-11-17T02:55:05+00:00 [fp8ppl] f16 (f16/f16) rc=0: PPL = 5.6093 +/- 0.06223; fallback check rc=0; no KLD lines
+2026-11-17T02:55:05+00:00 [fp8ppl] base file 23G
+2026-11-17T02:57:09+00:00 [fp8ppl] f8 (f8_e4m3/f8_e4m3) rc=0: Mean PPL(Q)-PPL(base) : 0.051178 ± 0.005282; fallback check rc=0; chunk PPL ln(PPL(Q)/PPL(base)) KL Divergence Δp RMS Same top p;Mean PPL(base) : 5.595602 ± 0.061665;Mean ln(PPL(Q)/PPL(base)) : 0.009105 ± 0.000920;Mean KLD: 0.009015 ± 0.001315;Maximum KLD: 27.137514;99.9% KLD: 1.209427;Same top p: 98.429 ± 0.056 %;
+2026-11-17T02:59:12+00:00 [fp8ppl] q8 (q8_0/q8_0) rc=0: Mean PPL(Q)-PPL(base) : 0.020188 ± 0.004107; fallback check rc=0; chunk PPL ln(PPL(Q)/PPL(base)) KL Divergence Δp RMS Same top p;Mean PPL(base) : 5.595602 ± 0.061665;Mean ln(PPL(Q)/PPL(base)) : 0.003601 ± 0.000727;Mean KLD: 0.005991 ± 0.001026;Maximum KLD: 24.935213;99.9% KLD: 0.634366;Same top p: 98.840 ± 0.048 %;
+2026-11-17T02:59:12+00:00 [fp8ppl] === FP8-PPL DONE ===

@@ -122,6 +122,10 @@ Then re-check every Exabit commit against the new upstream paths (v0.7.0: term 0
 `gfx906-single`/`-multi` = master until a profile winner exists. `gfx906-candidates`: rebuild it on `merge-vX.Y.Z` + the
 RCCL commit, taking each term that is patch-identical to a master term (`git patch-id --stable`) from master's ported
 commit, and the others from the old branch. Restore the `term NN-...` subjects and normalise authors afterwards.
+The pool has neither the `max-ilp` default nor the LLVM 24 tile rule: build it with ROCm 10.0's compiler
+(`tools/rocm101/build-rocm.sh SRC BUILD LOG /opt/rocm/core-10.0`). Its head-256 tile object under clang 24 was read
+statically on 2026-11-17 (`tools/rocm101/cand-tilescan.sh`): clean only with `max-ilp` AND threshold 85 together;
+that setting has not been timed (`reports/2026-11-14-rocm-10.1.md` section 7).
 
 ## 5. Build and test
 

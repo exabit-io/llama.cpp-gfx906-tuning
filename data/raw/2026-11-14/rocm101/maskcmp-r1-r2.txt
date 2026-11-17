@@ -1,0 +1,3 @@
+{'only immediates differ': 1592, 'instructions differ': 23}
+opcodes of the lines whose immediates differ: {'s_add_u32': 1636}
+template-instances/fattn-tile-instance-dkq256-dv256.cu.o: 23 functions with other instructions ['_ZL15flash_attn_tile', '_ZL26flash_attn_combine_results']

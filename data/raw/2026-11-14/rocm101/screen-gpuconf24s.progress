@@ -1,0 +1,24 @@
+2026-11-17T04:33:14+00:00 [screen] t90: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T04:33:14+00:00 [screen] t85: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t85/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T04:33:14+00:00 [screen] o2: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-o2/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T04:33:14+00:00 [screen] o2t85: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-o2t85/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T04:33:14+00:00 [screen] v80: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-v80/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T04:33:28+00:00 [screen] block 1 order: o2 t90 t85 o2t85 v80 
+2026-11-17T04:44:42+00:00 [screen] 1 x 260864 o2 b1: decode 31.9760, prefill 414.0
+2026-11-17T04:55:59+00:00 [screen] 1 x 260864 t90 b1: decode 32.0070, prefill 412.2
+2026-11-17T05:07:10+00:00 [screen] 1 x 260864 t85 b1: decode 32.0401, prefill 415.5
+2026-11-17T05:18:23+00:00 [screen] 1 x 260864 o2t85 b1: decode 31.9401, prefill 414.7
+2026-11-17T05:29:38+00:00 [screen] 1 x 260864 v80 b1: decode 32.0260, prefill 412.9
+2026-11-17T05:29:38+00:00 [screen] block 2 order: o2t85 v80 t85 o2 t90 
+2026-11-17T05:40:51+00:00 [screen] 1 x 260864 o2t85 b2: decode 31.9321, prefill 414.2
+2026-11-17T05:52:07+00:00 [screen] 1 x 260864 v80 b2: decode 31.9730, prefill 412.8
+2026-11-17T06:03:19+00:00 [screen] 1 x 260864 t85 b2: decode 32.0040, prefill 414.9
+2026-11-17T06:14:31+00:00 [screen] 1 x 260864 o2 b2: decode 31.9262, prefill 414.7
+2026-11-17T06:25:47+00:00 [screen] 1 x 260864 t90 b2: decode 31.9970, prefill 412.5
+2026-11-17T06:25:47+00:00 [screen] block 3 order: t85 v80 t90 o2t85 o2 
+2026-11-17T06:36:59+00:00 [screen] 1 x 260864 t85 b3: decode 32.0872, prefill 415.0
+2026-11-17T06:48:13+00:00 [screen] 1 x 260864 v80 b3: decode 32.0320, prefill 413.1
+2026-11-17T06:59:29+00:00 [screen] 1 x 260864 t90 b3: decode 32.0641, prefill 412.8
+2026-11-17T07:10:41+00:00 [screen] 1 x 260864 o2t85 b3: decode 31.9900, prefill 414.8
+2026-11-17T07:21:53+00:00 [screen] 1 x 260864 o2 b3: decode 31.9690, prefill 415.1
+2026-11-17T07:21:53+00:00 [screen] === SCREEN gpuconf24s DONE ===

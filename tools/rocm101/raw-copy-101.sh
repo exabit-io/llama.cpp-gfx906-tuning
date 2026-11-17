@@ -32,6 +32,13 @@ for f in loopscan-c23-c24 loopscan-c23-r1 loopscan-c24-r1 loopscan-c23-nolicm lo
   [ -f $W/$f.txt ] && install -m 0644 $W/$f.txt $D/$f.txt
 done
 [ -f $W/tilethr/tilescan-thresholds.txt ] && install -m 0644 $W/tilethr/tilescan-thresholds.txt $D/tilescan-thresholds.txt
+# 2026-11-17: the candidates pool's tile object read statically, the confirmation arms' tile kernels (reloads in loops,
+# which arms share a kernel's instructions), output quality with an FP8 KV cache (progress lines and the KL tables)
+[ -f $W/candtile/progress ] && install -m 0644 $W/candtile/progress $D/cand-tilescan.progress.txt
+[ -f $W/candtile/tilescan-candidates.txt ] && install -m 0644 $W/candtile/tilescan-candidates.txt $D/tilescan-candidates.txt
+for f in tilescan-o2 kcmp-tile; do [ -f $W/o2-static/$f.txt ] && install -m 0644 $W/o2-static/$f.txt $D/gpu-opt24-confirm-$f.txt; done
+[ -f $W/fp8-ppl/progress ] && install -m 0644 $W/fp8-ppl/progress $D/fp8-ppl.progress.txt
+for a in f16 f8 q8; do [ -f $W/fp8-ppl/$a.out ] && install -m 0644 $W/fp8-ppl/$a.out $D/fp8-ppl-$a.txt; done
 [ -f $W/llvm-bisect/steps.log ] && install -m 0644 $W/llvm-bisect/steps.log $D/llvm-bisect-steps.txt
 [ -f $W/llvm-bisect/bisect.log ] && install -m 0644 $W/llvm-bisect/bisect.log $D/llvm-bisect-log.txt
 for f in bisect-screen fixrule-screen; do [ -f $W/llvm-bisect/$f.out ] && grep -E '^\[' $W/llvm-bisect/$f.out > $D/llvm-$f.txt; done

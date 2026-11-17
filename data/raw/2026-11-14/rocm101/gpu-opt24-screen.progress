@@ -1,0 +1,78 @@
+2026-11-16T19:22:56+00:00 [gpuopt24] calls0: GPU code differs in 136 objects
+2026-11-16T19:22:56+00:00 [gpuopt24] dividx: GPU code differs in 69 objects
+2026-11-16T19:22:57+00:00 [gpuopt24] ifcvt: GPU code differs in 3 objects
+2026-11-16T19:22:57+00:00 [gpuopt24] inlthr: GPU code differs in 3 objects
+2026-11-16T19:22:57+00:00 [gpuopt24] lsv0: GPU code differs in 205 objects
+2026-11-16T19:22:57+00:00 [gpuopt24] nolicm: GPU code differs in 177 objects
+2026-11-16T19:22:58+00:00 [gpuopt24] noslp: GPU code differs in 137 objects
+2026-11-16T19:22:58+00:00 [gpuopt24] novec: GPU code differs in 138 objects
+2026-11-16T19:22:58+00:00 [gpuopt24] o2: GPU code differs in 177 objects
+2026-11-16T19:22:58+00:00 [gpuopt24] pa64: GPU code differs in 32 objects
+2026-11-16T19:22:59+00:00 [gpuopt24] relax: GPU code differs in 141 objects
+2026-11-16T19:22:59+00:00 [gpuopt24] schdef: GPU code differs in 206 objects
+2026-11-16T19:22:59+00:00 [gpuopt24] schiilp: no library, skipped
+2026-11-16T19:22:59+00:00 [gpuopt24] schiocc: GPU code differs in 206 objects
+2026-11-16T19:22:59+00:00 [gpuopt24] schmem: GPU code differs in 206 objects
+2026-11-16T19:23:00+00:00 [gpuopt24] sgl0: GPU code differs in 140 objects
+2026-11-16T19:23:00+00:00 [gpuopt24] spillspd: GPU code differs in 1 objects
+2026-11-16T19:23:00+00:00 [gpuopt24] trk: GPU code differs in 176 objects
+2026-11-16T19:23:00+00:00 [gpuopt24] unrollf: GPU code differs in 1 objects
+2026-11-16T19:23:01+00:00 [gpuopt24] unrollhi: GPU code differs in 20 objects
+2026-11-16T19:23:01+00:00 [gpuopt24] unrolllo: GPU code differs in 12 objects
+2026-11-16T19:23:01+00:00 [gpuopt24] urt0: GPU code differs in 2 objects
+2026-11-16T19:23:01+00:00 [gpuopt24] urt1: GPU code differs in 115 objects
+2026-11-16T19:23:02+00:00 [gpuopt24] v80: GPU code differs in 169 objects
+2026-11-16T19:23:02+00:00 [gpuopt24] v90: GPU code differs in 169 objects
+2026-11-16T19:23:02+00:00 [gpuopt24] pass M (4 x 64K): 24 variants + c24plain + 3 reference cells, about 179 min
+2026-11-16T22:42:30+00:00 [gpuopt24] == pass M reading
+reference: decode 24.7003 24.7253 24.7439 (mean 24.7232), prefill 809.7 809.6 809.6 (mean 809.6)
+  nolicm    decode 24.8020 (+0.32 %) up     prefill 801.1 (-1.05 %) down   [more than 0.5 % down]
+  v90       decode 24.7648 (+0.17 %) level  prefill 809.6 (-0.00 %) level
+  inlthr    decode 24.7642 (+0.17 %) level  prefill 810.4 (+0.09 %) level
+  urt0      decode 24.7618 (+0.16 %) level  prefill 809.9 (+0.03 %) level
+  dividx    decode 24.7552 (+0.13 %) level  prefill 809.4 (-0.03 %) level
+  unrollhi  decode 24.7546 (+0.13 %) level  prefill 200.4 (-75.25 %) down   [more than 0.5 % down]
+  c24plain  decode 24.7534 (+0.12 %) level  prefill 796.9 (-1.57 %) down   [more than 0.5 % down]
+  spillspd  decode 24.7498 (+0.11 %) level  prefill 809.7 (+0.00 %) level
+  unrolllo  decode 24.7421 (+0.08 %) level  prefill 809.5 (-0.02 %) level
+  calls0    decode 24.7415 (+0.07 %) level  prefill 809.0 (-0.08 %) level
+  v80       decode 24.7415 (+0.07 %) level  prefill 812.3 (+0.33 %) up   
+  pa64      decode 24.7409 (+0.07 %) level  prefill 809.1 (-0.07 %) level
+  ifcvt     decode 24.7379 (+0.06 %) level  prefill 810.1 (+0.06 %) level
+  novec     decode 24.7379 (+0.06 %) level  prefill 809.4 (-0.03 %) level
+  unrollf   decode 24.7373 (+0.06 %) level  prefill 809.5 (-0.02 %) level
+  noslp     decode 24.7361 (+0.05 %) level  prefill 809.6 (-0.01 %) level
+  sgl0      decode 24.7331 (+0.04 %) level  prefill 810.2 (+0.07 %) level
+  relax     decode 24.7289 (+0.02 %) level  prefill 809.1 (-0.07 %) level
+  urt1      decode 24.7212 (-0.01 %) level  prefill 809.9 (+0.03 %) level
+  o2        decode 24.7146 (-0.03 %) level  prefill 811.3 (+0.20 %) up   
+  schdef    decode 24.6925 (-0.12 %) level  prefill 778.3 (-3.88 %) down   [more than 0.5 % down]
+  schiocc   decode 24.6824 (-0.16 %) level  prefill 379.6 (-53.11 %) down   [more than 0.5 % down]
+  trk       decode 24.1470 (-2.33 %) down   prefill 809.1 (-0.07 %) level  [more than 0.5 % down]
+  schmem    decode 24.1225 (-2.43 %) down   prefill 788.2 (-2.65 %) down   [more than 0.5 % down]
+  lsv0      decode 19.9941 (-19.13 %) down   prefill 687.1 (-15.13 %) down   [more than 0.5 % down]
+2026-11-16T22:42:30+00:00 [gpuopt24] pass S keeps 17 of 24 variants: v90 inlthr urt0 dividx spillspd unrolllo calls0 v80 pa64 ifcvt novec unrollf noslp sgl0 relax urt1 o2
+2026-11-16T22:42:30+00:00 [gpuopt24] pass S (1 x 255K): 17 variants + trk + c24plain + 3 reference cells, about 250 min
+2026-11-17T02:50:48+00:00 [gpuopt24] == pass S reading
+reference: decode 32.0822 32.0190 32.0220 (mean 32.0411), prefill 412.9 412.7 412.8 (mean 412.8)
+  relax     decode 32.1336 (+0.29 %) level  prefill 413.1 (+0.07 %) level
+  dividx    decode 32.1305 (+0.28 %) level  prefill 412.6 (-0.04 %) level
+  inlthr    decode 32.0933 (+0.16 %) level  prefill 413.2 (+0.10 %) level
+  v90       decode 32.0852 (+0.14 %) level  prefill 413.0 (+0.05 %) level
+  spillspd  decode 32.0842 (+0.13 %) level  prefill 413.0 (+0.05 %) level
+  unrollf   decode 32.0832 (+0.13 %) level  prefill 412.7 (-0.03 %) level
+  ifcvt     decode 32.0772 (+0.11 %) level  prefill 412.5 (-0.06 %) level
+  o2        decode 32.0722 (+0.10 %) level  prefill 415.2 (+0.57 %) up   
+  urt1      decode 32.0621 (+0.07 %) level  prefill 413.1 (+0.08 %) level
+  pa64      decode 32.0370 (-0.01 %) level  prefill 412.6 (-0.04 %) level
+  urt0      decode 32.0330 (-0.03 %) level  prefill 412.8 (+0.01 %) level
+  unrolllo  decode 32.0320 (-0.03 %) level  prefill 413.0 (+0.06 %) level
+  calls0    decode 32.0240 (-0.05 %) level  prefill 412.9 (+0.02 %) level
+  c24plain  decode 32.0230 (-0.06 %) level  prefill 395.6 (-4.16 %) down   [more than 0.5 % down]
+  v80       decode 32.0110 (-0.09 %) level  prefill 412.8 (-0.00 %) level
+  sgl0      decode 31.9760 (-0.20 %) level  prefill 412.8 (+0.01 %) level
+  novec     decode 31.8934 (-0.46 %) down   prefill 412.6 (-0.06 %) level
+  noslp     decode 31.8448 (-0.61 %) down   prefill 412.9 (+0.03 %) level  [more than 0.5 % down]
+  trk       decode 29.8360 (-6.88 %) down   prefill 411.1 (-0.41 %) down   [more than 0.5 % down]
+to the confirmation pass: o2 v80
+2026-11-17T02:50:48+00:00 [gpuopt24] === GPU-OPT24 SCREEN DONE ===

@@ -120,7 +120,10 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   change to a tile object, its options or its compiler repeats all of it**, and an MTP cell at depth is part of every package acceptance.
 - **An FP8 KV cache is not a throughput configuration** (2026-11-16, s.5.12): `f8_e4m3`/`f8_e4m3` at 4x64K decodes 13.13 tok/s per slot against
   24.76 with f16 (-46.9 %, n=3), prefill +0.76 %; clang 24 costs it nothing against clang 23 (13.135 / 13.143) although its FP8-V vec kernels carry
-  623 reloads in loops against 146 (not the LICM bug: they stay with `-disable-machine-licm` and at every threshold). Quality was not measured.
+  623 reloads in loops against 146 (not the LICM bug: they stay with `-disable-machine-licm` and at every threshold). Quality (2026-11-17,
+  `tools/rocm101/fp8-ppl.sh`, 16K x 6 on the installed `-r2`, KL divergence against the f16 cache's logits): FP8 mean KLD 0.0090, PPL +0.9 %, same top
+  token 98.43 %; q8_0 0.0060, +0.4 %, 98.84 %. Usable as a capacity lever (under the optimizer's 0.04 bound), but q8_0 is the better compact cache on
+  quality; do not re-measure either.
 - **The host compiler stays gcc 13** (2026-11-16, s.5.13): the six host libraries built by Ubuntu clang 19 or ROCm 10.1's clang 24 decode 0.70 % and
   0.82 % slower at 4x64K than gcc 13.3's (24.587 / 24.556 against 24.760 tok/s per slot, n=3, every run below every gcc run); OpenMP is worth 0.06 %;
   prefill equal. Do not re-screen host compilers or host flags for this code.
@@ -130,6 +133,18 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   -0.4 % decode / -1.7 % prefill. Level: target ID `gfx906:sramecc-:xnack-`, vectorizers off, `-unroll-threshold=300`, function calls off, relaxed
   occupancy, scalarize-global-loads off, promote-alloca limits, divergent register indexing. Byte-identical GPU code (nothing to time):
   `-amdgpu-early-ifcvt`, `-funroll-loops`, `-inline-threshold=1000`, `-split-spill-mode=speed`. `iterative-ilp` on every source crashes clang 23.
+  **Repeated with the shipping compiler (10.1's clang 24) at BOTH design points, 2026-11-16/17, s.5.8: closed for this compiler too.** 24 variants, 50
+  cells, two positive controls sorted as expected in both passes; no variant faster on decode at both design points. The two "up" on prefill went
+  to a confirmation pass against the shipped rule (n=3 shuffled, both design points) and neither holds: `-O2` on the 85 tree +0.20 % of 4x64K prefill
+  but -0.28 % decode and -0.14 % prefill at 1x255K; threshold 80 on every source -0.53 % of 1x255K prefill. What a compiler change moved: `-O2` changed
+  sign (-3.5 % prefill under clang 23, level to slightly up under clang 24, and it costs decode at depth); vectorizers off are level at 4x64K but
+  -0.46 % / -0.61 % decode at 1x255K; the trackers option -2.3 % decode at 4x64K, -6.9 % at 1x255K; the four byte-identical options now change 1 to 3
+  objects (level); `iterative-ilp` crashes clang 24 as well (post-RA scheduler, `softmax.cu`). Not tried: machine LICM off on single objects (on every
+  source decode +0.32 % / prefill -1.05 % at 4x64K, one sample). Lessons that outlive the numbers: an option's reading does not carry over a
+  compiler change; a survey at one design point does not cover the other; one sample per variant ranks variants, it does not resolve 0.3 %; and when
+  the shipped flags change during a survey, the confirmation's bar is the shipped build, not the survey's reference
+  (`tools/rocm101/gpu-opt24-screen.sh`, `gpu-opt24-confirm.sh`). A new compiler (ROCm 10.2) is a reason to repeat the survey; a new idea on this
+  compiler is not, unless it is a variant not in s.5.4 or s.5.8.
 - **Do not chase the ROCm 10.1 runtime's decode cost** (0.3 % at 4x64K, same report s.5.3): it is ROCr (`libhsa-runtime64`), whose async-events
   thread sleeps between polls where 10.0's spun one host core for the whole run. No environment switch, not a defect, nothing to ship.
 - **No global `-march=native` on the llama deb** (same report s.5.1, 5.2): on `libllama`/`libllama-common` it cost 0.41 % of 4x64K decode; of ten

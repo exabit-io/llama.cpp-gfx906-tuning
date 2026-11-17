@@ -42,10 +42,16 @@ and 7). The first one changed the shipped package:
   32.054 against 32.035; `test-backend-ops` 20388/20388 on four dies. Published into the rolling channel and installed
   from it.
 - **An FP8 KV cache** halves decode at 4 x 64K (13.13 against 24.76 tok/s per slot) with either compiler: a capacity
-  lever, not a throughput configuration.
+  lever, not a throughput configuration. Its output quality is within the optimizer's bound (mean KL divergence 0.0090
+  against the f16 cache, perplexity +0.9 %; q8_0: 0.0060, +0.4 %; measured 2026-11-17).
 - **The host compiler stays gcc 13**: clang 19 and ROCm's clang 24 on the host libraries are 0.70 % and 0.82 % slower.
-- **GPU compile options with the shipping compiler (clang 24), both design points**: <!-- SURVEY24-STATUS -->the survey was running when this was
-  written (report section 5.8 when it is done).<!-- /SURVEY24-STATUS -->
+- **GPU compile options with the shipping compiler (clang 24), both design points**: 24 variants timed, none
+  faster on decode at both; the two that read higher on prefill (`-O2`, threshold 80 on every source) do not hold against the
+  shipped rule in a confirmation pass (n = 3: `-O2` +0.20 % of 4 x 64K prefill, -0.28 % of 1 x 255K decode; threshold 80
+  -0.53 % of 1 x 255K prefill). The package's GPU flags stay (report section 5.8; 2026-11-17).
+- **The candidates pool** (`gfx906-candidates`) stays on the ROCm 10.0 compiler: read statically, its head-256 tile object has
+  no reloads in loops under clang 24 only with `max-ilp` and threshold 85 together, and that setting has not been timed
+  (report section 7).
 
 An acceptance now has three cells: the two design points and MTP at depth (`tools/rocm101/mtp-accept.sh`).
 

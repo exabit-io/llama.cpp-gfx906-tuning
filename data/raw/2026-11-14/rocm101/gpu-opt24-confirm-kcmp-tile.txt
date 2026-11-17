@@ -1,0 +1,5 @@
+<1,2>  t90:A(1408 insn, exact ed5efd)  t85:A(1408 insn, exact ed5efd)  o2:B(1400 insn, exact e3bc2b)  o2t85:B(1400 insn, exact e3bc2b)  v80:A(1408 insn, exact ed5efd)  pkg:A(1408 insn, exact ed5efd)
+<2,2>  t90:A(1264 insn, exact a2e314)  t85:A(1264 insn, exact a2e314)  o2:B(1253 insn, exact 923115)  o2t85:B(1253 insn, exact 923115)  v80:A(1264 insn, exact a2e314)  pkg:A(1264 insn, exact a2e314)
+<4,2>  t90:A(1697 insn, exact ca12dd)  t85:B(1632 insn, exact 273b5b)  o2:C(1693 insn, exact 95ce74)  o2t85:D(1628 insn, exact 68d9e7)  v80:E(1617 insn, exact f4c21f)  pkg:B(1632 insn, exact 273b5b)
+<8,2>  t90:A(1646 insn, exact 5d741d)  t85:B(1647 insn, exact b4a6d0)  o2:C(1633 insn, exact 2df249)  o2t85:D(1636 insn, exact 5b08a9)  v80:E(1649 insn, exact 4d28d5)  pkg:B(1647 insn, exact b4a6d0)
+<16,2>  t90:A(2838 insn, exact 1527b0)  t85:B(2842 insn, exact 71fef5)  o2:C(2825 insn, exact 7b0e37)  o2t85:D(2825 insn, exact 9172a7)  v80:E(2847 insn, exact 6715cd)  pkg:B(2842 insn, exact 71fef5)

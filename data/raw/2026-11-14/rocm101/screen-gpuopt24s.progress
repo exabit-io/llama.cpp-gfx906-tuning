@@ -1,0 +1,45 @@
+2026-11-16T22:42:30+00:00 [screen] base1: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so preloaded
+2026-11-16T22:42:30+00:00 [screen] v90: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-v90/bin/libggml-hip.so preloaded
+2026-11-16T22:42:30+00:00 [screen] inlthr: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-inlthr/bin/libggml-hip.so preloaded
+2026-11-16T22:42:30+00:00 [screen] urt0: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-urt0/bin/libggml-hip.so preloaded
+2026-11-16T22:42:30+00:00 [screen] dividx: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-dividx/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] spillspd: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-spillspd/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] unrolllo: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-unrolllo/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] calls0: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-calls0/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] v80: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-v80/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] pa64: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-pa64/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] base2: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] ifcvt: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-ifcvt/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] novec: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-novec/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] unrollf: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-unrollf/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] noslp: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-noslp/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] sgl0: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-sgl0/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] relax: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-relax/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] urt1: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-urt1/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] o2: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-o2/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] trk: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-trk/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] c24plain: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-master-v101/bin/libggml-hip.so preloaded
+2026-11-16T22:42:31+00:00 [screen] base3: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so preloaded
+2026-11-16T22:54:01+00:00 [screen] 1 x 260864 base1 b1: decode 32.0822, prefill 412.9
+2026-11-16T23:05:15+00:00 [screen] 1 x 260864 v90 b1: decode 32.0852, prefill 413.0
+2026-11-16T23:16:29+00:00 [screen] 1 x 260864 inlthr b1: decode 32.0933, prefill 413.2
+2026-11-16T23:27:45+00:00 [screen] 1 x 260864 urt0 b1: decode 32.0330, prefill 412.8
+2026-11-16T23:39:00+00:00 [screen] 1 x 260864 dividx b1: decode 32.1305, prefill 412.6
+2026-11-16T23:50:15+00:00 [screen] 1 x 260864 spillspd b1: decode 32.0842, prefill 413.0
+2026-11-17T00:01:29+00:00 [screen] 1 x 260864 unrolllo b1: decode 32.0320, prefill 413.0
+2026-11-17T00:12:45+00:00 [screen] 1 x 260864 calls0 b1: decode 32.0240, prefill 412.9
+2026-11-17T00:24:00+00:00 [screen] 1 x 260864 v80 b1: decode 32.0110, prefill 412.8
+2026-11-17T00:35:15+00:00 [screen] 1 x 260864 pa64 b1: decode 32.0370, prefill 412.6
+2026-11-17T00:46:30+00:00 [screen] 1 x 260864 base2 b1: decode 32.0190, prefill 412.7
+2026-11-17T00:57:46+00:00 [screen] 1 x 260864 ifcvt b1: decode 32.0772, prefill 412.5
+2026-11-17T01:09:02+00:00 [screen] 1 x 260864 novec b1: decode 31.8934, prefill 412.6
+2026-11-17T01:20:17+00:00 [screen] 1 x 260864 unrollf b1: decode 32.0832, prefill 412.7
+2026-11-17T01:31:33+00:00 [screen] 1 x 260864 noslp b1: decode 31.8448, prefill 412.9
+2026-11-17T01:42:48+00:00 [screen] 1 x 260864 sgl0 b1: decode 31.9760, prefill 412.8
+2026-11-17T01:54:03+00:00 [screen] 1 x 260864 relax b1: decode 32.1336, prefill 413.1
+2026-11-17T02:05:18+00:00 [screen] 1 x 260864 urt1 b1: decode 32.0621, prefill 413.1
+2026-11-17T02:16:30+00:00 [screen] 1 x 260864 o2 b1: decode 32.0722, prefill 415.2
+2026-11-17T02:27:50+00:00 [screen] 1 x 260864 trk b1: decode 29.8360, prefill 411.1
+2026-11-17T02:39:33+00:00 [screen] 1 x 260864 c24plain b1: decode 32.0230, prefill 395.6
+2026-11-17T02:50:48+00:00 [screen] 1 x 260864 base3 b1: decode 32.0220, prefill 412.8
+2026-11-17T02:50:48+00:00 [screen] === SCREEN gpuopt24s DONE ===

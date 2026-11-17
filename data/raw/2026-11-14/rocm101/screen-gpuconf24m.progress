@@ -1,0 +1,24 @@
+2026-11-17T02:59:29+00:00 [screen] t90: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t90/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T02:59:29+00:00 [screen] t85: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-v101-t85/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T02:59:29+00:00 [screen] o2: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-o2/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T02:59:30+00:00 [screen] o2t85: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-o2t85/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T02:59:30+00:00 [screen] v80: /root/build-v101-t90 on /opt/rocm/core-10.1 with /root/build-gpuopt24-v80/bin/libggml-hip.so.1.0.0 preloaded
+2026-11-17T02:59:44+00:00 [screen] block 1 order: t85 o2 o2t85 t90 v80 
+2026-11-17T03:05:58+00:00 [screen] 4 x 65536 t85 b1: decode 24.7528, prefill 812.3
+2026-11-17T03:12:12+00:00 [screen] 4 x 65536 o2 b1: decode 24.7277, prefill 812.6
+2026-11-17T03:18:26+00:00 [screen] 4 x 65536 o2t85 b1: decode 24.7678, prefill 813.9
+2026-11-17T03:24:40+00:00 [screen] 4 x 65536 t90 b1: decode 24.7618, prefill 810.8
+2026-11-17T03:30:54+00:00 [screen] 4 x 65536 v80 b1: decode 24.7498, prefill 812.9
+2026-11-17T03:30:54+00:00 [screen] block 2 order: o2 t85 t90 o2t85 v80 
+2026-11-17T03:37:08+00:00 [screen] 4 x 65536 o2 b2: decode 24.7080, prefill 812.2
+2026-11-17T03:43:22+00:00 [screen] 4 x 65536 t85 b2: decode 24.7480, prefill 811.6
+2026-11-17T03:49:37+00:00 [screen] 4 x 65536 t90 b2: decode 24.7540, prefill 809.7
+2026-11-17T03:55:50+00:00 [screen] 4 x 65536 o2t85 b2: decode 24.7457, prefill 813.5
+2026-11-17T04:02:04+00:00 [screen] 4 x 65536 v80 b2: decode 24.7690, prefill 812.9
+2026-11-17T04:02:04+00:00 [screen] block 3 order: o2t85 o2 t90 v80 t85 
+2026-11-17T04:08:18+00:00 [screen] 4 x 65536 o2t85 b3: decode 24.7588, prefill 813.4
+2026-11-17T04:14:32+00:00 [screen] 4 x 65536 o2 b3: decode 24.7486, prefill 812.7
+2026-11-17T04:20:46+00:00 [screen] 4 x 65536 t90 b3: decode 24.7433, prefill 810.8
+2026-11-17T04:27:00+00:00 [screen] 4 x 65536 v80 b3: decode 24.7015, prefill 812.7
+2026-11-17T04:33:14+00:00 [screen] 4 x 65536 t85 b3: decode 24.7200, prefill 812.0
+2026-11-17T04:33:14+00:00 [screen] === SCREEN gpuconf24m DONE ===

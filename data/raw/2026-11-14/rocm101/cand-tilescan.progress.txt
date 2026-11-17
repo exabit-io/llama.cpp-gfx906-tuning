@@ -1,0 +1,21 @@
+2026-11-17T02:52:34+00:00 [candtile] source /root/wt-candidates-v100 at 5c01f4ffd; recorded command from /root/build-candidates-v100
+  c23       (pool flags) rc=0 34 s
+  c23ilp    -mllvm -amdgpu-sched-strategy=max-ilp rc=0 42 s
+  c24       (pool flags) rc=0 28 s
+  c24t85    -mllvm -amdgpu-vgpr-threshold-percent=85 rc=0 17 s
+  c24ilp    -mllvm -amdgpu-sched-strategy=max-ilp rc=0 17 s
+  c24ilp85  -mllvm -amdgpu-sched-strategy=max-ilp -mllvm -amdgpu-vgpr-threshold-percent=85 rc=0 17 s
+2026-11-17T02:55:13+00:00 [candtile] tilescan rc=0
+object                              2x1        4x1        8x1       16x1       32x1        1x2        2x2        4x2        8x2       16x2        1x4        2x4        4x4        8x4        1x8        2x8        4x8
+c23                              0/1427      0/745     0/1150     0/1072     0/1939     0/1371      0/735     0/1107     0/1039     0/1883      0/735     0/1107     0/1039     0/1882     0/1107     0/1039     0/1882
+c23ilp                           0/1431      0/747     0/1150     0/1072     0/1936     0/1420      0/735     1/1120     2/1035     0/1883      0/735     1/1120     2/1035     0/1884     1/1120     2/1035     0/1882
+c24                              0/1439      0/747     0/1154     0/1076     0/1944     0/1428      0/742     0/1128     0/1052     0/1883      0/742     0/1128     0/1052     9/1900     0/1128     0/1052     6/1896
+c24t85                           0/1439      1/748     0/1154     0/1076     0/1944     0/1428      0/742     0/1131     0/1056     0/1900      0/742     0/1131     0/1056     0/1891     0/1131     0/1056     0/1891
+c24ilp                           0/1401      0/749     0/1154     0/1076     0/1940     0/1391      0/744     1/1138     2/1039    10/1906      0/744     1/1138     2/1039     8/1897     1/1138     2/1039     7/1895
+c24ilp85                         0/1403      0/748     0/1154     0/1077     0/1940     0/1393      0/744     0/1135     0/1038     0/1898      0/744     0/1135     0/1038     0/1891     0/1135     0/1038     0/1892
+  c23ilp    MORE reloads in loops than c23 in: 4x2 8x2 2x4 4x4 1x8 2x8
+  c24       MORE reloads in loops than c23 in: 8x4 4x8
+  c24t85    MORE reloads in loops than c23 in: 4x1
+  c24ilp    MORE reloads in loops than c23 in: 4x2 8x2 16x2 2x4 4x4 8x4 1x8 2x8 4x8
+  c24ilp85  clean
+2026-11-17T02:55:13+00:00 [candtile] === CANDTILE DONE ===
