@@ -69,9 +69,13 @@ else
   log "  MTP server did not come up: $(tail -3 $O/mtp-server.log | tr '\n' ' ' | cut -c1-300)"
 fi
 kpid "$SPID"; wait "$SPID" 2>/dev/null; SPID=""; sleep 3
+if [ "${SKIP_FN:-0}" != 1 ]; then
 log "5. Qwen3.8-Flash-Next (qwen4exp) greedy 64 tokens, -sm tensor, --n-cpu-moe 41, mlock"
 LD_LIBRARY_PATH=$LDP run fn timeout 900 $B/bin/llama-completion -m $FN $D4 -sm tensor -ngl all -lm mlock --n-cpu-moe 41 -fa on -c 4096 -n 64 --temp 0 --top-k 1 -s 0 -no-cnv --no-warmup -p "Explain in two sentences why the sky is blue."
 log "  rc=$? $(wc -c < $O/fn.out) bytes: $(tr '\n' ' ' < $O/fn.out | cut -c1-200)"
+else
+  log "5. Flash-Next: skipped (SKIP_FN=1: no CPU-heavy inference beside loaded dies in an unattended queue)"
+fi
 trap - INT TERM EXIT
 kpid "${SAMP:-}"; kpid "${WDOG:-}"; kpid "${SMCL:-}"
 restore; touch $DONE; log "=== TEST DONE ==="

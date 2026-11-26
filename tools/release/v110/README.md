@@ -264,8 +264,8 @@ watchdog of `pr-test.sh` had not fired on its 3-minute PPL step, and I had read 
   reboot (`afterboot.sh`, `rs-modes3.sh`) before a number goes into anything public.
 - **Rule broken, now kept:** no builds while the dies are loaded, also for correctness runs (the 2026-09-07 rule is
   about total power). The remaining builds of this evening were done while already latched.
-- **Next:** reboot; `afterboot.sh` (root crontab, `@reboot`, removes itself) checks the clock before every job and runs
-  the final verifications, MTP at depth, the design points and the candidates suite unattended (about 8 h). If the
+- **Next:** a reboot (the lead's step, see the last section); `afterboot.sh` checks the clock before every job and runs
+  the rollback rates, MTP at depth, the design points and the final verifications unattended (about 8 h). If the
   check fails right after boot the latch needs a cold power cycle (shut down, unplug 30 s) and nothing is run.
 
 ## Pushed and offered, 2026-11-26 22:20 UTC
@@ -277,9 +277,18 @@ models with the default rollback and with `LLAMA_RS_REPLAY=1`, MTP 150/207 on ev
 met. Not pushed: `master-v110` (`9a7177d0a`), `candidates-v110` (`8eb35b2d6`), tags, `BRANCHES.md` (after the package
 is accepted). Owed on the PR: the rollback rates at full clock (a comment).
 
-## WHERE THIS STOPS (2026-11-26 22:30 UTC) AND WHAT THE NEXT SESSION DOES
+## WHERE THIS STOPS (2026-11-26 22:35 UTC) AND WHAT THE NEXT SESSION DOES
 
-The box is rebooted to clear the clock clamp; `afterboot.sh` (root crontab, `@reboot`) runs the timing work unattended.
+**The box has NOT been rebooted and the dies are still clamped at 1000 MHz.** The reboot and the boot hook were left to
+the lead (the session's permission system declined both). `afterboot.sh` is ready and does the timing work unattended.
+Either of these starts it:
+
+    # a) one-shot boot hook, then reboot (the hook removes itself once the clock check has passed)
+    (crontab -l 2>/dev/null | grep -v rebase-v110/afterboot.sh; echo '@reboot PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash /root/rebase-v110/afterboot.sh >> /root/rebase-v110/afterboot.out 2>&1') | crontab -
+    /root/powerstep/tools/safe-reboot.sh
+    # b) reboot (or cold power cycle), then by hand
+    SETTLE=5 nohup bash /root/rebase-v110/afterboot.sh > /root/rebase-v110/afterboot.out 2>&1 &
+
 
 1. Read `afterboot.progress`.
    - `CLAMP right after boot`: this boot did not clear the latch. Shut down, unplug for 30 s, boot: the `@reboot` line
@@ -287,9 +296,9 @@ The box is rebooted to clear the clock clamp; `afterboot.sh` (root crontab, `@re
    - `CLAMP ... before <job>`: it latched again mid-queue. Read that job's watchdog log for what ran beside it, cold
      power cycle, then `AGAIN=1 SETTLE=5 nohup bash /root/rebase-v110/afterboot.sh > afterboot2.out 2>&1 &` (finished
      jobs are skipped by their `.afterboot-done-NAME` markers).
-   - `AFTERBOOT DONE`: results are in `final-mergeb-*` (queue-final on the merge: `final-mergeb-rs-modes3/progress`
-     has the rollback RATES at full clock), `final-masterb-*` (master with the fold check), `mtp-depth-v110b.progress`,
-     `dp-v110.progress` with `screen-dpv110m.tsv` / `screen-dpv110s.tsv`, `final-candb-*`. Check the clock column of
+   - `AFTERBOOT DONE`: results are in `afterboot-rs-modes3/progress` (the rollback RATES at full clock), `mtp-depth-v110b.progress`,
+     `dp-v110.progress` with `screen-dpv110m.tsv` / `screen-dpv110s.tsv`, then `final-masterb-*` (master with the fold
+     check), `final-mergeb-*`, `final-candb-*` (queue-final; its Flash-Next step is skipped in this queue). Check the clock column of
      every `*/watchdog.out` before reading a rate.
 2. PR #25: post the rollback rates as a comment (the text promises them).
 3. Tile rule: apply the rules in the headers of `mtp-depth-v110.sh` and `dp-v110.sh`; put the value (or the removal
