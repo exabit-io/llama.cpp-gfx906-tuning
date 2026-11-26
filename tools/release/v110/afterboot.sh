@@ -13,9 +13,11 @@
 set -u
 W=/root/rebase-v110; P=$W/afterboot.progress
 log(){ echo "$(date -Is) [afterboot] $*" | tee -a $P; }
-( crontab -l 2>/dev/null | grep -v 'rebase-v110/afterboot.sh' | crontab - ) 2>/dev/null
-[ -f $W/.afterboot-ran ] && { log "already ran once (remove $W/.afterboot-ran to run again)"; exit 0; }
-touch $W/.afterboot-ran
+uncron(){ ( crontab -l 2>/dev/null | grep -v 'rebase-v110/afterboot.sh' | crontab - ) 2>/dev/null; }
+# The @reboot line stays until the clock check has passed once, so that a boot that is still clamped is followed by
+# another try at the next (cold) boot. After that the chain runs once; a job that finished is not run again when the
+# script is started by hand (rm .afterboot-ran, then run it; its marker is .afterboot-done-NAME).
+[ -f $W/.afterboot-ran ] && [ "${AGAIN:-0}" != 1 ] && { uncron; log "already ran once (AGAIN=1 to continue with the jobs that have no marker)"; exit 0; }
 sleep ${SETTLE:-180}
 log "start: kernel $(uname -r), up $(uptime -p), macpro-fand $(systemctl is-active macpro-fand), dies $(ls -d /sys/class/drm/card[0-9]/device/pp_dpm_sclk 2>/dev/null | wc -l)"
 systemctl is-active macpro-fand >/dev/null || { log "FATAL: macpro-fand is not active; not starting"; exit 1; }
@@ -29,14 +31,17 @@ clamp_check(){ # 0 when every die reads the top clock at idle under perf level h
 }
 job(){ # job NAME COMMAND...
   local name=$1; shift
+  [ -f $W/.afterboot-done-$name ] && { log "SKIP $name: done before"; return 0; }
   pgrep -x llama-server >/dev/null && { log "FATAL: a llama-server is running before $name"; exit 1; }
   clamp_check || { log "CLAMP: a die reads below 1700 MHz at idle under perf high before $name: chain stopped (cold power cycle needed)"; exit 2; }
   log "RUN $name"
   "$@" > $W/afterboot-$name.out 2>&1
   log "END $name rc=$?"
+  touch $W/.afterboot-done-$name
 }
-clamp_check || { log "CLAMP right after boot: the warm reboot did not clear the latch. Cold power cycle needed (shut down, unplug 30 s). Nothing was run."; exit 2; }
+clamp_check || { log "CLAMP right after boot: this boot did not clear the latch. Cold power cycle needed (shut down, unplug 30 s); the @reboot line stays and tries again at the next boot. Nothing was run."; exit 2; }
 log "clock check passed: every die at the top state at idle"
+touch $W/.afterboot-ran; uncron
 job final-merge  bash $W/queue-final.sh /root/build-merge-v110 mergeb /root/wt-merge-v110
 job final-master env FOLD=1 bash $W/queue-final.sh /root/build-master-v110 masterb /root/wt-master-v110
 job mtp-depth    env TAG=mtp-depth-v110b bash $W/mtp-depth-v110.sh

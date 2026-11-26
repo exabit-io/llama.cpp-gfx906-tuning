@@ -276,3 +276,33 @@ Final verification of that commit (`queue-final.sh`, files `final-merge-*`): 218
 models with the default rollback and with `LLAMA_RS_REPLAY=1`, MTP 150/207 on every request, `rs-modes3.sh`'s four rules
 met. Not pushed: `master-v110` (`9a7177d0a`), `candidates-v110` (`8eb35b2d6`), tags, `BRANCHES.md` (after the package
 is accepted). Owed on the PR: the rollback rates at full clock (a comment).
+
+## WHERE THIS STOPS (2026-11-26 22:30 UTC) AND WHAT THE NEXT SESSION DOES
+
+The box is rebooted to clear the clock clamp; `afterboot.sh` (root crontab, `@reboot`) runs the timing work unattended.
+
+1. Read `afterboot.progress`.
+   - `CLAMP right after boot`: this boot did not clear the latch. Shut down, unplug for 30 s, boot: the `@reboot` line
+     is still there and tries again. Nothing else to do first.
+   - `CLAMP ... before <job>`: it latched again mid-queue. Read that job's watchdog log for what ran beside it, cold
+     power cycle, then `AGAIN=1 SETTLE=5 nohup bash /root/rebase-v110/afterboot.sh > afterboot2.out 2>&1 &` (finished
+     jobs are skipped by their `.afterboot-done-NAME` markers).
+   - `AFTERBOOT DONE`: results are in `final-mergeb-*` (queue-final on the merge: `final-mergeb-rs-modes3/progress`
+     has the rollback RATES at full clock), `final-masterb-*` (master with the fold check), `mtp-depth-v110b.progress`,
+     `dp-v110.progress` with `screen-dpv110m.tsv` / `screen-dpv110s.tsv`, `final-candb-*`. Check the clock column of
+     every `*/watchdog.out` before reading a rate.
+2. PR #25: post the rollback rates as a comment (the text promises them).
+3. Tile rule: apply the rules in the headers of `mtp-depth-v110.sh` and `dp-v110.sh`; put the value (or the removal
+   of the rule) into master-v110's "LLVM 24 ... finds its instance by pattern" commit with the new kernel's table in
+   the comment; rebuild with ROCm 10.1, check the flag reaches exactly the one object, `tilescan.py` on it.
+4. Package: clean detached worktree of the final master (`/root/wt-deb-v110`), `ROCMSTREAM=10.1
+   /root/mx-llama-deb/build-mx-llama-deb.sh` (it has the GCC pin and sets `HF_UI_VERSION=b12774`); test before
+   publishing as for `-r2` (`deb-test-llama-101.sh`), accept on the installed deb against the ROCm 10.0 source build
+   at the design points and against the `-r2` library at MTP depth (`rocm-ab5.sh`, `mtp-accept.sh` of
+   `tools/rocm101/`, adapted to `/root/build-master-v110`); a design-point metric more than 2 % under v1.0.0 goes to
+   the lead before publishing (rule (3) of `dp-v110.sh`).
+5. Fork: push `master` = `gfx906-single` = `gfx906-multi` and `gfx906-candidates` with a lease each, tags
+   `gfx906/v1.1.0/r0/{merge,master,candidates}`, the `BRANCHES.md` commit (names PR #25); delete `wip/*`.
+6. Publish into the rolling channel, dogfood from it, release notes (say that DeepSeek-V4.1 files in upstream's layout
+   do not load in 1.1.0 and that 1.0.0 stays in the channel), report part 2, runbook section 0, `CLAUDE.md`, memory.
+7. **For the lead:** whether master should carry upstream's DeepSeek-V4.1 layout beside mxxm-t's (a port of its own).
