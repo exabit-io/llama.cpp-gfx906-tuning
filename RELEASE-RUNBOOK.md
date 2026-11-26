@@ -21,6 +21,8 @@ Previous cycles: v0.7.0 `reports/2026-10-22-v070-rebase.md`, v0.9.0 `reports/202
 
 **v1.1.0 cycle (2026-11-26): in progress. The merge is pushed and offered as PR mxxm-t#25 (#24 closed); master, the candidates, the tags and the package are not out, so the table above is still the shipped state.** Report `reports/2026-11-26-v110-rebase.md`; record, scripts and the open list: `tools/release/v110/README.md` (`/root/rebase-v110/` on the box).
 
+**Direction since 2026-11-26: this fork is its own project.** None of the merges offered to mxxm-t was taken (PRs #17, #22, #23, #24; #25 open). The fork follows upstream llama.cpp releases itself and pulls in what serves its goals: mxxm-t's gfx906 patches stay, and his later changes keep being read and taken on their merit. What ends: waiting on his tree, resolving in his favour only to stay mergeable, and opening merge pull requests (none unless the lead asks). Sections 2 and 3 below were written for the bound procedure: read section 2 as "compare with his tree and take what is good" and skip the pull request of section 3 and 7. The condition (no major, statistically significant performance penalty against his fork) and its measurement: `reports/2026-11-26-v110-rebase.md` section 10.
+
 ## 1. Identities and access
 
 - Commits: `Joshua <joshua@exabit.io>` (set as repo-local `user.name`/`user.email` in `/root/exabit-llama.cpp`). Never the personal name; check `git log --format='%an <%ae>'` on every rewritten range (the v0.5.0 candidates commits carried it).

@@ -150,6 +150,11 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   56-thread build starting beside a GPU test and every speed of the next two hours was void. `grep -oE 'card0:[0-9]+MHz/[0-9]+%' <run>/watchdog.out`
   must show 1204-1730 MHz at 100 % busy; all samples at 1000 is the clamp (reboot, cold power cycle if that does not
   clear it). Do not rewrite a source while a build compiles it.
+- **The fork is its own project (lead, 2026-11-26).** It follows upstream llama.cpp releases and pulls in the code that
+  serves its goals; mxxm-t's gfx906 patches stay and his later changes are still read and taken on merit. Do NOT make
+  a cycle wait on his tree, do NOT pick a resolution only to stay mergeable for him, do NOT open a pull request to him
+  unless the lead asks (none of #17, #22, #23, #24 was taken; #25 is open). Never propose dropping his patches. The
+  performance condition and its measurement: `reports/2026-11-26-v110-rebase.md` section 10.
 - **llama.cpp v1.1.0 cycle is IN PROGRESS** (2026-11-26): merged onto mxxm-t's own b12500 merge with three fix commits
   (pushed, PR mxxm-t#25, #24 closed), 22 Exabit commits on top (local `master-v110`), nothing published; the tile rule's threshold must be chosen again on the changed kernel
   (85 is not clean any more). State and the open list: `tools/release/v110/README.md`. Until it ships, the tree and the

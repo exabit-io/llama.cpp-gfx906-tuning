@@ -1,0 +1,5 @@
+2026-11-26T22:57:55+00:00 [rs-modes3] ring long : prompt 2089 tok 588.1 tok/s | gen 137 tok 52.55 tok/s | accepted 85/153 | sha 4893c7466db7
+2026-11-26T22:58:00+00:00 [rs-modes3] ring run 1: prompt 11 tok 31.7 tok/s | gen 256 tok 61.66 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:58:04+00:00 [rs-modes3] ring run 2: prompt 11 tok 33.2 tok/s | gen 256 tok 61.05 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:58:09+00:00 [rs-modes3] ring run 3: prompt 11 tok 29.1 tok/s | gen 256 tok 61.21 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:58:09+00:00 [rs-modes3] ring mode : rs_replay=false, ring lines 1, refused rollbacks 0;  598.50 MiB (     1 cells,  64 layers,  1 seqs  3 rs_seq), R (f32):   22.50 MiB,

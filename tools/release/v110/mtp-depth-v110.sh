@@ -13,6 +13,9 @@
 #   t85    clang 24, threshold 85 = the rule as shipped   (<4,2> 0, <16,2> 0; <8,1> 19, not run here)
 #   t88    clang 24, threshold 88                         (0 everywhere)
 #   t75    clang 24, threshold 75                         (0 everywhere)
+#   old    NOT a tile arm: the v1.0.0 master (224b73e24, the -r2 package's code) as built by ROCm 10.1
+#          (/root/build-v101-t85), its own server and libraries. Its text and draft counts are another release's, so
+#          its decode is reported beside its acceptance and NOT compared by rule; its prefill is comparable.
 # Cell = one server start, as mtp-depth2.sh (2026-11-16): Qwen3.8-27B Q8_0, -sm tensor, f16 KV, 125 W, RCCL + gated
 # custom AR, -np 1 (a ring context), -c 131072, --spec-type draft-mtp --spec-draft-n-max 3, --cache-ram 0; a long chat
 # prompt (about 117.7K tokens) that generates NPRED tokens, then two more requests on the same text.
@@ -31,6 +34,9 @@
 #     0.25 %, then the higher mean on B, then 88 (nearer to what was shipped). It must not be "down" against c23 on B.
 # (3) t85 is here to say what the shipped number does on the two kernels this cell runs; it is not a candidate
 #     (not clean on <8,1>).
+# (5) v1.1.0 against v1.0.0 at depth: prefill of the arm taken against old ("up"/"down"/"level" and the ratio); decode
+#     of both with their accepted/drafted counts side by side. A prefill more than 2 % under old is an upstream cost of
+#     the release and goes to the lead with the package (as rule (3) of dp-v110.sh).
 # (4) What is taken goes through the design-point cells (4 x 64K, 1 x 255K) against c23 and against the v1.0.0 -r2
 #     build before a package is built; c23 "down" against the clang 24 arms on A is the size of what the ROCm 10.0
 #     stream loses with this kernel and is reported.
@@ -46,10 +52,13 @@ BL=/root/build-master-v110-101; EXE=$BL/bin/llama-server; PORT=8098
 pgrep -x llama-batched-b >/dev/null && { log "FATAL: a timing run is in progress"; touch $DONE; exit 1; }
 pgrep -x llama-server >/dev/null && { log "FATAL: a llama-server is running"; touch $DONE; exit 1; }
 [ -s $TSV ] && { log "FATAL: $TSV exists"; touch $DONE; exit 1; }
-lib(){ readlink -f /root/rebase-v110/tile/lib-$1/libggml-hip.so; }
+OLDB=/root/build-v101-t85
+lib(){ if [ "$1" = old ]; then readlink -f $OLDB/bin/libggml-hip.so; else readlink -f /root/rebase-v110/tile/lib-$1/libggml-hip.so; fi; }
+exe(){ if [ "$1" = old ]; then echo $OLDB/bin/llama-server; else echo $EXE; fi; }
+libdir(){ if [ "$1" = old ]; then echo $OLDB/bin; else echo $BL/bin; fi; }
 for a in $ARMS; do
   l=$(lib $a); [ -f "$l" ] || { log "FATAL: arm $a has no library"; touch $DONE; exit 1; }
-  got=$(LD_LIBRARY_PATH=$BL/bin LD_PRELOAD=$l ldd $EXE 2>/dev/null | awk '{ if ($2 == "=>") print $3; else print $1 }' | grep libggml-hip | xargs -r -n1 readlink -f | sort -u)
+  got=$(LD_LIBRARY_PATH=$(libdir $a) LD_PRELOAD=$l ldd $(exe $a) 2>/dev/null | awk '{ if ($2 == "=>") print $3; else print $1 }' | grep libggml-hip | xargs -r -n1 readlink -f | sort -u)
   [ "$got" = "$l" ] || { log "FATAL: arm $a would map $got"; touch $DONE; exit 1; }
   log "arm $a: $l ($(stat -c %s $l) bytes)"
 done
@@ -88,7 +97,7 @@ print("\t".join(str(x) for x in (t["prompt_n"], "%.3f" % t["prompt_per_second"],
 cell(){ # cell ARM BLOCK
   local arm=$1 blk=$2 l got r f pre="" dec="" acc="" sha="" pn="" ok=1
   l=$(lib $arm)
-  env LD_LIBRARY_PATH=$BL/bin LD_PRELOAD=$l AMD_COMGR_CACHE_DIR=/root/.cache/comgr-mtpdepth $EXE -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
+  env LD_LIBRARY_PATH=$(libdir $arm) LD_PRELOAD=$l AMD_COMGR_CACHE_DIR=/root/.cache/comgr-mtpdepth $(exe $arm) -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
     -fa on -ctk f16 -ctv f16 -b 2048 -ub 2048 -c 131072 -np 1 --cache-ram 0 --port $PORT \
     --spec-type draft-mtp --spec-draft-n-max 3 > $O/$arm-$blk-server.out 2> $O/$arm-$blk-server.log < /dev/null &
   SPID=$!
@@ -129,17 +138,26 @@ for l in open(sys.argv[1]):
         x, y = float(a[3]), float(a[4])
     except ValueError:
         continue
-    rows.append((a[1], a[2], x, y, (a[6], a[7]))); sig[(a[6], a[7])] += 1
-if not rows: sys.exit()
+    rows.append((a[1], a[2], x, y, (a[6], a[7])))
+    if a[1] != "old": sig[(a[6], a[7])] += 1
+if not rows or not sig: sys.exit()
 good = sig.most_common(1)[0][0]
+oldd = []
 for arm, blk, x, y, s in rows:
     p.setdefault(arm, []).append(y)
+    if arm == "old":
+        oldd.append((x, s[0])); continue
     if s != good:
         print(f"[mtpd] DECODE DISCARDED {arm} b{blk}: text or draft counts differ from the majority (prefill kept)"); d.setdefault(arm, []); continue
     d.setdefault(arm, []).append(x)
 def rel(a, b): return "up" if min(a) > max(b) else "down" if max(a) < min(b) else "level"
 for k in d:
     print(f"[mtpd] {k:4s} MTP decode n={len(d[k])} " + (f"{st.mean(d[k]):.3f} ({min(d[k]):.3f}-{max(d[k]):.3f})" if d[k] else "none") + f"; prefill n={len(p[k])} {st.mean(p[k]):.1f} ({min(p[k]):.1f}-{max(p[k]):.1f})")
+if oldd:
+    print(f"[mtpd] old  (v1.0.0, another text; decode NOT compared by rule) MTP decode n={len(oldd)} {st.mean([x for x, _ in oldd]):.3f} ({min(x for x, _ in oldd):.3f}-{max(x for x, _ in oldd):.3f}), accepted {sorted(set(a for _, a in oldd))}; prefill n={len(p['old'])} {st.mean(p['old']):.1f} ({min(p['old']):.1f}-{max(p['old']):.1f})")
+    print(f"[mtpd] v1.1.0 accepted/drafted in the tile arms: {good[0]}")
+    for k in d:
+        if k in p and p.get("old"): print(f"[mtpd] {k}: prefill against old {rel(p[k], p['old'])} ({100 * (st.mean(p[k]) / st.mean(p['old']) - 1):+.2f} %)" + (f", MTP decode ratio to old {st.mean(d[k]) / st.mean([x for x, _ in oldd]):.4f} (other text)" if d[k] else ""))
 if "tnone" in d and "c23" in d and d["tnone"] and d["c23"]:
     print(f"[mtpd] tnone: MTP decode against c23 {rel(d['tnone'], d['c23'])} ({100 * (st.mean(d['tnone']) / st.mean(d['c23']) - 1):+.2f} %), prefill against c23 {rel(p['tnone'], p['c23'])} ({100 * (st.mean(p['tnone']) / st.mean(p['c23']) - 1):+.2f} %)")
 for k in d:

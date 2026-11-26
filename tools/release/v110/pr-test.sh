@@ -21,7 +21,7 @@ cleanup(){ trap - INT TERM EXIT; for p in "${T0:-}" "${T1:-}" "${T2:-}" "${T3:-}
 trap cleanup INT TERM EXIT
 setmax; start_sampler $O/clocks.txt
 log "build $B ($(git -C ${SRC:-/dev/null} rev-parse --short HEAD 2>/dev/null || echo '?')); $(state_line)"
-QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$O/smc.log SCLK_GUARD=1 nohup $R/clamp-watchdog-v2.sh >> $O/watchdog.out 2>&1 &
+QUEUE_PID=$$ DONEFLAG=$DONE SMCLOG=$O/smc.log SCLK_GUARD=${SCLK_GUARD:-1} nohup $R/clamp-watchdog-v2.sh >> $O/watchdog.out 2>&1 &
 WDOG=$!
 nohup $R/smc-log.sh $O/smc.log >/dev/null 2>&1 &
 SMCL=$!

@@ -1,0 +1,8 @@
+2026-11-26T22:23:57+00:00 [queue-final-masterc] start: /root/build-master-v110 (9a7177d0a 0 uncommitted)
+2026-11-26T22:38:07+00:00 [queue-final-masterc] pr-test rc=0
+2026-11-26T22:38:07+00:00 [queue-final-masterc]   allreduce path:  (empty = no failure line)
+2026-11-26T22:45:07+00:00 [queue-final-masterc] fold-check rc=0
+2026-11-26T22:50:09+00:00 [queue-final-masterc] ctx-check (default rollback) rc=0
+2026-11-26T22:53:51+00:00 [queue-final-masterc] ctx-check (LLAMA_RS_REPLAY=1) rc=0
+2026-11-26T22:56:38+00:00 [queue-final-masterc] mtp-modes rc=0
+2026-11-26T22:57:26+00:00 [queue-final-masterc] mtp-carry rc=0

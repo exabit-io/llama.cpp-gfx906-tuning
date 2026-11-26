@@ -7,9 +7,10 @@
 # Before every job: perf level high at idle must read 1700 MHz or more on every die; if not, the chain stops and says
 # so (a warm reboot did not clear the latch: cold power cycle, i.e. shut down and unplug for 30 s). Each job's own
 # watchdog also stops it when a busy die sits at 1000 MHz for 2 minutes.
-# Jobs, each with its own header and reading rule: the rollback modes of the merge (rates at full clock), MTP decode at
-# depth for the tile threshold, the two design-point cells (threshold arms and v1.0.0), then the final verifications
-# of master (with the fold check), the merge and the candidates pool. About 8 hours.
+# Jobs, each with its own header and reading rule: the rollback modes of the merge (rates at full clock), the substrate
+# comparison (mxxm-t's master, the merge, our master: about 6.5 hours), MTP decode at depth for the
+# tile threshold, the two design-point cells (threshold arms and v1.0.0), then the final verifications of master
+# (with the fold check), the merge and the candidates pool. About 15 hours in all.
 set -u
 W=/root/rebase-v110; P=$W/afterboot.progress
 log(){ echo "$(date -Is) [afterboot] $*" | tee -a $P; }
@@ -42,10 +43,15 @@ job(){ # job NAME COMMAND...
 clamp_check || { log "CLAMP right after boot: this boot did not clear the latch. Cold power cycle needed (shut down, unplug 30 s); the @reboot line stays and tries again at the next boot. Nothing was run."; exit 2; }
 log "clock check passed: every die at the top state at idle"
 touch $W/.afterboot-ran; uncron
-# Timing first (a clamp later in the queue then costs the least); the Flash-Next step of the suite is skipped in this
-# queue (41 layers of CPU inference beside loaded dies; it ran on these trees on 2026-11-26).
+# Timing first (a clamp later in the queue then costs the least). Order by what waits on it: the rollback rates owed on
+# PR #25, the substrate comparison (the lead's condition for following upstream, substrate-v110.sh; its two builds are
+# made first if missing, with the dies idle), the tile threshold, the design points against v1.0.0. The final
+# verifications come last; the Flash-Next step of the suite is skipped in this queue (41 layers of CPU inference
+# beside loaded dies; it ran on these trees on 2026-11-26).
 job rs-modes3    env RT=/opt/rocm/core-10.0 bash $W/rs-modes3.sh /root/build-merge-v110 $W/afterboot-rs-modes3
-job mtp-depth    env TAG=mtp-depth-v110b bash $W/mtp-depth-v110.sh
+job sub-build    bash $W/sub-build.sh
+job substrate    bash $W/substrate-v110.sh
+job mtp-depth    env TAG=mtp-depth-v110b ARMS="c23 tnone t85 t88 t75 old" bash $W/mtp-depth-v110.sh
 job dp           env ARMS="old c23o tnone t88 t75" bash $W/dp-v110.sh
 job final-master env FOLD=1 SKIP_FN=1 bash $W/queue-final.sh /root/build-master-v110 masterb /root/wt-master-v110
 job final-merge  env SKIP_FN=1 bash $W/queue-final.sh /root/build-merge-v110 mergeb /root/wt-merge-v110

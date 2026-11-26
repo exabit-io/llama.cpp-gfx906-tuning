@@ -315,3 +315,25 @@ Either of these starts it:
 6. Publish into the rolling channel, dogfood from it, release notes (say that DeepSeek-V4.1 files in upstream's layout
    do not load in 1.1.0 and that 1.0.0 stays in the channel), report part 2, runbook section 0, `CLAUDE.md`, memory.
 7. **For the lead:** whether master should carry upstream's DeepSeek-V4.1 layout beside mxxm-t's (a port of its own).
+
+## Direction from the lead, 2026-11-26: our own project, not bound to his fork
+
+None of the merges offered to mxxm-t was taken (#17, #22, #23, #24; #25 is open). The lead, in two messages:
+the fork is Exabit's own project; it follows upstream llama.cpp and pulls in the code that serves its goals. His
+gfx906 patches STAY and his later changes keep being looked at and pulled on their merit; what ends is being bound to
+his tree (waiting on it, resolving in his favour to stay mergeable, offering merges). Condition named by the lead:
+no major, statistically significant performance penalty in following upstream against his fork.
+
+- **The condition is a measurement:** `substrate-v110.sh` (header = arms, cells, statistic and the reading, written
+  before the first run), with `sub-build.sh` (builds with RCCL on: `/root/build-sub-{mxxm,merge}`; the third arm is
+  `/root/build-master-v110`), `sub-mtp.sh` (the MTP cell) and `sub-stats.py` (paired by block, Student t, Holm, 95 %
+  intervals; `LINE=<percent>` for another "major" line than 2 %). Read on the merge against his master (the same
+  patches on the newer upstream) and on our master against his master. Upstream alone is NOT a candidate; it is an
+  optional arm (`ARMS="stock mxxm merge master"`, `WITH_STOCK=1 bash sub-build.sh`).
+  `TRY=1 bash substrate-v110.sh` is the functional pass on a clamped box (no rate of it is a number).
+- It is job 3 of `afterboot.sh` (after the rollback rates and its own builds), about 6.5 hours of the 15.
+- **What "not bound" changes in this cycle:** where the merge took his handling only to stay mergeable for him, our
+  master may now differ. First case: DeepSeek-V4.1 files in upstream's layout (the one on this box, the ones on the
+  hub) load in our master again, as in 1.0.0 (work item, see below).
+- No further PR to him unless the lead asks; #25 is left as it is.
+- Wrong reading of mine, corrected by the lead the same evening: "follow upstream" never meant dropping his patches.
