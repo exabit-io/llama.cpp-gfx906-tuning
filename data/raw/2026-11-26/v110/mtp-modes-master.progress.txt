@@ -1,0 +1,21 @@
+2026-11-26T21:35:29+00:00 [mtp-modes] combined long : prompt 2089 tok 586.1 tok/s | gen 137 tok 51.63 tok/s | accepted 80/114 | sha e9ba62f015f6
+2026-11-26T21:35:33+00:00 [mtp-modes] combined run 1: prompt 11 tok 31.8 tok/s | gen 256 tok 61.43 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:35:38+00:00 [mtp-modes] combined run 2: prompt 11 tok 34.7 tok/s | gen 256 tok 61.40 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:35:43+00:00 [mtp-modes] combined run 3: prompt 11 tok 30.9 tok/s | gen 256 tok 61.56 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:35:43+00:00 [mtp-modes] combined rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-26T21:36:08+00:00 [mtp-modes] host long : prompt 2089 tok 591.9 tok/s | gen 137 tok 51.44 tok/s | accepted 80/114 | sha e9ba62f015f6
+2026-11-26T21:36:13+00:00 [mtp-modes] host run 1: prompt 11 tok 31.8 tok/s | gen 256 tok 61.52 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:36:17+00:00 [mtp-modes] host run 2: prompt 11 tok 34.8 tok/s | gen 256 tok 61.41 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:36:22+00:00 [mtp-modes] host run 3: prompt 11 tok 31.5 tok/s | gen 256 tok 61.41 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:36:22+00:00 [mtp-modes] host rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-26T21:36:47+00:00 [mtp-modes] dev long : prompt 2089 tok 556.2 tok/s | gen 137 tok 53.85 tok/s | accepted 80/114 | sha e9ba62f015f6
+2026-11-26T21:36:52+00:00 [mtp-modes] dev run 1: prompt 11 tok 34.0 tok/s | gen 256 tok 61.21 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:36:57+00:00 [mtp-modes] dev run 2: prompt 11 tok 34.7 tok/s | gen 256 tok 60.92 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:37:02+00:00 [mtp-modes] dev run 3: prompt 11 tok 29.9 tok/s | gen 256 tok 60.97 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:37:02+00:00 [mtp-modes] dev rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-26T21:37:27+00:00 [mtp-modes] eager long : prompt 2089 tok 554.0 tok/s | gen 137 tok 53.82 tok/s | accepted 80/114 | sha e9ba62f015f6
+2026-11-26T21:37:32+00:00 [mtp-modes] eager run 1: prompt 11 tok 34.1 tok/s | gen 256 tok 61.28 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:37:37+00:00 [mtp-modes] eager run 2: prompt 11 tok 34.7 tok/s | gen 256 tok 60.93 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:37:41+00:00 [mtp-modes] eager run 3: prompt 11 tok 29.6 tok/s | gen 256 tok 61.10 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-26T21:37:41+00:00 [mtp-modes] eager rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-26T21:37:46+00:00 [mtp-modes] === MTP-MODES DONE ===

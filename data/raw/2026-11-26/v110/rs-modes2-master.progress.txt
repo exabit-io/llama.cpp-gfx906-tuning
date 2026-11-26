@@ -1,0 +1,25 @@
+2026-11-26T21:38:16+00:00 [rs-modes2] replay long : prompt 2089 tok 458.7 tok/s | gen 137 tok 56.59 tok/s | accepted 84/156 | sha acd81c983839
+2026-11-26T21:38:21+00:00 [rs-modes2] replay run 1: prompt 11 tok 15.3 tok/s | gen 256 tok 62.90 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T21:38:27+00:00 [rs-modes2] replay run 2: prompt 11 tok 15.4 tok/s | gen 256 tok 63.07 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T21:38:32+00:00 [rs-modes2] replay run 3: prompt 11 tok 14.4 tok/s | gen 256 tok 63.17 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T21:38:32+00:00 [rs-modes2] replay mode : rs_replay=true, ring lines 0, refused rollbacks 0;  652.78 MiB (     4 cells,  64 layers,  4 seqs  3 rs_seq replay), R (f32):   52.
+2026-11-26T21:38:57+00:00 [rs-modes2] snap long : prompt 2089 tok 563.5 tok/s | gen 137 tok 59.62 tok/s | accepted 87/150 | sha e9ba62f015f6
+2026-11-26T21:39:01+00:00 [rs-modes2] snap run 1: prompt 11 tok 35.3 tok/s | gen 256 tok 67.58 tok/s | accepted 170/255 | sha 9acec5a1439c
+2026-11-26T21:39:06+00:00 [rs-modes2] snap run 2: prompt 11 tok 36.2 tok/s | gen 256 tok 67.37 tok/s | accepted 170/255 | sha 9acec5a1439c
+2026-11-26T21:39:10+00:00 [rs-modes2] snap run 3: prompt 11 tok 30.5 tok/s | gen 256 tok 67.41 tok/s | accepted 170/255 | sha 9acec5a1439c
+2026-11-26T21:39:10+00:00 [rs-modes2] snap mode : rs_replay=false, ring lines 0, refused rollbacks 0; 2394.00 MiB (     4 cells,  64 layers,  4 seqs  3 rs_seq), R (f32):   90.00 MiB,
+2026-11-26T21:39:35+00:00 [rs-modes2] snaprec long : prompt 2089 tok 553.0 tok/s | gen 140 tok 62.53 tok/s | accepted 91/147 | sha 8f3e70ac76f7
+2026-11-26T21:39:40+00:00 [rs-modes2] snaprec run 1: prompt 11 tok 35.4 tok/s | gen 256 tok 67.77 tok/s | accepted 170/255 | sha 9acec5a1439c
+2026-11-26T21:39:44+00:00 [rs-modes2] snaprec run 2: prompt 11 tok 36.3 tok/s | gen 256 tok 67.61 tok/s | accepted 170/255 | sha 9acec5a1439c
+2026-11-26T21:39:48+00:00 [rs-modes2] snaprec run 3: prompt 11 tok 30.9 tok/s | gen 256 tok 67.37 tok/s | accepted 170/255 | sha 9acec5a1439c
+2026-11-26T21:39:48+00:00 [rs-modes2] snaprec mode : rs_replay=false, ring lines 0, refused rollbacks 0; 2394.00 MiB (     4 cells,  64 layers,  4 seqs  3 rs_seq), R (f32):   90.00 MiB,
+2026-11-26T21:40:14+00:00 [rs-modes2] nodraft long : prompt 2089 tok 664.1 tok/s | gen 137 tok 44.29 tok/s | accepted None/None | sha 4893c7466db7
+2026-11-26T21:40:20+00:00 [rs-modes2] nodraft run 1: prompt 11 tok 35.6 tok/s | gen 256 tok 44.43 tok/s | accepted None/None | sha 5d959ae72e81
+2026-11-26T21:40:26+00:00 [rs-modes2] nodraft run 2: prompt 11 tok 37.0 tok/s | gen 256 tok 44.27 tok/s | accepted None/None | sha 5d959ae72e81
+2026-11-26T21:40:33+00:00 [rs-modes2] nodraft run 3: prompt 11 tok 31.1 tok/s | gen 256 tok 44.19 tok/s | accepted None/None | sha 5d959ae72e81
+2026-11-26T21:40:33+00:00 [rs-modes2] nodraft mode : rs_replay=false, ring lines 0, refused rollbacks 1;  598.50 MiB (     4 cells,  64 layers,  4 seqs  0 rs_seq), R (f32):   22.50 MiB,
+2026-11-26T21:40:37+00:00 [rs-modes2] text long: replay acd81c983839 snaprec 8f3e70ac76f7 snap e9ba62f015f6 nodraft 4893c7466db7
+2026-11-26T21:40:37+00:00 [rs-modes2] text 1: replay 992ec9e4d9de snaprec 9acec5a1439c snap 9acec5a1439c nodraft 5d959ae72e81
+2026-11-26T21:40:37+00:00 [rs-modes2] text 2: replay 992ec9e4d9de snaprec 9acec5a1439c snap 9acec5a1439c nodraft 5d959ae72e81
+2026-11-26T21:40:37+00:00 [rs-modes2] text 3: replay 992ec9e4d9de snaprec 9acec5a1439c snap 9acec5a1439c nodraft 5d959ae72e81
+2026-11-26T21:40:37+00:00 [rs-modes2] === RS-MODES2 DONE ===

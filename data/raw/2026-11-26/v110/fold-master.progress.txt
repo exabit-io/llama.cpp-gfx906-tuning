@@ -1,0 +1,2 @@
+2026-11-26T21:30:57+00:00 [fold] fold check on /root/build-master-v110 (ubatch 16); kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1201/2509/2493/2501
+2026-11-26T21:33:06+00:00 [fold] STOPPED (trap)

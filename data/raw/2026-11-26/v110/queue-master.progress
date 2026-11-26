@@ -1,0 +1,8 @@
+2026-11-26T21:15:46+00:00 [queue-master] start: /root/build-master-v110 (316df5d54), hip runtime /opt/rocm/core-10.0/lib/libamdhip64.so.7.15.26333-0000000
+2026-11-26T21:30:43+00:00 [queue-master] pr-test rc=0
+2026-11-26T21:30:43+00:00 [queue-master]   allreduce path:  (empty = RCCL up)
+2026-11-26T21:33:06+00:00 [queue-master] fold-check rc=1
+2026-11-26T21:34:59+00:00 [queue-master] ctx-check rc=0
+2026-11-26T21:37:46+00:00 [queue-master] mtp-modes rc=0
+2026-11-26T21:40:37+00:00 [queue-master] rs-modes2 rc=0
+2026-11-26T21:40:37+00:00 [queue-master] === QUEUE DONE ===

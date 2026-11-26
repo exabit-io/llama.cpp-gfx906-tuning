@@ -1,0 +1,15 @@
+2026-11-26T21:10:42+00:00 [rs-modes] ring long : prompt 2089 tok 438.7 tok/s | gen 137 tok 49.62 tok/s | accepted 86/153 | sha c34009495dda
+2026-11-26T21:10:47+00:00 [rs-modes] ring run 1: prompt 11 tok 32.1 tok/s | gen 256 tok 57.97 tok/s | accepted 166/266 | sha f2cc519452ae
+2026-11-26T21:10:52+00:00 [rs-modes] ring run 2: prompt 11 tok 33.0 tok/s | gen 256 tok 57.94 tok/s | accepted 166/266 | sha f2cc519452ae
+2026-11-26T21:10:57+00:00 [rs-modes] ring run 3: prompt 11 tok 28.7 tok/s | gen 256 tok 58.22 tok/s | accepted 166/266 | sha f2cc519452ae
+2026-11-26T21:10:57+00:00 [rs-modes] ring mode : rs_replay=, ring lines 0, refused rollbacks 0, 0 reserves, 2 error lines; 
+2026-11-26T21:11:18+00:00 [rs-modes] replay long : prompt 2089 tok 399.4 tok/s | gen 136 tok 56.10 tok/s | accepted 84/153 | sha 6cdf6ac32b14
+2026-11-26T21:11:23+00:00 [rs-modes] replay run 1: prompt 11 tok 33.9 tok/s | gen 256 tok 61.41 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T21:11:28+00:00 [rs-modes] replay run 2: prompt 11 tok 34.6 tok/s | gen 256 tok 61.53 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T21:11:32+00:00 [rs-modes] replay run 3: prompt 11 tok 30.6 tok/s | gen 256 tok 61.47 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T21:11:32+00:00 [rs-modes] replay mode : rs_replay=, ring lines 0, refused rollbacks 0, 0 reserves, 5 error lines; 
+2026-11-26T21:11:36+00:00 [rs-modes] text long: ring c34009495dda ringoff none replay 6cdf6ac32b14 snap none
+2026-11-26T21:11:36+00:00 [rs-modes] text 1: ring f2cc519452ae ringoff none replay 992ec9e4d9de snap none
+2026-11-26T21:11:36+00:00 [rs-modes] text 2: ring f2cc519452ae ringoff none replay 992ec9e4d9de snap none
+2026-11-26T21:11:37+00:00 [rs-modes] text 3: ring f2cc519452ae ringoff none replay 992ec9e4d9de snap none
+2026-11-26T21:11:37+00:00 [rs-modes] === RS-MODES DONE ===

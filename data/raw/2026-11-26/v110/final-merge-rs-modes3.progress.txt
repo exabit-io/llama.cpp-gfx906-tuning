@@ -1,0 +1,30 @@
+2026-11-26T22:14:29+00:00 [rs-modes3] ring long : prompt 2089 tok 444.2 tok/s | gen 137 tok 49.80 tok/s | accepted 84/156 | sha acd81c983839
+2026-11-26T22:14:34+00:00 [rs-modes3] ring run 1: prompt 11 tok 32.2 tok/s | gen 256 tok 59.04 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:14:39+00:00 [rs-modes3] ring run 2: prompt 11 tok 33.4 tok/s | gen 256 tok 58.42 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:14:44+00:00 [rs-modes3] ring run 3: prompt 11 tok 29.0 tok/s | gen 256 tok 58.60 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:14:44+00:00 [rs-modes3] ring mode : rs_replay=false, ring lines 1, refused rollbacks 0;  598.50 MiB (     1 cells,  64 layers,  1 seqs  3 rs_seq), R (f32):   22.50 MiB,
+2026-11-26T22:15:05+00:00 [rs-modes3] ringon long : prompt 2089 tok 444.0 tok/s | gen 137 tok 49.84 tok/s | accepted 84/156 | sha acd81c983839
+2026-11-26T22:15:10+00:00 [rs-modes3] ringon run 1: prompt 11 tok 32.1 tok/s | gen 256 tok 58.91 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:15:15+00:00 [rs-modes3] ringon run 2: prompt 11 tok 33.0 tok/s | gen 256 tok 58.49 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:15:19+00:00 [rs-modes3] ringon run 3: prompt 11 tok 29.3 tok/s | gen 256 tok 58.73 tok/s | accepted 167/261 | sha 992ec9e4d9de
+2026-11-26T22:15:19+00:00 [rs-modes3] ringon mode : rs_replay=false, ring lines 1, refused rollbacks 0;  598.50 MiB (     1 cells,  64 layers,  1 seqs  3 rs_seq), R (f32):   22.50 MiB,
+2026-11-26T22:15:40+00:00 [rs-modes3] snap long : prompt 2089 tok 430.2 tok/s | gen 140 tok 58.93 tok/s | accepted 90/150 | sha 6ffd45358f64
+2026-11-26T22:15:45+00:00 [rs-modes3] snap run 1: prompt 11 tok 34.8 tok/s | gen 256 tok 63.21 tok/s | accepted 167/264 | sha a84585d1e445
+2026-11-26T22:15:50+00:00 [rs-modes3] snap run 2: prompt 11 tok 36.2 tok/s | gen 256 tok 63.10 tok/s | accepted 167/264 | sha a84585d1e445
+2026-11-26T22:15:54+00:00 [rs-modes3] snap run 3: prompt 11 tok 32.9 tok/s | gen 256 tok 63.13 tok/s | accepted 167/264 | sha a84585d1e445
+2026-11-26T22:15:54+00:00 [rs-modes3] snap mode : rs_replay=false, ring lines 0, refused rollbacks 0; 2394.00 MiB (     4 cells,  64 layers,  4 seqs  3 rs_seq), R (f32):   90.00 MiB,
+2026-11-26T22:16:16+00:00 [rs-modes3] replay long : prompt 2089 tok 367.6 tok/s | gen 137 tok 56.14 tok/s | accepted 85/153 | sha 4893c7466db7
+2026-11-26T22:16:22+00:00 [rs-modes3] replay run 1: prompt 11 tok 15.5 tok/s | gen 256 tok 61.25 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T22:16:27+00:00 [rs-modes3] replay run 2: prompt 11 tok 15.5 tok/s | gen 256 tok 60.63 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T22:16:32+00:00 [rs-modes3] replay run 3: prompt 11 tok 14.3 tok/s | gen 256 tok 60.76 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T22:16:32+00:00 [rs-modes3] replay mode : rs_replay=true, ring lines 0, refused rollbacks 0;  652.78 MiB (     4 cells,  64 layers,  4 seqs  3 rs_seq replay), R (f32):   52.
+2026-11-26T22:16:53+00:00 [rs-modes3] snaprec long : prompt 2089 tok 421.0 tok/s | gen 137 tok 56.55 tok/s | accepted 85/153 | sha 4893c7466db7
+2026-11-26T22:16:58+00:00 [rs-modes3] snaprec run 1: prompt 11 tok 35.2 tok/s | gen 256 tok 61.67 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T22:17:03+00:00 [rs-modes3] snaprec run 2: prompt 11 tok 34.4 tok/s | gen 256 tok 61.01 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T22:17:07+00:00 [rs-modes3] snaprec run 3: prompt 11 tok 30.5 tok/s | gen 256 tok 61.19 tok/s | accepted 166/264 | sha 992ec9e4d9de
+2026-11-26T22:17:07+00:00 [rs-modes3] snaprec mode : rs_replay=false, ring lines 0, refused rollbacks 0; 2394.00 MiB (     4 cells,  64 layers,  4 seqs  3 rs_seq), R (f32):   90.00 MiB,
+2026-11-26T22:17:11+00:00 [rs-modes3] text long: ring acd81c983839 ringon acd81c983839 snap 6ffd45358f64 replay 4893c7466db7 snaprec 4893c7466db7
+2026-11-26T22:17:11+00:00 [rs-modes3] text 1: ring 992ec9e4d9de ringon 992ec9e4d9de snap a84585d1e445 replay 992ec9e4d9de snaprec 992ec9e4d9de
+2026-11-26T22:17:11+00:00 [rs-modes3] text 2: ring 992ec9e4d9de ringon 992ec9e4d9de snap a84585d1e445 replay 992ec9e4d9de snaprec 992ec9e4d9de
+2026-11-26T22:17:11+00:00 [rs-modes3] text 3: ring 992ec9e4d9de ringon 992ec9e4d9de snap a84585d1e445 replay 992ec9e4d9de snaprec 992ec9e4d9de
+2026-11-26T22:17:11+00:00 [rs-modes3] === RS-MODES3 DONE ===

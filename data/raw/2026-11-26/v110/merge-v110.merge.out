@@ -1,0 +1,98 @@
+Auto-merging .github/actions/windows-setup-cuda/action.yml
+CONFLICT (content): Merge conflict in .github/actions/windows-setup-cuda/action.yml
+Auto-merging README.md
+Auto-merging common/arg.cpp
+Auto-merging common/common.cpp
+Auto-merging common/common.h
+Auto-merging common/speculative.cpp
+Auto-merging ggml/CMakeLists.txt
+Auto-merging ggml/include/ggml-backend.h
+Auto-merging ggml/src/CMakeLists.txt
+Auto-merging ggml/src/ggml-alloc.c
+Auto-merging ggml/src/ggml-backend-impl.h
+Auto-merging ggml/src/ggml-backend-meta.cpp
+Auto-merging ggml/src/ggml-backend.cpp
+CONFLICT (content): Merge conflict in ggml/src/ggml-backend.cpp
+Auto-merging ggml/src/ggml-blas/ggml-blas.cpp
+Auto-merging ggml/src/ggml-cann/ggml-cann.cpp
+Auto-merging ggml/src/ggml-cpu/ggml-cpu.cpp
+Auto-merging ggml/src/ggml-cuda/CMakeLists.txt
+CONFLICT (content): Merge conflict in ggml/src/ggml-cuda/CMakeLists.txt
+Auto-merging ggml/src/ggml-cuda/common.cuh
+Auto-merging ggml/src/ggml-cuda/fattn-common.cuh
+Auto-merging ggml/src/ggml-cuda/fattn-vec.cuh
+CONFLICT (content): Merge conflict in ggml/src/ggml-cuda/fattn-vec.cuh
+Auto-merging ggml/src/ggml-cuda/gated_delta_net.cu
+CONFLICT (content): Merge conflict in ggml/src/ggml-cuda/gated_delta_net.cu
+Auto-merging ggml/src/ggml-cuda/ggml-cuda.cu
+CONFLICT (content): Merge conflict in ggml/src/ggml-cuda/ggml-cuda.cu
+Auto-merging ggml/src/ggml-cuda/mmq.cu
+Auto-merging ggml/src/ggml-cuda/mmq.cuh
+Auto-merging ggml/src/ggml-cuda/mmvq.cu
+Auto-merging ggml/src/ggml-cuda/norm.cu
+CONFLICT (content): Merge conflict in ggml/src/ggml-cuda/norm.cu
+Auto-merging ggml/src/ggml-cuda/quantize.cu
+Auto-merging ggml/src/ggml-cuda/rope.cu
+CONFLICT (content): Merge conflict in ggml/src/ggml-cuda/rope.cu
+Auto-merging ggml/src/ggml-cuda/top-k.cu
+CONFLICT (content): Merge conflict in ggml/src/ggml-cuda/top-k.cu
+Auto-merging ggml/src/ggml-et/ggml-et.cpp
+Auto-merging ggml/src/ggml-hexagon/ggml-hexagon.cpp
+Auto-merging ggml/src/ggml-hip/CMakeLists.txt
+CONFLICT (content): Merge conflict in ggml/src/ggml-hip/CMakeLists.txt
+Auto-merging ggml/src/ggml-impl.h
+Auto-merging ggml/src/ggml-metal/ggml-metal.cpp
+Auto-merging ggml/src/ggml-opencl/ggml-opencl.cpp
+Auto-merging ggml/src/ggml-openvino/ggml-openvino.cpp
+Auto-merging ggml/src/ggml-rpc/ggml-rpc.cpp
+Auto-merging ggml/src/ggml-sycl/ggml-sycl.cpp
+Auto-merging ggml/src/ggml-virtgpu/ggml-backend-device.cpp
+Auto-merging ggml/src/ggml-vulkan/ggml-vulkan.cpp
+Auto-merging ggml/src/ggml-webgpu/ggml-webgpu.cpp
+Auto-merging ggml/src/ggml-zdnn/ggml-zdnn.cpp
+Auto-merging ggml/src/ggml-zendnn/ggml-zendnn.cpp
+Auto-merging gguf-py/gguf/constants.py
+Auto-merging include/llama.h
+Auto-merging src/llama-arch.cpp
+CONFLICT (content): Merge conflict in src/llama-arch.cpp
+Auto-merging src/llama-arch.h
+Auto-merging src/llama-context.cpp
+CONFLICT (content): Merge conflict in src/llama-context.cpp
+Auto-merging src/llama-cparams.h
+Auto-merging src/llama-ext.h
+Auto-merging src/llama-graph.cpp
+CONFLICT (content): Merge conflict in src/llama-graph.cpp
+Auto-merging src/llama-graph.h
+CONFLICT (content): Merge conflict in src/llama-graph.h
+Auto-merging src/llama-hparams.h
+Auto-merging src/llama-kv-cache-dsv4.cpp
+Auto-merging src/llama-kv-cache.cpp
+Auto-merging src/llama-kv-cache.h
+Auto-merging src/llama-memory-hybrid-iswa.cpp
+Auto-merging src/llama-memory-hybrid.cpp
+Auto-merging src/llama-memory-hybrid.h
+Auto-merging src/llama-memory-recurrent.cpp
+CONFLICT (content): Merge conflict in src/llama-memory-recurrent.cpp
+Auto-merging src/llama-memory-recurrent.h
+CONFLICT (content): Merge conflict in src/llama-memory-recurrent.h
+Auto-merging src/llama-model-loader.cpp
+Auto-merging src/llama-model.cpp
+Auto-merging src/llama-model.h
+Auto-merging src/llama-vocab.cpp
+Auto-merging src/models/deepseek4.cpp
+Auto-merging src/models/deepseek41.cpp
+CONFLICT (content): Merge conflict in src/models/deepseek41.cpp
+Auto-merging src/models/delta-net-base.cpp
+CONFLICT (content): Merge conflict in src/models/delta-net-base.cpp
+Auto-merging src/models/dflash.cpp
+Auto-merging src/models/dspark.cpp
+Auto-merging src/models/models.h
+Auto-merging src/models/qwen35moe.cpp
+Auto-merging src/models/qwen4exp.cpp
+CONFLICT (content): Merge conflict in src/models/qwen4exp.cpp
+Auto-merging tests/llama-context/cases-rs.cpp
+Auto-merging tests/test-backend-ops.cpp
+Auto-merging tests/test-llama-archs.cpp
+Auto-merging tools/llama-bench/llama-bench.cpp
+Auto-merging tools/server/server-context.cpp
+Automatic merge failed; fix conflicts and then commit the result.

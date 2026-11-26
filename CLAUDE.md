@@ -145,6 +145,15 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   the shipped flags change during a survey, the confirmation's bar is the shipped build, not the survey's reference
   (`tools/rocm101/gpu-opt24-screen.sh`, `gpu-opt24-confirm.sh`). A new compiler (ROCm 10.2) is a reason to repeat the survey; a new idea on this
   compiler is not, unless it is a variant not in s.5.4 or s.5.8.
+- **No build and no other host load while the dies are loaded, also in correctness runs; read the clock column after
+  every GPU job** (2026-11-26, `reports/2026-11-26-v110-rebase.md` s.8): the dies latched at 1000 MHz within seconds of a
+  56-thread build starting beside a GPU test and every speed of the next two hours was void. `grep -oE 'card0:[0-9]+MHz/[0-9]+%' <run>/watchdog.out`
+  must show 1204-1730 MHz at 100 % busy; all samples at 1000 is the clamp (reboot, cold power cycle if that does not
+  clear it). Do not rewrite a source while a build compiles it.
+- **llama.cpp v1.1.0 cycle is IN PROGRESS** (2026-11-26): merged onto mxxm-t's own b12500 merge with three fix commits
+  (pushed, PR mxxm-t#25, #24 closed), 22 Exabit commits on top (local `master-v110`), nothing published; the tile rule's threshold must be chosen again on the changed kernel
+  (85 is not clean any more). State and the open list: `tools/release/v110/README.md`. Until it ships, the tree and the
+  package in this file are the v1.0.0 ones.
 - **Do not chase the ROCm 10.1 runtime's decode cost** (0.3 % at 4x64K, same report s.5.3): it is ROCr (`libhsa-runtime64`), whose async-events
   thread sleeps between polls where 10.0's spun one host core for the whole run. No environment switch, not a defect, nothing to ship.
 - **No global `-march=native` on the llama deb** (same report s.5.1, 5.2): on `libllama`/`libllama-common` it cost 0.41 % of 4x64K decode; of ten

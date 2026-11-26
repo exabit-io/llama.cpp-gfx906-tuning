@@ -1,0 +1,6 @@
+2026-11-26T22:13:42+00:00 [mtp-carry] build-merge-v110 request 1 (A): gen 256 tok | accepted 150/207 | sha e3cdc41138b1
+2026-11-26T22:13:47+00:00 [mtp-carry] build-merge-v110 request 2 (A): gen 256 tok | accepted 150/207 | sha e3cdc41138b1
+2026-11-26T22:13:52+00:00 [mtp-carry] build-merge-v110 request 3 (A): gen 256 tok | accepted 150/207 | sha e3cdc41138b1
+2026-11-26T22:13:57+00:00 [mtp-carry] build-merge-v110 request 4 (B): gen 256 tok | accepted 157/195 | sha 42b95545dce7
+2026-11-26T22:14:03+00:00 [mtp-carry] build-merge-v110 request 5 (A): gen 256 tok | accepted 150/207 | sha e3cdc41138b1
+2026-11-26T22:14:03+00:00 [mtp-carry] === MTP-CARRY DONE ===

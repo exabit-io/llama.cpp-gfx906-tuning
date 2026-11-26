@@ -1,0 +1,74 @@
+Merge llama.cpp v1.1.0 (1715275, b12774) into master
+
+274 upstream commits on top of b12500. 19 files had textual conflicts.
+
+The one decision in this merge: upstream replaced the snapshot rollback of
+the delta-net models by a replay (#31669: one state plus the inputs of the
+last ubatch, the gdn op replays the kept tokens before the new ones) and
+removed the snapshot branch. The fork has the snapshot ring for the same
+job, and plane-indexed snapshots for the contexts the ring does not cover.
+Everything is kept, one rollback per context:
+  - a context the ring covers (one sequence, verified backends) keeps the
+    ring and its snapshots, unchanged;
+  - every other context of these models with n_rs_seq > 0 keeps the
+    plane-indexed snapshots by default. The fork's gated delta net kernels
+    do not replay, so a replay op runs on the recurrent kernel;
+  - LLAMA_RS_REPLAY=1 gives those contexts upstream's replay, which keeps
+    a quarter of the recurrent memory.
+llama_memory_recurrent::ring_supported() is the ring's condition as one
+static function, used by the memory and by llama_context.
+
+Conflicts:
+
+  src/llama-memory-recurrent.{h,cpp}: the ring's members and the replay's.
+    Constructor: rs_replay as the context asked, the ring only without it.
+    seq_rm: the fork's rollback block with upstream's replay branch inside
+    (the kept pending tokens are replayed, no rs_idx).
+  src/llama-context.cpp: cparams.rs_replay is set after the fork's clamp of
+    n_rs_seq for a small n_ubatch (set before it, it stayed true at
+    n_rs_seq 0), only with LLAMA_RS_REPLAY=1 and never for ring contexts.
+    The drain before a reused graph (LLAMA_REUSE_NO_DRAIN) stays: upstream
+    dropped it for its new input copy, which the fork's scheduler does not
+    use. LLAMA_NO_FUSED_LID goes with upstream's unfused lightning indexer
+    graph (#32650).
+  src/llama-graph.{h,cpp}: ring inputs and replay inputs. set_input_rep()
+    writes through ggml_backend_tensor_set into the inputs that were
+    allocated, and a conv window narrower than the widest one is an input
+    of its own instead of a view, as s_copy_main and s_copy_tail are.
+  src/models/delta-net-base.cpp, src/models/qwen4exp.cpp: replay when
+    cparams.rs_replay, else the fork's snapshot writes (ring or
+    plane-indexed).
+  ggml/src/ggml-cuda/gated_delta_net.cu: the column-thread and chunked
+    kernels take the ops without replay inputs; a replay op runs on the
+    recurrent kernel, which replays and stores the pending inputs.
+  ggml/src/ggml-backend.cpp: the fork's staged input copies stay as they
+    are. Upstream's ggml_backend_sched_copy_input() (#30685) and its input
+    prefetch are not used; its scratch tensors for graph_optimize are in.
+  ggml/src/ggml-cuda/ggml-cuda.cu: cpy_tensor_async keeps the host branch
+    and gets upstream's wait of the source stream on the destination.
+  ggml/src/ggml-cuda/norm.cu, rope.cu: the fork's clamped-grid switch and
+    upstream's fused NORM + MUL (+ ADD) (#32454) and MROPE (#32500)
+    switches are separate template parameters.
+  ggml/src/ggml-cuda/fattn-vec.cuh: upstream passes the mask strides
+    (#32901), s31 from nb[1] as the fork computed it; the row index stays
+    maskh[j*s31 + ...].
+  ggml/src/ggml-cuda/top-k.cu: the fixed-order gather stays, upstream only
+    renamed a popcount in the code it replaced.
+  ggml/src/ggml-cuda/CMakeLists.txt, ggml/src/ggml-hip/CMakeLists.txt:
+    ggml_cuda_fattn_instances() plus the q8_repack sources.
+  src/llama-arch.cpp: both new predicates.
+  src/models/deepseek41.cpp: the fork's graph. Upstream's change to the
+    shared loader (router accumulation in F32) merged by itself.
+  .github/actions/windows-setup-cuda/action.yml: the retry loop with
+    upstream's cuda_nvml_dev package added.
+
+Merged without a textual conflict but changed here:
+
+  src/llama-graph.cpp: upstream's new build_attn_iswa_impl() is a free
+    function; the fork's replica-aware cache helpers are called through
+    gctx there.
+  ggml/include/ggml.h: ggml_gated_delta_net(..., K) is not deprecated here,
+    the ring builds it with K > 1.
+  tests/test-backend-ops.cpp: upstream removed the K > 1 gated delta net
+    cases with the snapshot branch; six of them are back as
+    test_gated_delta_net_snapshots.

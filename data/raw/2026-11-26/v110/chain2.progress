@@ -1,0 +1,4 @@
+2026-11-26T21:43:23+00:00 [chain2] chain1 is done; building a3aa1c772
+2026-11-26T21:43:35+00:00 [chain2] build: rc=0, errors 0
+2026-11-26T22:17:11+00:00 [chain2] queue-final merge rc=0
+2026-11-26T22:17:11+00:00 [chain2] === CHAIN2 DONE ===

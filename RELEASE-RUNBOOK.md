@@ -19,6 +19,8 @@ from the v0.7.0 cycle are in `/root/rebase-v070/` on macpro2019-01). Report: `re
 
 Previous cycles: v0.7.0 `reports/2026-10-22-v070-rebase.md`, v0.9.0 `reports/2026-11-06-v090-rebase.md`; this cycle: `reports/2026-11-14-v100-rebase.md`.
 
+**v1.1.0 cycle (2026-11-26): in progress. The merge is pushed and offered as PR mxxm-t#25 (#24 closed); master, the candidates, the tags and the package are not out, so the table above is still the shipped state.** Report `reports/2026-11-26-v110-rebase.md`; record, scripts and the open list: `tools/release/v110/README.md` (`/root/rebase-v110/` on the box).
+
 ## 1. Identities and access
 
 - Commits: `Joshua <joshua@exabit.io>` (set as repo-local `user.name`/`user.email` in `/root/exabit-llama.cpp`). Never the personal name; check `git log --format='%an <%ae>'` on every rewritten range (the v0.5.0 candidates commits carried it).
@@ -38,6 +40,16 @@ git log --first-parent --oneline <old mxxm base>..mxxm/master       # what mxxm-
 git worktree add -b reconcile/mxxm-master /root/wt-reconcile mxxm/master
 for c in $(git rev-list --reverse <old substrate>..exabit-mx/master); do git cherry-pick $c || break; done
 ```
+
+**When he merged upstream himself and our last PR was not taken (v1.1.0, 2026-11-26):** compare the two handlings
+before anything else. Merge the upstream point HE merged into OUR last merge in a scratch worktree
+(`git worktree add --detach /root/wt-cmp <our PR tip>; git merge --no-commit <his upstream parent>`), then
+`git diff <his merge commit> -- <file>` in that worktree shows his handling against ours with upstream's own changes
+cancelled; the files that conflict there are compared as fork deltas. Give the reading to several readers with one
+brief (`tools/release/v110/README.md`, `data/raw/2026-11-26/v110/cmp/BRIEF.md`: verdict labels, "read before you
+claim"), and RUN his master through the suite: the 68 failing `TOPK_MOE` cases were in the test output before any
+reader named their cause. The new PR starts from his tree; where the handlings differ it has his, and what ours
+fixed that his lacks goes on the branch as separate commits, each with a run that shows it.
 
 Resolve each conflict by porting the patch's intent onto the new code, never by taking one side. Record each port in
 the commit message (`git filter-branch --msg-filter` over the range, see `tools/release/portnotes.py`). Then
@@ -93,6 +105,20 @@ The v1.0.0 cycle added these (the first two compiled cleanly, the others were fo
 | New upstream test meets an old backend limit | `PAD_REFLECT_1D` with 2^24 rows: HIP rejects 2^32 threads along one grid dimension | separate commit on the PR branch; measure the limit with a minimal kernel before describing it |
 | A test abort that looks like progress | `test-backend-ops` aborted at case 13,418 on all four dies; a count of OK lines kept looking like a run in progress | check the exit code and the `N/N tests passed` line, not the log size |
 
+The v1.1.0 cycle added these:
+
+| Class | v1.1.0 instance | Fix |
+|---|---|---|
+| Upstream replaces a mechanism the fork has its own answer to | #31669: replay instead of snapshot rollback for the delta-net models, snapshot branch removed; the fork has the ring and plane-indexed snapshots | keep both, one per context, behind ONE predicate both sides call (`ring_supported()`); the fork's kernels take only ops without the new inputs; decide the default by text equality with the kernel held fixed (`rs-modes2.sh`), memory and speed |
+| A hunk that applies cleanly inside a look-alike block | term 01's rows-per-block cases landed in upstream's new ORIN branch of `calc_rows_per_block`, whose tail reads like the GCN one; gfx906 silently fell back to upstream's values | after a port, compare every changed FUNCTION with the old commit's version, not only the conflicts; a second reader found this one |
+| Upstream removes a test or a branch the fork still uses | the K > 1 gated delta net cases of `test-backend-ops`, deleted with upstream's snapshot branch | restore them as fork tests; check `git diff <his> -- tests/` for deletions |
+| Upstream renames a file a per-file build rule names | `fattn-tile-instance-dkq256-dv256.cu` -> `...-f16-f16-dkq256-dv256.cu` (#32901); CMake ignores a property on a source that is not in the target | the rule globs and fails the configure on a miss; grep the build for the flag after every cycle |
+| A derived flag set before a fork clamp | upstream sets `cparams.rs_replay` before the fork clamps `n_rs_seq` for a small `n_ubatch` | compute derived flags after the last clamp |
+| Upstream turns member code into free functions | `build_attn_iswa_impl(gctx, ...)`: the fork's member helpers no longer in scope (compile error), or silently bypassed where upstream's direct call still compiles | grep the refactored file for direct calls the fork routes through a helper |
+| A fork kernel written for 32-lane rows after upstream widened the row | fused top-k softmax: default-width reductions on 64-lane rows (#31617) | every reduction names the row width; run `test-backend-ops` on HIS tree too |
+| A new upstream test model meets a kernel instance that does not exist | `hy_v4_flash`, 576/512 with GQA ratio 2: abort in the tile launcher, stock aborts too | the selection returns NONE; an abort in a fixture run hides every model after it |
+| The numbers move upstream | PPL 5.6186 -> 5.6070 on stock between b12500 and v1.1.0 | build stock at both releases and attribute (`numerics.sh`) before reading a changed PPL as a merge fault |
+
 Stack the merge on the previous PR tip when that PR was not merged: `git merge vNEW` in a detached worktree at the old PR head gives
 only the new conflicts (15 files for v1.0.0 instead of 27 + 15). Then build the real merge commit from that tree with
 `git commit-tree TREE -p mxxm/master -p vNEW^{commit} -F merge-msg.txt` (revert the separate fix commits in the index first and
@@ -145,6 +171,13 @@ v1.0.0 reference values (same scripts): merge build test-backend-ops 20388/20388
 steady state; master 20388/20388 x2, PPL 5.6093, folds on 5.0822 / off 5.0575 (all four unchanged from v0.9.0). `mtp-modes.sh BUILD OUT [NP]`
 compares the MTP row paths (`LLAMA_MTP_DEV`, `LLAMA_MTP_DEFERRED_PREFILL`); a server log shows llama's own INFO lines (reserves, buffer sizes)
 only with `-v`.
+
+Since v1.1.0 (`tools/release/v110/`): `queue-final.sh BUILD TAG SRC` is the whole verification of a tree (suite, fixtures
+with the default rollback and with `LLAMA_RS_REPLAY=1`, MTP row paths, `mtp-carry.sh`, `rs-modes3.sh`; `FOLD=1` adds the
+fold check). **No build and no other host load while the dies are loaded, also during correctness runs, and read the
+watchdog's clock column (`card0:NNNNMHz/100%`) after every GPU job:** on 2026-11-26 the dies latched at 1000 MHz
+within seconds of a build starting beside a GPU test, and two hours of speeds were void before a watchdog said so.
+Do not rewrite a source file while a build compiles it either (clang dies with a Bus error).
 
 Gotchas: the fold check needs ubatch <= 16 (norm+q8 fold <= 16 rows; add-norm and GDN folds <= 64) and `-v` (ggml INFO lines
 are hidden by default); `llama-perplexity --kl-divergence` prints its statistics on **stdout**; environment assignments in
@@ -295,6 +328,13 @@ PyTorch traps found on 2.14.1:
 - `import torchvision` needs Pillow: the deb depends on `python3-pil`.
 - noble ships sympy 1.12 and setuptools 68; torch declares >= 1.13.3 / >= 77. Irrelevant without Triton (`torch.compile` is unavailable anyway), but pip warns.
 - Verify `-march=native` reached the compiler: `grep -c -- -march=native build/compile_commands.json`.
+
+Build traps found on v1.1.0 (both handled in `build-mx-llama-deb.sh` and `tools/release/v110/build-rocm.sh`):
+- A `gcc-N` without `libstdc++-N-dev` on the build box: the ROCm clang selects the newest GCC directory and the configure
+  ends at `'cmath' file not found`. Pin with `-DCMAKE_HIP_FLAGS=--gcc-install-dir=$(dirname $(c++ -print-libgcc-file-name))`.
+- The server's web UI is downloaded at build time by build number (`b<commit count>`). A fork's count names no upstream
+  build; the fallback `latest` fails the asset check once it is newer than the tree. Set `HF_UI_VERSION` to the b tag on
+  the merged release's commit (`git tag --points-at vX.Y.Z^{commit}`), and check the build log's `resolved:` line.
 
 Packaging trap: in bash, `${VAR//~/.}` tilde-expands the pattern to `$HOME`.
 

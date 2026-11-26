@@ -1,0 +1,6 @@
+2026-11-26T20:08:46+00:00 [ctx] test-llama-archs rc=0 models=150; 
+2026-11-26T20:09:37+00:00 [ctx] test-llama-context rc=134 0 cases, failed total ; failing: 
+2026-11-26T20:09:38+00:00 [ctx] fp8 models rc=0 2 files
+2026-11-26T20:09:41+00:00 [ctx] test-fp8 requantize rc=0 | llama-dense.gguf | PASS | | llama-moe.gguf | PASS | 
+2026-11-26T20:09:46+00:00 [ctx] test-fp8 kv rc=0 | llama-dense.gguf | PASS | 
+2026-11-26T20:09:46+00:00 [ctx] === CTX DONE ===

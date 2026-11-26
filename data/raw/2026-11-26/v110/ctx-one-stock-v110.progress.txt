@@ -1,0 +1,1 @@
+2026-11-26T20:15:41+00:00 [ctx-one] /root/build-stock-v110 rc=134 models: hy_v4_flash-moe; /root/wt-stock-v110/ggml/src/ggml-cuda/template-instances/../fattn-tile.cuh:1230: fatal error;

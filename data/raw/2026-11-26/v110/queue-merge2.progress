@@ -1,0 +1,7 @@
+2026-11-26T20:30:08+00:00 [queue-merge2] test-backend-ops ROCm0:  21871/21871 tests passed; FAIL lines 0
+2026-11-26T20:30:08+00:00 [queue-merge2] test-backend-ops ROCm1:  21871/21871 tests passed; FAIL lines 0
+2026-11-26T20:30:08+00:00 [queue-merge2] test-backend-ops ROCm2:  21871/21871 tests passed; FAIL lines 0
+2026-11-26T20:30:08+00:00 [queue-merge2] test-backend-ops ROCm3:  21871/21871 tests passed; FAIL lines 0
+2026-11-26T20:32:01+00:00 [queue-merge2] ctx-check rc=0: ama-context rc=1 10 cases, failed total 7; failing: cp_h          148 passed, 0 skipped, 2 failed (of 150);cp_d          148 passed, 0 skipped, 2 failed (of 150);frag          147 passed, 2 skipped, 1 failed (of 150);models: 148 passed, 2 failed (of 150);
+2026-11-26T21:10:03+00:00 [queue-merge2] numerics rc=0
+2026-11-26T21:10:03+00:00 [queue-merge2] === QUEUE DONE ===

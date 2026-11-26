@@ -53,6 +53,13 @@ and 7). The first one changed the shipped package:
   no reloads in loops under clang 24 only with `max-ilp` and threshold 85 together, and that setting has not been timed
   (report section 7).
 
+- **llama.cpp v1.1.0 (2026-11-26, in progress, nothing shipped):** merged onto mxxm-t's own b12500 merge and verified
+  for correctness (21871/21871 backend tests on four dies, 148 of 150 fixture models), with three fix commits and the 22
+  Exabit commits on top. Upstream's new delta-net replay is kept behind `LLAMA_RS_REPLAY=1`; the fork's snapshots stay
+  the default. Offered to mxxm-t as PR #25 (#24 closed). The LLVM 24 tile rule has to be re-chosen for the changed
+  kernel. A clock clamp voided the evening's speeds, so timing and the package are open
+  (`reports/2026-11-26-v110-rebase.md`).
+
 An acceptance now has three cells: the two design points and MTP at depth (`tools/rocm101/mtp-accept.sh`).
 
 ## Status — 2026-11-15: the llama package is compiled by ROCm 10.1

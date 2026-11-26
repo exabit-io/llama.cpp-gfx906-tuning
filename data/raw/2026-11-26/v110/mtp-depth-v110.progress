@@ -1,0 +1,9 @@
+2026-11-26T21:40:38+00:00 [mtpd] arm c23: /root/rebase-v110/tile/lib-c23/libggml-hip.so.1.0.0 (101151672 bytes)
+2026-11-26T21:40:38+00:00 [mtpd] arm tnone: /root/rebase-v110/tile/lib-tnone/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-26T21:40:38+00:00 [mtpd] arm t85: /root/rebase-v110/tile/lib-t85/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-26T21:40:38+00:00 [mtpd] arm t88: /root/rebase-v110/tile/lib-t88/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-26T21:40:38+00:00 [mtpd] arm t75: /root/rebase-v110/tile/lib-t75/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-26T21:40:38+00:00 [mtpd] n=3, arms: c23 tnone t85 t88 t75; prompt 500000 characters, 768 tokens per request; load 1.56 2.78 6.50
+2026-11-26T21:40:52+00:00 [mtpd] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1198/2504/2494/2489
+2026-11-26T21:40:52+00:00 [mtpd] block 1 order: tnone c23 t88 t85 t75
+2026-11-26T21:43:12+00:00 [mtpd] STOPPED (trap)
