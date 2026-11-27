@@ -279,8 +279,8 @@ is accepted). Owed on the PR: the rollback rates at full clock (a comment).
 
 ## WHERE THIS STOPS (2026-11-27 02:15 UTC) AND WHAT THE NEXT SESSION DOES
 
-**The box has NOT been rebooted and the dies are still clamped at 1000 MHz.** The reboot and the boot hook were left to
-the lead (the session's permission system declined both). `afterboot.sh` is ready and does the timing work unattended
+**The box has NOT been rebooted and the dies are still clamped at 1000 MHz.** The reboot and the boot hook are the
+lead's step. `afterboot.sh` is ready and does the timing work unattended
 (about 13 hours: rollback rates, the substrate comparison, MTP at depth, the design points). Either of these starts it:
 
     # a) one-shot boot hook, then reboot (the hook removes itself once the clock check has passed)
