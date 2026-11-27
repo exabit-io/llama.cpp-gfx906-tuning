@@ -1,0 +1,10 @@
+2026-11-27T00:34:18+00:00 [sub-mtp] mxxm: /root/build-sub-mxxm on /opt/rocm/core-10.0
+2026-11-27T00:34:18+00:00 [sub-mtp] merge: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T00:34:18+00:00 [sub-mtp] master: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T00:34:18+00:00 [sub-mtp] n=1, arms: mxxm merge master; prompt 20000 characters, 5 requests of 128 tokens; load 1.59 2.42 5.48
+2026-11-27T00:34:32+00:00 [sub-mtp] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1200/2508/2498/2490
+2026-11-27T00:34:32+00:00 [sub-mtp] block 1 order: master mxxm merge 
+2026-11-27T00:35:32+00:00 [sub-mtp] master b1: prefill 687.365 tok/s (4641 tokens); MTP decode mean 44.8390 (33.1609 58.1034 47.3984 32.9371 52.5953); accepted 85/124 84/127 73/160 86/120 80/138
+2026-11-27T00:36:41+00:00 [sub-mtp] mxxm b1: prefill 585.614 tok/s (4641 tokens); MTP decode mean 40.3935 (40.2619 56.5571 34.7852 46.8084 23.5549); accepted 85/123 85/124 79/140 86/120 80/138
+2026-11-27T00:38:04+00:00 [sub-mtp] merge b1: prefill 326.477 tok/s (4641 tokens); MTP decode mean 44.9594 (27.3948 56.4305 35.1928 56.8339 48.9452); accepted 84/129 84/127 81/135 84/126 78/144
+2026-11-27T00:38:04+00:00 [sub-mtp] === SUB-MTP subtry DONE ===

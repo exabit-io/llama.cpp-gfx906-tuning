@@ -277,11 +277,11 @@ models with the default rollback and with `LLAMA_RS_REPLAY=1`, MTP 150/207 on ev
 met. Not pushed: `master-v110` (`9a7177d0a`), `candidates-v110` (`8eb35b2d6`), tags, `BRANCHES.md` (after the package
 is accepted). Owed on the PR: the rollback rates at full clock (a comment).
 
-## WHERE THIS STOPS (2026-11-26 22:35 UTC) AND WHAT THE NEXT SESSION DOES
+## WHERE THIS STOPS (2026-11-27 02:15 UTC) AND WHAT THE NEXT SESSION DOES
 
 **The box has NOT been rebooted and the dies are still clamped at 1000 MHz.** The reboot and the boot hook were left to
-the lead (the session's permission system declined both). `afterboot.sh` is ready and does the timing work unattended.
-Either of these starts it:
+the lead (the session's permission system declined both). `afterboot.sh` is ready and does the timing work unattended
+(about 13 hours: rollback rates, the substrate comparison, MTP at depth, the design points). Either of these starts it:
 
     # a) one-shot boot hook, then reboot (the hook removes itself once the clock check has passed)
     (crontab -l 2>/dev/null | grep -v rebase-v110/afterboot.sh; echo '@reboot PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin /bin/bash /root/rebase-v110/afterboot.sh >> /root/rebase-v110/afterboot.out 2>&1') | crontab -
@@ -289,32 +289,41 @@ Either of these starts it:
     # b) reboot (or cold power cycle), then by hand
     SETTLE=5 nohup bash /root/rebase-v110/afterboot.sh > /root/rebase-v110/afterboot.out 2>&1 &
 
-
 1. Read `afterboot.progress`.
-   - `CLAMP right after boot`: this boot did not clear the latch. Shut down, unplug for 30 s, boot: the `@reboot` line
-     is still there and tries again. Nothing else to do first.
+   - `CLAMP right after boot`: this boot did not clear the latch. Shut down, unplug for 30 s, boot: with (a) the
+     `@reboot` line is still there and tries again.
    - `CLAMP ... before <job>`: it latched again mid-queue. Read that job's watchdog log for what ran beside it, cold
      power cycle, then `AGAIN=1 SETTLE=5 nohup bash /root/rebase-v110/afterboot.sh > afterboot2.out 2>&1 &` (finished
      jobs are skipped by their `.afterboot-done-NAME` markers).
-   - `AFTERBOOT DONE`: results are in `afterboot-rs-modes3/progress` (the rollback RATES at full clock), `mtp-depth-v110b.progress`,
-     `dp-v110.progress` with `screen-dpv110m.tsv` / `screen-dpv110s.tsv`, then `final-masterb-*` (master with the fold
-     check), `final-mergeb-*`, `final-candb-*` (queue-final; its Flash-Next step is skipped in this queue). Check the clock column of
-     every `*/watchdog.out` before reading a rate.
-2. PR #25: post the rollback rates as a comment (the text promises them).
-3. Tile rule: apply the rules in the headers of `mtp-depth-v110.sh` and `dp-v110.sh`; put the value (or the removal
+   - `AFTERBOOT DONE`: results are in `afterboot-rs-modes3/progress` (the rollback RATES at full clock),
+     `sub.progress` (the substrate comparison; its statistics are at the end, `python3 -I sub-stats.py sub` prints
+     them again, `LINE=<percent>` reads them against another line than 2 %), `mtp-depth-v110b.progress`,
+     `dp-v110.progress` with `screen-dpv110m.tsv` / `screen-dpv110s.tsv`. Check the clock column of every
+     `*watchdog.out` before reading a rate.
+2. **The lead's condition** (no major, statistically significant penalty in following upstream against his fork):
+   read pairs (1) merge-against-mxxm and (2) master-against-mxxm in `sub.progress` by the rule in the header of
+   `substrate-v110.sh`, and report the verdict with the effect sizes and intervals.
+3. PR #25: post the rollback rates as a comment (the text promises them). No other PR to him unless the lead asks.
+4. Tile rule: apply the rules in the headers of `mtp-depth-v110.sh` and `dp-v110.sh`; put the value (or the removal
    of the rule) into master-v110's "LLVM 24 ... finds its instance by pattern" commit with the new kernel's table in
-   the comment; rebuild with ROCm 10.1, check the flag reaches exactly the one object, `tilescan.py` on it.
-4. Package: clean detached worktree of the final master (`/root/wt-deb-v110`), `ROCMSTREAM=10.1
+   the comment.
+5. Master: squash the two commits of `wip/ds41-upstream-layout` into ONE commit on top (message from the two, with
+   the test results below instead of "not built"), apply the port notes (`portnotes-v110.py`), rebuild with ROCm
+   10.1, check the tile flag reaches exactly the one object, `tilescan.py`, final suite (`queue-final.sh` with
+   FOLD=1, plus `TAG=... bash ds41-check.sh` and `ds41-dspark.sh` on the result).
+6. Package: clean detached worktree of the final master (`/root/wt-deb-v110`), `ROCMSTREAM=10.1
    /root/mx-llama-deb/build-mx-llama-deb.sh` (it has the GCC pin and sets `HF_UI_VERSION=b12774`); test before
    publishing as for `-r2` (`deb-test-llama-101.sh`), accept on the installed deb against the ROCm 10.0 source build
-   at the design points and against the `-r2` library at MTP depth (`rocm-ab5.sh`, `mtp-accept.sh` of
-   `tools/rocm101/`, adapted to `/root/build-master-v110`); a design-point metric more than 2 % under v1.0.0 goes to
-   the lead before publishing (rule (3) of `dp-v110.sh`).
-5. Fork: push `master` = `gfx906-single` = `gfx906-multi` and `gfx906-candidates` with a lease each, tags
-   `gfx906/v1.1.0/r0/{merge,master,candidates}`, the `BRANCHES.md` commit (names PR #25); delete `wip/*`.
-6. Publish into the rolling channel, dogfood from it, release notes (say that DeepSeek-V4.1 files in upstream's layout
-   do not load in 1.1.0 and that 1.0.0 stays in the channel), report part 2, runbook section 0, `CLAUDE.md`, memory.
-7. **For the lead:** whether master should carry upstream's DeepSeek-V4.1 layout beside mxxm-t's (a port of its own).
+   at the design points and against the `-r2` library at MTP depth; a design-point metric more than 2 % under v1.0.0
+   goes to the lead before publishing (rule (3) of `dp-v110.sh`).
+7. Fork: push `master` = `gfx906-single` = `gfx906-multi` and `gfx906-candidates` with a lease each, tags
+   `gfx906/v1.1.0/r0/{merge,master,candidates}`, the `BRANCHES.md` commit (own project; names PR #25 as offered, not
+   taken); delete `wip/*`.
+8. Publish into the rolling channel, dogfood from it, release notes (DeepSeek-V4.1: both layouts load;
+   `LLAMA_RS_REPLAY=1` writes different, equally valid text than the default on master; 1.0.0 stays in the channel),
+   report part 2, runbook section 0, `CLAUDE.md`, memory.
+9. **For the lead:** the staged test of the clock latch (dies loaded, CPU stepped, PZ7G logged fast): every positive
+   costs a reboot or a cold power cycle, so it needs a go (memory note macpro-gpu-clock-clamp, 22:50 block).
 
 ## Direction from the lead, 2026-11-26: our own project, not bound to his fork
 
@@ -337,3 +346,96 @@ no major, statistically significant performance penalty in following upstream ag
   hub) load in our master again, as in 1.0.0 (work item, see below).
 - No further PR to him unless the lead asks; #25 is left as it is.
 - Wrong reading of mine, corrected by the lead the same evening: "follow upstream" never meant dropping his patches.
+
+## Correctness of master and the candidates pool on the final commits (2026-11-26 22:24-23:38 UTC, dies latched: no rate is a number)
+
+`queue-clamped.sh` = `queue-final.sh` with the fold check, clock guard off, on `/root/build-master-v110` (`9a7177d0a`,
+tag `masterc`) and `/root/build-candidates-v110` (`8eb35b2d6`, tag `candc`).
+
+| Check | master | candidates |
+|---|---|---|
+| `test-backend-ops` x4 | 21871 on ROCm0-2, **21870 on ROCm3** (one `SOLVE_TRI` case, see below) | 21871 x4 |
+| PPL 16K x 6 | 5.6088 | 5.6088 |
+| fold check, ubatch 16: folds on (twice) / off | 5.0705 / 5.0705 / 5.0819 | 5.0689 / 5.0689 / 5.0732 |
+| `test-llama-context`, default rollback and `LLAMA_RS_REPLAY=1` | 148 of 150 both (the two KV-replica models) | 148 of 150 both |
+| `mtp-carry.sh` | A 156/198 x4, same text | A 154/200 x4, same text |
+| `mtp-modes.sh` | four row paths identical | four row paths identical |
+| `rs-modes3.sh` | rules 1, 2, 4 met; **rule 3 NOT met** (replay and snapshots-on-the-recurrent-kernel write different text) | the same |
+
+Two things followed up (`master-checks.sh`, reading rule in its header):
+
+- **`SOLVE_TRI(f32, lhs [128,128,4,1], rhs [32,128,4,1])` on ROCm3: error 1.66e-7 against the test's 1.0e-7.** First
+  failure of the case in 42 logs of two cycles; master does not touch the solver; random inputs per run. Repeated 12
+  times per die on master and on the merge: **0 failures in 96 runs**. None of the rule's three outcomes occurred, so
+  it is not classified by the rule: it fits a rare tolerance miss of the test (the size of the miss, the untouched
+  code), no die stands out, and it is not proven. A single `SOLVE_TRI` miss near 1e-7 in a later log is this.
+- **Rule 3 of `rs-modes3.sh` on master.** With the three folds off (`GGML_CUDA_NORM_Q8=0 GGML_CUDA_ADD_NORM=0
+  GGML_CUDA_GDN_PREFUSE=0`) the two arms STILL differ (replay `acd81c983839`/`992ec9e4d9de`, snaprec
+  `43983ee2d15b`/`b241815b1928`), so the folds are not the explanation. `rs-attrib.sh`: the merge code built with RCCL
+  on (`/root/build-sub-merge`) writes the same text in both arms, with its own environment and with master's exchange
+  settings, so RCCL is not it either. That leaves the 22 commits.
+  - `rs-bisect.sh` (5 builds, folds off): first bad commit = **term 23, `76a525c37`, the DPP-based warp reductions
+    on GCN** (commit 12 of 22; commit 11 writes the merge's text in both arms).
+  - `rs-dpp.sh`: master with ONE line added, `#define GGML_GCN_NO_DPP` at the top of `gated_delta_net.cu` (the opt-out
+    term 28 gives the flash-attention kernels): folds off, both arms write the merge's text again
+    (`4893c7466db7`/`992ec9e4d9de`, all four requests). So the cause is inside the GDN kernel: its replay loop and its
+    live loop carry the same source arithmetic (upstream: "so that a replayed state matches bit for bit"), and they
+    stop matching bit for bit when the kernel's lane sums are the DPP ones (butterfly order 1,2,4,8,.. instead of
+    ..,8,4,2,1). Which instruction differs was not looked up.
+  - **Classification: rounding, not a defect.** Master's backend tests pass 17 `GATED_DELTA_NET` cases with replay
+    inputs (`n_pend=4`, head sizes 32 and 128) against the CPU on every die, and `test-llama-context` passes
+    `rollback` 16/16, `rollback_bound` 16/16, `replay` 15/15 in both modes. With the folds on, master's replay and
+    snapshot text differ anyway (the producer fold reaches snapshot ops only and is not bit-exact). So rule 3 of
+    `rs-modes3.sh` is a property of the MERGE; master does not have it and does not need it: `LLAMA_RS_REPLAY=1` on
+    master writes different, equally valid text than the default. This goes into the release notes.
+  - Not taken: opting the GDN kernel out of the DPP sums would give bit-equal replay back at the cost of whatever the
+    DPP sums buy that kernel in decode; that needs timing at full clock and is not worth a slot for an opt-in mode.
+
+## DeepSeek-V4.1 in upstream's layout: the port (branch `wip/ds41-upstream-layout`, `/root/wt-ds41`, build `/root/build-ds41`)
+
+Decided from the lead's direction (our own project, the code that serves us): master loads upstream-layout files
+again. Written by a subagent without building (commit `c0bd96794` on `9a7177d0a`): upstream v1.1.0's `deepseek41.cpp`
+as `src/models/deepseek41-upstream.cpp` (class `llama_model_deepseek41_upstream`, 52 lines away from upstream's file),
+chosen in `llama_model_mapping()` when the file has `deepseek41.attention.kv_source_layers` and not the fork's
+`kv_source_layer_ids`; upstream's V4.1 tiers as a second branch in the DSV4 KV cache behind `hparams.dsv41_upstream`;
+`LLAMA_PLE_SHARD` excluded for this architecture (as in 1.0.0); the fixture skip removed.
+
+`ds41-check.sh` (reading rule in its header), dies latched, correctness only:
+
+| Check | Result |
+|---|---|
+| build (ROCm 10.0) | 0 errors |
+| `test-llama-archs -a deepseek41` | all 6 passed |
+| the model on this box, `-sm layer` greedy 64 | loads, coherent |
+| PPL 2K x 4, `-sm layer` | 2.2196 +/- 0.0595 (1.0.0 package: 2.2164 +/- 0.0595) |
+| `-sm tensor` greedy 64 | coherent |
+| server, `-sm layer` | answers |
+| `test-llama-context`, 151 models | the two KV-replica models as on master, **and `deepseek41-moe` fails upstream's `comp_padding`** ("compressed-cache graph was rebuilt for 3 tokens and 1 sequences"): the port used the fork's block padding where upstream's plan builder has `pad_blocks`; values are right, the graph is rebuilt where upstream reuses it. Fix asked of the same subagent (second commit) |
+| DSpark sidecar | `dsv41-test.sh` step 4 cannot load it (no `-fitt`); `ds41-dspark.sh` runs it with `-fitt 7168` |
+
+**Padding fix** (second commit `b0e7ee43d`, same subagent, then built and run by me, `TAG=ds41b bash ds41-check.sh`):
+the plan builder's padding rule became an argument; the upstream-layout tiers get upstream's rule (pad every stream to
+`ceil(tokens / ratio)` blocks), the fork's layouts keep theirs. Why it failed: with `n_ctx` 256 the ratio-2 cache has
+no spare slot, the fork's rule then never pads, and 3-token decodes complete 1, 2, 1 blocks, so the plan's lists change
+length and the graph is rebuilt. Result: build 0 errors; `test-llama-archs -a deepseek41` 6/6; `test-llama-context`
+**149 of 151 models, only the two KV-replica ones fail; `deepseek41-moe` and `deepseek4-moe` pass all 18 cases**; the
+model's greedy texts and PPL (2.2196) unchanged. DSpark with `-fitt 7168` (`ds41-dspark.sh`): loads, 118 of 217
+drafted tokens accepted on the first commit and again on the fix (1.0.0: 115 of 227). The regular suite on the port
+build (`ds41b-pr-test`): 21871/21871 x4, PPL 5.6088, MTP 156/198, Flash-Next the same text: identical to master.
+
+**Where it lives:** branch `wip/ds41-upstream-layout` = `master-v110` + 2 commits. `master-v110` stays at `9a7177d0a`
+until the after-boot timing has been read (its build directories and tile libraries are that commit; the port touches
+`src/` only, not the GPU library, and no Qwen path). At package time: squash the two commits into one on master,
+port note in the message, rebuild, final suite.
+
+## Substrate comparison: builds and functional pass done (2026-11-27 00:5x-01:3x UTC, dies latched)
+
+- `sub-build.sh`: `/root/build-sub-mxxm` (his master `557a6068f`) and `/root/build-sub-merge` (`a3aa1c772`), both
+  with RCCL on and librccl linked, ROCm 10.0. The third arm is `/root/build-master-v110`.
+- `TRY=1 bash substrate-v110.sh` (tag `subtry`, small cells, one block, clock guard off): every arm ran every cell
+  (m4, mtp with 5 requests, m8, m16, s1), no failed run, `sub-stats.py` reads the files. No rate of it is a number.
+- `sub-exchange.sh` (verbose, untimed): the three arms link librccl, log the same custom-allreduce path and none of
+  RCCL's failure warnings. A working RCCL logs nothing, so "no warning + linked + forced by the environment" is the
+  evidence; rule (b) of the header is reworded to say so. The session's environment gives every arm the 20481-element
+  size gate (master's default; his is 262144), so his arm runs with our tuned gate: the arms differ in code only.
+- The real session is `afterboot.sh` job 3 (`substrate`), about 6.5 hours at full clock.

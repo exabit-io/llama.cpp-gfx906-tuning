@@ -1,0 +1,11 @@
+2026-11-26T23:53:25+00:00 [rs-bisect] 22 commits; good = merge-v1.1.0, bad = master-v110 (9a7177d0a)
+2026-11-26T23:53:25+00:00 [rs-bisect] step: commit 11 of 22, 0557bdc31 term 12-5b7794476-gated_delta_net__fold_upstreams_build_gdn_l2_norm_rm
+2026-11-26T23:57:51+00:00 [rs-bisect]   GOOD (long 4893c7466db7|4893c7466db7 1 992ec9e4d9de|992ec9e4d9de 2 992ec9e4d9de|992ec9e4d9de 3 992ec9e4d9de|992ec9e4d9de ); RCCL 1
+2026-11-26T23:57:51+00:00 [rs-bisect] step: commit 16 of 22, f86e1c40a term 05-180c64356-mmvq__gfx906_batch-1_knobs_rows_warps_per_block_at_o
+2026-11-27T00:01:44+00:00 [rs-bisect]   BAD (0 of 4 equal: long acd81c983839|43983ee2d15b 1 992ec9e4d9de|b241815b1928 2 992ec9e4d9de|b241815b1928 3 992ec9e4d9de|b241815b1928 ); RCCL 1
+2026-11-27T00:01:44+00:00 [rs-bisect] step: commit 13 of 22, f6142d563 term 28-2b79581cb-ggml-hip__keep_the_generic_warp_reductions_inside_th
+2026-11-27T00:03:56+00:00 [rs-bisect]   BAD (0 of 4 equal: long acd81c983839|43983ee2d15b 1 992ec9e4d9de|b241815b1928 2 992ec9e4d9de|b241815b1928 3 992ec9e4d9de|b241815b1928 ); RCCL 1
+2026-11-27T00:03:56+00:00 [rs-bisect] step: commit 12 of 22, 76a525c37 term 23-3771c572c-ggml-hip__DPP-based_warp_reductions_on_GCN_from_sixv
+2026-11-27T00:06:22+00:00 [rs-bisect]   BAD (1 of 4 equal: long 4893c7466db7|4893c7466db7 1 992ec9e4d9de|5f4e46d94562 2 992ec9e4d9de|5f4e46d94562 3 992ec9e4d9de|5f4e46d94562 ); RCCL 1
+2026-11-27T00:06:22+00:00 [rs-bisect] FIRST BAD: commit 12 of 22: 76a525c37 term 23-3771c572c-ggml-hip__DPP-based_warp_reductions_on_GCN_from_sixv
+2026-11-27T00:06:22+00:00 [rs-bisect] === RS-BISECT DONE ===

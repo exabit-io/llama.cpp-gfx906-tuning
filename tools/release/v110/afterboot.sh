@@ -9,8 +9,7 @@
 # watchdog also stops it when a busy die sits at 1000 MHz for 2 minutes.
 # Jobs, each with its own header and reading rule: the rollback modes of the merge (rates at full clock), the substrate
 # comparison (mxxm-t's master, the merge, our master: about 6.5 hours), MTP decode at depth for the
-# tile threshold, the two design-point cells (threshold arms and v1.0.0), then the final verifications of master
-# (with the fold check), the merge and the candidates pool. About 15 hours in all.
+# tile threshold, the two design-point cells (threshold arms and v1.0.0). About 13 hours in all.
 set -u
 W=/root/rebase-v110; P=$W/afterboot.progress
 log(){ echo "$(date -Is) [afterboot] $*" | tee -a $P; }
@@ -45,15 +44,13 @@ log "clock check passed: every die at the top state at idle"
 touch $W/.afterboot-ran; uncron
 # Timing first (a clamp later in the queue then costs the least). Order by what waits on it: the rollback rates owed on
 # PR #25, the substrate comparison (the lead's condition for following upstream, substrate-v110.sh; its two builds are
-# made first if missing, with the dies idle), the tile threshold, the design points against v1.0.0. The final
-# verifications come last; the Flash-Next step of the suite is skipped in this queue (41 layers of CPU inference
-# beside loaded dies; it ran on these trees on 2026-11-26).
+# made first if missing, with the dies idle), the tile threshold, the design points against v1.0.0.
 job rs-modes3    env RT=/opt/rocm/core-10.0 bash $W/rs-modes3.sh /root/build-merge-v110 $W/afterboot-rs-modes3
 job sub-build    bash $W/sub-build.sh
 job substrate    bash $W/substrate-v110.sh
 job mtp-depth    env TAG=mtp-depth-v110b ARMS="c23 tnone t85 t88 t75 old" bash $W/mtp-depth-v110.sh
 job dp           env ARMS="old c23o tnone t88 t75" bash $W/dp-v110.sh
-job final-master env FOLD=1 SKIP_FN=1 bash $W/queue-final.sh /root/build-master-v110 masterb /root/wt-master-v110
-job final-merge  env SKIP_FN=1 bash $W/queue-final.sh /root/build-merge-v110 mergeb /root/wt-merge-v110
-job final-cand   env SKIP_FN=1 bash $W/queue-final.sh /root/build-candidates-v110 candb /root/wt-candidates-v110
+# The final verifications of the merge, master and the candidates pool are NOT repeated here: they ran on the final
+# commits on 2026-11-26 (merge at 21:43 UTC, master and candidates 22:24-23:38 UTC with the clock latched, which no
+# pass/fail, perplexity, text or draft count depends on). Their rates were void; the rates that matter are the jobs above.
 log "=== AFTERBOOT DONE ==="

@@ -1,0 +1,8 @@
+2026-11-27T00:43:22+00:00 [screen] mxxm: /root/build-sub-mxxm on /opt/rocm/core-10.0
+2026-11-27T00:43:22+00:00 [screen] merge: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T00:43:22+00:00 [screen] master: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T00:43:36+00:00 [screen] block 1 order: mxxm master merge 
+2026-11-27T00:43:56+00:00 [screen] 1 x 4096 mxxm b1: decode 41.2106, prefill 944.9
+2026-11-27T00:44:16+00:00 [screen] 1 x 4096 master b1: decode 43.8056, prefill 988.4
+2026-11-27T00:44:36+00:00 [screen] 1 x 4096 merge b1: decode 41.4239, prefill 945.7
+2026-11-27T00:44:36+00:00 [screen] === SCREEN subtry-s1 DONE ===

@@ -6,3 +6,5 @@
 2026-11-26T22:53:51+00:00 [queue-final-masterc] ctx-check (LLAMA_RS_REPLAY=1) rc=0
 2026-11-26T22:56:38+00:00 [queue-final-masterc] mtp-modes rc=0
 2026-11-26T22:57:26+00:00 [queue-final-masterc] mtp-carry rc=0
+2026-11-26T23:00:52+00:00 [queue-final-masterc] rs-modes3 rc=0
+2026-11-26T23:00:52+00:00 [queue-final-masterc] === QUEUE DONE ===

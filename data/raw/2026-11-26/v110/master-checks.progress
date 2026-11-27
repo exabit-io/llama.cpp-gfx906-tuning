@@ -1,0 +1,15 @@
+2026-11-26T23:39:47+00:00 [master-checks] (A) master ROCm0: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:40:10+00:00 [master-checks] (A) master ROCm1: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:40:32+00:00 [master-checks] (A) master ROCm2: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:40:55+00:00 [master-checks] (A) master ROCm3: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:41:17+00:00 [master-checks] (A) merge ROCm0: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:41:39+00:00 [master-checks] (A) merge ROCm1: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:42:02+00:00 [master-checks] (A) merge ROCm2: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:42:24+00:00 [master-checks] (A) merge ROCm3: 0 of 12 runs with a failed SOLVE_TRI case; errors: none; cases per run: 26/26 tests passed
+2026-11-26T23:42:24+00:00 [master-checks] (B) rs-modes3, master, folds off, arms replay and snaprec
+2026-11-26T23:43:55+00:00 [master-checks] (B) rc=0
+2026-11-26T23:43:55+00:00 [master-checks] (B) ext long: ring none ringon none snap none replay acd81c983839 snaprec 43983ee2d15b
+2026-11-26T23:43:55+00:00 [master-checks] (B) ext 1: ring none ringon none snap none replay 992ec9e4d9de snaprec b241815b1928
+2026-11-26T23:43:55+00:00 [master-checks] (B) ext 2: ring none ringon none snap none replay 992ec9e4d9de snaprec b241815b1928
+2026-11-26T23:43:55+00:00 [master-checks] (B) ext 3: ring none ringon none snap none replay 992ec9e4d9de snaprec b241815b1928
+2026-11-26T23:43:55+00:00 [master-checks] === MASTER-CHECKS DONE ===

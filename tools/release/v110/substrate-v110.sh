@@ -38,8 +38,12 @@
 # Further rules:
 #   (a) An arm that cannot run a cell at all (abort, out of memory, no MTP) is a finding of its own; its rows are absent.
 #       A row with fewer than 3 pairs has no verdict.
-#   (b) Every arm must exchange through RCCL: the allreduce line of each arm's first log is printed below; rows of an
-#       arm that fell back to another path are not read as a property of its code.
+#   (b) Every arm must exchange the same way: the custom allreduce for messages under GGML_TP_AR_MAX_NE elements, RCCL
+#       for the rest. A working RCCL logs nothing; what shows is its three failure warnings, and screen.sh / sub-mtp.sh
+#       discard a run that has one. Checked once per build by sub-exchange.sh (2026-11-27: the three arms link
+#       librccl, log the same custom-allreduce path and no warning). The environment gives EVERY arm the 20481-element
+#       gate, which is master's default and not his (262144): his arm runs with our tuned gate, i.e. better at prefill
+#       than out of the box. That is deliberate: the arms differ in code only.
 #   (c) MTP decode: the trees write different text on the same prompts (upstream's numerics moved between b12500 and
 #       v1.1.0), so the acceptance differs by text; the row is read with the accepted/drafted counts printed beside it,
 #       and a decode difference that the acceptance counts explain is said to be that.

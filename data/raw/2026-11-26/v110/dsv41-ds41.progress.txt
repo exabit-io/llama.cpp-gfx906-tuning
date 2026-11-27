@@ -1,0 +1,14 @@
+2026-11-27T00:22:04+00:00 [dsv41] build /root/build-ds41; kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1112/2584/2790/2501
+2026-11-27T00:22:10+00:00 [dsv41] 1. -sm layer greedy 64 tokens
+2026-11-27T00:23:48+00:00 [dsv41]   rc=0 405 bytes, md5 8732c2ea: The transistor was invented in 1947 at Bell Labs. In the decades that followed, the transistor became the building block of modern electronics. Today, transistors are everywhere — in cars, computers, phones, and even i
+2026-11-27T00:23:48+00:00 [dsv41]   speed: 1997.67 ms /    18 tokens (  110.98 ms per token,     9.01 tokens per second) 3876.10 ms /    63 runs   (   61.53 ms per token,    16.25 tokens per second) 
+2026-11-27T00:23:48+00:00 [dsv41]   placement: 
+2026-11-27T00:23:48+00:00 [dsv41] 2. -sm layer perplexity 2K x 4 chunks
+2026-11-27T00:25:11+00:00 [dsv41]   rc=0 Final estimate: PPL = 2.2196 +/- 0.05948 PPL = 2.2196 +/- 0.05948
+2026-11-27T00:25:11+00:00 [dsv41] 3. -sm tensor greedy 64 tokens
+2026-11-27T00:27:11+00:00 [dsv41]   rc=0 379 bytes, md5 8b8499fe: The transistor was invented in 1947 at Bell Labs. In the decades that followed, the transistor became the building block for the modern electronics industry. Today, transistors are everywhere. They are in the computers w
+2026-11-27T00:27:11+00:00 [dsv41]   speed: 1883.17 ms /    18 tokens (  104.62 ms per token,     9.56 tokens per second) 2577.53 ms /    55 runs   (   46.86 ms per token,    21.34 tokens per second) ; errors: 0.00.036.188 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPLIT_MODE_TENSOR, abort 
+2026-11-27T00:27:11+00:00 [dsv41] 4. llama-server -sm layer with the DSpark sidecar, greedy 192 tokens
+2026-11-27T00:28:24+00:00 [dsv41]   base: tokens 192 tok/s 16.89 draft None / None | md5 3017d228 |  the transistor became the building block of modern electronics. Today, transistors are everywhere. 
+2026-11-27T00:29:05+00:00 [dsv41]   dspark: server did not come up: 0.31.336.572 E srv    load_model: failed to load draft model, '/root/models/DeepSeek-V4.1-Flash-1017-UD-IQ1_S/dspark-DeepSeek-V4.1-Flash-1017-Q8_0.gguf' 0.31.336.628 I srv    operator(): operator(): cleaning up before exit... 0.31.338.075 E srv  server_run_i: exiting due to model loading error 
+2026-11-27T00:29:10+00:00 [dsv41] === DSV41 DONE ===

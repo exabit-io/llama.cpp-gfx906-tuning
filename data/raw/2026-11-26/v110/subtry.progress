@@ -1,0 +1,110 @@
+2026-11-27T00:32:44+00:00 [substrate] arm mxxm: /root/build-sub-mxxm, source 557a6068f, built 2026-11-26 23:48
+2026-11-27T00:32:44+00:00 [substrate] arm merge: /root/build-sub-merge, source a3aa1c772, built 2026-11-26 23:49
+2026-11-27T00:32:44+00:00 [substrate] arm master: /root/build-master-v110, source , built 2026-11-26 21:46
+2026-11-27T00:32:44+00:00 [substrate] arms: mxxm merge master; 1 blocks per cell; about 75 min at full clock
+2026-11-27T00:34:18+00:00 [substrate] cell m4 (4 x 2048): rc=0, 3 result rows, 0 failed runs
+2026-11-27T00:34:18+00:00 [substrate]   allreduce, mxxm: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:34:18+00:00 [substrate]   allreduce, merge: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:34:18+00:00 [substrate]   allreduce, master: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:38:04+00:00 [substrate] cell mtp: rc=0, 3 rows
+2026-11-27T00:40:17+00:00 [substrate] cell m8 (8 x 2048): rc=0, 3 result rows, 0 failed runs
+2026-11-27T00:40:17+00:00 [substrate]   allreduce, mxxm: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:40:17+00:00 [substrate]   allreduce, merge: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:40:17+00:00 [substrate]   allreduce, master: 
+2026-11-27T00:43:22+00:00 [substrate] cell m16 (16 x 2048): rc=0, 3 result rows, 0 failed runs
+2026-11-27T00:43:22+00:00 [substrate]   allreduce, mxxm: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:43:22+00:00 [substrate]   allreduce, merge: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:43:22+00:00 [substrate]   allreduce, master: 
+2026-11-27T00:44:36+00:00 [substrate] cell s1 (1 x 4096): rc=0, 3 result rows, 0 failed runs
+2026-11-27T00:44:36+00:00 [substrate]   allreduce, mxxm: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:44:36+00:00 [substrate]   allreduce, merge: TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors 
+2026-11-27T00:44:36+00:00 [substrate]   allreduce, master: 
+2026-11-27T00:44:36+00:00 [substrate] --- statistics (sub-stats.py subtry) ---
+arms with data: master merge mxxm
+
+Per arm: n, mean (min-max)
+  16 x 2048, decode tok/s per slot
+    master  n=1      7.8808  (7.8808-7.8808, span 0.00 %)
+    merge   n=1      8.1187  (8.1187-8.1187, span 0.00 %)
+    mxxm    n=1      8.1074  (8.1074-8.1074, span 0.00 %)
+  16 x 2048, prefill tok/s
+    master  n=1    994.5067  (994.5067-994.5067, span 0.00 %)
+    merge   n=1    967.0070  (967.0070-967.0070, span 0.00 %)
+    mxxm    n=1    958.8015  (958.8015-958.8015, span 0.00 %)
+  4 x 2048, decode tok/s per slot
+    master  n=1     29.3309  (29.3309-29.3309, span 0.00 %)
+    merge   n=1     28.2935  (28.2935-28.2935, span 0.00 %)
+    mxxm    n=1     23.6337  (23.6337-23.6337, span 0.00 %)
+  4 x 2048, prefill tok/s
+    master  n=1    981.0778  (981.0778-981.0778, span 0.00 %)
+    merge   n=1    944.6494  (944.6494-944.6494, span 0.00 %)
+    mxxm    n=1    908.6069  (908.6069-908.6069, span 0.00 %)
+  8 x 2048, decode tok/s per slot
+    master  n=1     10.5663  (10.5663-10.5663, span 0.00 %)
+    merge   n=1     17.9222  (17.9222-17.9222, span 0.00 %)
+    mxxm    n=1     17.8124  (17.8124-17.8124, span 0.00 %)
+  8 x 2048, prefill tok/s
+    master  n=1    988.8943  (988.8943-988.8943, span 0.00 %)
+    merge   n=1    803.9254  (803.9254-803.9254, span 0.00 %)
+    mxxm    n=1    959.5877  (959.5877-959.5877, span 0.00 %)
+  1 x 4096, decode tok/s per slot
+    master  n=1     43.8056  (43.8056-43.8056, span 0.00 %)
+    merge   n=1     41.4239  (41.4239-41.4239, span 0.00 %)
+    mxxm    n=1     41.2106  (41.2106-41.2106, span 0.00 %)
+  1 x 4096, prefill tok/s
+    master  n=1    988.4170  (988.4170-988.4170, span 0.00 %)
+    merge   n=1    945.7400  (945.7400-945.7400, span 0.00 %)
+    mxxm    n=1    944.8674  (944.8674-944.8674, span 0.00 %)
+  MTP 1 stream, prefill tok/s
+    master  n=1    687.3650  (687.3650-687.3650, span 0.00 %)
+    merge   n=1    326.4770  (326.4770-326.4770, span 0.00 %)
+    mxxm    n=1    585.6140  (585.6140-585.6140, span 0.00 %)
+  MTP 1 stream, decode tok/s (mean of the requests)
+    master  n=1     44.8390  (44.8390-44.8390, span 0.00 %)
+    merge   n=1     44.9594  (44.9594-44.9594, span 0.00 %)
+    mxxm    n=1     40.3935  (40.3935-40.3935, span 0.00 %)
+  MTP accepted/drafted tokens per request (first block of each arm; the texts of two trees differ):
+    master  85/124 84/127 73/160 86/120 80/138
+    merge   84/129 84/127 81/135 84/126 78/144
+    mxxm    85/123 85/124 79/140 86/120 80/138
+
+merge against mxxm (effect = merge / mxxm - 1; Holm over 0 rows; line 2.0 %)
+  16 x 2048     decode tok/s per slot                n=1      8.1187 vs     8.1074    +0.14 %  (fewer than 3 pairs: no test)
+  16 x 2048     prefill tok/s                        n=1    967.0070 vs   958.8015    +0.86 %  (fewer than 3 pairs: no test)
+  4 x 2048      decode tok/s per slot                n=1     28.2935 vs    23.6337   +19.72 %  (fewer than 3 pairs: no test)
+  4 x 2048      prefill tok/s                        n=1    944.6494 vs   908.6069    +3.97 %  (fewer than 3 pairs: no test)
+  8 x 2048      decode tok/s per slot                n=1     17.9222 vs    17.8124    +0.62 %  (fewer than 3 pairs: no test)
+  8 x 2048      prefill tok/s                        n=1    803.9254 vs   959.5877   -16.22 %  (fewer than 3 pairs: no test)
+  1 x 4096      decode tok/s per slot                n=1     41.4239 vs    41.2106    +0.52 %  (fewer than 3 pairs: no test)
+  1 x 4096      prefill tok/s                        n=1    945.7400 vs   944.8674    +0.09 %  (fewer than 3 pairs: no test)
+  MTP 1 stream  prefill tok/s                        n=1    326.4770 vs   585.6140   -44.25 %  (fewer than 3 pairs: no test)
+  MTP 1 stream  decode tok/s (mean of the requests)  n=1     44.9594 vs    40.3935   +11.30 %  (fewer than 3 pairs: no test)
+  => no major penalty of merge against mxxm in any row tested
+
+master against mxxm (effect = master / mxxm - 1; Holm over 0 rows; line 2.0 %)
+  16 x 2048     decode tok/s per slot                n=1      7.8808 vs     8.1074    -2.80 %  (fewer than 3 pairs: no test)
+  16 x 2048     prefill tok/s                        n=1    994.5067 vs   958.8015    +3.72 %  (fewer than 3 pairs: no test)
+  4 x 2048      decode tok/s per slot                n=1     29.3309 vs    23.6337   +24.11 %  (fewer than 3 pairs: no test)
+  4 x 2048      prefill tok/s                        n=1    981.0778 vs   908.6069    +7.98 %  (fewer than 3 pairs: no test)
+  8 x 2048      decode tok/s per slot                n=1     10.5663 vs    17.8124   -40.68 %  (fewer than 3 pairs: no test)
+  8 x 2048      prefill tok/s                        n=1    988.8943 vs   959.5877    +3.05 %  (fewer than 3 pairs: no test)
+  1 x 4096      decode tok/s per slot                n=1     43.8056 vs    41.2106    +6.30 %  (fewer than 3 pairs: no test)
+  1 x 4096      prefill tok/s                        n=1    988.4170 vs   944.8674    +4.61 %  (fewer than 3 pairs: no test)
+  MTP 1 stream  prefill tok/s                        n=1    687.3650 vs   585.6140   +17.38 %  (fewer than 3 pairs: no test)
+  MTP 1 stream  decode tok/s (mean of the requests)  n=1     44.8390 vs    40.3935   +11.01 %  (fewer than 3 pairs: no test)
+  => no major penalty of master against mxxm in any row tested
+
+master against merge (effect = master / merge - 1; Holm over 0 rows; line 2.0 %)
+  16 x 2048     decode tok/s per slot                n=1      7.8808 vs     8.1187    -2.93 %  (fewer than 3 pairs: no test)
+  16 x 2048     prefill tok/s                        n=1    994.5067 vs   967.0070    +2.84 %  (fewer than 3 pairs: no test)
+  4 x 2048      decode tok/s per slot                n=1     29.3309 vs    28.2935    +3.67 %  (fewer than 3 pairs: no test)
+  4 x 2048      prefill tok/s                        n=1    981.0778 vs   944.6494    +3.86 %  (fewer than 3 pairs: no test)
+  8 x 2048      decode tok/s per slot                n=1     10.5663 vs    17.9222   -41.04 %  (fewer than 3 pairs: no test)
+  8 x 2048      prefill tok/s                        n=1    988.8943 vs   803.9254   +23.01 %  (fewer than 3 pairs: no test)
+  1 x 4096      decode tok/s per slot                n=1     43.8056 vs    41.4239    +5.75 %  (fewer than 3 pairs: no test)
+  1 x 4096      prefill tok/s                        n=1    988.4170 vs   945.7400    +4.51 %  (fewer than 3 pairs: no test)
+  MTP 1 stream  prefill tok/s                        n=1    687.3650 vs   326.4770  +110.54 %  (fewer than 3 pairs: no test)
+  MTP 1 stream  decode tok/s (mean of the requests)  n=1     44.8390 vs    44.9594    -0.27 %  (fewer than 3 pairs: no test)
+  => no major penalty of master against merge in any row tested
+
+2026-11-27T00:44:37+00:00 [substrate] === SUBSTRATE subtry DONE ===

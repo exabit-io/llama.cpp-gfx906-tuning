@@ -1,0 +1,5 @@
+2026-11-26T23:51:39+00:00 [rs-attrib] a rc=0: long e9ba62f015f6|e9ba62f015f6 1 992ec9e4d9de|992ec9e4d9de 2 992ec9e4d9de|992ec9e4d9de 3 992ec9e4d9de|992ec9e4d9de 
+2026-11-26T23:51:39+00:00 [rs-attrib] a exchange lines (replay arm):       2 TP custom AllReduce: initialized for 4 GPUs, path = broadcast F32 + twoshot F32 (peer-write, size-adaptive, lossless);      1 TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors;
+2026-11-26T23:53:11+00:00 [rs-attrib] b rc=0: long e9ba62f015f6|e9ba62f015f6 1 992ec9e4d9de|992ec9e4d9de 2 992ec9e4d9de|992ec9e4d9de 3 992ec9e4d9de|992ec9e4d9de 
+2026-11-26T23:53:11+00:00 [rs-attrib] b exchange lines (replay arm):       2 TP custom AllReduce: initialized for 4 GPUs, path = broadcast F32 + twoshot F32 (peer-write, size-adaptive, lossless);      1 TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors;
+2026-11-26T23:53:11+00:00 [rs-attrib] === RS-ATTRIB DONE ===

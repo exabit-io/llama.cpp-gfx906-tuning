@@ -1,0 +1,10 @@
+2026-11-26T23:00:52+00:00 [queue-final-candc] start: /root/build-candidates-v110 (8eb35b2d6 0 uncommitted)
+2026-11-26T23:15:00+00:00 [queue-final-candc] pr-test rc=0
+2026-11-26T23:15:00+00:00 [queue-final-candc]   allreduce path:  (empty = no failure line)
+2026-11-26T23:20:27+00:00 [queue-final-candc] fold-check rc=0
+2026-11-26T23:26:29+00:00 [queue-final-candc] ctx-check (default rollback) rc=0
+2026-11-26T23:30:32+00:00 [queue-final-candc] ctx-check (LLAMA_RS_REPLAY=1) rc=0
+2026-11-26T23:33:31+00:00 [queue-final-candc] mtp-modes rc=0
+2026-11-26T23:34:21+00:00 [queue-final-candc] mtp-carry rc=0
+2026-11-26T23:37:55+00:00 [queue-final-candc] rs-modes3 rc=0
+2026-11-26T23:37:55+00:00 [queue-final-candc] === QUEUE DONE ===

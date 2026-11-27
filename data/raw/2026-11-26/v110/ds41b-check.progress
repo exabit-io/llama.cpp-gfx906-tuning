@@ -1,0 +1,21 @@
+2026-11-27T00:46:16+00:00 [ds41] source b0e7ee43d, 0 uncommitted
+2026-11-27T00:46:34+00:00 [ds41] 1. build: BUILD rc=0 elapsed=18s warnings=3 errors=0
+2026-11-27T00:46:49+00:00 [ds41] 2. test-llama-archs -a deepseek41 rc=0: |      deepseek41|Intel(R) Xeon(R) W-3275M CPU @ 2.50GHz (CPU)|   MoE|  OK (0.00e+00)|       OK|SKIP           |;  OK (1.40e-07)|     SKIP|SKIP           |;Summary: all 6 test(s) passed;
+2026-11-27T00:53:01+00:00 [ds41] 3. ctx-check rc=0: ama-context rc=1 10 cases, failed total 7; failing: cp_h          149 passed, 0 skipped, 2 failed (of 151);cp_d          149 passed, 0 skipped, 2 failed (of 151);frag          148 passed, 2 skipped, 1 failed (of 151);models: 149 passed, 2 failed (of 151);
+2026-11-27T00:53:01+00:00 [ds41] 3. failing models: gemma4-dense.gguf mistral-large4-moe.gguf 
+2026-11-27T01:00:24+00:00 [ds41] 4. dsv41-test rc=0
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41] build /root/build-ds41; kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1111/2585/2762/2785
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41] 1. -sm layer greedy 64 tokens
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   rc=0 405 bytes, md5 8732c2ea: The transistor was invented in 1947 at Bell Labs. In the decades that followed, the transistor became the building block of modern electronics. Today, transistors are everywhere — in cars, computers, phones, and even i
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   speed: 4513.40 ms /    18 tokens (  250.74 ms per token,     3.99 tokens per second) 4179.50 ms /    63 runs   (   66.34 ms per token,    15.07 tokens per second)
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   placement:
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41] 2. -sm layer perplexity 2K x 4 chunks
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   rc=0 Final estimate: PPL = 2.2196 +/- 0.05948 PPL = 2.2196 +/- 0.05948
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41] 3. -sm tensor greedy 64 tokens
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   rc=0 379 bytes, md5 8b8499fe: The transistor was invented in 1947 at Bell Labs. In the decades that followed, the transistor became the building block for the modern electronics industry. Today, transistors are everywhere. They are in the computers w
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   speed: 1869.62 ms /    18 tokens (  103.87 ms per token,     9.63 tokens per second) 2587.66 ms /    55 runs   (   47.05 ms per token,    21.25 tokens per second) ; errors: 0.00.038.215 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPL
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41] 4. llama-server -sm layer with the DSpark sidecar, greedy 192 tokens
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   base: tokens 192 tok/s 17.08 draft None / None | md5 3017d228 |  the transistor became the building block of modern electronics. Today, transistors are everywhere.
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41]   dspark: server did not come up: 0.40.086.411 E srv    load_model: failed to load draft model, '/root/models/DeepSeek-V4.1-Flash-1017-UD-IQ1_S/dspark-DeepSeek-V4.1-Flash-1017-Q8_0.gguf' 0.40.086.448 I srv    operator(): operator(): cleaning up before exit... 0.40.088.077 E srv  server_run_i: ex
+2026-11-27T01:00:24+00:00 [ds41] 4. [dsv41] === DSV41 DONE ===
+2026-11-27T01:00:24+00:00 [ds41] === DS41-CHECK DONE ===

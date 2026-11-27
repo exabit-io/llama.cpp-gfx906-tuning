@@ -1,0 +1,4 @@
+2026-11-27T00:45:43+00:00 [sub-exchange] mxxm rc=0:  1 TP custom AllReduce: initialized for 4 GPUs, path = broadcast F32 + twoshot F32 (peer-write, size-adaptive, lossless); 1 TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors;
+2026-11-27T00:45:59+00:00 [sub-exchange] merge rc=0:  1 TP custom AllReduce: initialized for 4 GPUs, path = broadcast F32 + twoshot F32 (peer-write, size-adaptive, lossless); 1 TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors;
+2026-11-27T00:46:16+00:00 [sub-exchange] master rc=0:  1 TP custom AllReduce: initialized for 4 GPUs, path = broadcast F32 + twoshot F32 (peer-write, size-adaptive, lossless); 1 TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors;
+2026-11-27T00:46:16+00:00 [sub-exchange] === SUB-EXCHANGE DONE ===

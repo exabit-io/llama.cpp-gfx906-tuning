@@ -156,7 +156,8 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   unless the lead asks (none of #17, #22, #23, #24 was taken; #25 is open). Never propose dropping his patches. The
   performance condition and its measurement: `reports/2026-11-26-v110-rebase.md` section 10.
 - **llama.cpp v1.1.0 cycle is IN PROGRESS** (2026-11-26): merged onto mxxm-t's own b12500 merge with three fix commits
-  (pushed, PR mxxm-t#25, #24 closed), 22 Exabit commits on top (local `master-v110`), nothing published; the tile rule's threshold must be chosen again on the changed kernel
+  (pushed, PR mxxm-t#25, #24 closed), 22 Exabit commits on top (local `master-v110`), DeepSeek-V4.1's upstream
+  layout ported on `wip/ds41-upstream-layout` (tested, joins master at package time), nothing published; the tile rule's threshold must be chosen again on the changed kernel
   (85 is not clean any more). State and the open list: `tools/release/v110/README.md`. Until it ships, the tree and the
   package in this file are the v1.0.0 ones.
 - **Do not chase the ROCm 10.1 runtime's decode cost** (0.3 % at 4x64K, same report s.5.3): it is ROCr (`libhsa-runtime64`), whose async-events

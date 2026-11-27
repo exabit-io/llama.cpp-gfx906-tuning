@@ -1,0 +1,4 @@
+2026-11-27T01:20:30+00:00 [ds41-dspark] base: tokens 192, drafted None, accepted None, text md5 670fd7f6:  the transistor became the building block for the integrated circuit, which is the heart of the computer. The 
+2026-11-27T01:21:20+00:00 [ds41-dspark] dspark: tokens 192, drafted 217, accepted 118, text md5 787feb7f:  the transistor became the building block of modern electronics. Today, transistors are everywhere. They are i
+2026-11-27T01:21:26+00:00 [ds41-dspark] drafter path lines:       1 init: deferred prompt encode enabled;      1 init: DFlash target features via device buffer;
+2026-11-27T01:21:26+00:00 [ds41-dspark] === DS41-DSPARK DONE ===
