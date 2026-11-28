@@ -1,0 +1,59 @@
+2026-11-28T01:00:45+00:00 [mtpd] package 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1, source c782c317d; tile rule in the package build:       1 amdgpu-vgpr-threshold-percent=88 
+2026-11-28T01:00:45+00:00 [mtpd] arm pkg: /opt/mx-llama.cpp/lib/libggml-hip.so.1.1.1 (97181592 bytes)
+2026-11-28T01:00:46+00:00 [mtpd] arm t88: /root/rebase-v110/tile/lib-t88/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-28T01:00:46+00:00 [mtpd] arm c23: /root/rebase-v110/tile/lib-c23/libggml-hip.so.1.0.0 (101151672 bytes)
+2026-11-28T01:00:46+00:00 [mtpd] arm old: /root/build-v101-t85/bin/libggml-hip.so.1.0.0 (98279440 bytes)
+2026-11-28T01:00:46+00:00 [mtpd] n=3, arms: pkg t88 c23 old; prompt 500000 characters, 768 tokens per request; load 1.90 2.12 2.31
+2026-11-28T01:01:00+00:00 [mtpd] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1199/2507/2513/2509
+2026-11-28T01:01:00+00:00 [mtpd] block 1 order: t88 pkg old c23
+2026-11-28T01:05:31+00:00 [mtpd] t88 b1: MTP decode 49.1016 (50.9784 51.5086 44.8178), prefill 617.702 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:10:01+00:00 [mtpd] pkg b1: MTP decode 49.1633 (51.0000 51.5895 44.9005), prefill 617.867 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:14:32+00:00 [mtpd] old b1: MTP decode 49.0172 (52.0418 50.9563 44.0535), prefill 618.612 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-28T01:19:06+00:00 [mtpd] c23 b1: MTP decode 45.6858 (47.5065 47.9122 41.6388), prefill 615.901 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:19:06+00:00 [mtpd] === block 1 DONE
+[mtpd] t88  MTP decode n=1 49.102 (49.102-49.102); prefill n=1 617.7 (617.7-617.7)
+[mtpd] pkg  MTP decode n=1 49.163 (49.163-49.163); prefill n=1 617.9 (617.9-617.9)
+[mtpd] c23  MTP decode n=1 45.686 (45.686-45.686); prefill n=1 615.9 (615.9-615.9)
+[mtpd] old  (v1.0.0, another text; decode NOT compared by rule) MTP decode n=1 49.017 (49.017-49.017), accepted ['536/693 517/749 477/864']; prefill n=1 618.6 (618.6-618.6)
+[mtpd] v1.1.0 accepted/drafted in the tile arms: 530/709 518/743 479/862
+[mtpd] t88: prefill against old down (-0.15 %), MTP decode ratio to old 1.0017 (other text)
+[mtpd] pkg: prefill against old down (-0.12 %), MTP decode ratio to old 1.0030 (other text)
+[mtpd] c23: prefill against old down (-0.44 %), MTP decode ratio to old 0.9320 (other text)
+[mtpd] pkg: MTP decode against t88 up (+0.13 %), prefill against t88 up (+0.03 %)
+[mtpd] t88: MTP decode against c23 up (+7.48 %), prefill against c23 up (+0.29 %)
+[mtpd] pkg: MTP decode against c23 up (+7.61 %), prefill against c23 up (+0.32 %)
+2026-11-28T01:19:06+00:00 [mtpd] block 2 order: old t88 c23 pkg
+2026-11-28T01:23:37+00:00 [mtpd] old b2: MTP decode 49.0460 (52.0028 51.0137 44.1214), prefill 618.493 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-28T01:28:08+00:00 [mtpd] t88 b2: MTP decode 49.1170 (50.9952 51.5428 44.8131), prefill 617.141 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:32:43+00:00 [mtpd] c23 b2: MTP decode 45.7414 (47.6270 47.9054 41.6918), prefill 615.032 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:37:14+00:00 [mtpd] pkg b2: MTP decode 49.1731 (50.9922 51.6067 44.9205), prefill 617.094 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:37:14+00:00 [mtpd] === block 2 DONE
+[mtpd] t88  MTP decode n=2 49.109 (49.102-49.117); prefill n=2 617.4 (617.1-617.7)
+[mtpd] pkg  MTP decode n=2 49.168 (49.163-49.173); prefill n=2 617.5 (617.1-617.9)
+[mtpd] c23  MTP decode n=2 45.714 (45.686-45.741); prefill n=2 615.5 (615.0-615.9)
+[mtpd] old  (v1.0.0, another text; decode NOT compared by rule) MTP decode n=2 49.032 (49.017-49.046), accepted ['536/693 517/749 477/864']; prefill n=2 618.6 (618.5-618.6)
+[mtpd] v1.1.0 accepted/drafted in the tile arms: 530/709 518/743 479/862
+[mtpd] t88: prefill against old down (-0.18 %), MTP decode ratio to old 1.0016 (other text)
+[mtpd] pkg: prefill against old down (-0.17 %), MTP decode ratio to old 1.0028 (other text)
+[mtpd] c23: prefill against old down (-0.50 %), MTP decode ratio to old 0.9323 (other text)
+[mtpd] pkg: MTP decode against t88 up (+0.12 %), prefill against t88 level (+0.01 %)
+[mtpd] t88: MTP decode against c23 up (+7.43 %), prefill against c23 up (+0.32 %)
+[mtpd] pkg: MTP decode against c23 up (+7.56 %), prefill against c23 up (+0.33 %)
+2026-11-28T01:37:14+00:00 [mtpd] block 3 order: c23 t88 pkg old
+2026-11-28T01:41:48+00:00 [mtpd] c23 b3: MTP decode 45.7309 (47.6577 47.8957 41.6394), prefill 615.664 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:46:19+00:00 [mtpd] t88 b3: MTP decode 49.1085 (50.9921 51.4750 44.8585), prefill 617.597 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:50:50+00:00 [mtpd] pkg b3: MTP decode 49.1838 (51.0562 51.6360 44.8591), prefill 617.425 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-28T01:55:21+00:00 [mtpd] old b3: MTP decode 49.0004 (51.9757 50.9930 44.0324), prefill 617.827 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-28T01:55:21+00:00 [mtpd] === block 3 DONE
+[mtpd] t88  MTP decode n=3 49.109 (49.102-49.117); prefill n=3 617.5 (617.1-617.7)
+[mtpd] pkg  MTP decode n=3 49.173 (49.163-49.184); prefill n=3 617.5 (617.1-617.9)
+[mtpd] c23  MTP decode n=3 45.719 (45.686-45.741); prefill n=3 615.5 (615.0-615.9)
+[mtpd] old  (v1.0.0, another text; decode NOT compared by rule) MTP decode n=3 49.021 (49.000-49.046), accepted ['536/693 517/749 477/864']; prefill n=3 618.3 (617.8-618.6)
+[mtpd] v1.1.0 accepted/drafted in the tile arms: 530/709 518/743 479/862
+[mtpd] t88: prefill against old down (-0.13 %), MTP decode ratio to old 1.0018 (other text)
+[mtpd] pkg: prefill against old level (-0.14 %), MTP decode ratio to old 1.0031 (other text)
+[mtpd] c23: prefill against old down (-0.45 %), MTP decode ratio to old 0.9326 (other text)
+[mtpd] pkg: MTP decode against t88 up (+0.13 %), prefill against t88 level (-0.00 %)
+[mtpd] t88: MTP decode against c23 up (+7.41 %), prefill against c23 up (+0.32 %)
+[mtpd] pkg: MTP decode against c23 up (+7.55 %), prefill against c23 up (+0.31 %)
+2026-11-28T01:55:21+00:00 [mtpd] === MTP-ACCEPT-V110 DONE ===

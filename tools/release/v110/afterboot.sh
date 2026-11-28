@@ -42,6 +42,15 @@ job(){ # job NAME COMMAND...
 clamp_check || { log "CLAMP right after boot: this boot did not clear the latch. Cold power cycle needed (shut down, unplug 30 s); the @reboot line stays and tries again at the next boot. Nothing was run."; exit 2; }
 log "clock check passed: every die at the top state at idle"
 touch $W/.afterboot-ran; uncron
+# After a boot every XGMI link is slow in one direction until a sender has written across it (2026-10-02: one
+# ifl_allreduce run clears it and it does not return), so the links are raised before the first timed job. The second
+# run is the one to read. Then an SMC key dump at the clean clock, for diffing against a dump taken while latched.
+for i in 1 2; do
+  /root/ifl_allreduce -b 1 -r 1 > $W/afterboot-xgmi-$i.txt 2>&1
+  log "XGMI probe $i: rc=$? $(grep -E 'Ring both ways' $W/afterboot-xgmi-$i.txt | tr -s ' ' | cut -c1-110)"
+done
+DUMP=$W/smc-keys-clean-$(date +%m%d-%H%M).txt
+python3 /root/rocm-tests/bench/smc-dump.py $DUMP >/dev/null 2>&1 && log "SMC key dump at the clean clock: $(basename $DUMP), $(grep -c . $DUMP) lines"
 # Timing first (a clamp later in the queue then costs the least). Order by what waits on it: the rollback rates owed on
 # PR #25, the substrate comparison (the lead's condition for following upstream, substrate-v110.sh; its two builds are
 # made first if missing, with the dies idle), the tile threshold, the design points against v1.0.0.

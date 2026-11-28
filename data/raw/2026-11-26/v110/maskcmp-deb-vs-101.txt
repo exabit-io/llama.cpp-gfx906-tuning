@@ -1,0 +1,2 @@
+{'only immediates differ': 1000}
+opcodes of the lines whose immediates differ: {'s_add_u32': 1162, 's_mov_b64': 136}

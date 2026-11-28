@@ -1,0 +1,6 @@
+2026-11-27T05:33:56+00:00 [after-queue] waiting for the queue (pid 7414)
+2026-11-27T12:59:32+00:00 [after-queue] RUN attr8-build
+2026-11-27T13:04:29+00:00 [after-queue] END attr8-build rc=0 (a failed cut is left out of the session)
+2026-11-27T13:04:34+00:00 [after-queue] RUN attr8
+2026-11-27T14:09:39+00:00 [after-queue] END attr8 rc=0
+2026-11-27T14:09:39+00:00 [after-queue] === AFTER-QUEUE END ===

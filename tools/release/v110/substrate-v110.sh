@@ -44,6 +44,12 @@
 #       librccl, log the same custom-allreduce path and no warning). The environment gives EVERY arm the 20481-element
 #       gate, which is master's default and not his (262144): his arm runs with our tuned gate, i.e. better at prefill
 #       than out of the box. That is deliberate: the arms differ in code only.
+#       CORRECTION 2026-11-27 (after the run, found by attr8.sh): the sentence above is wrong. mxxm-t's tree and the
+#       merge have no GGML_TP_AR_MAX_NE; the variable does nothing there and both ran the fork's own threshold (custom
+#       path under 262144 elements = up to 51 rows). Pair (1) compared like with like (both arms on that threshold); at
+#       1 and 4 slots and in the MTP cell every arm is on the custom path at decode and on RCCL at prefill, so nothing
+#       changes there. At 8 and 16 slots master (RCCL from 5 rows) and the other two arms differed in the collective:
+#       that IS the decode penalty of pairs (2) and (3) there. See README.md, section on attr8.
 #   (c) MTP decode: the trees write different text on the same prompts (upstream's numerics moved between b12500 and
 #       v1.1.0), so the acceptance differs by text; the row is read with the accepted/drafted counts printed beside it,
 #       and a decode difference that the acceptance counts explain is said to be that.

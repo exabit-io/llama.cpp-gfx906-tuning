@@ -1,0 +1,24 @@
+2026-11-27T04:24:06+00:00 [screen] mxxm: /root/build-sub-mxxm on /opt/rocm/core-10.0
+2026-11-27T04:24:06+00:00 [screen] merge: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T04:24:06+00:00 [screen] master: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T04:24:20+00:00 [screen] block 1 order: mxxm master merge 
+2026-11-27T04:35:39+00:00 [screen] 1 x 260864 mxxm b1: decode 31.5572, prefill 411.1
+2026-11-27T04:46:52+00:00 [screen] 1 x 260864 master b1: decode 32.4760, prefill 414.4
+2026-11-27T04:58:13+00:00 [screen] 1 x 260864 merge b1: decode 31.6577, prefill 410.1
+2026-11-27T04:58:13+00:00 [screen] block 2 order: mxxm master merge 
+2026-11-27T05:09:33+00:00 [screen] 1 x 260864 mxxm b2: decode 31.5222, prefill 411.0
+2026-11-27T05:20:46+00:00 [screen] 1 x 260864 master b2: decode 32.3764, prefill 414.2
+2026-11-27T05:32:07+00:00 [screen] 1 x 260864 merge b2: decode 31.6118, prefill 410.1
+2026-11-27T05:32:07+00:00 [screen] block 3 order: mxxm master merge 
+2026-11-27T05:43:27+00:00 [screen] 1 x 260864 mxxm b3: decode 31.5611, prefill 411.0
+2026-11-27T05:54:41+00:00 [screen] 1 x 260864 master b3: decode 32.3447, prefill 414.3
+2026-11-27T06:06:01+00:00 [screen] 1 x 260864 merge b3: decode 31.6489, prefill 410.2
+2026-11-27T06:06:01+00:00 [screen] block 4 order: mxxm master merge 
+2026-11-27T06:17:21+00:00 [screen] 1 x 260864 mxxm b4: decode 31.4699, prefill 410.7
+2026-11-27T06:28:35+00:00 [screen] 1 x 260864 master b4: decode 32.3416, prefill 414.0
+2026-11-27T06:39:56+00:00 [screen] 1 x 260864 merge b4: decode 31.6548, prefill 410.1
+2026-11-27T06:39:56+00:00 [screen] block 5 order: merge mxxm master 
+2026-11-27T06:51:17+00:00 [screen] 1 x 260864 merge b5: decode 31.6528, prefill 410.0
+2026-11-27T07:02:36+00:00 [screen] 1 x 260864 mxxm b5: decode 31.5077, prefill 411.0
+2026-11-27T07:13:50+00:00 [screen] 1 x 260864 master b5: decode 32.4646, prefill 414.3
+2026-11-27T07:13:50+00:00 [screen] === SCREEN sub-s1 DONE ===

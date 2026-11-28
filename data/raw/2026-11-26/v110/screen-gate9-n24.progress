@@ -1,0 +1,17 @@
+2026-11-27T17:25:47+00:00 [screen] n20: /root/build-cand-norccl on /opt/rocm/core-10.0
+2026-11-27T17:25:47+00:00 [screen] n81: /root/build-cand-norccl on /opt/rocm/core-10.0
+2026-11-27T17:25:47+00:00 [screen] n0: /root/build-cand-norccl on /opt/rocm/core-10.0
+2026-11-27T17:25:47+00:00 [screen] per-arm environment: r:GGML_TP_AR_MAX_NE=20481 k:GGML_TP_AR_MAX_NE=81921 w:GGML_TP_AR_MAX_NE=81920 n20:GGML_CUDA_ALLREDUCE=internal n20:GGML_TP_AR_MAX_NE=20481 n81:GGML_CUDA_ALLREDUCE=internal n81:GGML_TP_AR_MAX_NE=81921 n0:GGML_CUDA_ALLREDUCE=internal n0:GGML_TP_AR_MAX_NE=0
+2026-11-27T17:26:01+00:00 [screen] block 1 order: n20 n81 n0 
+2026-11-27T17:27:28+00:00 [screen] 24 x 1024 n20 b1: decode 9.8891, prefill 887.7
+2026-11-27T17:28:55+00:00 [screen] 24 x 1024 n81 b1: decode 9.8844, prefill 888.0
+2026-11-27T17:30:26+00:00 [screen] 24 x 1024 n0 b1: decode 10.7958, prefill 672.3
+2026-11-27T17:30:26+00:00 [screen] block 2 order: n20 n0 n81 
+2026-11-27T17:31:53+00:00 [screen] 24 x 1024 n20 b2: decode 9.8861, prefill 888.5
+2026-11-27T17:33:25+00:00 [screen] 24 x 1024 n0 b2: decode 10.7595, prefill 674.8
+2026-11-27T17:34:51+00:00 [screen] 24 x 1024 n81 b2: decode 9.8926, prefill 888.5
+2026-11-27T17:34:51+00:00 [screen] block 3 order: n0 n81 n20 
+2026-11-27T17:36:23+00:00 [screen] 24 x 1024 n0 b3: decode 10.7808, prefill 673.7
+2026-11-27T17:37:49+00:00 [screen] 24 x 1024 n81 b3: decode 9.8941, prefill 888.7
+2026-11-27T17:39:16+00:00 [screen] 24 x 1024 n20 b3: decode 9.8920, prefill 888.1
+2026-11-27T17:39:16+00:00 [screen] === SCREEN gate9-n24 DONE ===

@@ -1,0 +1,10 @@
+2026-11-27T17:51:35+00:00 [queue-final-final] start: /root/build-final-v110 (c782c317d 0 uncommitted)
+2026-11-27T18:06:35+00:00 [queue-final-final] pr-test rc=0
+2026-11-27T18:06:35+00:00 [queue-final-final]   allreduce path:  (empty = no failure line)
+2026-11-27T18:11:34+00:00 [queue-final-final] fold-check rc=0
+2026-11-27T18:15:39+00:00 [queue-final-final] ctx-check (default rollback) rc=0
+2026-11-27T18:18:59+00:00 [queue-final-final] ctx-check (LLAMA_RS_REPLAY=1) rc=0
+2026-11-27T18:21:31+00:00 [queue-final-final] mtp-modes rc=0
+2026-11-27T18:22:14+00:00 [queue-final-final] mtp-carry rc=0
+2026-11-27T18:25:25+00:00 [queue-final-final] rs-modes3 rc=0
+2026-11-27T18:25:25+00:00 [queue-final-final] === QUEUE DONE ===

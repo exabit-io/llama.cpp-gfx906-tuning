@@ -1,0 +1,87 @@
+2026-11-27T07:13:56+00:00 [mtpd] arm c23: /root/rebase-v110/tile/lib-c23/libggml-hip.so.1.0.0 (101151672 bytes)
+2026-11-27T07:13:56+00:00 [mtpd] arm tnone: /root/rebase-v110/tile/lib-tnone/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-27T07:13:56+00:00 [mtpd] arm t85: /root/rebase-v110/tile/lib-t85/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-27T07:13:57+00:00 [mtpd] arm t88: /root/rebase-v110/tile/lib-t88/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-27T07:13:57+00:00 [mtpd] arm t75: /root/rebase-v110/tile/lib-t75/libggml-hip.so.1.0.0 (101143368 bytes)
+2026-11-27T07:13:57+00:00 [mtpd] arm old: /root/build-v101-t85/bin/libggml-hip.so.1.0.0 (98279440 bytes)
+2026-11-27T07:13:57+00:00 [mtpd] n=3, arms: c23 tnone t85 t88 t75 old; prompt 500000 characters, 768 tokens per request; load 1.82 2.23 2.77
+2026-11-27T07:14:11+00:00 [mtpd] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1200/2511/2500/2511
+2026-11-27T07:14:11+00:00 [mtpd] block 1 order: tnone c23 t88 t85 old t75
+2026-11-27T07:18:53+00:00 [mtpd] tnone b1: MTP decode 45.9396 (47.7894 48.1714 41.8580), prefill 593.347 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T07:23:28+00:00 [mtpd] c23 b1: MTP decode 45.8693 (47.6405 48.1397 41.8277), prefill 616.148 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T07:27:58+00:00 [mtpd] t88 b1: MTP decode 49.2475 (51.3896 51.5595 44.7935), prefill 618.473 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T07:32:28+00:00 [mtpd] t85 b1: MTP decode 49.1339 (50.9616 51.5305 44.9095), prefill 618.196 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T07:36:59+00:00 [mtpd] old b1: MTP decode 49.0198 (51.9514 51.0101 44.0979), prefill 618.722 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-27T07:41:30+00:00 [mtpd] t75 b1: MTP decode 46.7993 (47.7725 49.1887 43.4368), prefill 621.053 over 117740 tokens, accepted 530/709 523/729 490/829, sha 31c7130217db e323674be895 9e418a801fd8
+2026-11-27T07:41:30+00:00 [mtpd] === block 1 DONE
+[mtpd] DECODE DISCARDED t75 b1: text or draft counts differ from the majority (prefill kept)
+[mtpd] tnone MTP decode n=1 45.940 (45.940-45.940); prefill n=1 593.3 (593.3-593.3)
+[mtpd] c23  MTP decode n=1 45.869 (45.869-45.869); prefill n=1 616.1 (616.1-616.1)
+[mtpd] t88  MTP decode n=1 49.248 (49.248-49.248); prefill n=1 618.5 (618.5-618.5)
+[mtpd] t85  MTP decode n=1 49.134 (49.134-49.134); prefill n=1 618.2 (618.2-618.2)
+[mtpd] t75  MTP decode n=0 none; prefill n=1 621.1 (621.1-621.1)
+[mtpd] old  (v1.0.0, another text; decode NOT compared by rule) MTP decode n=1 49.020 (49.020-49.020), accepted ['536/693 517/749 477/864']; prefill n=1 618.7 (618.7-618.7)
+[mtpd] v1.1.0 accepted/drafted in the tile arms: 530/709 518/743 479/862
+[mtpd] tnone: prefill against old down (-4.10 %), MTP decode ratio to old 0.9372 (other text)
+[mtpd] c23: prefill against old down (-0.42 %), MTP decode ratio to old 0.9357 (other text)
+[mtpd] t88: prefill against old down (-0.04 %), MTP decode ratio to old 1.0046 (other text)
+[mtpd] t85: prefill against old down (-0.09 %), MTP decode ratio to old 1.0023 (other text)
+[mtpd] t75: prefill against old up (+0.38 %)
+[mtpd] tnone: MTP decode against c23 up (+0.15 %), prefill against c23 down (-3.70 %)
+[mtpd] t88: MTP decode against tnone up (+7.20 %), MTP decode against c23 up (+7.36 %), prefill against c23 up (+0.38 %), prefill against tnone up (+4.23 %)
+[mtpd] t85: MTP decode against tnone up (+6.95 %), MTP decode against c23 up (+7.12 %), prefill against c23 up (+0.33 %), prefill against tnone up (+4.19 %)
+[mtpd] t75: prefill against c23 up (+0.80 %), prefill against tnone up (+4.67 %)
+2026-11-27T07:41:30+00:00 [mtpd] block 2 order: t75 tnone t85 t88 c23 old
+2026-11-27T07:46:02+00:00 [mtpd] t75 b2: MTP decode 46.7105 (47.6901 49.0577 43.3836), prefill 620.795 over 117740 tokens, accepted 530/709 523/729 490/829, sha 31c7130217db e323674be895 9e418a801fd8
+2026-11-27T07:50:44+00:00 [mtpd] tnone b2: MTP decode 45.9507 (47.8941 48.1031 41.8548), prefill 592.863 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T07:55:15+00:00 [mtpd] t85 b2: MTP decode 49.0322 (50.8986 51.4339 44.7640), prefill 617.704 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T07:59:46+00:00 [mtpd] t88 b2: MTP decode 49.0981 (50.9633 51.4853 44.8456), prefill 617.512 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T08:04:20+00:00 [mtpd] c23 b2: MTP decode 45.9061 (47.7568 48.1284 41.8331), prefill 615.997 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T08:08:51+00:00 [mtpd] old b2: MTP decode 48.9834 (51.9048 50.9811 44.0644), prefill 618.492 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-27T08:08:51+00:00 [mtpd] === block 2 DONE
+[mtpd] DECODE DISCARDED t75 b1: text or draft counts differ from the majority (prefill kept)
+[mtpd] DECODE DISCARDED t75 b2: text or draft counts differ from the majority (prefill kept)
+[mtpd] tnone MTP decode n=2 45.945 (45.940-45.951); prefill n=2 593.1 (592.9-593.3)
+[mtpd] c23  MTP decode n=2 45.888 (45.869-45.906); prefill n=2 616.1 (616.0-616.1)
+[mtpd] t88  MTP decode n=2 49.173 (49.098-49.248); prefill n=2 618.0 (617.5-618.5)
+[mtpd] t85  MTP decode n=2 49.083 (49.032-49.134); prefill n=2 618.0 (617.7-618.2)
+[mtpd] t75  MTP decode n=0 none; prefill n=2 620.9 (620.8-621.1)
+[mtpd] old  (v1.0.0, another text; decode NOT compared by rule) MTP decode n=2 49.002 (48.983-49.020), accepted ['536/693 517/749 477/864']; prefill n=2 618.6 (618.5-618.7)
+[mtpd] v1.1.0 accepted/drafted in the tile arms: 530/709 518/743 479/862
+[mtpd] tnone: prefill against old down (-4.12 %), MTP decode ratio to old 0.9376 (other text)
+[mtpd] c23: prefill against old down (-0.41 %), MTP decode ratio to old 0.9365 (other text)
+[mtpd] t88: prefill against old down (-0.10 %), MTP decode ratio to old 1.0035 (other text)
+[mtpd] t85: prefill against old down (-0.11 %), MTP decode ratio to old 1.0017 (other text)
+[mtpd] t75: prefill against old up (+0.37 %)
+[mtpd] tnone: MTP decode against c23 up (+0.13 %), prefill against c23 down (-3.73 %)
+[mtpd] t88: MTP decode against tnone up (+7.03 %), MTP decode against c23 up (+7.16 %), prefill against c23 up (+0.31 %), prefill against tnone up (+4.20 %)
+[mtpd] t85: MTP decode against tnone up (+6.83 %), MTP decode against c23 up (+6.96 %), prefill against c23 up (+0.30 %), prefill against tnone up (+4.19 %)
+[mtpd] t75: prefill against c23 up (+0.79 %), prefill against tnone up (+4.69 %)
+2026-11-27T08:08:51+00:00 [mtpd] block 3 order: old t75 tnone t85 c23 t88
+2026-11-27T08:13:21+00:00 [mtpd] old b3: MTP decode 49.0355 (52.0135 51.0423 44.0508), prefill 618.355 over 117740 tokens, accepted 536/693 517/749 477/864, sha e0ef79073ee6 26f58c73218e 0e63c4ba4bde
+2026-11-27T08:17:54+00:00 [mtpd] t75 b3: MTP decode 46.7758 (47.7234 49.1675 43.4365), prefill 620.125 over 117740 tokens, accepted 530/709 523/729 490/829, sha 31c7130217db e323674be895 9e418a801fd8
+2026-11-27T08:22:36+00:00 [mtpd] tnone b3: MTP decode 45.8138 (47.5630 48.1007 41.7778), prefill 592.589 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T08:27:07+00:00 [mtpd] t85 b3: MTP decode 49.0064 (50.8605 51.4205 44.7382), prefill 617.492 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T08:31:42+00:00 [mtpd] c23 b3: MTP decode 45.7532 (47.5649 47.9644 41.7303), prefill 615.348 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T08:36:13+00:00 [mtpd] t88 b3: MTP decode 49.0421 (50.8797 51.4611 44.7855), prefill 617.551 over 117740 tokens, accepted 530/709 518/743 479/862, sha 31c7130217db a969f2200822 5ff8cbad2329
+2026-11-27T08:36:13+00:00 [mtpd] === block 3 DONE
+[mtpd] DECODE DISCARDED t75 b1: text or draft counts differ from the majority (prefill kept)
+[mtpd] DECODE DISCARDED t75 b2: text or draft counts differ from the majority (prefill kept)
+[mtpd] DECODE DISCARDED t75 b3: text or draft counts differ from the majority (prefill kept)
+[mtpd] tnone MTP decode n=3 45.901 (45.814-45.951); prefill n=3 592.9 (592.6-593.3)
+[mtpd] c23  MTP decode n=3 45.843 (45.753-45.906); prefill n=3 615.8 (615.3-616.1)
+[mtpd] t88  MTP decode n=3 49.129 (49.042-49.248); prefill n=3 617.8 (617.5-618.5)
+[mtpd] t85  MTP decode n=3 49.057 (49.006-49.134); prefill n=3 617.8 (617.5-618.2)
+[mtpd] t75  MTP decode n=0 none; prefill n=3 620.7 (620.1-621.1)
+[mtpd] old  (v1.0.0, another text; decode NOT compared by rule) MTP decode n=3 49.013 (48.983-49.035), accepted ['536/693 517/749 477/864']; prefill n=3 618.5 (618.4-618.7)
+[mtpd] v1.1.0 accepted/drafted in the tile arms: 530/709 518/743 479/862
+[mtpd] tnone: prefill against old down (-4.14 %), MTP decode ratio to old 0.9365 (other text)
+[mtpd] c23: prefill against old down (-0.44 %), MTP decode ratio to old 0.9353 (other text)
+[mtpd] t88: prefill against old level (-0.11 %), MTP decode ratio to old 1.0024 (other text)
+[mtpd] t85: prefill against old down (-0.12 %), MTP decode ratio to old 1.0009 (other text)
+[mtpd] t75: prefill against old up (+0.35 %)
+[mtpd] tnone: MTP decode against c23 level (+0.13 %), prefill against c23 down (-3.72 %)
+[mtpd] t88: MTP decode against tnone up (+7.03 %), MTP decode against c23 up (+7.17 %), prefill against c23 up (+0.33 %), prefill against tnone up (+4.20 %)
+[mtpd] t85: MTP decode against tnone up (+6.88 %), MTP decode against c23 up (+7.01 %), prefill against c23 up (+0.32 %), prefill against tnone up (+4.19 %)
+[mtpd] t75: prefill against c23 up (+0.78 %), prefill against tnone up (+4.68 %)
+2026-11-27T08:36:13+00:00 [mtpd] === MTP-DEPTH DONE ===

@@ -1,0 +1,10 @@
+2026-11-27T17:41:37+00:00 [final-build] commit c782c317dcd40170d3abc51d58c6263663a08fdc (tp-allreduce: gfx906 at four ranks: custom path up to 16 rows (GGML_TP_AR_MAX_NE); 26 commits over merge-v1.1.0
+2026-11-27T17:43:55+00:00 [final-build] built /root/build-final-v110 by /opt/rocm/core-10.0: BUILD rc=0 elapsed=138s warnings=10 errors=0; RCCL 1, max-ilp 1, tests 3 of 3
+2026-11-27T17:46:01+00:00 [final-build] built /root/build-final-v110-101 by /opt/rocm/core-10.1: BUILD rc=0 elapsed=126s warnings=22 errors=0; RCCL 1, max-ilp 1, tests 3 of 3
+2026-11-27T17:46:01+00:00 [final-build] tile rule (commands with =88 / of them the tile instance / commands with any threshold): ROCm 10.0 build 0 0 0; ROCm 10.1 build 1 1 1
+2026-11-27T17:49:50+00:00 [final-build] package built: mx-llama-cpp-gfx906_1.1.0.git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1_amd64.deb (1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1), source c782c317d, 32283478 bytes; last-deb.txt before: mx-llama-cpp-gfx906_1.0.0.git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1_amd64.deb
+2026-11-27T17:49:50+00:00 [final-build] package Depends: amdrocm-blas10.1-gfx906 (>= 10.1.0-gfx906+20261018172427), amdrocm-blas-host10.1 (>= 10.1.0-gfx906+20261018172427), amdrocm-rccl10.1-gfx906 (>= 10.1.0-gfx906+20261018172427), amdrocm-rccl-host10.1 (>= 10.1.0-gfx906+20261018172427), amdrocm-runtime10.1 (>= 10.1.0-gfx906+20261018172427), libc6, libgcc-s1, libgomp1, libssl3t64, libstdc++6
+2026-11-27T17:49:50+00:00 [final-build] tile rule in the package build: 1 1 1
+2026-11-27T17:49:51+00:00 [final-build] tilescan: kernels with a reload inside a loop: source build 0, package build 0 of 18 columns minus one (final-static/tilescan-final-v110.txt)
+2026-11-27T17:50:42+00:00 [final-build] maskcmp package against the ROCm 10.1 source build: {'only immediates differ': 1000} opcodes of the lines whose immediates differ: {'s_add_u32': 1162, 's_mov_b64': 136} 
+2026-11-27T17:50:42+00:00 [final-build] === FINAL-BUILD DONE rc=0 ===

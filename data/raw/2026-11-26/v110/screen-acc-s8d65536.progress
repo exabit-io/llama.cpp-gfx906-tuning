@@ -1,0 +1,13 @@
+2026-11-27T23:52:02+00:00 [screen] pkg: /root/pkg-arm-v110 on /opt/rocm/core-10.1
+2026-11-27T23:52:02+00:00 [screen] old: /root/build-v101-t85 on /opt/rocm/core-10.1
+2026-11-27T23:52:02+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-27T23:52:16+00:00 [screen] block 1 order: old pkg 
+2026-11-28T00:03:41+00:00 [screen] 8 x 65536 old b1: decode 13.8524, prefill 821.4
+2026-11-28T00:15:04+00:00 [screen] 8 x 65536 pkg b1: decode 14.9293, prefill 820.1
+2026-11-28T00:15:04+00:00 [screen] block 2 order: old pkg 
+2026-11-28T00:26:29+00:00 [screen] 8 x 65536 old b2: decode 13.8573, prefill 821.2
+2026-11-28T00:37:52+00:00 [screen] 8 x 65536 pkg b2: decode 14.9228, prefill 820.1
+2026-11-28T00:37:52+00:00 [screen] block 3 order: pkg old 
+2026-11-28T00:49:15+00:00 [screen] 8 x 65536 pkg b3: decode 14.9315, prefill 820.5
+2026-11-28T01:00:39+00:00 [screen] 8 x 65536 old b3: decode 13.8446, prefill 821.5
+2026-11-28T01:00:39+00:00 [screen] === SCREEN acc-s8d65536 DONE ===

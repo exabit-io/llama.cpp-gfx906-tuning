@@ -1,0 +1,24 @@
+2026-11-27T01:38:41+00:00 [screen] mxxm: /root/build-sub-mxxm on /opt/rocm/core-10.0
+2026-11-27T01:38:41+00:00 [screen] merge: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T01:38:41+00:00 [screen] master: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T01:38:55+00:00 [screen] block 1 order: mxxm master merge 
+2026-11-27T01:45:14+00:00 [screen] 4 x 65536 mxxm b1: decode 24.6089, prefill 805.4
+2026-11-27T01:51:26+00:00 [screen] 4 x 65536 master b1: decode 25.1054, prefill 818.5
+2026-11-27T01:57:45+00:00 [screen] 4 x 65536 merge b1: decode 24.6112, prefill 804.7
+2026-11-27T01:57:45+00:00 [screen] block 2 order: master merge mxxm 
+2026-11-27T02:03:57+00:00 [screen] 4 x 65536 master b2: decode 25.0759, prefill 818.0
+2026-11-27T02:10:15+00:00 [screen] 4 x 65536 merge b2: decode 24.6658, prefill 804.9
+2026-11-27T02:16:34+00:00 [screen] 4 x 65536 mxxm b2: decode 24.6254, prefill 804.5
+2026-11-27T02:16:34+00:00 [screen] block 3 order: merge mxxm master 
+2026-11-27T02:22:52+00:00 [screen] 4 x 65536 merge b3: decode 24.6468, prefill 804.5
+2026-11-27T02:29:11+00:00 [screen] 4 x 65536 mxxm b3: decode 24.6018, prefill 804.4
+2026-11-27T02:35:23+00:00 [screen] 4 x 65536 master b3: decode 25.0630, prefill 818.1
+2026-11-27T02:35:23+00:00 [screen] block 4 order: master mxxm merge 
+2026-11-27T02:41:35+00:00 [screen] 4 x 65536 master b4: decode 25.0753, prefill 818.0
+2026-11-27T02:47:54+00:00 [screen] 4 x 65536 mxxm b4: decode 24.5723, prefill 804.0
+2026-11-27T02:54:13+00:00 [screen] 4 x 65536 merge b4: decode 24.6367, prefill 804.1
+2026-11-27T02:54:13+00:00 [screen] block 5 order: mxxm merge master 
+2026-11-27T03:00:32+00:00 [screen] 4 x 65536 mxxm b5: decode 24.5664, prefill 804.0
+2026-11-27T03:06:51+00:00 [screen] 4 x 65536 merge b5: decode 24.6225, prefill 804.2
+2026-11-27T03:13:03+00:00 [screen] 4 x 65536 master b5: decode 25.0759, prefill 817.5
+2026-11-27T03:13:03+00:00 [screen] === SCREEN sub-m4 DONE ===

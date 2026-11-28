@@ -1,0 +1,28 @@
+2026-11-27T18:35:54+00:00 [deb] deb /root/mx-llama-deb/mx-llama-cpp-gfx906_1.1.0.git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1_amd64.deb (1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1); installed now: 1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1; load 1.78 2.53 3.21
+2026-11-27T18:35:57+00:00 [deb] apt-get install rc=0 -> 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1
+2026-11-27T18:35:57+00:00 [deb] ELF files 55, without DT_RPATH=/opt/mx-llama.cpp/lib:/opt/rocm/core-10.1/lib: 0
+2026-11-27T18:35:57+00:00 [deb] isolation with LD_LIBRARY_PATH=/root/build-sub-mxxm/bin:/opt/rocm/core-10.0/lib: ggml/llama libraries outside /opt/mx-llama.cpp/lib: 0; ROCm libraries outside /opt/rocm/core-10.1: 0 of 26
+2026-11-27T18:35:58+00:00 [deb] native: zmm instructions in libggml-cpu 10452, vpdpbusd 1201
+2026-11-27T18:35:58+00:00 [deb] defaults: CMAKE_CXX_FLAGS:STRING= CMAKE_C_FLAGS:STRING= GGML_CUDA_FA_QUANTS:STRING=all GGML_HIP_GFX906_MAX_ILP:BOOL=ON GGML_HIP_RCCL:BOOL=ON hip_DIR:PATH=/opt/rocm/core-10.1/lib/cmake/hip 
+2026-11-27T18:35:58+00:00 [deb] version: version: 1.1.0-dev (build 13021, commit c782c317d); source c782c317dcd40170d3abc51d58c6263663a08fdc; Depends: amdrocm-blas10.1-gfx906 (>= 10.1.0-gfx906+20261018172427), amdrocm-blas-host10.1 (>= 10.1.0-gfx906+20261018172427), amdrocm-rccl10.1-gfx906 (>= 10.1.0-gfx906+20261018172427), amdrocm-rccl-host10.1 (>= 10.1.0-gfx906+20261018172427), amdrocm-runtime10.1 (>= 10.1.0-gfx906+20261018172427), libc6, libgcc-s1, libgomp1, libssl3t64, libstdc++6
+2026-11-27T18:41:27+00:00 [deb] pr-test deb rc=0
+2026-11-27T18:41:27+00:00 [deb]   allreduce path:  (empty = RCCL up)
+2026-11-27T18:42:55+00:00 [deb] deb MTP np1 rc=0: 62.75 tok/s | accepted 154/200;73.94 tok/s | accepted 154/200;74.60 tok/s | accepted 154/200;73.98 tok/s | accepted 154/200;56.13 tok/s | accepted 154/200;74.44 tok/s | accepted 154/200;
+2026-11-27T18:43:39+00:00 [deb] deb MTP np4 rc=0: 79.69 tok/s | accepted 156/198;79.30 tok/s | accepted 156/198;79.20 tok/s | accepted 156/198;
+2026-11-27T18:50:40+00:00 [deb] dsv41-test deb rc=0
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41] build /opt/mx-llama.cpp; kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1198/2506/2507/2494
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41] 1. -sm layer greedy 64 tokens
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   rc=0 405 bytes, md5 8732c2ea: The transistor was invented in 1947 at Bell Labs. In the decades that followed, the transistor became the building block of modern electronics. Today, transistors are everywhere — in cars, computers, phones, and even i
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   speed: 2519.34 ms /    18 tokens (  139.96 ms per token,     7.14 tokens per second) 2691.08 ms /    63 runs   (   42.72 ms per token,    23.41 tokens per second)
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   placement:
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41] 2. -sm layer perplexity 2K x 4 chunks
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   rc=0 Final estimate: PPL = 2.2196 +/- 0.05948 PPL = 2.2196 +/- 0.05948
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41] 3. -sm tensor greedy 64 tokens
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   rc=0 379 bytes, md5 8b8499fe: The transistor was invented in 1947 at Bell Labs. In the decades that followed, the transistor became the building block for the modern electronics industry. Today, transistors are everywhere. They are in the computers w
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   speed: 6141.74 ms /    18 tokens (  341.21 ms per token,     2.93 tokens per second) 2973.62 ms /    55 runs   (   54.07 ms per token,    18.50 tokens per second) ; errors: 0.00.040.317 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPL
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41] 4. llama-server -sm layer with the DSpark sidecar, greedy 192 tokens
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   base: tokens 71 tok/s 25.78 draft None / None | md5 7f3c7fee |  the transistor became the building block for the integrated circuit, which is the heart of the comp
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41]   dspark: server did not come up: 0.41.838.442 E srv    load_model: failed to load draft model, '/root/models/DeepSeek-V4.1-Flash-1017-UD-IQ1_S/dspark-DeepSeek-V4.1-Flash-1017-Q8_0.gguf' 0.41.838.478 I srv    operator(): operator(): cleaning up before exit... 0.41.839.947 E srv  server_run_i: ex
+2026-11-27T18:50:40+00:00 [deb]   dsv41: [dsv41] === DSV41 DONE ===
+2026-11-27T18:53:05+00:00 [deb] ds41-dspark deb rc=0: [ds41-dspark] dspark: tokens 192, drafted 238, accepted 110, text md5 62354df0:  the transistor became the building block for the integrated circuit, which is the heart of the computer. The ;[ds41-dspark] drafter path lines:       1 init: deferred prompt encode enabled;      1 init: DFlash target features via device buffer;;[ds41-dspark] === DS41-DSPARK DONE ===;
+2026-11-27T18:53:05+00:00 [deb] === DEB TEST DONE ===

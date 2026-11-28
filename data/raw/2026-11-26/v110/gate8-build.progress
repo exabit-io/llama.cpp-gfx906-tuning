@@ -1,0 +1,3 @@
+2026-11-27T14:33:33+00:00 [gate8-build] building 9a7177d0a with #define MMVQ_MAX_BATCH_SIZE 8 // into /root/build-attr-m8
+2026-11-27T14:35:30+00:00 [gate8-build] built; RCCL 1, max-ilp in the HIP flags: 1, librccl linked: 1
+2026-11-27T14:35:30+00:00 [gate8-build] === GATE8-BUILD DONE rc=0 ===

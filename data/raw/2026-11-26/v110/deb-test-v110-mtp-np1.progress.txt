@@ -1,0 +1,11 @@
+2026-11-27T18:42:01+00:00 [mtp-modes] combined long : prompt 2089 tok 673.5 tok/s | gen 137 tok 55.51 tok/s | accepted 80/114 | sha e9ba62f015f6
+2026-11-27T18:42:05+00:00 [mtp-modes] combined run 1: prompt 11 tok 35.6 tok/s | gen 256 tok 62.75 tok/s | accepted 154/200 | sha c0adc4434872
+2026-11-27T18:42:09+00:00 [mtp-modes] combined run 2: prompt 11 tok 37.1 tok/s | gen 256 tok 73.94 tok/s | accepted 154/200 | sha c0adc4434872
+2026-11-27T18:42:13+00:00 [mtp-modes] combined run 3: prompt 11 tok 34.8 tok/s | gen 256 tok 74.60 tok/s | accepted 154/200 | sha c0adc4434872
+2026-11-27T18:42:13+00:00 [mtp-modes] combined rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-27T18:42:38+00:00 [mtp-modes] host long : prompt 2089 tok 691.7 tok/s | gen 137 tok 58.20 tok/s | accepted 80/114 | sha e9ba62f015f6
+2026-11-27T18:42:42+00:00 [mtp-modes] host run 1: prompt 11 tok 38.6 tok/s | gen 256 tok 73.98 tok/s | accepted 154/200 | sha c0adc4434872
+2026-11-27T18:42:47+00:00 [mtp-modes] host run 2: prompt 11 tok 39.1 tok/s | gen 256 tok 56.13 tok/s | accepted 154/200 | sha c0adc4434872
+2026-11-27T18:42:51+00:00 [mtp-modes] host run 3: prompt 11 tok 34.6 tok/s | gen 256 tok 74.44 tok/s | accepted 154/200 | sha c0adc4434872
+2026-11-27T18:42:51+00:00 [mtp-modes] host rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 2 error lines
+2026-11-27T18:42:55+00:00 [mtp-modes] === MTP-MODES DONE ===

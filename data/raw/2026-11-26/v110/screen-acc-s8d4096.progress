@@ -1,0 +1,25 @@
+2026-11-27T19:03:09+00:00 [screen] pkg: /root/pkg-arm-v110 on /opt/rocm/core-10.1
+2026-11-27T19:03:09+00:00 [screen] s100: /root/build-final-v110 on /opt/rocm/core-10.0
+2026-11-27T19:03:09+00:00 [screen] old: /root/build-v101-t85 on /opt/rocm/core-10.1
+2026-11-27T19:03:09+00:00 [screen] a6: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T19:03:09+00:00 [screen] a0: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T19:03:09+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-27T19:03:23+00:00 [screen] block 1 order: pkg old a6 s100 a0 
+2026-11-27T19:04:36+00:00 [screen] 8 x 4096 pkg b1: decode 24.8110, prefill 1154.9
+2026-11-27T19:05:45+00:00 [screen] 8 x 4096 old b1: decode 21.2686, prefill 1165.4
+2026-11-27T19:07:02+00:00 [screen] 8 x 4096 a6 b1: decode 22.0975, prefill 1155.6
+2026-11-27T19:08:14+00:00 [screen] 8 x 4096 s100 b1: decode 25.2590, prefill 1078.7
+2026-11-27T19:09:27+00:00 [screen] 8 x 4096 a0 b1: decode 23.4507, prefill 1133.3
+2026-11-27T19:09:27+00:00 [screen] block 2 order: old a6 s100 a0 pkg 
+2026-11-27T19:10:44+00:00 [screen] 8 x 4096 old b2: decode 21.6729, prefill 1139.4
+2026-11-27T19:12:16+00:00 [screen] 8 x 4096 a6 b2: decode 22.0699, prefill 1109.8
+2026-11-27T19:13:22+00:00 [screen] 8 x 4096 s100 b2: decode 25.3252, prefill 1157.1
+2026-11-27T19:14:41+00:00 [screen] 8 x 4096 a0 b2: decode 23.4583, prefill 1120.5
+2026-11-27T19:15:47+00:00 [screen] 8 x 4096 pkg b2: decode 25.1981, prefill 1164.4
+2026-11-27T19:15:47+00:00 [screen] block 3 order: s100 a0 a6 old pkg 
+2026-11-27T19:17:09+00:00 [screen] 8 x 4096 s100 b3: decode 25.2977, prefill 1111.3
+2026-11-27T19:18:29+00:00 [screen] 8 x 4096 a0 b3: decode 23.4593, prefill 1131.4
+2026-11-27T19:19:50+00:00 [screen] 8 x 4096 a6 b3: decode 22.1310, prefill 1156.6
+2026-11-27T19:21:06+00:00 [screen] 8 x 4096 old b3: decode 21.7327, prefill 1162.1
+2026-11-27T19:22:20+00:00 [screen] 8 x 4096 pkg b3: decode 25.2254, prefill 1140.6
+2026-11-27T19:22:20+00:00 [screen] === SCREEN acc-s8d4096 DONE ===

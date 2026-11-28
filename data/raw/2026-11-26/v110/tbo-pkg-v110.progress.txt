@@ -1,0 +1,8 @@
+2026-11-27T18:53:10+00:00 [tbo] package 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1, source c782c317d; GPU library /opt/mx-llama.cpp/lib/libggml-hip.so.1.1.1 (60d0567830094dbc); test binary from /root/build-final-v110-101 (c782c317d)
+2026-11-27T19:03:02+00:00 [tbo] ROCm0 rc=0: 21871/21871 tests passed; mapped: /opt/mx-llama.cpp/lib/libggml-hip.so.1.1.1 ; failed: 
+2026-11-27T19:03:03+00:00 [tbo] ROCm1 rc=0: 21871/21871 tests passed; mapped: /opt/mx-llama.cpp/lib/libggml-hip.so.1.1.1 ; failed: 
+2026-11-27T19:03:03+00:00 [tbo] ROCm2 rc=0: 21871/21871 tests passed; mapped: /opt/mx-llama.cpp/lib/libggml-hip.so.1.1.1 ; failed: 
+2026-11-27T19:03:03+00:00 [tbo] ROCm3 rc=0: 21871/21871 tests passed; mapped: /opt/mx-llama.cpp/lib/libggml-hip.so.1.1.1 ; failed: 
+2026-11-27T19:03:03+00:00 [tbo] FLASH_ATTN_EXT cases on ROCm0: 5799, of them with hsk=256: 177
+2026-11-27T19:03:03+00:00 [tbo] verdict: PASSED
+2026-11-27T19:03:03+00:00 [tbo] === TBO DONE ===

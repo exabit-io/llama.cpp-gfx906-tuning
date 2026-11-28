@@ -1,0 +1,14 @@
+2026-11-27T17:51:29+00:00 [rel] start: commit c782c317d, deb mx-llama-cpp-gfx906_1.1.0.git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1_amd64.deb, installed now 1.0.0+git20261116.224b73e24.rocm10.1.gfx906.20261018172427-1, macpro-fand active, up up 16 hours, 19 minutes
+2026-11-27T17:51:35+00:00 [rel] RUN final
+2026-11-27T18:25:25+00:00 [rel] END final rc=0
+2026-11-27T18:25:30+00:00 [rel] RUN ds41
+2026-11-27T18:35:49+00:00 [rel] END ds41 rc=0
+2026-11-27T18:35:54+00:00 [rel] RUN debtest
+2026-11-27T18:53:05+00:00 [rel] END debtest rc=0
+2026-11-27T18:53:10+00:00 [rel] RUN tbo
+2026-11-27T19:03:03+00:00 [rel] END tbo rc=0
+2026-11-27T19:03:09+00:00 [rel] RUN accept
+2026-11-28T01:00:40+00:00 [rel] END accept rc=0
+2026-11-28T01:00:45+00:00 [rel] RUN mtp
+2026-11-28T01:55:21+00:00 [rel] END mtp rc=0
+2026-11-28T01:55:21+00:00 [rel] === QUEUE-REL DONE ===

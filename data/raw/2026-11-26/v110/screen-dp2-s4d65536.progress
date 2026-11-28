@@ -1,0 +1,4 @@
+2026-11-28T03:07:24+00:00 [screen] pkg: /root/pkg-arm-v110 on /opt/rocm/core-10.1
+2026-11-28T03:07:24+00:00 [screen] old: /root/build-v101-t85 on /opt/rocm/core-10.1
+2026-11-28T03:07:24+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-28T03:07:39+00:00 [screen] block 1 order: old pkg 

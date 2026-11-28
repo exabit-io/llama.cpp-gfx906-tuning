@@ -3,3 +3,6 @@
 2026-11-26T23:48:37+00:00 [sub-build] merge: building /root/wt-merge-v110 (a3aa1c772) into /root/build-sub-merge
 2026-11-26T23:49:56+00:00 [sub-build] merge: HIP compiler would select /usr/lib/gcc/x86_64-linux-gnu/14; pinned to the host compiler's /usr/lib/gcc/x86_64-linux-gnu/13; RCCL 1, librccl linked: 1
 2026-11-26T23:49:56+00:00 [sub-build] === SUB-BUILD DONE rc=0 ===
+2026-11-27T01:38:36+00:00 [sub-build] mxxm: present (/root/build-sub-mxxm, 557a6068f)
+2026-11-27T01:38:36+00:00 [sub-build] merge: present (/root/build-sub-merge, a3aa1c772)
+2026-11-27T01:38:36+00:00 [sub-build] === SUB-BUILD DONE rc=0 ===

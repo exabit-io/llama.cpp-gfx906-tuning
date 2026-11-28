@@ -1,0 +1,24 @@
+2026-11-27T10:09:39+00:00 [screen] old: /root/build-v101-t85 on /opt/rocm/core-10.1
+2026-11-27T10:09:39+00:00 [screen] c23o: /root/build-master-v110-101 on /opt/rocm/core-10.1 with /root/rebase-v110/tile/lib-c23/libggml-hip.so.1.0.0 preloaded
+2026-11-27T10:09:39+00:00 [screen] tnone: /root/build-master-v110-101 on /opt/rocm/core-10.1 with /root/rebase-v110/tile/lib-tnone/libggml-hip.so.1.0.0 preloaded
+2026-11-27T10:09:39+00:00 [screen] t88: /root/build-master-v110-101 on /opt/rocm/core-10.1 with /root/rebase-v110/tile/lib-t88/libggml-hip.so.1.0.0 preloaded
+2026-11-27T10:09:39+00:00 [screen] t75: /root/build-master-v110-101 on /opt/rocm/core-10.1 with /root/rebase-v110/tile/lib-t75/libggml-hip.so.1.0.0 preloaded
+2026-11-27T10:09:53+00:00 [screen] block 1 order: t88 tnone t75 c23o old 
+2026-11-27T10:21:02+00:00 [screen] 1 x 260864 t88 b1: decode 32.4317, prefill 416.8
+2026-11-27T10:32:49+00:00 [screen] 1 x 260864 tnone b1: decode 32.4081, prefill 392.5
+2026-11-27T10:43:55+00:00 [screen] 1 x 260864 t75 b1: decode 30.1967, prefill 419.9
+2026-11-27T10:55:06+00:00 [screen] 1 x 260864 c23o b1: decode 32.4544, prefill 414.7
+2026-11-27T11:06:11+00:00 [screen] 1 x 260864 old b1: decode 32.3059, prefill 418.6
+2026-11-27T11:06:11+00:00 [screen] block 2 order: old tnone t88 t75 c23o 
+2026-11-27T11:17:17+00:00 [screen] 1 x 260864 old b2: decode 32.3600, prefill 418.4
+2026-11-27T11:29:04+00:00 [screen] 1 x 260864 tnone b2: decode 32.3774, prefill 392.4
+2026-11-27T11:40:13+00:00 [screen] 1 x 260864 t88 b2: decode 32.4153, prefill 416.3
+2026-11-27T11:51:19+00:00 [screen] 1 x 260864 t75 b2: decode 30.1771, prefill 419.7
+2026-11-27T12:02:30+00:00 [screen] 1 x 260864 c23o b2: decode 32.4842, prefill 414.7
+2026-11-27T12:02:30+00:00 [screen] block 3 order: old t88 c23o tnone t75 
+2026-11-27T12:13:34+00:00 [screen] 1 x 260864 old b3: decode 32.3825, prefill 419.0
+2026-11-27T12:24:42+00:00 [screen] 1 x 260864 t88 b3: decode 32.4441, prefill 416.8
+2026-11-27T12:35:53+00:00 [screen] 1 x 260864 c23o b3: decode 32.4698, prefill 414.8
+2026-11-27T12:47:40+00:00 [screen] 1 x 260864 tnone b3: decode 32.4020, prefill 392.4
+2026-11-27T12:58:46+00:00 [screen] 1 x 260864 t75 b3: decode 30.2422, prefill 419.8
+2026-11-27T12:58:46+00:00 [screen] === SCREEN dpv110s DONE ===

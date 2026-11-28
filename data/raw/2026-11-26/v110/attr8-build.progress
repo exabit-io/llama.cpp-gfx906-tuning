@@ -1,0 +1,11 @@
+2026-11-27T12:59:32+00:00 [attr8-build] a1: building 567a2a769 into /root/build-attr-a1
+2026-11-27T13:01:11+00:00 [attr8-build] a1: built; RCCL 1, max-ilp in the HIP flags: 0, librccl linked: 1
+2026-11-27T13:01:11+00:00 [attr8-build] a2: building 0557bdc31 into /root/build-attr-a2
+2026-11-27T13:01:35+00:00 [attr8-build] a2: built; RCCL 1, max-ilp in the HIP flags: 0, librccl linked: 1
+2026-11-27T13:01:35+00:00 [attr8-build] a3: building f6142d563 into /root/build-attr-a3
+2026-11-27T13:01:59+00:00 [attr8-build] a3: built; RCCL 1, max-ilp in the HIP flags: 0, librccl linked: 1
+2026-11-27T13:01:59+00:00 [attr8-build] a4: building 8ff1e7c9c into /root/build-attr-a4
+2026-11-27T13:03:58+00:00 [attr8-build] a4: built; RCCL 1, max-ilp in the HIP flags: 0, librccl linked: 1
+2026-11-27T13:03:58+00:00 [attr8-build] a5: building 430835223 into /root/build-attr-a5
+2026-11-27T13:04:29+00:00 [attr8-build] a5: built; RCCL 1, max-ilp in the HIP flags: 1, librccl linked: 1
+2026-11-27T13:04:29+00:00 [attr8-build] === ATTR8-BUILD DONE rc=0 ===

@@ -1,0 +1,30 @@
+remote now: master 224b73e24 single 224b73e24 multi 224b73e24 candidates 5c01f4ffd merge-v1.1.0 a3aa1c772
++ git push --force-with-lease=master:224b73e246811862a3d9f5d0af133bbbbd796515 --force-with-lease=gfx906-single:224b73e246811862a3d9f5d0af133bbbbd796515 --force-with-lease=gfx906-multi:224b73e246811862a3d9f5d0af133bbbbd796515 exabit-mx master-v110:master master-v110:gfx906-single master-v110:gfx906-multi
+To github.com:exabit-io/mx-llama.cpp.git
+ + 224b73e24...c782c317d master-v110 -> gfx906-multi (forced update)
+ + 224b73e24...c782c317d master-v110 -> gfx906-single (forced update)
+ + 224b73e24...c782c317d master-v110 -> master (forced update)
++ git push --force-with-lease=gfx906-candidates:5c01f4ffd49dc5987806c2aa362e91ca3a741430 exabit-mx candidates-v110:gfx906-candidates
+To github.com:exabit-io/mx-llama.cpp.git
+ + 5c01f4ffd...797abac2e candidates-v110 -> gfx906-candidates (forced update)
++ git tag -a gfx906/v1.1.0/r0/merge a3aa1c772bb866c7c89fae976e0696edc5010e1d -F /root/rebase-v110/tagmsg-merge.txt
++ git tag -a gfx906/v1.1.0/r0/master c782c317dcd40170d3abc51d58c6263663a08fdc -F /root/rebase-v110/tagmsg-master.txt
++ git tag -a gfx906/v1.1.0/r0/candidates 797abac2eeb46d7be3f2a39f4449911f11f7eef8 -F /root/rebase-v110/tagmsg-candidates.txt
++ git push exabit-mx gfx906/v1.1.0/r0/merge gfx906/v1.1.0/r0/master gfx906/v1.1.0/r0/candidates
+To github.com:exabit-io/mx-llama.cpp.git
+ * [new tag]             gfx906/v1.1.0/r0/merge -> gfx906/v1.1.0/r0/merge
+ * [new tag]             gfx906/v1.1.0/r0/master -> gfx906/v1.1.0/r0/master
+ * [new tag]             gfx906/v1.1.0/r0/candidates -> gfx906/v1.1.0/r0/candidates
++ git push exabit-mx --delete wip/candidates-v110 wip/ds41-upstream-layout wip/master-v110
+To github.com:exabit-io/mx-llama.cpp.git
+ - [deleted]             wip/candidates-v110
+ - [deleted]             wip/ds41-upstream-layout
+ - [deleted]             wip/master-v110
+remote after: master c782c317d single c782c317d multi c782c317d candidates 797abac2e
+8803e31e7	refs/tags/gfx906/v1.1.0/r0/candidates
+797abac2e	refs/tags/gfx906/v1.1.0/r0/candidates^{}
+defe09fc1	refs/tags/gfx906/v1.1.0/r0/master
+c782c317d	refs/tags/gfx906/v1.1.0/r0/master^{}
+9b47d4b09	refs/tags/gfx906/v1.1.0/r0/merge
+a3aa1c772	refs/tags/gfx906/v1.1.0/r0/merge^{}
+=== PUSH-V110 DONE ===

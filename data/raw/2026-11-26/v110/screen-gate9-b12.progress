@@ -1,0 +1,25 @@
+2026-11-27T16:42:35+00:00 [screen] r: /root/build-attr-m8 on /opt/rocm/core-10.0
+2026-11-27T16:42:35+00:00 [screen] k: /root/build-attr-m8 on /opt/rocm/core-10.0
+2026-11-27T16:42:35+00:00 [screen] w: /root/build-attr-m8 on /opt/rocm/core-10.0
+2026-11-27T16:42:35+00:00 [screen] per-arm environment: r:GGML_TP_AR_MAX_NE=20481 k:GGML_TP_AR_MAX_NE=81921 w:GGML_TP_AR_MAX_NE=81920 n20:GGML_CUDA_ALLREDUCE=internal n20:GGML_TP_AR_MAX_NE=20481 n81:GGML_CUDA_ALLREDUCE=internal n81:GGML_TP_AR_MAX_NE=81921 n0:GGML_CUDA_ALLREDUCE=internal n0:GGML_TP_AR_MAX_NE=0
+2026-11-27T16:42:49+00:00 [screen] block 1 order: r k w 
+2026-11-27T16:44:02+00:00 [screen] 12 x 2048 r b1: decode 12.4257, prefill 1173.8
+2026-11-27T16:45:13+00:00 [screen] 12 x 2048 k b1: decode 13.1339, prefill 1161.7
+2026-11-27T16:46:24+00:00 [screen] 12 x 2048 w b1: decode 13.1410, prefill 1170.5
+2026-11-27T16:46:24+00:00 [screen] block 2 order: w k r 
+2026-11-27T16:47:35+00:00 [screen] 12 x 2048 w b2: decode 13.1211, prefill 1167.7
+2026-11-27T16:48:46+00:00 [screen] 12 x 2048 k b2: decode 13.1279, prefill 1157.4
+2026-11-27T16:49:59+00:00 [screen] 12 x 2048 r b2: decode 12.3926, prefill 1169.6
+2026-11-27T16:49:59+00:00 [screen] block 3 order: r w k 
+2026-11-27T16:51:12+00:00 [screen] 12 x 2048 r b3: decode 12.3989, prefill 1169.3
+2026-11-27T16:52:23+00:00 [screen] 12 x 2048 w b3: decode 13.1188, prefill 1168.7
+2026-11-27T16:53:34+00:00 [screen] 12 x 2048 k b3: decode 13.1255, prefill 1159.8
+2026-11-27T16:53:34+00:00 [screen] block 4 order: k w r 
+2026-11-27T16:54:45+00:00 [screen] 12 x 2048 k b4: decode 13.1336, prefill 1160.2
+2026-11-27T16:55:56+00:00 [screen] 12 x 2048 w b4: decode 13.1161, prefill 1173.5
+2026-11-27T16:57:09+00:00 [screen] 12 x 2048 r b4: decode 12.3926, prefill 1170.3
+2026-11-27T16:57:09+00:00 [screen] block 5 order: w k r 
+2026-11-27T16:58:20+00:00 [screen] 12 x 2048 w b5: decode 13.1168, prefill 1169.6
+2026-11-27T16:59:31+00:00 [screen] 12 x 2048 k b5: decode 13.1208, prefill 1160.3
+2026-11-27T17:00:44+00:00 [screen] 12 x 2048 r b5: decode 12.4040, prefill 1168.4
+2026-11-27T17:00:44+00:00 [screen] === SCREEN gate9-b12 DONE ===

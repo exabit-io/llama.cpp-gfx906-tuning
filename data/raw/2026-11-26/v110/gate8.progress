@@ -1,0 +1,161 @@
+arm m: NO BUILD in /root/build-attr-m8
+2026-11-27T14:35:30+00:00 [gate8] arm a0: /root/build-sub-merge, source a3aa1c772 , built 2026-11-26 23:49
+2026-11-27T14:35:30+00:00 [gate8] arm r: /root/build-master-v110, source  , built 2026-11-26 21:46
+2026-11-27T14:35:30+00:00 [gate8] arm c: /root/build-master-v110, source  , built 2026-11-26 21:46
+2026-11-27T14:35:30+00:00 [gate8] arm m: /root/build-attr-m8, source 9a7177d0a MMVQ_MAX_BATCH_SIZE 8 (one line of ggml/src/ggml-cuda/mmvq.cuh changed), built 2026-11-27 14:35
+2026-11-27T14:35:30+00:00 [gate8] per-arm environment: r:GGML_TP_AR_MAX_NE=20481 c:GGML_TP_AR_MAX_NE=0 m:GGML_TP_AR_MAX_NE=0; 3 blocks per cell; 87 runs, about 116 min
+2026-11-27T14:44:51+00:00 [gate8] cell w8 (8 x 4096): rc=0, 9 result rows, 0 failed runs; runs with the two-shot line: a0=3 r=0 c=3
+2026-11-27T15:01:26+00:00 [gate8] cell w16 (16 x 2048): rc=0, 12 result rows, 0 failed runs; runs with the two-shot line: a0=3 r=0 c=3 m=3
+2026-11-27T15:16:02+00:00 [gate8] cell w12 (12 x 2048): rc=0, 12 result rows, 0 failed runs; runs with the two-shot line: a0=3 r=0 c=3 m=3
+2026-11-27T15:28:03+00:00 [gate8] cell w24 (24 x 1024): rc=0, 9 result rows, 0 failed runs; runs with the two-shot line: a0=3 r=3 c=3
+2026-11-27T15:41:35+00:00 [gate8] cell w32 (32 x 1024): rc=0, 9 result rows, 0 failed runs; runs with the two-shot line: a0=3 r=3 c=3
+2026-11-27T15:57:05+00:00 [gate8] cell w48 (48 x 512): rc=0, 9 result rows, 0 failed runs; runs with the two-shot line: a0=3 r=3 c=3
+2026-11-27T16:07:16+00:00 [gate8] cell w10 (10 x 2048): rc=0, 9 result rows, 0 failed runs; runs with the two-shot line: a0=3 c=3 m=3
+2026-11-27T16:18:59+00:00 [gate8] cell w14 (14 x 2048): rc=0, 9 result rows, 0 failed runs; runs with the two-shot line: a0=3 c=3 m=3
+2026-11-27T16:31:04+00:00 [gate8] cell w15 (15 x 2048): rc=0, 9 result rows, 0 failed runs; runs with the two-shot line: a0=3 c=3 m=3
+2026-11-27T16:31:04+00:00 [gate8] --- statistics, LINE=1 (sub-stats.py gate8; pairs c:r c:m c:a0 r:a0) ---
+arms with data: a0 c m r
+
+Per arm: n, mean (min-max)
+  10 x 2048, decode tok/s per slot
+    a0      n=3     13.5418  (13.5378-13.5450, span 0.05 %)
+    c       n=3     13.4615  (13.4486-13.4698, span 0.16 %)
+    m       n=3     13.6006  (13.5903-13.6069, span 0.12 %)
+  10 x 2048, prefill tok/s
+    a0      n=3   1139.4668  (1138.2837-1140.7564, span 0.22 %)
+    c       n=3   1158.3279  (1157.1929-1159.0266, span 0.16 %)
+    m       n=3   1158.9396  (1157.9126-1159.6829, span 0.15 %)
+  12 x 2048, decode tok/s per slot
+    a0      n=3     13.0607  (13.0472-13.0726, span 0.19 %)
+    c       n=3     12.9620  (12.9564-12.9660, span 0.07 %)
+    m       n=3     13.1288  (13.1272-13.1312, span 0.03 %)
+    r       n=3     12.2686  (12.2655-12.2705, span 0.04 %)
+  12 x 2048, prefill tok/s
+    a0      n=3   1140.6120  (1139.8887-1141.1590, span 0.11 %)
+    c       n=3   1161.0346  (1160.2852-1161.4367, span 0.10 %)
+    m       n=3   1160.7785  (1160.3947-1161.1623, span 0.07 %)
+    r       n=3   1170.9553  (1170.2300-1171.9599, span 0.15 %)
+  14 x 2048, decode tok/s per slot
+    a0      n=3     12.4935  (12.4887-12.4982, span 0.08 %)
+    c       n=3     12.3801  (12.3770-12.3842, span 0.06 %)
+    m       n=3     12.5727  (12.5678-12.5795, span 0.09 %)
+  14 x 2048, prefill tok/s
+    a0      n=3   1141.1441  (1140.3572-1141.6285, span 0.11 %)
+    c       n=3   1162.7242  (1162.1271-1163.2587, span 0.10 %)
+    m       n=3   1162.2057  (1161.9387-1162.5512, span 0.05 %)
+  15 x 2048, decode tok/s per slot
+    a0      n=3     12.3428  (12.3344-12.3475, span 0.11 %)
+    c       n=3     12.1978  (12.1844-12.2050, span 0.17 %)
+    m       n=3     12.3937  (12.3863-12.4061, span 0.16 %)
+  15 x 2048, prefill tok/s
+    a0      n=3   1141.2722  (1140.8623-1141.7952, span 0.08 %)
+    c       n=3   1163.0345  (1162.4035-1163.6804, span 0.11 %)
+    m       n=3   1163.2850  (1161.9199-1164.6952, span 0.24 %)
+  16 x 2048, decode tok/s per slot
+    a0      n=3     12.0997  (12.0840-12.1140, span 0.25 %)
+    c       n=3     11.9398  (11.9347-11.9453, span 0.09 %)
+    m       n=3     12.1534  (12.1413-12.1627, span 0.18 %)
+    r       n=3     11.7129  (11.7109-11.7152, span 0.04 %)
+  16 x 2048, prefill tok/s
+    a0      n=3   1144.0144  (1143.4554-1144.3339, span 0.08 %)
+    c       n=3   1164.1325  (1163.7190-1164.3806, span 0.06 %)
+    m       n=3   1163.9540  (1162.6867-1164.9188, span 0.19 %)
+    r       n=3   1171.2062  (1170.3693-1171.6666, span 0.11 %)
+  24 x 1024, decode tok/s per slot
+    a0      n=3     10.8126  (10.7901-10.8351, span 0.42 %)
+    c       n=3     10.7707  (10.7663-10.7733, span 0.07 %)
+    r       n=3     11.0823  (11.0772-11.0856, span 0.08 %)
+  24 x 1024, prefill tok/s
+    a0      n=3   1171.7743  (1170.8433-1172.8548, span 0.17 %)
+    c       n=3   1196.5927  (1195.6215-1198.1279, span 0.21 %)
+    r       n=3   1195.4083  (1195.2145-1195.5633, span 0.03 %)
+  32 x 1024, decode tok/s per slot
+    a0      n=3     10.1088  (10.0829-10.1266, span 0.43 %)
+    c       n=3     10.1302  (10.1084-10.1509, span 0.42 %)
+    r       n=3     10.3443  (10.3332-10.3551, span 0.21 %)
+  32 x 1024, prefill tok/s
+    a0      n=3   1171.4154  (1170.8711-1171.8342, span 0.08 %)
+    c       n=3   1195.0257  (1194.5609-1195.5633, span 0.08 %)
+    r       n=3   1195.7090  (1195.0837-1196.3927, span 0.11 %)
+  48 x 512, decode tok/s per slot
+    a0      n=3      7.2366  (7.2317-7.2392, span 0.10 %)
+    c       n=3      7.0969  (7.0764-7.1126, span 0.51 %)
+    r       n=3      7.4756  (7.4725-7.4794, span 0.09 %)
+  48 x 512, prefill tok/s
+    a0      n=3   1185.9288  (1185.3567-1186.3867, span 0.09 %)
+    c       n=3   1210.6605  (1209.8656-1211.1177, span 0.10 %)
+    r       n=3   1210.9188  (1210.6404-1211.1177, span 0.04 %)
+  8 x 4096, decode tok/s per slot
+    a0      n=3     23.4143  (23.4046-23.4261, span 0.09 %)
+    c       n=3     25.3374  (25.2939-25.3742, span 0.32 %)
+    r       n=3     22.1754  (22.1655-22.1818, span 0.07 %)
+  8 x 4096, prefill tok/s
+    a0      n=3   1145.3740  (1145.0937-1145.9346, span 0.07 %)
+    c       n=3   1168.4386  (1166.7438-1170.9967, span 0.36 %)
+    r       n=3   1174.8455  (1174.1015-1175.5758, span 0.13 %)
+
+c against r (effect = c / r - 1; Holm over 12 rows; line 1.0 %)
+  12 x 2048     decode tok/s per slot                n=3     12.9620 vs    12.2686    +5.65 %  [+5.50, +5.80]  p=3.6e-05 adj=0.00043  samples above  major gain
+  12 x 2048     prefill tok/s                        n=3   1161.0346 vs  1170.9553    -0.85 %  [-1.17, -0.52]  p=0.0079 adj=0.04  samples below  penalty
+  16 x 2048     decode tok/s per slot                n=3     11.9398 vs    11.7129    +1.94 %  [+1.85, +2.03]  p=0.00012 adj=0.0012  samples above  major gain
+  16 x 2048     prefill tok/s                        n=3   1164.1325 vs  1171.2062    -0.60 %  [-0.68, -0.53]  p=0.00088 adj=0.007  samples below  penalty
+  24 x 1024     decode tok/s per slot                n=3     10.7707 vs    11.0823    -2.81 %  [-2.97, -2.65]  p=0.00019 adj=0.0017  samples below  MAJOR PENALTY
+  24 x 1024     prefill tok/s                        n=3   1196.5927 vs  1195.4083    +0.10 %  [-0.22, +0.42]  p=0.31 adj=0.93  samples above  no difference shown
+  32 x 1024     decode tok/s per slot                n=3     10.1302 vs    10.3443    -2.07 %  [-2.49, -1.65]  p=0.0023 adj=0.014  samples below  MAJOR PENALTY
+  32 x 1024     prefill tok/s                        n=3   1195.0257 vs  1195.7090    -0.06 %  [-0.30, +0.18]  p=0.41 adj=0.93  samples overlap  no difference shown
+  48 x 512      decode tok/s per slot                n=3      7.0969 vs     7.4756    -5.07 %  [-5.77, -4.35]  p=0.0011 adj=0.0078  samples below  MAJOR PENALTY
+  48 x 512      prefill tok/s                        n=3   1210.6605 vs  1210.9188    -0.02 %  [-0.20, +0.16]  p=0.67 adj=0.93  samples overlap  no difference shown
+  8 x 4096      decode tok/s per slot                n=3     25.3374 vs    22.1754   +14.26 %  [+13.71, +14.81]  p=7.2e-05 adj=0.00079  samples above  major gain
+  8 x 4096      prefill tok/s                        n=3   1168.4386 vs  1174.8455    -0.55 %  [-0.92, -0.17]  p=0.025 adj=0.099  samples below  no difference shown
+  => MAJOR PENALTY in at least one row (largest: 48 x 512, decode tok/s per slot, -5.07 %)
+
+c against m (effect = c / m - 1; Holm over 10 rows; line 1.0 %)
+  10 x 2048     decode tok/s per slot                n=3     13.4615 vs    13.6006    -1.02 %  [-1.09, -0.96]  p=0.00024 adj=0.0021  samples below  penalty
+  10 x 2048     prefill tok/s                        n=3   1158.3279 vs  1158.9396    -0.05 %  [-0.13, +0.03]  p=0.1 adj=0.52  samples overlap  no difference shown
+  12 x 2048     decode tok/s per slot                n=3     12.9620 vs    13.1288    -1.27 %  [-1.37, -1.17]  p=0.00032 adj=0.0026  samples below  MAJOR PENALTY
+  12 x 2048     prefill tok/s                        n=3   1161.0346 vs  1160.7785    +0.02 %  [-0.06, +0.10]  p=0.37 adj=1  samples overlap  no difference shown
+  14 x 2048     decode tok/s per slot                n=3     12.3801 vs    12.5727    -1.53 %  [-1.60, -1.46]  p=0.00011 adj=0.0011  samples below  MAJOR PENALTY
+  14 x 2048     prefill tok/s                        n=3   1162.7242 vs  1162.2057    +0.04 %  [-0.07, +0.16]  p=0.23 adj=0.93  samples overlap  no difference shown
+  15 x 2048     decode tok/s per slot                n=3     12.1978 vs    12.3937    -1.58 %  [-1.79, -1.37]  p=0.00097 adj=0.0068  samples below  MAJOR PENALTY
+  15 x 2048     prefill tok/s                        n=3   1163.0345 vs  1163.2850    -0.02 %  [-0.45, +0.41]  p=0.85 adj=1  samples overlap  no difference shown
+  16 x 2048     decode tok/s per slot                n=3     11.9398 vs    12.1534    -1.76 %  [-2.08, -1.43]  p=0.0019 adj=0.011  samples below  MAJOR PENALTY
+  16 x 2048     prefill tok/s                        n=3   1164.1325 vs  1163.9540    +0.02 %  [-0.26, +0.30]  p=0.84 adj=1  samples overlap  no difference shown
+  => MAJOR PENALTY in at least one row (largest: 16 x 2048, decode tok/s per slot, -1.76 %)
+
+c against a0 (effect = c / a0 - 1; Holm over 18 rows; line 1.0 %)
+  10 x 2048     decode tok/s per slot                n=3     13.4615 vs    13.5418    -0.59 %  [-0.74, -0.45]  p=0.0032 adj=0.019  samples below  penalty
+  10 x 2048     prefill tok/s                        n=3   1158.3279 vs  1139.4668    +1.66 %  [+1.30, +2.02]  p=0.0025 adj=0.017  samples above  major gain
+  12 x 2048     decode tok/s per slot                n=3     12.9620 vs    13.0607    -0.76 %  [-1.04, -0.47]  p=0.0077 adj=0.028  samples below  penalty
+  12 x 2048     prefill tok/s                        n=3   1161.0346 vs  1140.6120    +1.79 %  [+1.76, +1.83]  p=2.1e-05 adj=0.00037  samples above  major gain
+  14 x 2048     decode tok/s per slot                n=3     12.3801 vs    12.4935    -0.91 %  [-0.98, -0.84]  p=0.00032 adj=0.0044  samples below  penalty
+  14 x 2048     prefill tok/s                        n=3   1162.7242 vs  1141.1441    +1.89 %  [+1.70, +2.08]  p=0.00055 adj=0.0055  samples above  major gain
+  15 x 2048     decode tok/s per slot                n=3     12.1978 vs    12.3428    -1.17 %  [-1.26, -1.09]  p=0.00032 adj=0.0044  samples below  MAJOR PENALTY
+  15 x 2048     prefill tok/s                        n=3   1163.0345 vs  1141.2722    +1.91 %  [+1.80, +2.01]  p=0.00015 adj=0.0024  samples above  major gain
+  16 x 2048     decode tok/s per slot                n=3     11.9398 vs    12.0997    -1.32 %  [-1.70, -0.94]  p=0.0045 adj=0.023  samples below  penalty
+  16 x 2048     prefill tok/s                        n=3   1164.1325 vs  1144.0144    +1.76 %  [+1.60, +1.92]  p=0.00044 adj=0.0048  samples above  major gain
+  24 x 1024     decode tok/s per slot                n=3     10.7707 vs    10.8126    -0.39 %  [-0.82, +0.05]  p=0.062 adj=0.12  samples below  no difference shown
+  24 x 1024     prefill tok/s                        n=3   1196.5927 vs  1171.7743    +2.12 %  [+1.97, +2.27]  p=0.00027 adj=0.004  samples above  major gain
+  32 x 1024     decode tok/s per slot                n=3     10.1302 vs    10.1088    +0.21 %  [-0.16, +0.58]  p=0.13 adj=0.13  samples overlap  no difference shown
+  32 x 1024     prefill tok/s                        n=3   1195.0257 vs  1171.4154    +2.02 %  [+1.85, +2.18]  p=0.00035 adj=0.0044  samples above  major gain
+  48 x 512      decode tok/s per slot                n=3      7.0969 vs     7.2366    -1.93 %  [-2.62, -1.24]  p=0.007 adj=0.028  samples below  MAJOR PENALTY
+  48 x 512      prefill tok/s                        n=3   1210.6605 vs  1185.9288    +2.09 %  [+1.85, +2.32]  p=0.00068 adj=0.0061  samples above  major gain
+  8 x 4096      decode tok/s per slot                n=3     25.3374 vs    23.4143    +8.21 %  [+7.83, +8.59]  p=0.00011 adj=0.0018  samples above  major gain
+  8 x 4096      prefill tok/s                        n=3   1168.4386 vs  1145.3740    +2.01 %  [+1.63, +2.40]  p=0.0019 adj=0.015  samples above  major gain
+  => MAJOR PENALTY in at least one row (largest: 48 x 512, decode tok/s per slot, -1.93 %)
+
+r against a0 (effect = r / a0 - 1; Holm over 12 rows; line 1.0 %)
+  12 x 2048     decode tok/s per slot                n=3     12.2686 vs    13.0607    -6.06 %  [-6.25, -5.88]  p=5.5e-05 adj=0.0006  samples below  MAJOR PENALTY
+  12 x 2048     prefill tok/s                        n=3   1170.9553 vs  1140.6120    +2.66 %  [+2.32, +3.00]  p=0.00087 adj=0.0032  samples above  major gain
+  16 x 2048     decode tok/s per slot                n=3     11.7129 vs    12.0997    -3.20 %  [-3.54, -2.85]  p=0.00064 adj=0.0032  samples below  MAJOR PENALTY
+  16 x 2048     prefill tok/s                        n=3   1171.2062 vs  1144.0144    +2.38 %  [+2.14, +2.61]  p=0.00051 adj=0.003  samples above  major gain
+  24 x 1024     decode tok/s per slot                n=3     11.0823 vs    10.8126    +2.49 %  [+1.94, +3.05]  p=0.0026 adj=0.0032  samples above  major gain
+  24 x 1024     prefill tok/s                        n=3   1195.4083 vs  1171.7743    +2.02 %  [+1.77, +2.27]  p=0.0008 adj=0.0032  samples above  major gain
+  32 x 1024     decode tok/s per slot                n=3     10.3443 vs    10.1088    +2.33 %  [+2.00, +2.66]  p=0.001 adj=0.0032  samples above  major gain
+  32 x 1024     prefill tok/s                        n=3   1195.7090 vs  1171.4154    +2.07 %  [+1.93, +2.21]  p=0.00024 adj=0.0017  samples above  major gain
+  48 x 512      decode tok/s per slot                n=3      7.4756 vs     7.2366    +3.30 %  [+3.21, +3.39]  p=3.9e-05 adj=0.00046  samples above  major gain
+  48 x 512      prefill tok/s                        n=3   1210.9188 vs  1185.9288    +2.11 %  [+1.99, +2.23]  p=0.00017 adj=0.0014  samples above  major gain
+  8 x 4096      decode tok/s per slot                n=3     22.1754 vs    23.4143    -5.29 %  [-5.49, -5.10]  p=7.7e-05 adj=0.0007  samples below  MAJOR PENALTY
+  8 x 4096      prefill tok/s                        n=3   1174.8455 vs  1145.3740    +2.57 %  [+2.49, +2.66]  p=6.1e-05 adj=0.00061  samples above  major gain
+  => MAJOR PENALTY in at least one row (largest: 12 x 2048, decode tok/s per slot, -6.06 %)
+
+2026-11-27T16:31:04+00:00 [gate8] === GATE8 gate8 DONE ===

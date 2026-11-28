@@ -1,0 +1,28 @@
+2026-11-27T08:36:18+00:00 [dpv110] arms: old c23o tnone t88 t75; 3 blocks: about 263 min; master-v110 9a7177d0a
+== 4 x 65536
+  decode
+    tnone  n=3 24.9219 (24.9051-24.9458)  against c23o -0.14 % level  against old -0.33 % down
+    t75    n=3 24.3920 (24.3653-24.4106)  against c23o -2.26 % down  against old -2.45 % down
+    old    n=3 25.0035 (24.9976-25.0098)  against c23o +0.19 % up
+    c23o   n=3 24.9568 (24.9409-24.9793)  against old -0.19 % down
+    t88    n=3 24.9252 (24.9100-24.9409)  against c23o -0.13 % level  against old -0.31 % down
+  prefill
+    tnone  n=3 797.1 (796.5-797.7)  against c23o -2.43 % down  against old -2.83 % down
+    t75    n=3 822.4 (822.1-822.7)  against c23o +0.66 % up  against old +0.25 % up
+    old    n=3 820.4 (820.1-820.7)  against c23o +0.41 % up
+    c23o   n=3 817.0 (816.7-817.4)  against old -0.41 % down
+    t88    n=3 819.0 (818.7-819.5)  against c23o +0.25 % up  against old -0.16 % down
+== 1 x 260864
+  decode
+    t88    n=3 32.4304 (32.4153-32.4441)  against c23o -0.12 % down  against old +0.25 % up
+    tnone  n=3 32.3958 (32.3774-32.4081)  against c23o -0.23 % down  against old +0.14 % level
+    t75    n=3 30.2053 (30.1771-30.2422)  against c23o -6.97 % down  against old -6.63 % down
+    c23o   n=3 32.4695 (32.4544-32.4842)  against old +0.37 % up
+    old    n=3 32.3495 (32.3059-32.3825)  against c23o -0.37 % down
+  prefill
+    t88    n=3 416.6 (416.3-416.8)  against c23o +0.46 % up  against old -0.48 % down
+    tnone  n=3 392.4 (392.4-392.5)  against c23o -5.38 % down  against old -6.26 % down
+    t75    n=3 419.8 (419.7-419.9)  against c23o +1.23 % up  against old +0.28 % up
+    c23o   n=3 414.7 (414.7-414.8)  against old -0.94 % down
+    old    n=3 418.6 (418.4-419.0)  against c23o +0.95 % up
+2026-11-27T12:58:46+00:00 [dpv110] === DP-V110 DONE ===

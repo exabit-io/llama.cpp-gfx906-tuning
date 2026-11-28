@@ -1,0 +1,21 @@
+2026-11-27T20:19:09+00:00 [screen] pkg: /root/pkg-arm-v110 on /opt/rocm/core-10.1
+2026-11-27T20:19:09+00:00 [screen] s100: /root/build-final-v110 on /opt/rocm/core-10.0
+2026-11-27T20:19:09+00:00 [screen] old: /root/build-v101-t85 on /opt/rocm/core-10.1
+2026-11-27T20:19:10+00:00 [screen] a6: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T20:19:10+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-27T20:19:24+00:00 [screen] block 1 order: s100 a6 old pkg 
+2026-11-27T20:25:49+00:00 [screen] 4 x 65536 s100 b1: decode 25.0987, prefill 793.7
+2026-11-27T20:32:16+00:00 [screen] 4 x 65536 a6 b1: decode 25.0624, prefill 786.7
+2026-11-27T20:38:43+00:00 [screen] 4 x 65536 old b1: decode 24.9750, prefill 784.8
+2026-11-27T20:45:07+00:00 [screen] 4 x 65536 pkg b1: decode 24.9555, prefill 792.9
+2026-11-27T20:45:07+00:00 [screen] block 2 order: pkg s100 old a6 
+2026-11-27T20:51:30+00:00 [screen] 4 x 65536 pkg b2: decode 24.9567, prefill 793.5
+2026-11-27T20:57:49+00:00 [screen] 4 x 65536 s100 b2: decode 25.1239, prefill 806.6
+2026-11-27T21:04:25+00:00 [screen] 4 x 65536 old b2: decode 24.9957, prefill 763.1
+2026-11-27T21:10:58+00:00 [screen] 4 x 65536 a6 b2: decode 25.0796, prefill 774.2
+2026-11-27T21:10:58+00:00 [screen] block 3 order: s100 pkg a6 old 
+2026-11-27T21:17:13+00:00 [screen] 4 x 65536 s100 b3: decode 25.0821, prefill 813.0
+2026-11-27T21:23:30+00:00 [screen] 4 x 65536 pkg b3: decode 24.9695, prefill 806.9
+2026-11-27T21:29:46+00:00 [screen] 4 x 65536 a6 b3: decode 25.0600, prefill 810.3
+2026-11-27T21:35:57+00:00 [screen] 4 x 65536 old b3: decode 24.9902, prefill 819.9
+2026-11-27T21:35:57+00:00 [screen] === SCREEN acc-s4d65536 DONE ===

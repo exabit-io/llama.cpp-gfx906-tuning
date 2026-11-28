@@ -1,0 +1,16 @@
+2026-11-27T01:34:45+00:00 [afterboot] start: kernel 7.0.0-43-generic, up up 2 minutes, macpro-fand active, dies 4
+2026-11-27T01:34:50+00:00 [afterboot] clock check passed: every die at the top state at idle
+2026-11-27T01:35:07+00:00 [afterboot] XGMI probe 1: rc=0  Ring both ways : pull 148.3 GB/s (4.50x single) push 178.4 GB/s (5.37x single) sdma 256.3 GB/s (7.53x single)
+2026-11-27T01:35:23+00:00 [afterboot] XGMI probe 2: rc=0  Ring both ways : pull 151.6 GB/s (4.60x single) push 182.1 GB/s (5.48x single) sdma 256.2 GB/s (7.53x single)
+2026-11-27T01:35:24+00:00 [afterboot] SMC key dump at the clean clock: smc-keys-clean-1127-0135.txt, 1376 lines
+2026-11-27T01:35:29+00:00 [afterboot] RUN rs-modes3
+2026-11-27T01:38:30+00:00 [afterboot] END rs-modes3 rc=0
+2026-11-27T01:38:35+00:00 [afterboot] RUN sub-build
+2026-11-27T01:38:36+00:00 [afterboot] END sub-build rc=0
+2026-11-27T01:38:41+00:00 [afterboot] RUN substrate
+2026-11-27T07:13:50+00:00 [afterboot] END substrate rc=0
+2026-11-27T07:13:55+00:00 [afterboot] RUN mtp-depth
+2026-11-27T08:36:13+00:00 [afterboot] END mtp-depth rc=0
+2026-11-27T08:36:18+00:00 [afterboot] RUN dp
+2026-11-27T12:58:46+00:00 [afterboot] END dp rc=0
+2026-11-27T12:58:46+00:00 [afterboot] === AFTERBOOT DONE ===

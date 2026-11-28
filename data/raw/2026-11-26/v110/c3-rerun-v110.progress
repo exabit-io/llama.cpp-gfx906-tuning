@@ -1,0 +1,45 @@
+2026-11-28T02:06:16+00:00 [c3] start: tag c3, load 0.14 0.27 0.74, free 107 GB, cached 264 GB, up up 1 day, 34 minutes
+2026-11-28T02:42:47+00:00 [c3] accept-v110.sh TAG=c3 ended rc=0
+[c3] cell s12d2048: per run arm block | prefill tok/s | decode | evicted ms in the process | seconds with >= 100 ms of eviction (offset in the process : ms)
+[c3]   a6    b1 |   1170.50 |  12.2664 |    676 | +6s:676
+[c3]   s100  b1 |   1159.90 |  13.1366 |    800 | +6s:800
+[c3]   a6    b2 |   1170.00 |  12.2629 |    692 | +6s:692
+[c3]   s100  b2 |   1160.30 |  13.1272 |    680 | +6s:680
+[c3]   s100  b3 |   1159.20 |  13.1420 |    720 | +6s:720
+[c3]   a6    b3 |   1169.80 |  12.2726 |    680 | +6s:680
+[c3]   s100  b4 |   1159.80 |  13.1245 |    684 | +6s:684
+[c3]   a6    b4 |   1170.50 |  12.2570 |    752 | +6s:752
+[c3]   s100  b5 |   1160.40 |  13.1242 |    740 | +6s:740
+[c3]   a6    b5 |   1168.70 |  12.2456 |    680 | +6s:680
+[c3]   a6: n=5 prefill mean 1169.90, span 0.15 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 752, of the slow runs []
+[c3]   s100: n=5 prefill mean 1159.92, span 0.10 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 740, of the slow runs []
+[c3] cell s12d2048 by (V): READABLE
+[c3] cell s16d2048: per run arm block | prefill tok/s | decode | evicted ms in the process | seconds with >= 100 ms of eviction (offset in the process : ms)
+[c3]   s100  b1 |   1163.80 |  12.1922 |    674 | +7s:674
+[c3]   a6    b1 |   1171.20 |  11.7018 |    728 | +6s:728
+[c3]   a6    b2 |   1171.20 |  11.7023 |    680 | +6s:680
+[c3]   s100  b2 |   1162.60 |  12.1826 |    672 | +6s:672
+[c3]   s100  b3 |   1162.50 |  12.1676 |    769 | +7s:769
+[c3]   a6    b3 |   1169.60 |  11.7031 |    676 | +6s:676
+[c3]   a6    b4 |   1170.30 |  11.7053 |    743 | +6s:743
+[c3]   s100  b4 |   1162.60 |  12.1705 |    756 | +6s:756
+[c3]   s100  b5 |   1162.60 |  12.1902 |    684 | +6s:684
+[c3]   a6    b5 |   1171.20 |  11.6911 |    739 | +6s:739
+[c3]   a6: n=5 prefill mean 1170.70, span 0.14 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 739, of the slow runs []
+[c3]   s100: n=5 prefill mean 1162.82, span 0.11 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 674, of the slow runs []
+[c3] cell s16d2048 by (V): READABLE
+[c3] cell s8d4096: per run arm block | prefill tok/s | decode | evicted ms in the process | seconds with >= 100 ms of eviction (offset in the process : ms)
+[c3]   s100  b1 |   1167.70 |  25.3102 |    708 | +6s:708
+[c3]   a6    b1 |   1175.20 |  22.1952 |    744 | +6s:744
+[c3]   s100  b2 |   1166.70 |  25.3140 |    684 | +7s:684
+[c3]   a6    b2 |   1173.60 |  22.1933 |    732 | +7s:732
+[c3]   s100  b3 |   1166.80 |  25.2578 |    691 | +6s:691
+[c3]   a6    b3 |   1174.10 |  22.1818 |    667 | +6s:667
+[c3]   a6    b4 |   1173.30 |  22.2270 |    732 | +6s:732
+[c3]   s100  b4 |   1165.50 |  25.3440 |    672 | +6s:672
+[c3]   a6    b5 |   1173.40 |  22.1741 |    736 | +6s:736
+[c3]   s100  b5 |   1166.00 |  25.3140 |    675 | +6s:675
+[c3]   a6: n=5 prefill mean 1173.92, span 0.16 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 744, of the slow runs []
+[c3]   s100: n=5 prefill mean 1166.54, span 0.19 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 708, of the slow runs []
+[c3] cell s8d4096 by (V): READABLE
+2026-11-28T02:42:47+00:00 [c3] === C3-RERUN c3 DONE rc=0 ===

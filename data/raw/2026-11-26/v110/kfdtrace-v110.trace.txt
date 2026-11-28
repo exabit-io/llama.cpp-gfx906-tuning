@@ -1,0 +1,5255 @@
+# tracer: function
+#
+# entries-in-buffer/entries-written: 658/658   #P:56
+#
+#                                _-----=> irqs-off/BH-disabled
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| / _-=> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+    llama-server-1339480 [013] ..... 91777.149296: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.149303: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.149513: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.149515: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91777.152254: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91777.152259: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91777.152438: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91777.152439: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91777.174300: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91777.174305: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91777.174466: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91777.174468: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.176593: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.176597: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.176755: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.176756: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.196649: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.196653: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.196860: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.196862: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.198930: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.198933: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.199098: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.199099: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.219022: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.219026: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.219240: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.219242: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.221484: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.221487: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91777.221643: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91777.221645: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [055] ..... 91777.849742: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [055] ..... 91777.849750: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [055] ..... 91777.850018: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [055] ..... 91777.850020: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91777.856338: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91777.856343: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91777.856526: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91777.856528: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91777.862727: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91777.862731: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91777.862933: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91777.862934: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91777.868982: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91777.868986: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91777.869147: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91777.869149: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91782.803067: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91782.803074: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91782.803075: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [027] ..... 91782.803075: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/27:2-1338587 [027] ..... 91783.078486: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/27:2-1338587 [027] ..... 91783.078492: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [013] ..... 91783.095588: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.095594: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.095818: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.095820: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.100904: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.100908: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.101068: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.101069: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.105983: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.105987: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.106148: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.106150: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.111290: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.111293: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.111452: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.111454: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.118730: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.118733: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.118929: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.118931: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.123973: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.123977: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.124193: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.124195: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.129120: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.129123: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.129327: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.129328: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.134156: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.134159: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => migrate_vma_setup
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91783.134369: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91783.134371: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __migrate_device_pages
+ => migrate_vma_pages
+ => svm_migrate_vma_to_vram
+ => svm_migrate_ram_to_vram
+ => svm_migrate_to_vram
+ => svm_range_set_attr
+ => svm_ioctl
+ => kfd_ioctl_svm
+ => kfd_ioctl
+ => __x64_sys_ioctl
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339781 [026] ..... 91784.350387: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339781 [026] ..... 91784.350394: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339781 [026] ..... 91784.350394: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339781 [026] ..... 91784.350395: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339779 [013] ..... 91784.351506: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339779 [013] ..... 91784.351510: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339778 [055] ..... 91784.352578: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339778 [055] ..... 91784.352582: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/26:2-711600  [026] ..... 91784.352878: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/26:2-711600  [026] ..... 91784.352879: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339780 [014] ..... 91784.353718: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339780 [014] ..... 91784.353721: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339780 [014] ..... 91784.353721: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339780 [014] ..... 91784.353722: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/14:2-1328463 [014] ..... 91784.355749: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/14:2-1328463 [014] ..... 91784.355750: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339939 [041] ..... 91785.478222: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339939 [041] ..... 91785.478229: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339939 [041] ..... 91785.478229: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339939 [041] ..... 91785.478230: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339941 [005] ..... 91785.479441: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339941 [005] ..... 91785.479445: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/41:0-1280624 [041] ..... 91785.479744: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/41:0-1280624 [041] ..... 91785.479745: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339940 [055] ..... 91785.480293: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339940 [055] ..... 91785.480296: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339940 [055] ..... 91785.480297: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339940 [055] ..... 91785.480298: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339938 [027] ..... 91785.481298: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339938 [027] ..... 91785.481301: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/55:3-1308018 [055] ..... 91785.481684: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/55:3-1308018 [055] ..... 91785.481685: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [027] ..... 91786.267610: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91786.267617: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91786.267618: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [027] ..... 91786.267618: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91786.268107: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91786.268108: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [027] ..... 91786.268108: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [027] ..... 91786.268109: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/27:2-1338587 [027] ..... 91786.270055: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/27:2-1338587 [027] ..... 91786.270057: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [013] ..... 91793.589593: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.589600: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.589600: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [013] ..... 91793.589601: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590149: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590150: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590150: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590151: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590152: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590152: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590153: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590153: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590154: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590154: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590155: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590155: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590156: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590157: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590157: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590158: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590158: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590159: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590159: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590160: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590160: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590161: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590161: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590162: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91793.590162: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91793.590163: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/13:0-1338618 [013] ..... 91793.628777: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/13:0-1338618 [013] ..... 91793.628782: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [043] ..... 91797.409372: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409379: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409379: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [043] ..... 91797.409380: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409909: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409910: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409911: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409911: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409912: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409913: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409913: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409914: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409914: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409915: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409915: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409916: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409916: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409917: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409917: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409918: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409918: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409919: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409919: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409920: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409920: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409921: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409921: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409922: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [043] ..... 91797.409922: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [043] ..... 91797.409923: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/43:2-1340366 [043] ..... 91797.444531: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/43:2-1340366 [043] ..... 91797.444536: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [013] ..... 91801.210009: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210015: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210016: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [013] ..... 91801.210017: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210541: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210542: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210542: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210543: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210543: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210544: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210544: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210545: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210545: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210546: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210546: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210547: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210547: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210548: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210548: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210549: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210549: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210550: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210550: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210551: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210551: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210552: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210552: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210552: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91801.210553: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91801.210553: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/13:3-1326119 [013] ..... 91801.244068: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/13:3-1326119 [013] ..... 91801.244072: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [013] ..... 91805.004279: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004285: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004286: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [013] ..... 91805.004287: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004833: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004834: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004835: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004835: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004835: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004836: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004837: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004837: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004837: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004838: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004839: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004839: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004839: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004840: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004840: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004841: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004841: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004842: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004843: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004844: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004844: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004844: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004845: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004845: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91805.004846: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91805.004846: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/13:0-1338618 [013] ..... 91805.044068: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/13:0-1338618 [013] ..... 91805.044074: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [041] ..... 91808.797098: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797104: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797105: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [041] ..... 91808.797106: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797627: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797628: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797628: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797629: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797629: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797630: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797631: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797631: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797632: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797632: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797633: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797633: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797634: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797634: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797635: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797635: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797636: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797636: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797637: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797638: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797638: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797638: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797639: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797640: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [041] ..... 91808.797640: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [041] ..... 91808.797641: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/41:1-1338626 [041] ..... 91808.833281: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/41:1-1338626 [041] ..... 91808.833285: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [013] ..... 91812.587569: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.587575: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.587575: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [013] ..... 91812.587576: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588109: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588110: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588111: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588111: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588112: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588112: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588113: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588114: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588114: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588115: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588115: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588116: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588116: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588117: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588117: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588118: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588118: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588119: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588119: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588120: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588120: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588121: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588121: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588122: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91812.588122: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91812.588123: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/13:3-1326119 [013] ..... 91812.623682: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/13:3-1326119 [013] ..... 91812.623686: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339959 [002] ..... 91816.373957: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339959 [002] ..... 91816.373963: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339959 [002] ..... 91816.373963: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339959 [002] ..... 91816.373964: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+     kworker/2:0-1333733 [002] ..... 91816.377606: kgd2kfd_resume_mm <-svm_range_restore_work
+     kworker/2:0-1333733 [002] ..... 91816.377609: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339957 [030] ..... 91816.486847: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339958 [028] ..... 91816.486847: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339958 [028] ..... 91816.486852: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339957 [030] ..... 91816.486852: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339958 [028] ..... 91816.486852: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339958 [028] ..... 91816.486853: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339956 [029] ..... 91816.486904: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339956 [029] ..... 91816.486908: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/28:1-1306161 [028] ..... 91816.490211: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/28:1-1306161 [028] ..... 91816.490212: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339918 [027] ..... 91816.861207: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339918 [027] ..... 91816.861214: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339918 [027] ..... 91816.861215: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339918 [027] ..... 91816.861216: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/27:2-1338587 [027] ..... 91816.863743: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/27:2-1338587 [027] ..... 91816.863746: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339920 [027] ..... 91816.864208: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339920 [027] ..... 91816.864209: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339920 [027] ..... 91816.864209: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339920 [027] ..... 91816.864210: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339919 [043] ..... 91816.864265: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339919 [043] ..... 91816.864270: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339921 [029] ..... 91816.864374: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339921 [029] ..... 91816.864376: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => zap_page_range_single_batched
+ => madvise_vma_behavior
+ => madvise_walk_vmas
+ => madvise_do_behavior
+ => do_madvise
+ => __x64_sys_madvise
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/27:2-1338587 [027] ..... 91816.868194: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/27:2-1338587 [027] ..... 91816.868195: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339480 [013] ..... 91816.969857: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.969864: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.969865: kgd2kfd_quiesce_mm <-svm_range_evict.isra.0
+    llama-server-1339480 [013] ..... 91816.969866: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970355: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970356: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970357: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970357: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970358: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970358: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970359: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970360: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970360: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970361: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970361: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970362: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970362: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970362: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970363: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970363: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970363: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970364: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970364: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970365: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970365: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970366: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970366: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970367: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339480 [013] ..... 91816.970367: svm_range_evict.isra.0 <-svm_range_cpu_invalidate_pagetables
+    llama-server-1339480 [013] ..... 91816.970368: <stack trace>
+ => svm_range_evict.isra.0
+ => svm_range_cpu_invalidate_pagetables
+ => __mmu_notifier_invalidate_range_start
+ => __split_huge_pmd
+ => vma_adjust_trans_huge
+ => __split_vma
+ => vms_gather_munmap_vmas
+ => do_vmi_align_munmap
+ => do_vmi_munmap
+ => __vm_munmap
+ => __x64_sys_munmap
+ => x64_sys_call
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    kworker/13:0-1338618 [013] ..... 91817.088831: kgd2kfd_resume_mm <-svm_range_restore_work
+    kworker/13:0-1338618 [013] ..... 91817.088836: <stack trace>
+ => kgd2kfd_resume_mm
+ => svm_range_restore_work
+ => process_one_work
+ => worker_thread
+ => kthread
+ => ret_from_fork
+ => ret_from_fork_asm
+    llama-server-1339913 [008] ..... 91817.323167: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323174: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323175: kgd2kfd_quiesce_mm <-amdgpu_amdkfd_evict_userptr
+    llama-server-1339913 [008] ..... 91817.323175: <stack trace>
+ => kgd2kfd_quiesce_mm
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323365: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323366: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323366: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323367: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323367: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323368: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323368: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323369: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323370: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323370: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323371: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323371: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323372: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323373: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323373: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323374: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323374: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323375: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323375: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323376: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323376: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323377: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323377: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323377: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323378: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323378: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323379: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323379: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323380: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323380: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323381: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323381: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323382: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323382: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323383: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323383: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323383: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323384: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323384: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323385: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323385: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323386: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323386: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323387: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323387: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323388: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323388: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323389: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323389: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323390: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323390: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323391: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323391: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323392: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323392: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323393: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323393: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323394: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323394: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323394: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323395: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323395: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323396: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323396: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323397: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323398: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323398: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323398: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323399: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323399: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323400: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323400: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323400: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323401: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323401: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323402: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323402: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323403: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323403: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323404: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323404: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323405: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323405: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323406: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323406: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323407: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323407: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323408: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323408: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323409: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323409: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323410: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323410: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323410: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323411: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323412: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323412: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323413: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323413: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323413: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323414: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323414: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323414: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323415: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323415: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323416: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323416: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323417: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323417: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323418: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323418: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323419: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323419: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323419: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323420: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323420: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323420: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323421: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323421: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323422: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323422: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323423: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323423: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323424: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323424: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323425: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323425: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323426: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323426: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323427: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323427: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323428: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.323428: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.323428: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_release
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329313: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329314: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329315: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329315: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329315: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329316: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329316: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329317: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329317: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329318: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329318: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329319: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329319: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329319: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329320: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329320: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329321: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329321: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329321: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329322: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329322: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329323: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329323: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329324: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329324: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329324: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329324: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329325: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329325: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329326: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329326: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329327: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329327: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329327: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329328: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329328: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329328: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329329: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329329: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329330: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329330: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329331: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329331: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329331: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329331: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329332: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329332: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329333: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329333: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329334: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329334: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329335: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329335: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329335: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329335: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329336: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329337: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329337: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329337: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329338: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329338: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329339: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329339: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329339: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329340: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329341: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329341: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329342: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329342: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329342: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329343: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329343: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329343: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329344: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329344: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329345: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329345: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329346: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329346: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329346: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329347: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329347: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329347: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329348: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329348: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329349: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329349: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329350: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329350: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329351: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329351: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329351: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329351: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329352: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329352: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329353: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329353: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329354: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329354: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329354: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329354: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329355: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329355: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329356: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329356: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329357: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329357: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329358: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329358: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329359: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329359: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329359: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329359: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329360: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329360: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329361: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329361: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329362: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329362: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329362: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329363: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329363: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329363: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329364: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329364: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329365: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329365: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329366: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329366: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329366: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329367: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329367: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329367: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329368: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe
+    llama-server-1339913 [008] ..... 91817.329368: amdgpu_amdkfd_evict_userptr <-amdgpu_hmm_invalidate_hsa
+    llama-server-1339913 [008] ..... 91817.329369: <stack trace>
+ => amdgpu_amdkfd_evict_userptr
+ => amdgpu_hmm_invalidate_hsa
+ => __mmu_notifier_invalidate_range_start
+ => unmap_vmas
+ => exit_mmap
+ => __mmput
+ => mmput
+ => exit_mm
+ => do_exit
+ => do_group_exit
+ => get_signal
+ => arch_do_signal_or_restart
+ => exit_to_user_mode_loop
+ => do_syscall_64
+ => entry_SYSCALL_64_after_hwframe

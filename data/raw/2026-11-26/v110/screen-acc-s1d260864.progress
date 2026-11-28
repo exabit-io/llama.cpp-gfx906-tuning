@@ -1,0 +1,21 @@
+2026-11-27T21:35:57+00:00 [screen] pkg: /root/pkg-arm-v110 on /opt/rocm/core-10.1
+2026-11-27T21:35:57+00:00 [screen] s100: /root/build-final-v110 on /opt/rocm/core-10.0
+2026-11-27T21:35:57+00:00 [screen] old: /root/build-v101-t85 on /opt/rocm/core-10.1
+2026-11-27T21:35:57+00:00 [screen] a6: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T21:35:57+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-27T21:36:11+00:00 [screen] block 1 order: a6 s100 pkg old 
+2026-11-27T21:47:41+00:00 [screen] 1 x 260864 a6 b1: decode 32.5141, prefill 406.3
+2026-11-27T21:59:18+00:00 [screen] 1 x 260864 s100 b1: decode 32.5152, prefill 401.8
+2026-11-27T22:10:41+00:00 [screen] 1 x 260864 pkg b1: decode 32.4482, prefill 408.8
+2026-11-27T22:21:56+00:00 [screen] 1 x 260864 old b1: decode 32.3815, prefill 413.0
+2026-11-27T22:21:56+00:00 [screen] block 2 order: old s100 a6 pkg 
+2026-11-27T22:33:12+00:00 [screen] 1 x 260864 old b2: decode 32.3969, prefill 413.5
+2026-11-27T22:44:31+00:00 [screen] 1 x 260864 s100 b2: decode 32.4997, prefill 412.7
+2026-11-27T22:55:51+00:00 [screen] 1 x 260864 a6 b2: decode 32.4904, prefill 411.4
+2026-11-27T23:07:04+00:00 [screen] 1 x 260864 pkg b2: decode 32.4369, prefill 414.4
+2026-11-27T23:07:04+00:00 [screen] block 3 order: old s100 a6 pkg 
+2026-11-27T23:18:12+00:00 [screen] 1 x 260864 old b3: decode 32.3702, prefill 417.2
+2026-11-27T23:29:33+00:00 [screen] 1 x 260864 s100 b3: decode 32.4061, prefill 410.8
+2026-11-27T23:40:50+00:00 [screen] 1 x 260864 a6 b3: decode 32.3569, prefill 412.6
+2026-11-27T23:52:02+00:00 [screen] 1 x 260864 pkg b3: decode 32.3815, prefill 414.9
+2026-11-27T23:52:02+00:00 [screen] === SCREEN acc-s1d260864 DONE ===

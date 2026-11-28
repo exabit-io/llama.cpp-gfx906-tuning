@@ -1,0 +1,19 @@
+2026-11-28T02:16:36+00:00 [screen] s100: /root/build-final-v110 on /opt/rocm/core-10.0
+2026-11-28T02:16:36+00:00 [screen] a6: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-28T02:16:36+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-28T02:16:50+00:00 [screen] block 1 order: a6 s100 
+2026-11-28T02:18:04+00:00 [screen] 12 x 2048 a6 b1: decode 12.2664, prefill 1170.5
+2026-11-28T02:19:15+00:00 [screen] 12 x 2048 s100 b1: decode 13.1366, prefill 1159.9
+2026-11-28T02:19:15+00:00 [screen] block 2 order: a6 s100 
+2026-11-28T02:20:29+00:00 [screen] 12 x 2048 a6 b2: decode 12.2629, prefill 1170.0
+2026-11-28T02:21:40+00:00 [screen] 12 x 2048 s100 b2: decode 13.1272, prefill 1160.3
+2026-11-28T02:21:40+00:00 [screen] block 3 order: s100 a6 
+2026-11-28T02:22:51+00:00 [screen] 12 x 2048 s100 b3: decode 13.1420, prefill 1159.2
+2026-11-28T02:24:04+00:00 [screen] 12 x 2048 a6 b3: decode 12.2726, prefill 1169.8
+2026-11-28T02:24:04+00:00 [screen] block 4 order: s100 a6 
+2026-11-28T02:25:15+00:00 [screen] 12 x 2048 s100 b4: decode 13.1245, prefill 1159.8
+2026-11-28T02:26:29+00:00 [screen] 12 x 2048 a6 b4: decode 12.2570, prefill 1170.5
+2026-11-28T02:26:29+00:00 [screen] block 5 order: s100 a6 
+2026-11-28T02:27:40+00:00 [screen] 12 x 2048 s100 b5: decode 13.1242, prefill 1160.4
+2026-11-28T02:28:53+00:00 [screen] 12 x 2048 a6 b5: decode 12.2456, prefill 1168.7
+2026-11-28T02:28:53+00:00 [screen] === SCREEN c3-s12d2048 DONE ===

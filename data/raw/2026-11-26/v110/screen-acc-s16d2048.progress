@@ -1,0 +1,25 @@
+2026-11-27T19:42:15+00:00 [screen] pkg: /root/pkg-arm-v110 on /opt/rocm/core-10.1
+2026-11-27T19:42:15+00:00 [screen] s100: /root/build-final-v110 on /opt/rocm/core-10.0
+2026-11-27T19:42:16+00:00 [screen] old: /root/build-v101-t85 on /opt/rocm/core-10.1
+2026-11-27T19:42:16+00:00 [screen] a6: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T19:42:16+00:00 [screen] a0: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T19:42:16+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-27T19:42:30+00:00 [screen] block 1 order: pkg s100 old a0 a6 
+2026-11-27T19:43:52+00:00 [screen] 16 x 2048 pkg b1: decode 12.1480, prefill 1165.2
+2026-11-27T19:45:16+00:00 [screen] 16 x 2048 s100 b1: decode 12.1702, prefill 1153.0
+2026-11-27T19:46:40+00:00 [screen] 16 x 2048 old b1: decode 11.6229, prefill 1166.9
+2026-11-27T19:48:04+00:00 [screen] 16 x 2048 a0 b1: decode 12.1032, prefill 1135.5
+2026-11-27T19:49:30+00:00 [screen] 16 x 2048 a6 b1: decode 11.7117, prefill 1168.4
+2026-11-27T19:49:30+00:00 [screen] block 2 order: old pkg a0 s100 a6 
+2026-11-27T19:50:53+00:00 [screen] 16 x 2048 old b2: decode 11.6239, prefill 1165.7
+2026-11-27T19:52:15+00:00 [screen] 16 x 2048 pkg b2: decode 12.1555, prefill 1155.1
+2026-11-27T19:53:40+00:00 [screen] 16 x 2048 a0 b2: decode 12.0986, prefill 1140.1
+2026-11-27T19:55:03+00:00 [screen] 16 x 2048 s100 b2: decode 12.1670, prefill 1159.4
+2026-11-27T19:56:29+00:00 [screen] 16 x 2048 a6 b2: decode 11.7029, prefill 1170.7
+2026-11-27T19:56:29+00:00 [screen] block 3 order: a0 old a6 pkg s100 
+2026-11-27T19:57:53+00:00 [screen] 16 x 2048 a0 b3: decode 12.0997, prefill 1140.8
+2026-11-27T19:59:17+00:00 [screen] 16 x 2048 old b3: decode 11.6181, prefill 1166.0
+2026-11-27T20:00:42+00:00 [screen] 16 x 2048 a6 b3: decode 11.7087, prefill 1169.9
+2026-11-27T20:02:04+00:00 [screen] 16 x 2048 pkg b3: decode 12.1436, prefill 1162.6
+2026-11-27T20:03:28+00:00 [screen] 16 x 2048 s100 b3: decode 12.1705, prefill 1162.9
+2026-11-27T20:03:28+00:00 [screen] === SCREEN acc-s16d2048 DONE ===

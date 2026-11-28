@@ -1,0 +1,17 @@
+2026-11-27T20:03:28+00:00 [screen] s100: /root/build-final-v110 on /opt/rocm/core-10.0
+2026-11-27T20:03:28+00:00 [screen] a6: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T20:03:28+00:00 [screen] a0: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T20:03:28+00:00 [screen] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=
+2026-11-27T20:03:42+00:00 [screen] block 1 order: a0 s100 a6 
+2026-11-27T20:05:27+00:00 [screen] 48 x 512 a0 b1: decode 7.2306, prefill 1186.1
+2026-11-27T20:07:09+00:00 [screen] 48 x 512 s100 b1: decode 7.4775, prefill 1209.6
+2026-11-27T20:08:51+00:00 [screen] 48 x 512 a6 b1: decode 7.4759, prefill 1210.5
+2026-11-27T20:08:51+00:00 [screen] block 2 order: a0 s100 a6 
+2026-11-27T20:10:36+00:00 [screen] 48 x 512 a0 b2: decode 7.2232, prefill 1186.6
+2026-11-27T20:12:18+00:00 [screen] 48 x 512 s100 b2: decode 7.4820, prefill 1209.8
+2026-11-27T20:14:01+00:00 [screen] 48 x 512 a6 b2: decode 7.4725, prefill 1210.6
+2026-11-27T20:14:01+00:00 [screen] block 3 order: a6 s100 a0 
+2026-11-27T20:15:43+00:00 [screen] 48 x 512 a6 b3: decode 7.4759, prefill 1210.3
+2026-11-27T20:17:25+00:00 [screen] 48 x 512 s100 b3: decode 7.4821, prefill 1210.0
+2026-11-27T20:19:09+00:00 [screen] 48 x 512 a0 b3: decode 7.2256, prefill 1184.5
+2026-11-27T20:19:09+00:00 [screen] === SCREEN acc-s48d512 DONE ===

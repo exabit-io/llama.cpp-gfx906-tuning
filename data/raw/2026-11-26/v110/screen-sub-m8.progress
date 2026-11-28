@@ -1,0 +1,24 @@
+2026-11-27T03:47:46+00:00 [screen] mxxm: /root/build-sub-mxxm on /opt/rocm/core-10.0
+2026-11-27T03:47:46+00:00 [screen] merge: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T03:47:46+00:00 [screen] master: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T03:48:00+00:00 [screen] block 1 order: master mxxm merge 
+2026-11-27T03:49:02+00:00 [screen] 8 x 4096 master b1: decode 22.1914, prefill 1174.4
+2026-11-27T03:50:03+00:00 [screen] 8 x 4096 mxxm b1: decode 23.3130, prefill 1143.9
+2026-11-27T03:51:04+00:00 [screen] 8 x 4096 merge b1: decode 23.3940, prefill 1145.9
+2026-11-27T03:51:04+00:00 [screen] block 2 order: merge mxxm master 
+2026-11-27T03:52:06+00:00 [screen] 8 x 4096 merge b2: decode 23.3854, prefill 1144.7
+2026-11-27T03:53:07+00:00 [screen] 8 x 4096 mxxm b2: decode 23.3449, prefill 1143.5
+2026-11-27T03:54:09+00:00 [screen] 8 x 4096 master b2: decode 22.1463, prefill 1173.7
+2026-11-27T03:54:09+00:00 [screen] block 3 order: mxxm merge master 
+2026-11-27T03:55:10+00:00 [screen] 8 x 4096 mxxm b3: decode 23.3087, prefill 1143.7
+2026-11-27T03:56:11+00:00 [screen] 8 x 4096 merge b3: decode 23.3961, prefill 1146.3
+2026-11-27T03:57:13+00:00 [screen] 8 x 4096 master b3: decode 22.1712, prefill 1174.3
+2026-11-27T03:57:13+00:00 [screen] block 4 order: master mxxm merge 
+2026-11-27T03:58:15+00:00 [screen] 8 x 4096 master b4: decode 22.1415, prefill 1174.9
+2026-11-27T03:59:16+00:00 [screen] 8 x 4096 mxxm b4: decode 23.3151, prefill 1144.7
+2026-11-27T04:00:18+00:00 [screen] 8 x 4096 merge b4: decode 23.3811, prefill 1144.9
+2026-11-27T04:00:18+00:00 [screen] block 5 order: merge mxxm master 
+2026-11-27T04:01:19+00:00 [screen] 8 x 4096 merge b5: decode 23.4346, prefill 1146.3
+2026-11-27T04:02:21+00:00 [screen] 8 x 4096 mxxm b5: decode 23.3641, prefill 1143.5
+2026-11-27T04:03:22+00:00 [screen] 8 x 4096 master b5: decode 22.1991, prefill 1175.6
+2026-11-27T04:03:22+00:00 [screen] === SCREEN sub-m8 DONE ===

@@ -1,0 +1,17 @@
+2026-11-27T16:18:59+00:00 [screen] a0: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T16:18:59+00:00 [screen] c: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T16:19:00+00:00 [screen] m: /root/build-attr-m8 on /opt/rocm/core-10.0
+2026-11-27T16:19:00+00:00 [screen] per-arm environment: r:GGML_TP_AR_MAX_NE=20481 c:GGML_TP_AR_MAX_NE=0 m:GGML_TP_AR_MAX_NE=0
+2026-11-27T16:19:14+00:00 [screen] block 1 order: m c a0 
+2026-11-27T16:20:32+00:00 [screen] 15 x 2048 m b1: decode 12.3863, prefill 1164.7
+2026-11-27T16:21:51+00:00 [screen] 15 x 2048 c b1: decode 12.1844, prefill 1162.4
+2026-11-27T16:23:11+00:00 [screen] 15 x 2048 a0 b1: decode 12.3344, prefill 1141.2
+2026-11-27T16:23:11+00:00 [screen] block 2 order: m a0 c 
+2026-11-27T16:24:29+00:00 [screen] 15 x 2048 m b2: decode 12.4061, prefill 1161.9
+2026-11-27T16:25:48+00:00 [screen] 15 x 2048 a0 b2: decode 12.3466, prefill 1141.8
+2026-11-27T16:27:07+00:00 [screen] 15 x 2048 c b2: decode 12.2041, prefill 1163.7
+2026-11-27T16:27:07+00:00 [screen] block 3 order: c m a0 
+2026-11-27T16:28:26+00:00 [screen] 15 x 2048 c b3: decode 12.2050, prefill 1163.0
+2026-11-27T16:29:45+00:00 [screen] 15 x 2048 m b3: decode 12.3887, prefill 1163.2
+2026-11-27T16:31:03+00:00 [screen] 15 x 2048 a0 b3: decode 12.3475, prefill 1140.9
+2026-11-27T16:31:04+00:00 [screen] === SCREEN gate8-w15 DONE ===

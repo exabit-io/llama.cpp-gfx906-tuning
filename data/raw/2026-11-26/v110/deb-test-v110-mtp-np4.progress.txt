@@ -1,0 +1,6 @@
+2026-11-27T18:43:23+00:00 [mtp-modes] combined long : prompt 2089 tok 657.7 tok/s | gen 137 tok 71.30 tok/s | accepted 79/116 | sha 4893c7466db7
+2026-11-27T18:43:28+00:00 [mtp-modes] combined run 1: prompt 11 tok 12.8 tok/s | gen 256 tok 79.69 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-27T18:43:31+00:00 [mtp-modes] combined run 2: prompt 11 tok 43.4 tok/s | gen 256 tok 79.30 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-27T18:43:35+00:00 [mtp-modes] combined run 3: prompt 11 tok 37.2 tok/s | gen 256 tok 79.20 tok/s | accepted 156/198 | sha 992ec9e4d9de
+2026-11-27T18:43:35+00:00 [mtp-modes] combined rows : 0 device buffer allocations, 0 fallbacks, 0 reserves, 5 error lines
+2026-11-27T18:43:39+00:00 [mtp-modes] === MTP-MODES DONE ===

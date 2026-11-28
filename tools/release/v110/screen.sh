@@ -6,6 +6,8 @@
 # SHUFFLE=1 in the environment: a fresh random arm order in every block (logged), for confirmation passes.
 # KVK / KVV in the environment: the KV cache types (-ctk / -ctv), default f16 f16. ARMKV="arm=K/V ..." gives single arms
 # their own types (an f16 arm beside FP8 arms).
+# ARMENV="arm:VAR=VALUE ..." in the environment: VAR=VALUE is set for that arm's runs only, after the common exports
+# (arms that share one build and differ in a runtime switch). Logged at the start.
 set -u
 W=/root/rebase-v110; R=/root/rocm-tests/bench; M=/root/models/Qwen3.8-27B-Q8_0.gguf
 TL=/root/llama.cpp-benchmarking/tools; CM=$TL/cell-metrics.py; NF=$TL/assert-no-fa-fallback.sh
@@ -26,6 +28,7 @@ for spec in "$@"; do
   log "$a: $bd on $rt${pl:+ with $pl preloaded}"
 done
 [ "$KVK/$KVV" = f16/f16 ] && [ -z "${ARMKV:-}" ] || log "KV cache types: $KVK / $KVV${ARMKV:+; per arm: $ARMKV}"
+[ -z "${ARMENV:-}" ] || log "per-arm environment: $ARMENV"
 . $R/gpu-test-env.sh
 export GGML_CUDA_ALLREDUCE=nccl GGML_ENABLE_CUSTOM_AR=1 GGML_TP_AR_MAX_NE=20481 HSA_FORCE_FINE_GRAIN_PCIE=1
 BPID=""
@@ -43,7 +46,8 @@ for blk in $(seq 1 $N); do
   for arm in $order; do
     bd=${BD[$arm]}; rt=${RT[$arm]}; pl=${PL[$arm]}; out=$O/$arm-$blk.md
     kk=$KVK; kv=$KVV; for x in ${ARMKV:-}; do [ "${x%%=*}" = "$arm" ] && { kk=${x#*=}; kv=${kk#*/}; kk=${kk%%/*}; }; done
-    env ${pl:+LD_PRELOAD=$pl} LD_LIBRARY_PATH=$bd/bin:$rt/lib AMD_COMGR_CACHE_DIR=/root/.cache/comgr-screen-$arm timeout 7200 \
+    ae=""; for x in ${ARMENV:-}; do [ "${x%%:*}" = "$arm" ] && ae="$ae ${x#*:}"; done
+    env $ae ${pl:+LD_PRELOAD=$pl} LD_LIBRARY_PATH=$bd/bin:$rt/lib AMD_COMGR_CACHE_DIR=/root/.cache/comgr-screen-$arm timeout 7200 \
       $bd/bin/llama-batched-bench -m $M --device rocm0,rocm1,rocm2,rocm3 -sm tensor -ngl all \
       -fa on -ctk $kk -ctv $kv -b 2048 -ub 2048 -c $(( S*(D+1280) )) -npp $D -ntg $NTG -npl $S \
       > $out 2>${out%.md}.log &

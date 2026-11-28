@@ -277,7 +277,7 @@ models with the default rollback and with `LLAMA_RS_REPLAY=1`, MTP 150/207 on ev
 met. Not pushed: `master-v110` (`9a7177d0a`), `candidates-v110` (`8eb35b2d6`), tags, `BRANCHES.md` (after the package
 is accepted). Owed on the PR: the rollback rates at full clock (a comment).
 
-## WHERE THIS STOPS (2026-11-27 02:15 UTC) AND WHAT THE NEXT SESSION DOES
+## WHERE THIS STOPS (2026-11-27 01:20 UTC, before the reboot of 01:32) AND WHAT THE NEXT SESSION DOES
 
 **The box has NOT been rebooted and the dies are still clamped at 1000 MHz.** The reboot and the boot hook are the
 lead's step. `afterboot.sh` is ready and does the timing work unattended
@@ -439,3 +439,573 @@ port note in the message, rebuild, final suite.
   evidence; rule (b) of the header is reworded to say so. The session's environment gives every arm the 20481-element
   size gate (master's default; his is 262144), so his arm runs with our tuned gate: the arms differ in code only.
 - The real session is `afterboot.sh` job 3 (`substrate`), about 6.5 hours at full clock.
+
+## After the reboot of 2026-11-27 01:32 UTC: the latch is cleared, the timing queue runs
+
+`afterboot.sh` started by hand at 01:34 (no boot hook). Clock check passed (every die at the top state at idle under
+perf high); XGMI raised before the first job (`ifl_allreduce` twice: ring both ways pull 152, push 182, sdma 256 GB/s);
+SMC key dump at the clean clock `smc-keys-clean-1127-0135.txt` (for diffing against a dump taken while latched: none was
+taken on 11-26, take one the next time).
+
+**Rollback rates at full clock** (`afterboot-rs-modes3/progress`, the merge build `a3aa1c772`, one session):
+
+| Arm | long: prefill / decode tok/s | short decode tok/s (n=3) | 11-token prompt tok/s |
+|---|---|---|---|
+| ring `-np 1` | 556.9 / 62.88 | 73.14 - 73.88 | 34.1 - 39.0 |
+| ring + `LLAMA_RS_REPLAY=1` | 549.6 / 62.55 | 73.09 - 73.79 | 33.6 - 38.5 |
+| snapshots `-np 4` (default) | 534.6 / 74.06 | 78.75 - 79.31 | 37.5 - 42.8 |
+| replay `-np 4` | 449.6 / 70.02 | 75.29 - 75.91 | 16.8 - 17.8 |
+| snapshots on the recurrent kernel `-np 4` | 527.2 / 70.31 | 76.27 - 77.10 | 34.6 - 39.7 |
+
+Texts and modes as on 11-26 (rules 1-4 met). Equal-work comparison (same text): replay against snapshots on the
+recurrent kernel = prefill -14.7 %, decode -0.4 % (long) / -1.5 % (short, means 75.60 vs 76.72), 11-token prompt 17.5
+vs 37.5 tok/s. The ratios of the latched session (about -15 % prefill) stand. The comment for PR #25 is drafted in
+`pr25-rates-comment.md` and NOT posted: after the lead's direction it goes out only on the lead's go.
+
+## Substrate comparison, interim at 05:30 UTC (4 of 5 cells in; final table when `1 x 260864` ends)
+
+Session `sub` (substrate-v110.sh), n = 5 per cell, paired by block, clocks never latched (single dies touch 1000 MHz in
+4-13 % of loaded samples, never all four, never longer than 25 s; the latch criterion is 2 min).
+
+- Pair (1), merge against mxxm-t's master, the lead's condition: no penalty in any row so far. Decode +0.14 to
+  +0.30 % at 4, 8 and 16 slots, prefill level; MTP single stream decode +6.38 % [+6.13, +6.63] (the texts differ:
+  requests 2, 4 and 5 accept more of what is drafted on v1.1.0; rule (c), read at the end).
+- Pair (3), master against merge, the Exabit commits: prefill +1.7 to +2.5 % everywhere, decode +1.80 % at 4 x 65536,
+  BUT decode **-5.25 % [-5.33, -5.17] at 8 x 4096 and -3.24 % [-3.28, -3.20] at 16 x 2048**. Pair (2) has the same
+  two rows (-4.97 %, -3.10 % against his master). `-np 8` is the serving recommendation.
+- No earlier measurement separates our commits at 8 or 16 slots (reports, data/raw and the v1.0.0 notes searched: the
+  commits were binned at the two design points, 4 x 64K and 1 x 255K, and the 09-08 paired run at 8/12/16 slots
+  predates all of them). On master the dense MMVQ window is 16 columns (term 01; his tree: 8, then MMQ), the MMVQ
+  kernels carry our row/warp parameters, the folds apply up to 16 columns, and every kernel is scheduled max-ilp.
+
+Armed 05:34 UTC: `after-queue.sh 7414` waits for the timing queue to end by itself (about 14:30 UTC), then builds five
+cut points of master's history (`attr8-build.sh`, dies idle) and runs `attr8.sh` (7 arms a0..a6 x 3 cells x n = 3, about
+2 h; the reading rule is in its header). Nothing on master changes from that run alone. The queue itself is left as it
+is: the tile threshold arms share every other kernel, and the design points are measured again on the package.
+
+## Substrate comparison: RESULT (session `sub`, 2026-11-27 01:38-07:13 UTC, full clock)
+
+75 of 75 runs, no failed run, n = 5 per cell, paired by block, Holm over 10 rows per pair, line 2 %. Clocks: no latch
+(per cell the longest stretch of any loaded die at 1000 MHz was 3-5 samples = 15-25 s, never all four; DC at most 856 W).
+Raw: `screen-sub-{m4,m8,m16,s1}.tsv`, `sub-mtp.tsv`, `sub.progress` (the full table), `sub-stats.py sub`.
+
+**Pair (1), merge against mxxm-t's master = the lead's condition: MET. No MAJOR PENALTY row; the only penalty row is
+prefill at 1 x 260864, -0.21 % [-0.25, -0.16].**
+
+| Cell | Decode, merge / mxxm - 1 | Prefill |
+|---|---|---|
+| 4 x 65536 | +0.17 % [+0.05, +0.29] (not significant after Holm) | +0.00 % [-0.06, +0.07] |
+| 8 x 4096 | +0.30 % [+0.20, +0.39] gain | +0.15 % [+0.04, +0.27] (n.s.) |
+| 16 x 2048 | +0.14 % [+0.06, +0.23] (n.s.) | +0.18 % [+0.06, +0.30] (n.s.) |
+| 1 x 260864 | +0.39 % [+0.22, +0.55] gain | -0.21 % [-0.25, -0.16] penalty |
+| MTP, 1 stream, 47.8K tokens | +6.38 % [+6.13, +6.63], see below | +0.14 % [+0.03, +0.25] (n.s.) |
+
+MTP decode, rule (c): the two trees write different text on all five requests, and the rate follows the acceptance.
+Per request, merge / mxxm - 1 with accepted/drafted (mxxm -> merge): r1 +0.62 % (343/502 -> 343/502), r2 +4.74 %
+(329/540 -> 334/531), r3 +0.11 % (308/609 -> 307/609), r4 +19.45 % (330/540 -> 359/456), r5 +6.39 % (325/556 ->
+335/527). Where the acceptance is the same (r1, r3) the trees are level: the +6.4 % is the text, not the code's speed.
+
+**Pair (2), master against mxxm-t's master (what we ship against his fork):** ahead at the design points and in MTP,
+behind at 8 and 16 slots in decode.
+
+| Cell | Decode, master / mxxm - 1 | Prefill |
+|---|---|---|
+| 4 x 65536 | +1.97 % [+1.83, +2.10] | +1.68 % [+1.63, +1.74] |
+| 8 x 4096 | **-4.97 % [-5.13, -4.81] MAJOR PENALTY** | +2.69 % [+2.60, +2.77] |
+| 16 x 2048 | **-3.10 % [-3.22, -2.98] MAJOR PENALTY** | +2.70 % [+2.55, +2.86] |
+| 1 x 260864 | +2.78 % [+2.52, +3.04] | +0.80 % [+0.78, +0.83] |
+| MTP, 1 stream | +5.82 % [+5.73, +5.90] (text, as above) | +1.89 % [+1.79, +1.98] |
+
+**Pair (3), master against merge (the Exabit commits):** decode +1.80 % (4 x 65536), **-5.25 % [-5.33, -5.17]
+(8 x 4096)**, **-3.24 % [-3.28, -3.20] (16 x 2048)**, +2.39 % (1 x 260864), MTP -0.53 % [-0.81, -0.25] (different
+text: r1 -1.42 %, r3 -2.74 % at slightly lower acceptance, r5 +1.47 % at higher); prefill +1.0 to +2.5 % in every cell.
+The header's rule names two cases (a row in (1) only, a row in (1) and (2)); this is the third: the rows are in (2) and
+(3) and not in (1), so the penalty comes from our own commits and not from the release. Attribution: `attr8.sh`, armed
+behind the queue (section above). It is settled before 1.1.0 is packaged; `-np 8` is the serving recommendation.
+
+## Tile threshold at MTP depth on v1.1.0 (`mtp-depth-v110b`, 2026-11-27 07:14-08:36 UTC, n = 3, full clock)
+
+18 of 18 cells ran. 117,740-token prompt, three requests of 768 tokens, `-np 1`, draft-mtp n_max 3, ROCm 10.1.
+
+| Arm | MTP decode tok/s (min-max) | Prefill tok/s (min-max) |
+|---|---|---|
+| c23 (clang 23 object) | 45.843 (45.753-45.906) | 615.8 (615.3-616.1) |
+| tnone (clang 24, no rule) | 45.901 (45.814-45.951) | 592.9 (592.6-593.3) |
+| t85 (as shipped in -r2) | 49.057 (49.006-49.134) | 617.8 (617.5-618.2) |
+| **t88** | **49.129 (49.042-49.248)** | 617.8 (617.5-618.5) |
+| t75 | no valid sample (rule 0), see below | 620.7 (620.1-621.1) |
+| old (v1.0.0 master by 10.1, other text) | 49.013 (48.983-49.035) | 618.5 (618.4-618.7) |
+
+Read by the header's rules:
+- (0) c23, tnone, t85, t88 write the same text with the same draft counts in every cell (530/709 518/743 479/862).
+  **t75 writes another text on requests 2 and 3 in all three blocks** (523/729, 490/829), so its decode samples are
+  discarded. On request 1, where its text and counts are the others', it decodes 47.69-47.77 against t88's
+  50.88-51.39: about 7 % slower. That an object differing only in a scheduler threshold changes the text while a
+  different compiler (c23) does not is not explained and not investigated; it is one more reason not to take 75.
+- (1) A threshold is still worth having: t88 against tnone is up on decode by +7.03 % and on prefill by +4.20 %.
+  Without any rule clang 24 costs prefill -3.72 % against clang 23 (tnone against c23, down).
+- (2) Taken: **88** (t75 has no valid decode sample and loses on the one comparable request). t88 against c23: decode up
+  +7.17 %, prefill up +0.33 %, so the ROCm 10.0 stream loses about 7 % MTP decode at depth with this kernel on v1.1.0.
+- (3) t85, the shipped number, is level with t88 here (49.057 vs 49.129); it stays out because it is not clean on <8,1>.
+- (5) v1.1.0 (t88) against v1.0.0 at depth: prefill level (-0.11 %); decode 49.129 vs 49.013 at 530/709 518/743 479/862
+  against 536/693 517/749 477/864 accepted/drafted (other text, not compared by rule).
+- (4) pending: the design-point cells (`dp-v110.sh`, running since 08:36 UTC).
+
+## Design points on v1.1.0: the tile threshold confirmed, v1.1.0 level with v1.0.0 (`dp-v110.sh`, 2026-11-27 08:36-12:58 UTC, n = 3, full clock)
+
+30 of 30 runs, no failed run. Clock column: longest run of a busy die at 1000 MHz 4 samples (4 x 65536) and 5 samples
+(1 x 260864), never all four dies at once. ROCm 10.1 runtime, every arm.
+
+| Arm | 4 x 65536 decode / slot | 4 x 65536 prefill | 1 x 260864 decode | 1 x 260864 prefill |
+|---|---|---|---|---|
+| old (v1.0.0 master by 10.1) | 25.0035 | 820.4 | 32.3495 | 418.6 |
+| c23o (clang 23 tile object) | 24.9568 | 817.0 | 32.4695 | 414.7 |
+| tnone (clang 24, no rule) | 24.9219 | 797.1 | 32.3958 | 392.4 |
+| **t88** | **24.9252** | **819.0** | **32.4304** | **416.6** |
+| t75 | 24.3920 | 822.4 | 30.2053 | 419.8 |
+
+Read by the header's rules:
+- (4) c23o's own samples span 0.15 % / 0.09 % / 0.09 % / 0.02 %: every metric is read.
+- (1) **t88 passes**: against c23o -0.13 % and +0.25 % (4 x 65536), -0.12 % and +0.46 % (1 x 260864). tnone fails on
+  prefill (-2.43 %, -5.38 %); t75 fails on decode (-2.26 %, -6.97 %), the same loss it showed at MTP depth.
+- (2) **88 is confirmed** as the threshold of the tile rule on v1.1.0 (it was 85 on v1.0.0, which is no longer clean on
+  the <8,1> instance; section "The head-256 tile kernel after upstream #32901").
+- (3) **v1.1.0 (t88) against v1.0.0: neutral.** Decode -0.31 % and prefill -0.16 % at 4 x 65536, decode +0.25 % and
+  prefill -0.48 % at 1 x 260864; all within the +-2 % floor. Nothing to report to the lead as an upstream cost.
+
+## Attribution of the 8- and 16-slot decode penalty (`attr8.sh`, 2026-11-27 12:59-14:10 UTC, n = 3, full clock)
+
+The five cut-point builds took five minutes (ccache), the session 65 minutes: 63 of 63 runs, no failed run, longest run
+of a busy die at 1000 MHz 3 samples, never all four.
+
+Decode tok/s per slot, step of each group against the one before (LINE = 1 reading):
+
+| Step | Group | 8 x 4096 | 16 x 2048 | 4 x 4096 |
+|---|---|---|---|---|
+| a1 / a0 | RCCL default, all-reduce size gate + its default, FA_QUANTS=all | **-12.37 % [-12.76, -11.99]** | **-2.07 % [-2.28, -1.86]** | +0.06 % (n.s.) |
+| a2 / a1 | the folds (terms 02 03 04 07 08 10 12) | +1.44 % | -0.18 % (n.s.) | +0.94 % (n.s.) |
+| a3 / a2 | DPP warp reductions (terms 23 28) | +0.14 % (n.s.) | +0.11 % | +1.04 % |
+| a4 / a3 | MMVQ (terms 01 15 05 09) | +1.80 % | **-1.92 % [-2.07, -1.77]** | +0.66 % (n.s.) |
+| a5 / a4 | max-ilp scheduler | +4.50 % | +0.66 % | -0.04 % (n.s.) |
+| a6 / a5 | tile rules, GDN fold exclusion | -0.03 % (n.s.) | -0.02 % (n.s.) | +0.11 % (n.s.) |
+| a6 / a0 | all 22 | **-5.33 % [-5.63, -5.03]** | **-3.40 % [-3.63, -3.17]** | +2.80 % |
+
+Prefill: max-ilp is worth +2.1 to +2.2 % in every cell; the gate group +0.3 to +0.7 %; all other steps level.
+
+Read by the header's rule:
+- (0) The finding repeated: a6 against a0 is a MAJOR PENALTY at the 2 % line in both cells (-5.33 %, -3.40 %; the
+  substrate session had -5.25 % and -3.24 %).
+- (1) Carriers: **a1 at both widths** (-12.37 %, -2.07 %) and **a4 at 16 slots** (-1.92 %). The steps add up exactly
+  (log terms: -5.34 % and -3.40 %). At 8 slots the one carrier takes 12.4 % and the other groups give 7 points back.
+- (2) a6 against a5 is level in every row, as expected.
+- (3) At 4 x 4096 neither carrier loses (a1 level, a4 +0.66 %): both act only above 4 columns, so both can be confined
+  without touching what the design points run.
+
+**Mechanism of a1 (from the logs of this session, no further run needed to see it):** every a0 log at 8 and 16 slots
+carries `TP custom AllReduce: auto-selected two-shot for 4-rank decode-sized tensors`; no a1..a6 log does (at 4 x 4096
+all arms carry it). The merge and mxxm-t's tree have **no `GGML_TP_AR_MAX_NE` at all**: the 20481 exported by
+`screen.sh` does nothing there, and they send every message under 262144 elements (51 rows of 5120) through the fork's
+custom all-reduce. Since mxxm `19d784ad0` (2026-09-18, "tp: cross to twoshot for the message sizes a verify batch
+sends") that path uses its two-shot kernel from 8192 elements at four ranks. Master's default 20481 (`567a2a769`) sends
+everything wider than 4 rows to RCCL. The default was set on 2026-09-08/20 from two measurements that no longer apply:
+the broadcast kernel alone "loses at 8-16 rows (-8 %)", and "-19 % prefill at 4 x 64K ungated", which was measured on
+builds WITHOUT RCCL, where the fork's code applies no threshold at all (its threshold sits behind `s_have_nccl`). With
+RCCL built in, his threshold already keeps prefill-size messages off the custom path. So our gate has been costing
+12 % decode at 8 slots since his two-shot commit came in with a merge, and nothing measured it because every
+acceptance ran at 1 and 4 slots.
+
+**CORRECTION to `substrate-v110.sh` rule (b):** its header says the environment gives every arm the 20481-element
+gate. It does not: the mxxm and merge arms have no such variable and ran the fork's 262144 threshold. What this
+changes: nothing in pair (1) (merge against mxxm: both arms on the same threshold, so the lead's condition was measured
+like with like and stays MET), and nothing at the design points and the MTP cell (4 rows or fewer: custom path in every
+arm; prefill 2048 rows: RCCL in every arm). In pairs (2) and (3) at 8 and 16 slots the arms differed in the collective,
+which is exactly the penalty found.
+
+**Mechanism of a4 at 16 columns:** of its four commits only term 01 acts there (`MMVQ_MAX_BATCH_SIZE` 8 -> 16: MMVQ in
+place of MMQ for 9..16 columns); terms 05 and 09 act at one column, term 15 on MUL_MAT_ID. At 16 columns MMQ's tile is
+full, MMVQ pays per column.
+
+Second stage, running since 14:33 UTC: `gate8-build.sh` (master with `MMVQ_MAX_BATCH_SIZE 8`, the one build needed)
+and `gate8.sh` (reading rule in its header): master with gate 20481 (`r`) against master with the fork's threshold
+(`c`, `GGML_TP_AR_MAX_NE=0`) and the merge (`a0`) at 8, 12, 16, 24, 32, 48 slots, and `c` against the MMQ-from-9 build
+(`m`) at 10, 12, 14, 15, 16 slots. 87 runs, about two hours. `screen.sh` gained `ARMENV="arm:VAR=VALUE ..."` for arms
+that share a build and differ in a runtime switch.
+
+## The gate and the MMVQ limit: RESULT (`gate8.sh`, 2026-11-27 14:35-16:31 UTC, n = 3, 87 of 87 runs, full clock)
+
+No failed run. Clock column of the nine watchdog logs: longest stretch of a loaded die at 1000 MHz 6 samples; the one
+sample with all four at 1000 MHz (14:46:30, `w16`) is the last sample of a run, the load ending inside the 5 s.
+Decode per slot in tok/s; `c / r` and the like are the paired statistic (mean of ln, t, 95 % interval, Holm):
+
+| Cell | a0 merge | r gate 20481 | c fork threshold | m = c, MMQ from 9 | c / r | c / m | m / a0 |
+|---|---|---|---|---|---|---|---|
+| 8 x 4096 | 23.4143 | 22.1754 | 25.3374 | | **+14.26 % [+13.71, +14.81]** | | (c / a0 +8.21 % [+7.83, +8.59]) |
+| 10 x 2048 | 13.5418 | | 13.4615 | 13.6006 | | -1.02 % [-1.09, -0.96] | +0.43 % [+0.32, +0.55] |
+| 12 x 2048 | 13.0607 | 12.2686 | 12.9620 | 13.1288 | **+5.65 % [+5.50, +5.80]** | -1.27 % [-1.37, -1.17] | +0.52 % [+0.31, +0.73] |
+| 14 x 2048 | 12.4935 | | 12.3801 | 12.5727 | | -1.53 % [-1.60, -1.46] | +0.63 % [+0.59, +0.67] |
+| 15 x 2048 | 12.3428 | | 12.1978 | 12.3937 | | -1.58 % [-1.79, -1.37] | +0.41 % [+0.23, +0.60] |
+| 16 x 2048 | 12.0997 | 11.7129 | 11.9398 | 12.1534 | **+1.94 % [+1.85, +2.03]** | -1.76 % [-2.08, -1.43] | +0.44 % [+0.24, +0.65] |
+| 24 x 1024 | 10.8126 | 11.0823 | 10.7707 | | **-2.81 % [-2.97, -2.65]** | | (r / a0 +2.49 % [+1.94, +3.05]) |
+| 32 x 1024 | 10.1088 | 10.3443 | 10.1302 | | **-2.07 % [-2.49, -1.65]** | | (r / a0 +2.33 % [+2.00, +2.66]) |
+| 48 x 512 | 7.2366 | 7.4756 | 7.0969 | | **-5.07 % [-5.77, -4.35]** | | (r / a0 +3.30 % [+3.21, +3.39]) |
+
+Read by the rule in the script's header:
+
+- **(0) The check holds: the gate is the mechanism.** `c` against `r` is attr8's a1 step turned round: +14.26 %
+  (interval above +10 %) at 8 x 4096, +1.94 % (above +1 %) at 16 x 2048. The two-shot line is in every `a0`, `c`, `m`
+  log and in no `r` log at 8, 12, 16 slots. It IS in the `r` logs at 24, 32, 48 slots, which the rule did not expect
+  and which is no contradiction: the last layer's all-reduce carries only the rows that produce logits, a 2048-token
+  prefill batch ends 2 sequences at 1024 tokens per slot and 4 at 512, and 2 to 4 rows (10240 to 20480 elements) are
+  under the 20481 gate and over the two-shot kernel's 8192. At 2048 and 4096 tokens per slot a batch ends one
+  sequence: one row, broadcast kernel, no line. The pattern fits all six cells; it was not checked further.
+- **(1) The gate: W\* = 16.** The custom path PAYS at 8, 12 and 16 rows and COSTS at 24, 32 and 48. The default becomes
+  16 rows of 5120 plus one element, **`GGML_TP_AR_MAX_NE` = 81921**. 17 to 23 rows were not timed; they go to RCCL.
+  This also says something about the fork's own threshold (262144 at four ranks): on this hive it is too wide from
+  somewhere between 17 and 24 rows on; master as shipped (`r`) is 2.3 to 3.3 % ahead of the merge at 24 to 48 slots.
+- **(2) Prefill, `c` against `r`: no MAJOR PENALTY row; two small ones.** -0.55 % [-0.92, -0.17] (not significant
+  after Holm), **-0.85 % [-1.17, -0.52]**, **-0.60 % [-0.68, -0.53]** at 8, 12, 16 slots; level at 24, 32, 48
+  (+0.10 %, -0.06 %, -0.02 %). No prefill message changes path between the arms (2048 rows, RCCL under every gate).
+  In seconds the three are 0.15, 0.18, 0.17 per run: a fixed cost, which points at the benchmark's 16-token warm-up
+  batch (RCCL under 20481, custom under the fork's threshold, so RCCL's first call falls into the timed prefill).
+  That is a guess until `gate9.sh` (B) has tested it.
+- **(3) The MMVQ limit: L\* = 8.** `m` is ahead of `c` at every tested width, 1.0 % at 10 columns rising to 1.8 % at
+  16. By the rule the limit goes back to 8 (upstream's and his tree's value): MMQ from 9 columns, term 01's widening
+  goes; its launch knobs and Q8_0 fast path stay (they act at 1 to 8 columns, where the group is a gain). 9 columns
+  were not timed and take 8's verdict. September's measurement (stock b10288: MMVQ-16 ahead at 9 to 16 on four dies)
+  does not hold on this tree. **The single-die check planned beside this is dropped:** the rule was "the smaller
+  limit of the two topologies", four dies already give the smallest value there is, and with 8 a single die runs
+  exactly what the merge runs at 9 to 16 columns.
+- **(4) `c` against `a0`.** +8.21 % at 8 slots; -0.6 to -1.3 % at 10 to 16 (15 x 2048 a MAJOR row, -1.17 %
+  [-1.26, -1.09]), which the limit of (3) explains: `m` is +0.4 to +0.6 % ahead of `a0` at all five widths. Level at
+  24 and 32. **48 x 512: -1.93 % [-2.62, -1.24], a MAJOR row the limit does not explain**: with the custom path at 48
+  rows the Exabit commits cost 2 % against the merge. The candidate does not run that combination (48 rows go to RCCL,
+  and there master is +3.30 % ahead of the merge), so the carrier is named and not looked for; if a later cycle
+  widens the gate past 16 rows it has to be found first.
+- **(5) Nothing changed on master from this run.** The candidate: `GGML_TP_AR_MAX_NE` default 81921 where the two-shot
+  kernel is in play, `MMVQ_MAX_BATCH_SIZE` 8. On existing builds that is `m` at up to 16 rows and `r` from 24 on:
+  against master as shipped (`m` / `r`) **+7.01 % [+6.96, +7.06] at 12 slots, +3.76 % [+3.49, +4.03] at 16**, and
+  +14.3 % at 8 (`c` / `r`; the limit does not act at 8 columns).
+
+**Scope of the new default.** The gain is the two-shot kernel's. `tp-allreduce.cu` selects it for small messages
+(from 8192 elements) at four ranks and more only; two and three ranks stay on the broadcast kernel, for which the
+only measurement is September's (it loses at 8 to 16 rows). So 81921 becomes the default at four ranks and more, and
+fewer ranks keep 20481. A build without RCCL sends everything over the gate to upstream's internal all-reduce; what
+it gets is `gate9.sh` (C).
+
+`gate9-build.sh` + `gate9.sh` (running since 16:39 UTC, 42 runs, about an hour; reading rule in the header):
+(B) 12 x 2048, five blocks, one build, gate 20481 / 81921 / 81920: the last two differ only in the path of the
+warm-up batch; (C) a build without RCCL at 8 x 4096, 16 x 2048, 24 x 1024 with gate 20481 / 81921 / none.
+
+## The warm-up batch and the build without RCCL: RESULT (`gate9.sh`, 2026-11-27 16:42-17:39 UTC, 42 of 42 runs, full clock)
+
+No failed run; clock columns clean (longest stretch of a loaded die at 1000 MHz 2 samples).
+
+**(B) The prefill penalty of the wider gate is the benchmark's warm-up batch.** One build (master + MMVQ limit 8),
+12 x 2048, five blocks:
+
+| Arm | Decode / slot | Prefill tok/s |
+|---|---|---|
+| `r` gate 20481 | 12.4028 | 1170.29 |
+| `k` gate 81921 (the candidate) | 13.1283 | 1159.90 |
+| `w` gate 81920 (warm-up batch on RCCL, decode custom) | 13.1228 | 1169.99 |
+
+`w` against `r` in prefill: -0.03 % [-0.29, +0.24], no difference. `k` against `w`: -0.86 % [-1.06, -0.67], 0.18 s per
+run. `k` and `w` differ in nothing but the path of the 16-token warm-up batch, so by rule (B1) the cost is RCCL's
+first call falling into the timed prefill: once per process, no prefill rate, nothing for the gate. (B2) decode: `k`
+against `r` +5.85 % [+5.71, +5.99], `k` against `w` no difference: 81921 does what the fork's threshold did at 12 rows.
+
+**(C) A build without RCCL gets the same default.** Decode per slot / prefill:
+
+| Cell | `n20` gate 20481 | `n81` gate 81921 | `n0` no gate | n81 / n20 decode | n0 / n20 prefill |
+|---|---|---|---|---|---|
+| 8 x 4096 | 19.8258 / 872.7 | 25.4469 / 869.6 | 25.4355 / 661.6 | **+28.35 % [+27.91, +28.79]** | -24.19 % |
+| 16 x 2048 | 10.8668 / 872.6 | 12.1886 / 869.7 | 12.1940 / 659.8 | **+12.16 % [+11.90, +12.42]** | -24.39 % |
+| 24 x 1024 | 9.8891 / 888.1 | 9.8903 / 888.4 | 10.7787 / 673.6 | level | -24.15 % |
+
+(C1) holds (gain at 8 and at 16; prefill of `n81` against `n20` -0.35 % and -0.34 %, 0.13 s per run, the warm-up
+batch again; no MAJOR row). (C2) 24 x 1024 level in both metrics. (C3) for the record: September's "ungated costs
+prefill" stands on today's code (-24 %), and `n0` against `n81` at 24 rows is +8.98 % [+8.41, +9.55] in decode: **open
+item, not pursued:** a build without RCCL would want the custom path wider than 16 rows (the internal all-reduce is
+much slower than RCCL); no package is built that way.
+
+**Commits (local, `/root/wt-master-v110`):** `MMVQ_MAX_BATCH_SIZE` 16 -> 8 and the gate default 20481 -> 81921 at four
+ranks and more (two and three ranks keep 20481; with or without RCCL), each with its table in the message. Port notes
+applied (`portnotes-v110.py`, seven commits; tree unchanged). **Final `master-v110` = `c782c317d`**, 26 commits over
+`merge-v1.1.0`, all `Joshua <joshua@exabit.io>`:
+the 22 of `9a7177d0a` + tile rule 88 + DeepSeek-V4.1 upstream layout + MMVQ limit + gate default.
+
+**Running since 17:41 UTC:** `final-build-v110.sh` (ROCm 10.0 and 10.1 source builds of `c782c317d` with tests, the
+deb from a clean worktree `/root/wt-deb-v110`, then the static checks: tile rule on exactly one object, `tilescan.py`,
+`maskcmp.py` package against source build). After it, unattended: `queue-rel-v110.sh c782c317d...` = final suite,
+DeepSeek-V4.1, `deb-test-v110.sh` (installs the deb), `tbo-pkg-v110.sh`, `accept-v110.sh` (about 6 h), then
+`mtp-accept-v110.sh`. Every rule is in the header of its script. Nothing is pushed.
+
+## Final builds and static checks (`final-build-v110.sh`, 2026-11-27 17:41-17:50 UTC), release queue started 17:51
+
+- `/root/build-final-v110` (ROCm 10.0, 138 s) and `/root/build-final-v110-101` (ROCm 10.1, 126 s) of `c782c317d`: 0
+  errors, RCCL on, max-ilp on, tests built.
+- Package from the clean worktree `/root/wt-deb-v110`:
+  `mx-llama-cpp-gfx906_1.1.0.git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1_amd64.deb`, version
+  `1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1`, 32,283,478 bytes; Depends on the ROCm 10.1 runtime,
+  rocBLAS and RCCL packages only.
+- The LLVM 24 rule (`-amdgpu-vgpr-threshold-percent=88`) is on exactly one compile command, the head-256 tile
+  instance, in the ROCm 10.1 source build and in the package build; on none in the ROCm 10.0 build.
+- `tilescan.py`: none of the 17 kernels of the tile object has a reload inside a loop, source build and package build
+  alike (`final-static/tilescan-final-v110.txt`).
+- `maskcmp.py` package build against the ROCm 10.1 source build: 1000 functions differ in address constants only
+  (`s_add_u32`, `s_mov_b64`), none in an instruction: the package's GPU code is the source build's.
+
+`queue-rel-v110.sh c782c317d...` runs since 17:51 UTC (`queue-rel.progress`; jobs `final`, `ds41`, `debtest`, `tbo`,
+`accept`, `mtp`; about 9 hours). `publish-llama-110.sh` is ready for after it (tag `gfx906/v1.1.0/r0/master`, release
+`mx-llama-cpp-1.1.0-gfx906-rocm10.1`, then the rolling channel).
+
+## Release queue, the correctness jobs: RESULT (`queue-rel-v110.sh`, 2026-11-27 17:51-18:53 UTC, all rc=0)
+
+Clocks: the idle check passed before every job; in the five watchdog logs the longest run of samples with a busy die
+at 1000 MHz is 2 (the latch is 24). MTP single-stream on the source build 74.1-74.9 tok/s (the suite of `9a7177d0a`
+on 2026-11-26 was latched: 61).
+
+| check | final master `c782c317d`, `/root/build-final-v110` (ROCm 10.0 compiler and runtime) | the package (ROCm 10.1), installed from the file |
+|---|---|---|
+| `test-backend-ops` per die | 21871/21871 x 4 | job `tbo` (below) |
+| PPL 27B Q8_0, 16K x 6, `-sm tensor` | 5.6088 +/- 0.06224 (= `9a7177d0a`, bit for bit) | 5.6088 +/- 0.06224 |
+| greedy `-sm layer -lm dio`, Flash-Next | coherent, 0 buffered fallbacks | the same |
+| MTP n_max 2 | 154/200, every request and every row path the same text (`c0adc4434872`) | 154/200 np1, 156/198 np4 |
+| fold check (ubatch 16 = 16 columns and 16 rows, the widest batch on the custom all-reduce and the first on MMQ) | 5.0756 on = 5.0756 on again, 5.0679 off | - |
+| `test-llama-archs` | 151 models | - |
+| `test-llama-context` | default rollback 150 of 151, `LLAMA_RS_REPLAY=1` 149 of 151 | - |
+| `mtp-carry.sh` | A A A B A: the three A after the first and the one after B identical | - |
+| `rs-modes3.sh` | rules 1, 2, 4 met, rule 3 not (as on `9a7177d0a`, a property of the merge only) | - |
+| DeepSeek-V4.1 (`test-llama-archs -a deepseek41`, `dsv41-test.sh`, `ds41-dspark.sh`) | 6 of 6; PPL 2.2196; `llama-cli` texts `8732c2ea` / `8b8499fe` as before; DSpark 110 of 238 drafted tokens accepted | PPL 2.2196, the same two texts, DSpark 110 of 238 |
+| package properties | - | 55 ELF files, all with `DT_RPATH=/opt/mx-llama.cpp/lib:/opt/rocm/core-10.1/lib`; with another build and ROCm 10.0 first in `LD_LIBRARY_PATH`: 0 ggml/llama libraries from outside, 0 of 26 ROCm libraries from outside 10.1; RCCL up; `1.1.0-dev (build 13021, commit c782c317d)` |
+
+Read against the earlier runs, three things differ and each is accounted for:
+
+1. **`test-llama-context` 150 of 151 in the default mode** (always 2 failures before: `gemma4-dense` and
+   `mistral-large4-moe`, the KV-replica defect). Not a fix: the fixtures get new random weights on every run (four
+   runs, four md5 sums of `mistral-large4-moe.gguf`) and the defect's error depends on them: NMSE at step 1 was
+   1.35e-05, 5.6e-03, 1.0e-03 and 1.6e-03 in the failing runs and 3.4e-06 to 9.7e-06 in this one, against the test's
+   threshold of 1.0e-05. The v1.0.0 cycle saw the same (2 of 3). The defect is open as before.
+2. **Greedy texts of SHORT prompts changed against `9a7177d0a`; texts of long prompts and both perplexities did not.**
+   Qwen MTP (11-token prompt): `992ec9e4d9de` (156/198) -> `c0adc4434872` (154/200), the same in every test and row
+   path; the 2089-token prompt's texts are identical in all five rollback arms. DeepSeek-V4.1 `llama-server` reply
+   (18-token prompt): `3017d228` (192 tokens) -> `7f3c7fee` (71 tokens, EOS), while `llama-cli` on the same prompt
+   is unchanged. Cause: batches of 9 to 16 tokens are now computed by another kernel (MMQ, was MMVQ) and their
+   all-reduce of 5 to 16 rows by another path (custom, was RCCL), so their last bits differ and a greedy near-tie
+   falls the other way. The server evaluates the 18-token prompt as 14 + 4 (`prompt processing, n_tokens = 14` in
+   `srv-base.log`), `llama-cli` as 18 at once; the Qwen prompt is 11 tokens. Not checked further (no arm with only
+   one of the two changes generated text).
+3. **On the ROCm 10.1 runtime the first request of every new server process starts slowly**, and the package test is
+   the first job of this queue on that runtime. Package, single stream MTP: the very first request after the install
+   39.00 tok/s (101 tokens at 22 tok/s, the other 155 at 75; prompt 870 ms against 359 ms on the source build), the
+   first requests of the next servers 55.5 and 58.2 tok/s (source build on 10.0: 67.6 and 68.0), two later requests
+   62.8 and 56.1 with the time lost in the last 30 tokens, all others 73.9-74.6 (source 74.1-74.9); np4 79.2-79.7
+   with a first request of 71.3. DeepSeek-V4.1 `-sm tensor`, 55 tokens in a new process: 18.5 tok/s against 30.3.
+   Nothing in the journal at those seconds (no memory-error soft-offline, no GPU message), no latch, kswapd,
+   compaction and THP counters 0. The v1.0.0 cycle has the same in its data without having named it (first request
+   54.77 tok/s on 10.1 in `pr-test-101`, 68.3 on 10.0). OPEN until the MTP acceptance is read: `mtp-accept-v110.sh`
+   runs the package, two source arms and v1.0.0 on the 10.1 runtime, so its first requests show whether 1.1.0 starts
+   slower than 1.0.0; its means are compared only after the slow samples are looked at (the v1.0.0 rule).
+   Tool for later: `/sys/class/kfd/kfd/proc/<pid>/stats_*/evicted_ms` counts the time a process's GPU queues were
+   evicted (2.5-3.5 s within 8 minutes in each `test-backend-ops` process); a stalled request with no growth there
+   is not an eviction.
+
+**Job `tbo` (18:53-19:03 UTC): PASSED.** `test-backend-ops` of the ROCm 10.1 source build with the installed
+package's `libggml-hip.so.1.1.1` mapped (`maps-N.txt`), one process per die: 21871/21871 x 4; 5799
+`FLASH_ATTN_EXT` cases on a die, 177 of them with head size 256 (the tile object the LLVM 24 rule is on).
+
+**Written for after the queue: `firstreq-v110.sh`** (item 3 above; rules F1-F5 in its header, `CHECK=1` run: every
+arm maps its own `libggml-hip` and the runtime it names). Five arms (package, package with
+`HIP_ENABLE_DEFERRED_LOADING=0`, the same commit by ROCm 10.1 and by 10.0 from source, v1.0.0 by 10.1), 12 requests
+per new server, n=3, about 20 minutes. It says whether the slow start is one-time, whether it belongs to the runtime
+or to the package, and whether deferred code loading carries it. By its rules only two outcomes go to the lead before
+publishing: the package starting slower than the same code from source, or slow requests that keep coming back in
+1.1.0 and not in 1.0.0.
+
+Job `accept` runs since 19:03 UTC (84 runs, about 355 min), then `mtp`.
+
+## Timing acceptance and MTP at depth: RESULT (`accept-v110.sh` 19:03-01:00 UTC, `mtp-accept-v110.sh` 01:00-01:55 UTC, 2026-11-27/28)
+
+Queue ended `QUEUE-REL DONE`, every job rc=0. Acceptance: 84 of 84 runs, 0 failed. Clock columns: no latch (longest
+stretch of a loaded die at 1000 MHz 6 samples of 24; `wdscan.py`). Full output: `accept-v110.progress`,
+`mtp-accept-v110.progress`.
+
+Per arm, mean of three blocks (decode tok/s per slot / prefill tok/s):
+
+| Cell | `pkg` 1.1.0 package | `s100` same commit, ROCm 10.0 | `old` v1.0.0 (10.1) | `a6` `9a7177d0a` | `a0` merge |
+|---|---|---|---|---|---|
+| 8 x 4096 | 25.078 / 1153.3 | 25.294 / 1115.7 | 21.558 / 1155.6 | 22.100 / 1140.7 | 23.456 / 1128.4 |
+| 12 x 2048 | 13.110 / 1142.5 | 13.110 / 1146.0 | 12.157 / 1153.3 | 12.273 / 1166.2 | 13.057 / 1130.1 |
+| 16 x 2048 | 12.149 / 1161.0 | 12.169 / 1158.4 | 11.622 / 1166.2 | 11.708 / 1169.7 | 12.101 / 1138.8 |
+| 48 x 512 | | 7.4805 / 1209.8 | | 7.4747 / 1210.5 | 7.2265 / 1185.7 |
+| 4 x 65536 | 24.961 / 797.8 | 25.102 / 804.4 | 24.987 / 789.3 | 25.067 / 790.4 | |
+| 1 x 260864 | 32.422 / 412.7 | 32.474 / 408.4 | 32.383 / 414.6 | 32.454 / 410.1 | |
+| 8 x 65536 | 14.928 / 820.2 | | 13.851 / 821.4 | | |
+
+By the rules of the script header:
+
+- **(P1) met.** Design points, `pkg` against `s100`: no MAJOR PENALTY row. 4 x 65536 decode -0.56 % [-0.83, -0.29]
+  (p 0.012, not significant after Holm; the runtime's known 0.3 to 0.5 %), prefill -0.82 % [-2.71, +1.10]; 1 x 260864
+  decode -0.16 % [-0.34, +0.02], prefill +1.05 % [-0.59, +2.72].
+- **(P2) met.** Design points, `pkg` against `old`: 4 x 65536 decode -0.11 % [-0.21, +0.00], prefill +1.12 %
+  [-5.56, +8.28]; 1 x 260864 decode +0.12 % [-0.09, +0.33], prefill -0.46 % [-2.01, +1.11]. No difference shown in
+  any row. The prefill intervals are wide: see "pauses" below.
+- **(P3)** 8 x 65536, `pkg` against `old`: decode **+7.77 % [+7.57, +7.97]** (14.93 against 13.85 tok/s per slot, both
+  over R3.1's 12); prefill -0.14 % [-0.18, -0.10], significant and small (820.2 against 821.4 tok/s). No MAJOR row.
+- **(C1) met.** The two-shot line is in 3 of 3 `pkg` and `s100` logs and in 0 of 3 `old` and `a6` logs at 8 x 4096,
+  12 x 2048, 16 x 2048 (`a0` has it: the fork's threshold; at 4 x 65536 every arm has it: four rows are under both
+  gates).
+- **(C2) met.** Decode `s100` against `a6`: +14.46 % [+13.82, +15.09], +6.82 % [+5.42, +8.23], +3.94 % [+3.88, +4.01]
+  (lines +10, +5, +2). `s100` against `a0`: no penalty row (+7.84 %, +0.41 % n.s., +0.57 %).
+- **(C3) NOT MET by the letter**: prefill of `s100` behind `a6` from the cell means 0.643 s at 8 x 4096, 0.371 s at
+  12 x 2048, 0.272 s at 16 x 2048 per run (limit 0.3 s); no MAJOR PENALTY row (-2.21 % [-15.20, +12.77], -1.73 %
+  [-3.67, +0.26], -0.96 % [-1.85, -0.07]). By the rule the package stopped here until understood: next section.
+- **(C4) met.** 48 x 512, `s100` against `a6`: decode +0.08 % [-0.05, +0.21], prefill -0.06 % [-0.13, +0.01];
+  against `a0` +3.52 % and +2.03 %.
+- **(C5) met.** Design points, `s100` against `a6`: 4 x 65536 +0.14 % / +1.78 % (n.s.), 1 x 260864 +0.06 % / -0.41 %
+  (n.s.).
+- **(C6)** `pkg` against `old`, decode: **+16.33 % [+15.59, +17.07]** at 8 x 4096, **+7.84 % [+7.64, +8.04]** at
+  12 x 2048, **+4.54 % [+4.46, +4.61]** at 16 x 2048; prefill no difference shown (-0.20 %, -0.94 %, -0.45 %).
+  16 slots at 2K are over 12 tok/s per request now (12.15; 1.0.0 11.62).
+- For the record, `pkg` against `a6` at 4 x 65536 decode: -0.43 % [-0.59, -0.27], significant after Holm, not
+  MAJOR at 1 % (the package is the ROCm 10.1 stream, `a6` a 10.0 build).
+
+**MTP at depth** (117,740-token prompt, 3 requests of 768 tokens, n=3, arms = GPU libraries under the package's
+binaries; clock column clean, longest stretch 3):
+
+| Arm | MTP decode tok/s | Prefill tok/s | Accepted / drafted | Text |
+|---|---|---|---|---|
+| `pkg` (installed library) | 49.173 (49.163-49.184) | 617.5 | 530/709 518/743 479/862 | `31c7130217db` ... |
+| `t88` (tile object 88, earlier build) | 49.109 | 617.5 | the same | the same |
+| `c23` (clang 23 tile object) | 45.719 | 615.5 | the same | the same |
+| `old` (v1.0.0) | 49.021 | 618.3 | 536/693 517/749 477/864 | other (`e0ef79073ee6` ...) |
+
+Rule (0): `pkg`, `t88`, `c23` write the same text with the same draft counts; `old` writes another, its decode is
+not compared. Rule (1) **met**: `pkg` against `c23` +7.55 % (line +3.5 %), against `t88` +0.13 %, prefill against
+`t88` level. Rule (2): prefill against `old` -0.14 % (line -2 %). The three requests of every `pkg` server read 51.0 /
+51.6 / 44.9 tok/s in all three blocks: no slow request in this session.
+
+## (C3) on undisturbed samples, and the pauses of the acceptance session (`c3-rerun-v110.sh`, 2026-11-28 02:06-02:42 UTC)
+
+**Why (C3) read over its limit: the acceptance session's prefill samples were disturbed.** What its logs show:
+
+- Run-to-run prefill spread per arm in a cell: 8 x 4096 up to 7.3 %, 12 x 2048 2.6 %, 16 x 2048 0.9 %, 4 x 65536
+  7.4 %, 1 x 260864 2.7 %; 48 x 512 0.03 to 0.17 % and 8 x 65536 0.05 %. In the 22 timing sessions of this cycle
+  before it that have three or more runs per arm, the largest per-arm spread was 0.88 % (one arm; every other under
+  0.5 %) and the median 0.1 %.
+- In the slow runs **the whole pipeline pauses**: all four dies at 0 % busy and idle power (bays 174 W of 620 W) for
+  5 to 20 s, CPU-zone power unchanged, 20 to 110 s after the start of the run; several pauses in one run. Example
+  `old` b2 at 4 x 65536 (prefill 763.1 against 819.9 tok/s in b3 = 24 s): pauses 20:58:19-24 and 20:58:50-59:05.
+- They hit runs of **every arm** (the v1.0.0 build `old` and `a6` as well as `s100` and `pkg`), on both runtimes,
+  in time windows (19:03-19:45, 20:25-21:06, 21:36-22:12 UTC) and not outside them. Decode of the same runs is not
+  touched (spread 0.04 to 0.3 %).
+- Not the cause, checked: clock latch (no stretch over 6 samples), power caps (macpro-fand's log: 125 W on every die,
+  PL1 240 W throughout), host load (sar: 96 % idle, run queue 1 to 6, no I/O wait), memory pressure (no reclaim scan,
+  106 GB free), huge pages and compaction (THP madvise, every `thp_*` and `compact_*` counter 0, 78 pages migrated
+  since boot), memory-error bursts (one correctable error per ten minutes), a leftover GPU process (none).
+- **What pauses the pipeline is not known.** It did not come back in the rerun, so the eviction log below could not
+  test the first candidate (KFD evicting the process's queues).
+
+**(C3) holds on clean samples.** `s100` against `a6`, five blocks, the acceptance's own script with `TAG=c3`:
+
+| Cell | `s100` decode / prefill | `a6` decode / prefill | Prefill spread `s100` / `a6` | Prefill effect | Seconds per run |
+|---|---|---|---|---|---|
+| 8 x 4096 | 25.308 / 1166.5 | 22.194 / 1173.9 | 0.19 % / 0.16 % | -0.63 % [-0.66, -0.60] | +0.177 |
+| 12 x 2048 | 13.131 / 1159.9 | 12.261 / 1169.9 | 0.10 % / 0.15 % | -0.85 % [-0.96, -0.75] | +0.181 |
+| 16 x 2048 | 12.181 / 1162.8 | 11.701 / 1170.7 | 0.11 % / 0.14 % | -0.67 % [-0.75, -0.60] | +0.190 |
+
+By the rule written in the script before the run: (V) all three cells READABLE (spread at most 0.5 %); (C3') the
+difference is a constant 0.18 to 0.19 s per run, inside 0 to 0.3 s, no MAJOR PENALTY row: **(C3) met**, and the
+acceptance's 0.64 s and 0.37 s are put down to the pauses. It is gate9's warm-up batch (0.18 s there). Decode
+confirms (C2) with n=5: +14.03 % [+13.90, +14.16], +7.10 % [+7.04, +7.15], +4.10 % [+3.94, +4.27]. Clock columns
+clean (longest stretch 5), no power dip that costs prefill.
+
+**(E) New fact from the eviction log (`evsample.sh`, `evsample-c3.log`):** every one of the 30 processes has exactly
+one eviction of its GPU queues, 670 to 800 ms, 6 to 7 s after it appears in KFD, i.e. during the model load, the
+same in both arms. No run was slow, so by rule (E) nothing is learned about the pauses. The kernel has function
+tracing for every path that can evict (`amdgpu_amdkfd_evict_userptr`, `svm_range_evict`,
+`kgd2kfd_schedule_evict_and_restore_process`, `amdkfd_fence_enable_signaling`): **open item**, a trace with stacks
+on those during a run that pauses names the trigger.
+
+Tools of this reading (read-only, in this directory): `wdscan.py` (clock column of a watchdog log), `runphase.py` (per run: clock, die power, bay
+power in the prefill phase), `dipscan.py` (power dips inside the loaded span of every run of every session).
+
+## First request of a new server: RESULT (`firstreq-v110.sh`, 2026-11-28 02:43-02:56 UTC)
+
+Four arms x three server starts x twelve requests (256 tokens, greedy, MTP, `-np 1 -c 8192`); `firstreq-v110/progress`,
+`requests.tsv`. Clock column clean.
+
+| Arm | Load s | Request 1 s | Steady s (median of 5..12) | Extra of request 1 | Lost requests |
+|---|---|---|---|---|---|
+| `pkg` (installed package, 10.1) | 9.53 | 3.56-3.60 | 3.438-3.448 | +0.13 s | none |
+| `s101` (same commit from source, 10.1) | 9.52 | 3.57 | 3.436-3.443 | +0.13 s | none |
+| `s100` (same commit from source, 10.0) | 11.54 | 3.53-3.56 | 3.402-3.419 | +0.13 s | none |
+| `old` (v1.0.0, 10.1) | 9.51 | 3.59-3.60 | 3.459-3.463 | +0.13 s | none |
+
+By the rules of the header: **(F1) ONE-TIME** in every arm (no request from the fifth on lost in any block). **(F2)**
+`s101` level with `s100`, `pkg` level with `s101`: the 10.1 runtime does not start slower and the package adds
+nothing. **(F4)** `pkg` level with `old`. **(F5)** no lost request; request 1 has 8 to 12 ms of eviction. Neither
+outcome that goes to the lead occurred. **(F3) cannot be read:** with `HIP_ENABLE_DEFERRED_LOADING=0` the server does
+not start at all, three of three (`hip_platform.cpp:238: Cannot retrieve Static function, error: 200`): never set it
+for these builds.
+
+**So the slow starts of the package test (first request 39 tok/s, then 55 and 58; two later requests 56 and 63) are
+not a property of the ROCm 10.1 runtime or of the package.** They fell at 18:36-18:53 UTC, at the start of the
+evening's pauses (previous section), and do not reproduce: a new server's first request costs 0.13 s in every arm
+(71.7 against 74.4 tok/s). The same holds for what v1.0.0's `pr-test-101` showed (54.8): one sample of an episode,
+not a runtime difference. One open item instead of two: the pauses.
+
+New in the data: from the third request on, a server's `evicted_ms` grows by 136 to 174 ms (sum over the four dies)
+in every request, in every arm; in 4 of 12 servers it stops after the fifth request. Requests with and without it
+differ by 3 to 10 ms of prompt time and not in generation time.
+
+## What evicts the queues: located (`kfdtrace-v110.sh`, 2026-11-28 03:01 UTC)
+
+One server of the installed package, 8 requests, the kernel's function tracer with stacks on the three ways KFD
+evicts a process (reading rule in the header; `kfdtrace-v110/trace.txt`, 329 entries; tracer restored to `nop`).
+
+- **It is the SVM path, called from the server's own system calls.** `svm_range_evict` 158 entries:
+  102 from `munmap` (`__x64_sys_munmap -> __split_vma -> vma_adjust_trans_huge -> __split_huge_pmd ->
+  mmu_notifier_invalidate_range_start -> svm_range_cpu_invalidate_pagetables`), 16 from `madvise`
+  (`do_madvise -> zap_page_range_single`), 40 from the runtime's own `svm_ioctl -> svm_range_set_attr ->
+  svm_migrate_to_vram` during the model load. `kgd2kfd_schedule_evict_and_restore_process` (a buffer being moved):
+  0 entries. `amdgpu_amdkfd_evict_userptr`: only at process exit.
+- **Each one stops every queue of the process** (`kgd2kfd_quiesce_mm`, 17 times) until a kernel worker
+  (`svm_range_restore_work`) restarts them: 275 ms once during the load (the 0.7 s per process in the eviction log
+  is that, summed over four dies), 34 to 40 ms once per request from the third on, 1 to 4 ms otherwise.
+- So: the HIP runtime registers host memory with the driver as shared-virtual-memory ranges (and migrates some of it
+  to VRAM); when the program frees or unmaps host memory in such a range, or beside one (the kernel announces the
+  whole 2 MB around a split point), the driver evicts all queues because gfx906 cannot retry a GPU page fault.
+- **What this does and does not settle.** In steady state the cost is small (under 10 ms per request). It is a
+  mechanism by which a program's own memory handling stops all four dies with the host idle, which is what the
+  pauses look like; that the pauses are this (a restore that takes seconds or repeats) is NOT shown: none occurred
+  under the trace. Next: `kfdtrace-v110.sh`-style tracing plus `evsample.sh` around a run that pauses; and whether an
+  allocator that never returns memory (or the runtime not using SVM ranges for pageable copies) removes the
+  per-request eviction. Not package work; recorded in the tuning repository's `NEXT-STEPS.md`.
+
+## Pushed, published, dogfooded (2026-11-28 02:57-02:59 UTC)
+
+Every rule of the queue met ((C3) on the rerun), so:
+
+- **Fork** (`push-v110.sh`, `push-v110.out`): `master` = `gfx906-single` = `gfx906-multi` = `c782c317d` (was
+  `224b73e24`), `gfx906-candidates` = `797abac2e` (was `5c01f4ffd`), annotated tags `gfx906/v1.1.0/r0/merge`
+  (`a3aa1c772`), `/master` (`c782c317d`), `/candidates` (`797abac2e`); the three `wip/*` branches deleted. All
+  force-with-lease against the heads read before. PR mxxm-t#25 untouched (open, head `a3aa1c772`, no comment).
+- **Package** (`publish-llama-110.sh`, `publish-llama-110.out`): release
+  `mx-llama-cpp-1.1.0-gfx906-rocm10.1` on exabit-io/resize-amdgpu-bars (signed flat apt repository, notes
+  `/root/mx-llama-deb/release-notes-1.1.0-rocm10.1.final.md`), and the deb added to the rolling channel
+  `mx-llama-cpp-gfx906` (8 debs, 1.1.0 newest; channel page updated, previous page kept as
+  `/root/local-apt/mx-llama-cpp-gfx906-channel-notes.pre-1.1.0.md`). Both verified over https by the scripts.
+- **Dogfood** (`dogfood-v110/progress`): `apt-get update` clean, reinstall from the channel, chain verified
+  (InRelease signature -> Packages SHA256 -> deb SHA256 -> origin signature in the deb), channel deb identical to the
+  local build, 26 ROCm libraries all from `/opt/rocm/core-10.1`. The box runs
+  `1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1` from the channel.
+
+For the record of the arms: `a6` (`9a7177d0a`, `/root/build-master-v110`) has the tree of `e2497e7c0` = published
+`master~4` (the port-note rewrite changed messages only).
+
+**Open after this cycle** (also in the tuning repository's `NEXT-STEPS.md`): the pauses (cause); the per-request SVM
+eviction (lever: allocator or runtime setting); a build without RCCL wants a wider gate than 16 rows (not built);
+17 to 23 slots untimed; which of the two defaults flips short-prompt greedy text (not isolated); rs-modes3 rule 3 and
+the KV-replica defect (the fork's, unchanged); the lead's decisions: the rates comment for PR #25
+(`pr25-rates-comment.md`, not posted), the staged clock-latch test, whether PR #25 stays open.

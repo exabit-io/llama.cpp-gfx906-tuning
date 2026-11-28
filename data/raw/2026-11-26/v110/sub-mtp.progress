@@ -1,0 +1,26 @@
+2026-11-27T03:13:03+00:00 [sub-mtp] mxxm: /root/build-sub-mxxm on /opt/rocm/core-10.0
+2026-11-27T03:13:03+00:00 [sub-mtp] merge: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T03:13:03+00:00 [sub-mtp] master: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T03:13:03+00:00 [sub-mtp] n=5, arms: mxxm merge master; prompt 200000 characters, 5 requests of 512 tokens; load 2.75 3.14 3.25
+2026-11-27T03:13:17+00:00 [sub-mtp] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1198/2513/2502/2506
+2026-11-27T03:13:17+00:00 [sub-mtp] block 1 order: merge master mxxm 
+2026-11-27T03:15:35+00:00 [sub-mtp] merge b1: prefill 818.387 tok/s (47758 tokens); MTP decode mean 59.7270 (59.0882 59.3845 51.7921 68.9066 59.4636); accepted 343/502 334/531 307/609 359/456 335/527
+2026-11-27T03:17:51+00:00 [sub-mtp] master b1: prefill 833.316 tok/s (47758 tokens); MTP decode mean 59.6063 (58.3847 59.7169 50.5175 68.8572 60.5554); accepted 342/503 337/519 302/627 360/450 339/514
+2026-11-27T03:20:11+00:00 [sub-mtp] mxxm b1: prefill 818.211 tok/s (47758 tokens); MTP decode mean 56.2836 (58.8313 56.8506 51.8630 57.8059 56.0674); accepted 343/502 329/540 308/609 330/540 325/556
+2026-11-27T03:20:11+00:00 [sub-mtp] block 2 order: mxxm master merge 
+2026-11-27T03:22:31+00:00 [sub-mtp] mxxm b2: prefill 817.958 tok/s (47758 tokens); MTP decode mean 56.1405 (58.6422 56.8168 51.7696 57.6322 55.8418); accepted 343/502 329/540 308/609 330/540 325/556
+2026-11-27T03:24:48+00:00 [sub-mtp] master b2: prefill 833.156 tok/s (47758 tokens); MTP decode mean 59.4041 (58.2086 59.3803 50.3086 68.7184 60.4045); accepted 342/503 337/519 302/627 360/450 339/514
+2026-11-27T03:27:05+00:00 [sub-mtp] merge b2: prefill 818.748 tok/s (47758 tokens); MTP decode mean 59.8831 (59.3083 59.5819 51.9025 68.9474 59.6756); accepted 343/502 334/531 307/609 359/456 335/527
+2026-11-27T03:27:05+00:00 [sub-mtp] block 3 order: merge mxxm master 
+2026-11-27T03:29:22+00:00 [sub-mtp] merge b3: prefill 819.127 tok/s (47758 tokens); MTP decode mean 59.7433 (58.8430 59.4574 51.7662 69.1101 59.5399); accepted 343/502 334/531 307/609 359/456 335/527
+2026-11-27T03:31:42+00:00 [sub-mtp] mxxm b3: prefill 817.377 tok/s (47758 tokens); MTP decode mean 56.2132 (58.6232 56.8225 51.7450 57.7236 56.1519); accepted 343/502 329/540 308/609 330/540 325/556
+2026-11-27T03:33:58+00:00 [sub-mtp] master b3: prefill 832.426 tok/s (47758 tokens); MTP decode mean 59.4634 (58.2373 59.5329 50.3784 68.6861 60.4822); accepted 342/503 337/519 302/627 360/450 339/514
+2026-11-27T03:33:58+00:00 [sub-mtp] block 4 order: merge mxxm master 
+2026-11-27T03:36:16+00:00 [sub-mtp] merge b4: prefill 818.950 tok/s (47758 tokens); MTP decode mean 59.6453 (58.9633 59.3841 51.6881 68.6508 59.5400); accepted 343/502 334/531 307/609 359/456 335/527
+2026-11-27T03:38:36+00:00 [sub-mtp] mxxm b4: prefill 817.037 tok/s (47758 tokens); MTP decode mean 56.0538 (58.5727 56.5854 51.6414 57.6457 55.8239); accepted 343/502 329/540 308/609 330/540 325/556
+2026-11-27T03:40:52+00:00 [sub-mtp] master b4: prefill 833.512 tok/s (47758 tokens); MTP decode mean 59.3370 (58.0092 59.4739 50.2646 68.6073 60.3300); accepted 342/503 337/519 302/627 360/450 339/514
+2026-11-27T03:40:52+00:00 [sub-mtp] block 5 order: merge mxxm master 
+2026-11-27T03:43:09+00:00 [sub-mtp] merge b5: prefill 819.323 tok/s (47758 tokens); MTP decode mean 59.8250 (59.0072 59.4943 51.8694 69.1306 59.6234); accepted 343/502 334/531 307/609 359/456 335/527
+2026-11-27T03:45:29+00:00 [sub-mtp] mxxm b5: prefill 818.377 tok/s (47758 tokens); MTP decode mean 56.2142 (58.7274 56.7696 51.7070 57.8053 56.0619); accepted 343/502 329/540 308/609 330/540 325/556
+2026-11-27T03:47:46+00:00 [sub-mtp] master b5: prefill 833.678 tok/s (47758 tokens); MTP decode mean 59.4324 (58.1797 59.5155 50.4483 68.5550 60.4634); accepted 342/503 337/519 302/627 360/450 339/514
+2026-11-27T03:47:46+00:00 [sub-mtp] === SUB-MTP sub DONE ===

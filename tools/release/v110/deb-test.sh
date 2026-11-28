@@ -5,7 +5,7 @@
 #  3. build properties of the installed files: DT_RPATH, library isolation, -march=native code, tree defaults
 #  4. suite on /opt/mx-llama.cpp (no test-backend-ops: the package ships no tests), MTP row paths at -np 1 and -np 4
 set -u
-W=/root/rebase-v100; O=$1; mkdir -p $O; P=$O/progress
+W=/root/rebase-v110; O=$1; mkdir -p $O; P=$O/progress
 B=/opt/mx-llama.cpp
 DEB=$(cat /root/mx-llama-deb/last-deb.txt)
 log(){ echo "$(date -Is) [deb] $*" | tee -a $P; }
@@ -23,7 +23,7 @@ for f in $(dpkg -L mx-llama-cpp-gfx906); do
   [ "$(readelf -d "$f" | sed -n 's/.*(RPATH).*\[\(.*\)\]/\1/p')" = "$B/lib" ] || { bad=$((bad+1)); echo "RPATH: $f" >> $O/elf-bad.txt; }
 done
 log "ELF files $n, without DT_RPATH=$B/lib: $bad"
-log "isolation: with LD_LIBRARY_PATH=/root/build-stock-v100/bin, libraries outside $B/lib or ROCm: $(LD_LIBRARY_PATH=/root/build-stock-v100/bin ldd $B/bin/llama-server | grep -E 'libggml|libllama|libmtmd' | grep -vc "$B/lib")"
+log "isolation: with LD_LIBRARY_PATH=/root/build-sub-mxxm/bin, libraries outside $B/lib or ROCm: $(LD_LIBRARY_PATH=/root/build-sub-mxxm/bin ldd $B/bin/llama-server | grep -E 'libggml|libllama|libmtmd' | grep -vc "$B/lib")"
 log "native: zmm instructions in libggml-cpu $(objdump -d $B/lib/libggml-cpu.so | grep -c zmm), vpdpbusd $(objdump -d $B/lib/libggml-cpu.so | grep -c vpdpbusd)"
 log "defaults: $(grep -E 'GGML_HIP_RCCL|FA_QUANTS|MAX_ILP|CMAKE_C_FLAGS:|CMAKE_CXX_FLAGS:' /root/mx-llama-deb/build/CMakeCache.txt | grep -v '^//' | tr '\n' ' ' | cut -c1-300)"
 log "version: $($B/bin/llama-cli --version 2>&1 | grep version); source $(cat /usr/share/doc/mx-llama-cpp-gfx906/SOURCE-COMMIT)"

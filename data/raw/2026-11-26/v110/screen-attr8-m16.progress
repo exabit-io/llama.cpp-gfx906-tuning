@@ -1,0 +1,32 @@
+2026-11-27T13:26:53+00:00 [screen] a0: /root/build-sub-merge on /opt/rocm/core-10.0
+2026-11-27T13:26:53+00:00 [screen] a1: /root/build-attr-a1 on /opt/rocm/core-10.0
+2026-11-27T13:26:53+00:00 [screen] a2: /root/build-attr-a2 on /opt/rocm/core-10.0
+2026-11-27T13:26:53+00:00 [screen] a3: /root/build-attr-a3 on /opt/rocm/core-10.0
+2026-11-27T13:26:53+00:00 [screen] a4: /root/build-attr-a4 on /opt/rocm/core-10.0
+2026-11-27T13:26:53+00:00 [screen] a5: /root/build-attr-a5 on /opt/rocm/core-10.0
+2026-11-27T13:26:53+00:00 [screen] a6: /root/build-master-v110 on /opt/rocm/core-10.0
+2026-11-27T13:27:07+00:00 [screen] block 1 order: a2 a6 a0 a5 a1 a4 a3 
+2026-11-27T13:28:29+00:00 [screen] 16 x 2048 a2 b1: decode 11.8499, prefill 1145.9
+2026-11-27T13:29:52+00:00 [screen] 16 x 2048 a6 b1: decode 11.7050, prefill 1171.9
+2026-11-27T13:31:13+00:00 [screen] 16 x 2048 a0 b1: decode 12.1295, prefill 1143.2
+2026-11-27T13:32:35+00:00 [screen] 16 x 2048 a5 b1: decode 11.7149, prefill 1172.1
+2026-11-27T13:33:58+00:00 [screen] 16 x 2048 a1 b1: decode 11.8670, prefill 1146.4
+2026-11-27T13:35:21+00:00 [screen] 16 x 2048 a4 b1: decode 11.6274, prefill 1146.5
+2026-11-27T13:36:44+00:00 [screen] 16 x 2048 a3 b1: decode 11.8631, prefill 1147.7
+2026-11-27T13:36:44+00:00 [screen] block 2 order: a1 a2 a6 a3 a5 a0 a4 
+2026-11-27T13:38:06+00:00 [screen] 16 x 2048 a1 b2: decode 11.8692, prefill 1147.0
+2026-11-27T13:39:29+00:00 [screen] 16 x 2048 a2 b2: decode 11.8483, prefill 1146.0
+2026-11-27T13:40:51+00:00 [screen] 16 x 2048 a6 b2: decode 11.7101, prefill 1170.3
+2026-11-27T13:42:14+00:00 [screen] 16 x 2048 a3 b2: decode 11.8617, prefill 1146.3
+2026-11-27T13:43:36+00:00 [screen] 16 x 2048 a5 b2: decode 11.7010, prefill 1171.5
+2026-11-27T13:44:58+00:00 [screen] 16 x 2048 a0 b2: decode 12.1115, prefill 1144.0
+2026-11-27T13:46:21+00:00 [screen] 16 x 2048 a4 b2: decode 11.6350, prefill 1145.5
+2026-11-27T13:46:21+00:00 [screen] block 3 order: a5 a4 a6 a0 a2 a3 a1 
+2026-11-27T13:47:44+00:00 [screen] 16 x 2048 a5 b3: decode 11.7125, prefill 1170.8
+2026-11-27T13:49:07+00:00 [screen] 16 x 2048 a4 b3: decode 11.6348, prefill 1145.8
+2026-11-27T13:50:29+00:00 [screen] 16 x 2048 a6 b3: decode 11.7058, prefill 1170.5
+2026-11-27T13:51:51+00:00 [screen] 16 x 2048 a0 b3: decode 12.1163, prefill 1142.9
+2026-11-27T13:53:13+00:00 [screen] 16 x 2048 a2 b3: decode 11.8423, prefill 1145.6
+2026-11-27T13:54:36+00:00 [screen] 16 x 2048 a3 b3: decode 11.8560, prefill 1147.4
+2026-11-27T13:55:58+00:00 [screen] 16 x 2048 a1 b3: decode 11.8681, prefill 1147.2
+2026-11-27T13:55:58+00:00 [screen] === SCREEN attr8-m16 DONE ===

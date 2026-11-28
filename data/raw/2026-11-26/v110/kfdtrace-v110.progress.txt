@@ -1,0 +1,38 @@
+2026-11-28T03:01:24+00:00 [kfdtrace] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1185/2483/2510/2514
+2026-11-28T03:01:45+00:00 [kfdtrace] tracer on: kgd2kfd_quiesce_mm [amdgpu] kgd2kfd_resume_mm [amdgpu] kgd2kfd_schedule_evict_and_restore_process [amdgpu] svm_range_evict.isra.0 [amdgpu] amdgpu_amdkfd_evict_userptr [amdgpu] 
+2026-11-28T03:01:55+00:00 [kfdtrace] server pid 1339480 up; uptime clock 91788.89
+2026-11-28T03:01:59+00:00 [kfdtrace] request 1: uptime clock 91788.90 to 91792.78, evicted_ms +8, 3.52 s generation, prompt 353 ms
+2026-11-28T03:02:03+00:00 [kfdtrace] request 2: uptime clock 91792.81 to 91796.70, evicted_ms +0, 3.44 s generation, prompt 282 ms
+2026-11-28T03:02:06+00:00 [kfdtrace] request 3: uptime clock 91796.72 to 91800.52, evicted_ms +156, 3.45 s generation, prompt 331 ms
+2026-11-28T03:02:10+00:00 [kfdtrace] request 4: uptime clock 91800.54 to 91804.32, evicted_ms +140, 3.44 s generation, prompt 328 ms
+2026-11-28T03:02:14+00:00 [kfdtrace] request 5: uptime clock 91804.34 to 91808.11, evicted_ms +136, 3.42 s generation, prompt 334 ms
+2026-11-28T03:02:18+00:00 [kfdtrace] request 6: uptime clock 91808.14 to 91811.90, evicted_ms +160, 3.44 s generation, prompt 316 ms
+2026-11-28T03:02:22+00:00 [kfdtrace] request 7: uptime clock 91811.93 to 91815.69, evicted_ms +144, 3.43 s generation, prompt 324 ms
+2026-11-28T03:02:25+00:00 [kfdtrace] request 8: uptime clock 91815.72 to 91819.49, evicted_ms +144, 3.44 s generation, prompt 315 ms
+2026-11-28T03:02:35+00:00 [kfdtrace] trace: 5255 lines, 329 function entries
+[kfdtrace] 329 entries, 12 distinct (function, stack)
+[kfdtrace] amdgpu_amdkfd_evict_userptr: 68 entries, uptime clock 91817.32 to 91817.32, by {'llama-server': 68}
+[kfdtrace]    amdgpu_hmm_invalidate_hsa <- __mmu_notifier_release <- exit_mmap <- __mmput <- mmput <- exit_mm <- do_exit <- do_group_exit <- get_signal <- arch_do_signal_or_restart <- exit_to_user_mode_loop <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] amdgpu_amdkfd_evict_userptr: 68 entries, uptime clock 91817.33 to 91817.33, by {'llama-server': 68}
+[kfdtrace]    amdgpu_hmm_invalidate_hsa <- __mmu_notifier_invalidate_range_start <- unmap_vmas <- exit_mmap <- __mmput <- mmput <- exit_mm <- do_exit <- do_group_exit <- get_signal <- arch_do_signal_or_restart <- exit_to_user_mode_loop <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] kgd2kfd_quiesce_mm: 9 entries, uptime clock 91782.80 to 91816.97, by {'llama-server': 9}
+[kfdtrace]    svm_range_evict.isra.0 <- svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- __split_huge_pmd <- vma_adjust_trans_huge <- __split_vma <- vms_gather_munmap_vmas <- do_vmi_align_munmap <- do_vmi_munmap <- __vm_munmap <- __x64_sys_munmap <- x64_sys_call <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] kgd2kfd_quiesce_mm: 8 entries, uptime clock 91784.35 to 91816.86, by {'llama-server': 8}
+[kfdtrace]    svm_range_evict.isra.0 <- svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- zap_page_range_single_batched <- madvise_vma_behavior <- madvise_walk_vmas <- madvise_do_behavior <- do_madvise <- __x64_sys_madvise <- x64_sys_call <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] kgd2kfd_quiesce_mm: 1 entries, uptime clock 91817.32 to 91817.32, by {'llama-server': 1}
+[kfdtrace]    amdgpu_amdkfd_evict_userptr <- amdgpu_hmm_invalidate_hsa <- __mmu_notifier_release <- exit_mmap <- __mmput <- mmput <- exit_mm <- do_exit <- do_group_exit <- get_signal <- arch_do_signal_or_restart <- exit_to_user_mode_loop <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] kgd2kfd_resume_mm: 17 entries, uptime clock 91783.08 to 91817.09, by {'kworker/27:2': 4, 'kworker/26:2': 1, 'kworker/14:2': 1, 'kworker/41:0': 1, 'kworker/55:3': 1, 'kworker/13:0': 3, 'kworker/43:2': 1, 'kworker/13:3': 2, 'kworker/41:1': 1, 'kworker/2:0': 1, 'kworker/28:1': 1}
+[kfdtrace]    svm_range_restore_work <- process_one_work <- worker_thread <- kthread <- ret_from_fork <- ret_from_fork_asm
+[kfdtrace] svm_range_evict.isra.0: 102 entries, uptime clock 91782.80 to 91816.97, by {'llama-server': 102}
+[kfdtrace]    svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- __split_huge_pmd <- vma_adjust_trans_huge <- __split_vma <- vms_gather_munmap_vmas <- do_vmi_align_munmap <- do_vmi_munmap <- __vm_munmap <- __x64_sys_munmap <- x64_sys_call <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] svm_range_evict.isra.0: 20 entries, uptime clock 91777.15 to 91783.13, by {'llama-server': 20}
+[kfdtrace]    svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- migrate_vma_setup <- svm_migrate_vma_to_vram <- svm_migrate_ram_to_vram <- svm_migrate_to_vram <- svm_range_set_attr <- svm_ioctl <- kfd_ioctl_svm <- kfd_ioctl <- __x64_sys_ioctl <- x64_sys_call <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] svm_range_evict.isra.0: 20 entries, uptime clock 91777.15 to 91783.13, by {'llama-server': 20}
+[kfdtrace]    svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- __migrate_device_pages <- migrate_vma_pages <- svm_migrate_vma_to_vram <- svm_migrate_ram_to_vram <- svm_migrate_to_vram <- svm_range_set_attr <- svm_ioctl <- kfd_ioctl_svm <- kfd_ioctl <- __x64_sys_ioctl <- x64_sys_call <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] svm_range_evict.isra.0: 14 entries, uptime clock 91784.35 to 91816.86, by {'llama-server': 14}
+[kfdtrace]    svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- zap_page_range_single_batched <- madvise_vma_behavior <- madvise_walk_vmas <- madvise_do_behavior <- do_madvise <- __x64_sys_madvise <- x64_sys_call <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe
+[kfdtrace] svm_range_evict.isra.0: 1 entries, uptime clock 91816.49 to 91816.49, by {'llama-server': 1}
+[kfdtrace]    
+[kfdtrace] svm_range_evict.isra.0: 1 entries, uptime clock 91816.49 to 91816.49, by {'llama-server': 1}
+[kfdtrace]    svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- zap_page_range_single_batched <- madvise_vma_behavior <- madvise_walk_vmas <- madvise_do_behavior <- do_madvise <- __x64_sys_madvise <- x64_sys_call <- do_syscall_64 <- entry_SYSCALL_64_after_hwframe <- svm_range_evict.isra.0 <- svm_range_cpu_invalidate_pagetables <- __mmu_notifier_invalidate_range_start <- zap_page_range_single_batched <- madvise_vma_behavior <- madvise_walk_vmas <- madvise_do_behavior <- do_madvise <- __x64_sys_madvise <- x64_sys_call
+2026-11-28T03:02:35+00:00 [kfdtrace] === KFDTRACE DONE ===
