@@ -1009,3 +1009,16 @@ eviction (lever: allocator or runtime setting); a build without RCCL wants a wid
 17 to 23 slots untimed; which of the two defaults flips short-prompt greedy text (not isolated); rs-modes3 rule 3 and
 the KV-replica defect (the fork's, unchanged); the lead's decisions: the rates comment for PR #25
 (`pr25-rates-comment.md`, not posted), the staged clock-latch test, whether PR #25 stays open.
+
+## Design points on clean samples: started, stopped at 3 of 12 runs (`dp-rerun-v110.sh`, 2026-11-28 03:07-03:28 UTC)
+
+Why it was started: by the validity rule of `c3-rerun-v110.sh` (per-arm prefill spread at most 0.5 %) the prefill
+rows of (P1)/(P2) at 4 x 65536 and 1 x 260864 were not readable either; they had passed with intervals too wide to
+show a 2 % penalty. The package went out on the decode rows of those cells, the clean 8 x 65536 cell, `dp-v110` and
+MTP at depth. This run (package against `old`, both cells, n=3, rule in its header) was the direct reading.
+
+It was stopped by hand (one TERM to `screen.sh`, whose trap restored the GPU settings) when the lead asked for the
+GPUs for another job. What exists: `old` b1 25.0073 / 821.3, `pkg` b1 24.9464 / 818.6, `old` b2 25.0012 / 821.0
+(decode per slot / prefill). One paired block: package -0.24 % decode, -0.33 % prefill; no pause in the three runs.
+Not a reading by the rule. **Open: run it again with a new tag (`TAG=dp3 bash dp-rerun-v110.sh`, about 105 min) when
+the GPUs are idle.** `stop-dp2-after-cell1.sh` was a watcher for a later stop and did nothing.

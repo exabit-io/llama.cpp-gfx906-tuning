@@ -168,6 +168,12 @@ Large text extractions with `.toc.md` section maps giving line numbers. Grep the
   `munmap`/`madvise` touches (or lies within 2 MB of) host memory the HIP runtime registered as an SVM range; 275 ms once per load, ~36 ms once
   per server request, under 10 ms of visible cost. Whether the pauses are that path is not shown. Tools in `tools/release/v110/`: `dipscan.py`
   (pauses in any session's power log), `runphase.py`, `evsample.sh` (`evicted_ms` once a second), `kfdtrace-v110.sh`.
+- **Ternary-Bonsai-2.5-27B Q2_0 (a 7.2 GiB ternary build of Qwen3.8-27B) was benchmarked on 2026-11-28 and not adopted** (lead: no switch;
+  `reports/2026-11-28-ternary-bonsai-q2_0.md`, scripts `tools/bonsai/`). It runs on the 1.1.0 package on one die and with layer split
+  (perplexity 9.35 against 5.61 for the Q8_0 model); **tensor split aborts on any model with Hadamard-rotated weights** (a reshape of a
+  lane-split activation into 1024-wide blocks, `ggml-backend-meta.cpp`). One instance per die at 4 x 64K: 17.7 tok/s per request and 681 tok/s
+  aggregate prefill, against 25.0 and 819 for Q8_0 with tensor split. One die holds five 64K slots or one 262K slot. Do not measure it again
+  unless tensor split learns the Hadamard blocks or the `Q2_0` kernels get tuned for gfx906.
 - **The first request of a new llama-server costs 0.13 s in every build on both ROCm runtimes** (`firstreq-v110.sh`). A slower first or lone
   request is an episode of the pauses above, not the runtime. **Never set `HIP_ENABLE_DEFERRED_LOADING=0`**: no program starts with it.
 - **Do not chase the ROCm 10.1 runtime's decode cost** (0.3 % at 4x64K, same report s.5.3): it is ROCr (`libhsa-runtime64`), whose async-events

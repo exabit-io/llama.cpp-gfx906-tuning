@@ -1,0 +1,18 @@
+2026-11-28T03:31:13+00:00 [check] package 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1, source c782c317d; model 7673194848 bytes
+2026-11-28T03:31:27+00:00 [check] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1189/2505/2497/2514
+2026-11-28T03:31:32+00:00 [check] b2s text rc=0, 313 bytes, md5 ec65dafaa556: Explain in two sentences why the sky is blue.  The sky appears blue because sunlight scatters off molecules in the atmosphere, and shorter blue wavelengths scatter more strongly than longer red wavelengths. This scattered blue light reaches our eyes from all directions, making the sky look blue. [end of text]   
+2026-11-28T03:31:32+00:00 [check] b2s load: ; ; types: 
+2026-11-28T03:39:26+00:00 [check] b2s perplexity rc=0: Final estimate: PPL = 9.3516 +/- 0.12700; ; warnings: 0
+2026-11-28T03:39:33+00:00 [check] b2l text rc=0, 313 bytes, md5 ec65dafaa556: Explain in two sentences why the sky is blue.  The sky appears blue because sunlight scatters off molecules in the atmosphere, and shorter blue wavelengths scatter more strongly than longer red wavelengths. This scattered blue light reaches our eyes from all directions, making the sky look blue. [end of text]   
+2026-11-28T03:39:33+00:00 [check] b2l load: ; ; types: 
+2026-11-28T03:46:43+00:00 [check] b2l perplexity rc=0: Final estimate: PPL = 9.3516 +/- 0.12700; ; warnings: 0
+2026-11-28T03:47:39+00:00 [check] b2t text rc=134, 2862 bytes, md5 70e4e98267be: Explain in two sentences why the sky is blue.[New LWP 1406584] [New LWP 1406583] [New LWP 1406582] [New LWP 1406581] [New LWP 1406575] [New LWP 1406574] [New LWP 1406573] [New LWP 1406572] [New LWP 1406571] [New LWP 1406570] [New LWP 1406569] [New LWP 1406568] [New LWP 1406567] [New LWP 1406566] [New LWP 1406565] [New LWP 1406564] [New LWP 1406563] [New LWP 1406562] [New LWP 1406449] [New LWP 1406448] [New LWP 140644
+2026-11-28T03:47:39+00:00 [check] b2t load: ; ; types: 
+2026-11-28T03:47:39+00:00 [check] b2t text FAILED: warning: 30	../sysdeps/unix/sysv/linux/wait4.c: No such file or directory warning: 58	../sysdeps/nptl/libc_start_call_main.h: No such file or directory warning: 360	../csu/libc-start.c: No such file or directory timeout: the monitored command dumped core 
+2026-11-28T03:48:38+00:00 [check] b2t perplexity rc=134: ; ; warnings: 0
+2026-11-28T03:48:38+00:00 [check] b2t perplexity FAILED: warning: 30	../sysdeps/unix/sysv/linux/wait4.c: No such file or directory warning: 58	../sysdeps/nptl/libc_start_call_main.h: No such file or directory warning: 360	../csu/libc-start.c: No such file or directory timeout: the monitored command dumped core 
+[check] perplexity: b2s 9.3516 +/- 0.1270; b2l 9.3516 +/- 0.1270
+[check] (S2) one die 9.3516: under 20, the runtime transform works
+[check] (S3) b2l against one die: +0.000 % -> same model
+[check] (S3) b2t: no perplexity (mode failed)
+2026-11-28T03:48:44+00:00 [check] === BONSAI-CHECK DONE ===

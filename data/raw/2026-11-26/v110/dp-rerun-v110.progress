@@ -1,1 +1,10 @@
 2026-11-28T03:07:24+00:00 [dp] start: tag dp2, load 0.17 0.37 1.01, free 106 GB, cached 264 GB, up up 1 day, 1 hour, 35 minutes
+2026-11-28T03:28:20+00:00 [dp] accept-v110.sh TAG=dp2 ended rc=0
+[dp] cell s4d65536: per run arm block | prefill tok/s | decode | evicted ms in the process | seconds with >= 100 ms of eviction (offset in the process : ms)
+[dp]   old   b1 |    821.30 |  25.0073 |    720 | +6s:680
+[dp]   pkg   b1 |    818.60 |  24.9464 |    697 | +6s:677
+[dp]   old   b2 |    821.00 |  25.0012 |    779 | +6s:743
+[dp]   old: n=2 prefill mean 821.15, span 0.04 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 720, of the slow runs []
+[dp]   pkg: n=1 prefill mean 818.60, span 0.00 %; runs more than 0.5 % under the best: 0; eviction ms of the best run 697, of the slow runs []
+[dp] cell s4d65536 by (V): READABLE
+2026-11-28T03:28:20+00:00 [dp] === DP-RERUN dp2 DONE rc=0 ===

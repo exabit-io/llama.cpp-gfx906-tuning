@@ -1,0 +1,4 @@
+2026-11-28T03:50:10+00:00 [time] package 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1, source c782c317d; cells: 1:65536:1024:b2s,b2l 4:65536:1024:b2l,b2s; N=3; load 0.52 1.01 1.30
+2026-11-28T03:50:24+00:00 [time] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1194/2491/2483/2492
+2026-11-28T03:50:24+00:00 [time] 1 x 65536 block 1 order: b2l b2s 
+2026-11-28T03:55:11+00:00 [time] STOPPED (trap)

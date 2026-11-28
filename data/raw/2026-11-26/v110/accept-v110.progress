@@ -215,3 +215,24 @@ s100 against a6 (effect = s100 / a6 - 1; Holm over 6 rows; line 1.0 %)
 2026-11-28T03:07:24+00:00 [accept] arm a6: /root/build-master-v110 on /opt/rocm/core-10.0, source  
 2026-11-28T03:07:24+00:00 [accept] arm a0: /root/build-sub-merge on /opt/rocm/core-10.0, source a3aa1c772 
 2026-11-28T03:07:24+00:00 [accept] per-arm environment: pkg:GGML_TP_AR_MAX_NE= s100:GGML_TP_AR_MAX_NE=; 3 blocks; 12 runs, about 104 min
+2026-11-28T03:28:19+00:00 [accept] cell s4d65536 (4 x 65536): rc=1, 3 result rows, 0 failed runs; runs with the two-shot line: pkg=2 old=2
+2026-11-28T03:28:19+00:00 [accept] STOPPED: screen.sh ended with 1 in cell s4d65536 (watchdog or signal); see screen-dp2-s4d65536-watchdog.out
+2026-11-28T03:28:19+00:00 [accept] --- the package, 2 % line (pairs pkg:s100 pkg:old) ---
+arms with data: old pkg
+
+Per arm: n, mean (min-max)
+  4 x 65536, decode tok/s per slot
+    old     n=2     25.0043  (25.0012-25.0073, span 0.02 %)
+    pkg     n=1     24.9464  (24.9464-24.9464, span 0.00 %)
+  4 x 65536, prefill tok/s
+    old     n=2    821.1746  (821.0499-821.2994, span 0.03 %)
+    pkg     n=1    818.6423  (818.6423-818.6423, span 0.00 %)
+
+pkg against old (effect = pkg / old - 1; Holm over 0 rows; line 2.0 %)
+  4 x 65536     decode tok/s per slot                n=1     24.9464 vs    25.0073    -0.24 %  (fewer than 3 pairs: no test)
+  4 x 65536     prefill tok/s                        n=1    818.6423 vs   821.2994    -0.32 %  (fewer than 3 pairs: no test)
+  => no major penalty of pkg against old in any row tested
+
+2026-11-28T03:28:19+00:00 [accept] --- the two defaults, 1 % line (pairs s100:a6 s100:a0 pkg:a6) ---
+2026-11-28T03:28:20+00:00 [accept] --- (C3) prefill of s100 against a6 in seconds per run, from the cell means ---
+2026-11-28T03:28:20+00:00 [accept] === ACCEPT-V110 dp2 DONE ===

@@ -30,6 +30,11 @@ The cycle is published (`RELEASE-RUNBOOK.md` s.0). What it left, most useful fir
 5. Which of the two defaults (MMQ from 9 columns, the gate) changes short-prompt greedy text against `9a7177d0a`: not isolated; long-prompt
    text and both perplexities are bit-identical.
 6. Unchanged from earlier cycles: the fork's KV-replica defect (gemma4-dense, mistral-large4-moe fixtures), rs-modes3 rule 3.
+7. **The two design points on clean samples** (`tools/release/v110/dp-rerun-v110.sh`, about 105 min of GPU time): the acceptance's prefill rows
+   at 4 x 65536 and 1 x 260864 were blurred by the pauses; the rerun was stopped after 3 of 12 runs (one paired block at 4 x 65536: package
+   -0.24 % decode, -0.33 % prefill against v1.0.0, no pause). Run it again with a new tag when the GPUs are idle; its rule is in its header.
+8. Tensor split cannot run models with Hadamard-rotated weights (found with Ternary-Bonsai Q2_0, 2026-11-28,
+   `reports/2026-11-28-ternary-bonsai-q2_0.md`). Only worth doing if such a model becomes a candidate again.
 
 Written after the 2026-09-07 run-through (`reports/2026-09-07-todo-runthrough.html`). It closed the first TODO list: nineteen environment knobs (none move single-stream decode), two tensor-split pairs (adopted for mixed traffic), the pooled cache (fixed upstream), MTP at depth (settled), quant quality (measured), rocBLAS prefill (tie, retired), the 4-bit value cache (runs, 8 × 256K fits), the 16-column MMVQ patch, the MMVQ rewrite (+62% at 12 slots), the ML-gfx906 tile table (+33% prefill), and the power study (the clamp is the 1228 W supply). The production build serves at 82–83 tok/s aggregate on 16 slots against 64 on stock, and every measurement so far agrees on how this chip wants to be programmed: fewer instructions per dot product, no barriers, no long dependent chains, about 64 VGPRs — and, after the M1 trace (2026-09-08, `reports/2026-09-08-m1-kernel-trace.md`), fewer kernels per token: the die is busy 95% of a single-stream token, so what is left is kernel time, not launch gaps.
 

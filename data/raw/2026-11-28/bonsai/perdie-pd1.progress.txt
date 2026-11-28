@@ -1,0 +1,12 @@
+2026-11-28T03:57:17+00:00 [perdie] package 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1, source c782c317d; steps: probe quad:1 quad:2 solo:1 quad:3; N=2; load 0.17 0.72 1.08
+2026-11-28T03:57:31+00:00 [perdie] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1193/2498/2494/2500
+2026-11-28T03:57:37+00:00 [perdie] probe: 1 slot(s), context 66816 on one die: LOADS and runs, peak VRAM 13.7 GiB
+2026-11-28T03:57:42+00:00 [perdie] probe: 2 slot(s), context 133632 on one die: LOADS and runs, peak VRAM 18.0 GiB
+2026-11-28T03:57:50+00:00 [perdie] probe: 3 slot(s), context 200448 on one die: LOADS and runs, peak VRAM 22.2 GiB
+2026-11-28T03:57:58+00:00 [perdie] probe: 4 slot(s), context 267264 on one die: LOADS and runs, peak VRAM 26.4 GiB
+2026-11-28T03:58:07+00:00 [perdie] probe: 5 slot(s), context 334080 on one die: LOADS and runs, peak VRAM 30.7 GiB
+2026-11-28T03:58:12+00:00 [perdie] probe: 1 slot(s), context 262144 on one die: LOADS and runs, peak VRAM 27.4 GiB
+2026-11-28T03:58:12+00:00 [perdie] probe: slots of 64K that fit one die: 1 2 3 4 5
+2026-11-28T04:05:51+00:00 [perdie] quad:1 run 1 (459 s), decode per slot / prefill: die0 17.711/171.0 die1 17.238/165.7 die2 17.908/172.3 die3 17.852/172.1
+2026-11-28T04:13:31+00:00 [perdie] quad:1 run 2 (459 s), decode per slot / prefill: die0 17.638/170.9 die1 17.227/165.6 die2 17.949/172.1 die3 17.934/172.1
+2026-11-28T04:17:21+00:00 [perdie] STOPPED (trap)
