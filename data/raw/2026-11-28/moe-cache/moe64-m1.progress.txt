@@ -1,0 +1,9 @@
+2026-11-28T05:02:55+00:00 [moe64] package 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1; arms: lfit tfit c64 c32 c64s cmoe; RAM free 369 GiB; load 0.73 1.81 1.37
+2026-11-28T05:03:09+00:00 [moe64] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1191/2508/2511/2512
+no result row for depth 65536 in /root/moe-cache/moe64-m1/lfit.md
+2026-11-28T05:03:38+00:00 [moe64] lfit (29 s): NO RESULT rc=1; peak VRAM GiB 29.1 26.8 29.5 29.1; 0.28.541.603 E graph_reserve: failed to allocate compute buffers llama_batched_bench: error: failed to create the llama_context 0.28.547.123 E llama_init_from_model: failed to initialize the context: failed to allocate compute pp buffers 
+no result row for depth 65536 in /root/moe-cache/moe64-m1/tfit.md
+2026-11-28T05:05:29+00:00 [moe64] tfit (111 s): NO RESULT rc=1; peak VRAM GiB 29.8 29.8 29.8 29.7; 1.50.556.684 E graph_reserve: failed to allocate compute buffers llama_batched_bench: error: failed to create the llama_context 1.50.916.675 E llama_init_from_model: failed to initialize the context: failed to allocate compute pp buffers 
+2026-11-28T05:35:55+00:00 [moe64] c64 (1826 s): decode 15.951 tok/s, prefill 38.5 tok/s; peak VRAM GiB 21.6 20.7 21.8 21.3
+2026-11-28T05:35:55+00:00 [moe64] c64 cache: ROCm0 MoE cache size = 16327.88 MiB for 27843.75 MiB of host experts, 0% of the misses on the CPU;ROCm1 MoE cache size = 16335.35 MiB for 25582.50 MiB of host experts, 0% of the misses on the CPU;ROCm2 MoE cache size = 16483.62 MiB for 28552.50 MiB of host experts, 0% of the misses on the CPU;ROCm3 MoE cache size = 16354.25 MiB for 27911.25 MiB of host experts, 0% of the misses on the CPU;llama_moe_cache: ubatch <= 8: hits = 238201, misses = 7559 (0 on the CPU), hit rate = 96.92%, uploaded = 54889.19 MiB;llama_moe_cache: ubatch  > 8: hits = 0, misses = 1811 (0 on the CPU), hit rate = 0.00%, uploaded = 13105.63 MiB;
+2026-11-28T05:36:43+00:00 [moe64] STOPPED (trap)

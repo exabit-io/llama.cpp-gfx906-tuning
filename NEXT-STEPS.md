@@ -33,6 +33,10 @@ The cycle is published (`RELEASE-RUNBOOK.md` s.0). What it left, most useful fir
 7. **The two design points on clean samples** (`tools/release/v110/dp-rerun-v110.sh`, about 105 min of GPU time): the acceptance's prefill rows
    at 4 x 65536 and 1 x 260864 were blurred by the pauses; the rerun was stopped after 3 of 12 runs (one paired block at 4 x 65536: package
    -0.24 % decode, -0.33 % prefill against v1.0.0, no pause). Run it again with a new tag when the GPUs are idle; its rule is in its header.
+9. **Big MoE models with the experts in host RAM** (lead, 2026-11-28; `reports/2026-11-28-moe-cache-first-look.md`): decode is usable with
+   a large VRAM cache, long-prompt prefill is not. Patch candidates: the MoE cache under tensor split (upstream throws), and what makes
+   DeepSeek-V4.1-Flash's prefill fall with depth (die 0 carries it). Still to measure before any RAM is bought: the other 64K arms, four slots,
+   Flash-Next at 64K, the upstream tuner.
 8. Tensor split cannot run models with Hadamard-rotated weights (found with Ternary-Bonsai Q2_0, 2026-11-28,
    `reports/2026-11-28-ternary-bonsai-q2_0.md`). Only worth doing if such a model becomes a candidate again.
 

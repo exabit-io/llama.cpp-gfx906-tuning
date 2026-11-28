@@ -1,0 +1,15 @@
+2026-11-28T05:37:57+00:00 [moeup] package 1.1.0+git20261127.c782c317d.rocm10.1.gfx906.20261018172427-1; arms: mmap none dio mlock; RAM free 362 GiB; load 0.48 1.24 1.83
+2026-11-28T05:38:11+00:00 [moeup] kernel 7.0.0-43-generic; perf: high high high high ; governor performance; fans rpm: 1197/2489/2485/2490
+2026-11-28T05:40:22+00:00 [moeup] mmap (131 s): decode 6.778 tok/s, prefill 94.1 tok/s; peak VRAM GiB 21.5 19.8 19.6 19.9
+2026-11-28T05:43:41+00:00 [moeup] none (199 s): decode 11.780 tok/s, prefill 91.1 tok/s; peak VRAM GiB 21.3 19.8 19.6 19.9
+2026-11-28T05:47:48+00:00 [moeup] dio (247 s): decode 12.151 tok/s, prefill 89.1 tok/s; peak VRAM GiB 21.3 19.8 19.6 19.9
+2026-11-28T05:50:58+00:00 [moeup] mlock (190 s): decode 12.195 tok/s, prefill 90.9 tok/s; peak VRAM GiB 21.3 19.8 19.6 19.9
+[moeup] arm | decode tok/s at 64K | prefill tok/s | minutes for a 64K prompt | DC W / CPU-zone W in decode | DC W / CPU-zone W in prefill
+[moeup]   mmap  |   6.778 |    94.1 |  11.6 |  407 /  77 |  459 /  74
+[moeup]   none  |  11.780 |    91.1 |  12.0 |  368 /  77 |  441 /  76
+[moeup]   dio   |  12.151 |    89.1 |  12.3 |  369 /  79 |  422 /  74
+[moeup]   mlock |  12.195 |    90.9 |  12.0 |  368 /  78 |  442 /  76
+[moeup] (U1) none prefill against the default load: 0.97x -> not a lever
+[moeup] (U1) dio prefill against the default load: 0.95x -> not a lever
+[moeup] (U1) mlock prefill against the default load: 0.97x -> not a lever
+2026-11-28T05:51:04+00:00 [moeup] === MOE-UPLOAD u1 DONE ===
